@@ -1,6 +1,6 @@
 ---
-name: 
-about: 
+name: Bugfix
+about: resolving a problem 
 title: "Bugfix: "
 labels: bugfix
 ---
