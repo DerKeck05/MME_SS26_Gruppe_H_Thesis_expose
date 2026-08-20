@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -10,4 +5,97 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+model Supervisor {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  passwordHash String
+  chair        String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  students Student[]
+  theses   Thesis[]
+  faqs     Faq[]
+}
+
+model Student {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  passwordHash String
+  course       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  supervisorId Int
+  supervisor   Supervisor @relation(fields: [supervisorId], references: [id])
+
+  theses Thesis[]
+}
+
+model Thesis {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id])
+
+  supervisorId    Int
+  supervisor      Supervisor      @relation(fields: [supervisorId], references: [id])
+  calendarEntries CalendarEntry[]
+  chapters        Chapter[]
+}
+
+model CalendarEntry {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  date        DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  thesisId Int
+  thesis   Thesis @relation(fields: [thesisId], references: [id])
+}
+
+model Chapter {
+  id            Int      @id @default(autoincrement())
+  title         String
+  content       String
+  chapterNumber Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  thesisId Int
+  thesis   Thesis @relation(fields: [thesisId], references: [id])
+
+  feedbackEntries FeedbackEntry[]
+}
+
+model FeedbackEntry {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chapterId Int
+  chapter   Chapter @relation(fields: [chapterId], references: [id])
+}
+
+model Faq {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  supervisorId Int
+  supervisor   Supervisor @relation(fields: [supervisorId], references: [id])
 }
