@@ -4,3 +4,10 @@ node_modules/
 !.env.example
 .DS_Store
 dist/
+build/
+.tsbuildinfo
+.log
+Thumbs.db
+.idea/
+.vscode/
+prisma/*.db
