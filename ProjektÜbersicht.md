@@ -13,6 +13,6 @@ Wir nutzen jetzt Prisma für die Datenbank, da kann man die Tabellen und abfrage
 
 Die Datenbank Tabellen sind schon mal alle erstellt, die Datenbank selber aber noch nicht also das Docker-Ding. 
 
-
+Außerdem nutzen wir jetzt bcrypt für das Passwort hashing, also es werden nicht direkt die Passwörter in die SQL Tabelle geschrieben, sondern nur ihre Hashes und die werden dann von dem package abgeglichen, Code dafür ist in der password.ts.
 
 # Frontend
