@@ -1,3 +1,5 @@
+// ----------- Setup for Prisma Client and Database Connection -----------
+
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -7,6 +9,9 @@ datasource db {
   provider = "postgresql"
 }
 
+// ------------ Model Setup -------------
+
+// Supervisor Model
 model Supervisor {
   id           Int      @id @default(autoincrement())
   name         String
@@ -16,11 +21,13 @@ model Supervisor {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+  // Relations, 1:N for students & Thesis and 1:1 for FAQ
   students Student[]
   theses   Thesis[]
-  faqs     Faq[]
+  faq      Faq?
 }
 
+// Student Model
 model Student {
   id           Int      @id @default(autoincrement())
   name         String
@@ -30,12 +37,15 @@ model Student {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  supervisorId Int
-  supervisor   Supervisor @relation(fields: [supervisorId], references: [id])
+  // Foreign Key to Supervisor
+  supervisorId Int?
+  supervisor   Supervisor? @relation(fields: [supervisorId], references: [id])
 
+  // Relations, 1:N for Thesis
   theses Thesis[]
 }
 
+// Thesis Model
 model Thesis {
   id          Int      @id @default(autoincrement())
   title       String
@@ -45,15 +55,19 @@ model Thesis {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  // Foreign Keys to Student and Supervisor
   studentId Int
   student   Student @relation(fields: [studentId], references: [id])
 
   supervisorId    Int
   supervisor      Supervisor      @relation(fields: [supervisorId], references: [id])
+
+  // Relations, 1:N for calenderEntries and chapters
   calendarEntries CalendarEntry[]
   chapters        Chapter[]
 }
 
+// CalendarEntry Model
 model CalendarEntry {
   id          Int      @id @default(autoincrement())
   title       String
@@ -62,10 +76,12 @@ model CalendarEntry {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  // Foreign Key to Thesis
   thesisId Int
   thesis   Thesis @relation(fields: [thesisId], references: [id])
 }
 
+// Chapter Model
 model Chapter {
   id            Int      @id @default(autoincrement())
   title         String
@@ -74,28 +90,34 @@ model Chapter {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  // Foreign Key to Thesis
   thesisId Int
   thesis   Thesis @relation(fields: [thesisId], references: [id])
 
+  // Relations, 1:N for feedbackEntries
   feedbackEntries FeedbackEntry[]
 }
 
+// FeedbackEntry Model
 model FeedbackEntry {
   id        Int      @id @default(autoincrement())
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Foreign Key to Chapter
   chapterId Int
   chapter   Chapter @relation(fields: [chapterId], references: [id])
 }
 
+// FAQ Model
 model Faq {
   id        Int      @id @default(autoincrement())
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  supervisorId Int
+  // Foreign Key to Supervisor
+  supervisorId Int        @unique
   supervisor   Supervisor @relation(fields: [supervisorId], references: [id])
 }
