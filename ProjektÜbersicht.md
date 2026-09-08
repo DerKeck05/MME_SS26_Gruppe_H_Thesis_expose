@@ -17,6 +17,13 @@ Am besten einfach in Ruhe lassen, solang nicht irgendwas im Code meckert wegen i
 
 **Wichtig**: Die node_modules nicht auf Github pushen. (Sind aber auch durch die gitignore geschützt)
 
+## Plugins
+
+- Docker
+- Prisma
+- Alle für Typescript und Node
+- Prettier
+- Express falls es da eins gibt
 
 ---
 
@@ -72,13 +79,16 @@ Außerdem nutzen wir jetzt bcrypt für das Passwort hashing, also es werden nich
 - definiert wie das Image gebaut wird
 - Darin steht das Rezept um den Code und den Server zu bauen und zu starten
 
-**docker-compose.yml**
+**compose.yml**
 - definiert wie die Container gebaut werden
 - Darin steht das Rezept wie die Container gebaut werden und wie sie miteinander kommunizieren
 - Dabei muss man auch Volumes definieren, die helfen, dass die Container untereinander kommunizieren können und die DB nicht gelöscht wird
 
 **.dockerignore**
 - ebenfalls notwendig, funktioniert genau wie die gitignore
+
+> Um Docker dann zu starten immer `docker compose up` im Terminal eingeben  
+> Und am Ende immer `docker compose down` eingeben, dann wird wieder alles sauber beendet
 ---
 # Notizen
 
