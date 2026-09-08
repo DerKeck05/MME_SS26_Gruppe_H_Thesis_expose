@@ -1,5 +1,24 @@
 {
   "devDependencies": {
-    "prettier": "^3.9.6"
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.5.0",
+    "@types/pg": "^8.23.1",
+    "prettier": "^3.9.6",
+    "prisma": "^7.10.0",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  },
+  "scripts": {
+    "dev": "tsx backend/src/server.ts",
+    "start": "tsx backend/src/server.ts",
+    "contract:emit": "database/prisma contract emit"
+  },
+  "type": "module",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.23.0"
   }
 }
