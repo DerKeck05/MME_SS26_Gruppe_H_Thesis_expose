@@ -1,5 +1,18 @@
 {
   "devDependencies": {
-    "prettier": "^3.9.6"
+    "@prisma/cli-engine": "^0.2.3",
+    "@types/node": "^26.5.0",
+    "prettier": "^3.9.6",
+    "prisma": "^8.0.0-rc.10",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  },
+  "scripts": {
+    "contract:emit": "prisma contract emit"
+  },
+  "type": "module",
+  "dependencies": {
+    "@prisma/orm-postgres": "^8.0.0-rc.8",
+    "dotenv": "^17.4.2"
   }
 }
