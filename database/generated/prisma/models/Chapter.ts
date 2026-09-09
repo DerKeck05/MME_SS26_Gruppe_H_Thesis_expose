@@ -28,13 +28,11 @@ export type AggregateChapter = {
 
 export type ChapterAvgAggregateOutputType = {
   id: number | null
-  chapterNumber: number | null
   thesisId: number | null
 }
 
 export type ChapterSumAggregateOutputType = {
   id: number | null
-  chapterNumber: number | null
   thesisId: number | null
 }
 
@@ -42,7 +40,7 @@ export type ChapterMinAggregateOutputType = {
   id: number | null
   title: string | null
   content: string | null
-  chapterNumber: number | null
+  chapterNumber: string | null
   createdAt: Date | null
   updatedAt: Date | null
   thesisId: number | null
@@ -52,7 +50,7 @@ export type ChapterMaxAggregateOutputType = {
   id: number | null
   title: string | null
   content: string | null
-  chapterNumber: number | null
+  chapterNumber: string | null
   createdAt: Date | null
   updatedAt: Date | null
   thesisId: number | null
@@ -72,13 +70,11 @@ export type ChapterCountAggregateOutputType = {
 
 export type ChapterAvgAggregateInputType = {
   id?: true
-  chapterNumber?: true
   thesisId?: true
 }
 
 export type ChapterSumAggregateInputType = {
   id?: true
-  chapterNumber?: true
   thesisId?: true
 }
 
@@ -203,7 +199,7 @@ export type ChapterGroupByOutputType = {
   id: number
   title: string
   content: string
-  chapterNumber: number
+  chapterNumber: string
   createdAt: Date
   updatedAt: Date
   thesisId: number
@@ -236,7 +232,7 @@ export type ChapterWhereInput = {
   id?: Prisma.IntFilter<"Chapter"> | number
   title?: Prisma.StringFilter<"Chapter"> | string
   content?: Prisma.StringFilter<"Chapter"> | string
-  chapterNumber?: Prisma.IntFilter<"Chapter"> | number
+  chapterNumber?: Prisma.StringFilter<"Chapter"> | string
   createdAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
   thesisId?: Prisma.IntFilter<"Chapter"> | number
@@ -263,7 +259,7 @@ export type ChapterWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ChapterWhereInput | Prisma.ChapterWhereInput[]
   title?: Prisma.StringFilter<"Chapter"> | string
   content?: Prisma.StringFilter<"Chapter"> | string
-  chapterNumber?: Prisma.IntFilter<"Chapter"> | number
+  chapterNumber?: Prisma.StringFilter<"Chapter"> | string
   createdAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
   thesisId?: Prisma.IntFilter<"Chapter"> | number
@@ -293,7 +289,7 @@ export type ChapterScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Chapter"> | number
   title?: Prisma.StringWithAggregatesFilter<"Chapter"> | string
   content?: Prisma.StringWithAggregatesFilter<"Chapter"> | string
-  chapterNumber?: Prisma.IntWithAggregatesFilter<"Chapter"> | number
+  chapterNumber?: Prisma.StringWithAggregatesFilter<"Chapter"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Chapter"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Chapter"> | Date | string
   thesisId?: Prisma.IntWithAggregatesFilter<"Chapter"> | number
@@ -302,7 +298,7 @@ export type ChapterScalarWhereWithAggregatesInput = {
 export type ChapterCreateInput = {
   title: string
   content: string
-  chapterNumber: number
+  chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
   thesis: Prisma.ThesisCreateNestedOneWithoutChaptersInput
@@ -313,7 +309,7 @@ export type ChapterUncheckedCreateInput = {
   id?: number
   title: string
   content: string
-  chapterNumber: number
+  chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
   thesisId: number
@@ -323,7 +319,7 @@ export type ChapterUncheckedCreateInput = {
 export type ChapterUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thesis?: Prisma.ThesisUpdateOneRequiredWithoutChaptersNestedInput
@@ -334,7 +330,7 @@ export type ChapterUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thesisId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -345,7 +341,7 @@ export type ChapterCreateManyInput = {
   id?: number
   title: string
   content: string
-  chapterNumber: number
+  chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
   thesisId: number
@@ -354,7 +350,7 @@ export type ChapterCreateManyInput = {
 export type ChapterUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -363,7 +359,7 @@ export type ChapterUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thesisId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -391,7 +387,6 @@ export type ChapterCountOrderByAggregateInput = {
 
 export type ChapterAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  chapterNumber?: Prisma.SortOrder
   thesisId?: Prisma.SortOrder
 }
 
@@ -417,7 +412,6 @@ export type ChapterMinOrderByAggregateInput = {
 
 export type ChapterSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  chapterNumber?: Prisma.SortOrder
   thesisId?: Prisma.SortOrder
 }
 
@@ -485,7 +479,7 @@ export type ChapterUpdateOneRequiredWithoutFeedbackEntriesNestedInput = {
 export type ChapterCreateWithoutThesisInput = {
   title: string
   content: string
-  chapterNumber: number
+  chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
   feedbackEntries?: Prisma.FeedbackEntryCreateNestedManyWithoutChapterInput
@@ -495,7 +489,7 @@ export type ChapterUncheckedCreateWithoutThesisInput = {
   id?: number
   title: string
   content: string
-  chapterNumber: number
+  chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
   feedbackEntries?: Prisma.FeedbackEntryUncheckedCreateNestedManyWithoutChapterInput
@@ -534,7 +528,7 @@ export type ChapterScalarWhereInput = {
   id?: Prisma.IntFilter<"Chapter"> | number
   title?: Prisma.StringFilter<"Chapter"> | string
   content?: Prisma.StringFilter<"Chapter"> | string
-  chapterNumber?: Prisma.IntFilter<"Chapter"> | number
+  chapterNumber?: Prisma.StringFilter<"Chapter"> | string
   createdAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
   thesisId?: Prisma.IntFilter<"Chapter"> | number
@@ -543,7 +537,7 @@ export type ChapterScalarWhereInput = {
 export type ChapterCreateWithoutFeedbackEntriesInput = {
   title: string
   content: string
-  chapterNumber: number
+  chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
   thesis: Prisma.ThesisCreateNestedOneWithoutChaptersInput
@@ -553,7 +547,7 @@ export type ChapterUncheckedCreateWithoutFeedbackEntriesInput = {
   id?: number
   title: string
   content: string
-  chapterNumber: number
+  chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
   thesisId: number
@@ -578,7 +572,7 @@ export type ChapterUpdateToOneWithWhereWithoutFeedbackEntriesInput = {
 export type ChapterUpdateWithoutFeedbackEntriesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thesis?: Prisma.ThesisUpdateOneRequiredWithoutChaptersNestedInput
@@ -588,7 +582,7 @@ export type ChapterUncheckedUpdateWithoutFeedbackEntriesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thesisId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -598,7 +592,7 @@ export type ChapterCreateManyThesisInput = {
   id?: number
   title: string
   content: string
-  chapterNumber: number
+  chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -606,7 +600,7 @@ export type ChapterCreateManyThesisInput = {
 export type ChapterUpdateWithoutThesisInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   feedbackEntries?: Prisma.FeedbackEntryUpdateManyWithoutChapterNestedInput
@@ -616,7 +610,7 @@ export type ChapterUncheckedUpdateWithoutThesisInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   feedbackEntries?: Prisma.FeedbackEntryUncheckedUpdateManyWithoutChapterNestedInput
@@ -626,7 +620,7 @@ export type ChapterUncheckedUpdateManyWithoutThesisInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -730,7 +724,7 @@ export type $ChapterPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: number
     title: string
     content: string
-    chapterNumber: number
+    chapterNumber: string
     createdAt: Date
     updatedAt: Date
     thesisId: number
@@ -1162,7 +1156,7 @@ export interface ChapterFieldRefs {
   readonly id: Prisma.FieldRef<"Chapter", 'Int'>
   readonly title: Prisma.FieldRef<"Chapter", 'String'>
   readonly content: Prisma.FieldRef<"Chapter", 'String'>
-  readonly chapterNumber: Prisma.FieldRef<"Chapter", 'Int'>
+  readonly chapterNumber: Prisma.FieldRef<"Chapter", 'String'>
   readonly createdAt: Prisma.FieldRef<"Chapter", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Chapter", 'DateTime'>
   readonly thesisId: Prisma.FieldRef<"Chapter", 'Int'>
