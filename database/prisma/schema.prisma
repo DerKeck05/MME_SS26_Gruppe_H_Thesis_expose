@@ -89,7 +89,7 @@ model Chapter {
   id            Int      @id @default(autoincrement())
   title         String
   content       String
-  chapterNumber Int
+  chapterNumber String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
