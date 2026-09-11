@@ -51,6 +51,21 @@ Außerdem nutzen wir jetzt bcrypt für das Passwort hashing, also es werden nich
 ---
 # Frontend
 
+## React
+
+Fürs Frontend haben wir React, dabei nutzt man statt normalen HTML und Ts Files sog. TSX Files, die sind basically hybrids.
+Ist dann wieder bei Flutter eigentlich aufgeteilt, du schreibst in den Files oben normalen Code und unten gibts immer ein return, in das man dann den HTML Code schreibt, die einzelnen Functions (Also seiten) lassen sich dann als eigenes HTML Element nutzen.
+Layouting und Styling läuft aber ganz normal über CSS.
+
+## Routing
+
+Fürs Routing nehmen wir React Router, das lädt einfach Components ohne jedes Mal die Seite neuzuladen, und dadurch kann man Single Page Applications bauen (Also es wird einfach immer ein Teil der Seite ausgetauscht, statt das ganze neuzubauen).
+Die Pages muss man einmal in der App.tsx eintragen und dann kannst du immer mit Link die Links dazu erstellen und die ganzen Components miteinander verbinden.
+
+## Styling
+
+Hab nen paar Base Styling Werte in der theme.css, also da sind unsere grundfarben drinne (können die sonst auch austauschen wenn sie dir nicht gefallen, hab nen Farbschema von Pinterest genommen) und nen paar Standard Größen für Spacing und Border Radius. Hab auch ne eigene Schriftart eingebunden.
+
 ---
 
 # Docker
