@@ -57,20 +57,31 @@ body {
     flex-direction: row;
 }
 
+.student-dashboard-body main {
+    flex: 1;
+    min-width: 0;
+}
+
 /* SIDEBAR */
 
 .sidebar {
     width: 250px;
     min-height: calc(100vh - 80px);
     flex-shrink: 0;
+
+    justify-content: left;
+    align-items: start;
+    display: flex;
+    flex-direction: column;
+
     background-color: var(--white);
     padding-top: var(--spacing-small);
     padding-left: var(--spacing-large);
-    gap: var(--spacing-medium);
-    flex-direction: column;
+    gap: var(--spacing-small);
 }
 
-.sidebar p {
+
+.sidebar a {
     margin: 0;
     font-weight: 600;
     color: var(--night-blue);
