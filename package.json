@@ -4,7 +4,7 @@
     "@types/node": "^26.5.0",
     "@types/pg": "^8.23.1",
     "prettier": "^3.9.6",
-    "prisma": "^7.10.0",
+    "prisma": "^6.19.3",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2"
   },
@@ -20,6 +20,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "lucide-react": "^1.44.0",
-    "pg": "^8.23.0"
+    "pg": "^8.23.0",
+    "temporal-polyfill": "^1.0.4"
   }
 }

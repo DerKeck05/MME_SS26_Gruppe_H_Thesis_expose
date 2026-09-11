@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 
-import "../../student-dashboard-stylesheet.css";
+import "../student-dashboard-stylesheet.css";
 
 function Sidebar() {
     return (
@@ -9,12 +9,11 @@ function Sidebar() {
 
             <Link to="/">Homepage</Link>
             <Link to="/outline">Kapitel</Link>
+            <Link to="/calendar">Kalender</Link>
+            
             { /*
                 <Link to="/theses">Thesen</NavLink>
-                <Link to="/calendar">Kalender</NavLink>
                 <Link to="/faq">FAQ</NavLink>
-
-
             */}
             {/*}
             <div className={"sidebar-content"}>

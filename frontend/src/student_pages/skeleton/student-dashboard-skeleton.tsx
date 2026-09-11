@@ -1,5 +1,5 @@
 import "../student-dashboard-stylesheet.css";
-import Sidebar from "./sidebar/sidebar.tsx";
+import Sidebar from "./sidebar.tsx";
 import "lucide-react";
 import { Outlet } from "react-router-dom";
 
