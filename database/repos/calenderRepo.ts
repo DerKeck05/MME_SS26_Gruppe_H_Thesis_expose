@@ -1,19 +1,19 @@
 import {prisma} from "../lib/prisma.js";
 
-export async function createCalendarEntry(title: string, date: Date, userId: number, description?: string) {
+export async function createCalendarEntry(title: string, date: Date, thesisId: number, description: string) {
     return prisma.calendarEntry.create({
         data: {
             title,
             description,
             date,
-            userId
+            thesisId
         }
     });
 }
 
-export async function getCalendarEntriesByUserId(userId: number) {
+export async function getCalendarEntriesByThesisId(thesisId: number) {
     return prisma.calendarEntry.findMany({
-        where: { userId }
+        where: { thesisId }
     });
 }
 

@@ -1,4 +1,5 @@
 import CalendarComponent from "./calendar-component";
+import "../calendar_pages/calendar-stylesheet.css";
 
 function CalendarPage() {
     return (
