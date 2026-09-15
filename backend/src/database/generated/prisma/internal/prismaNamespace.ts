@@ -16,10 +16,10 @@
  */
 
 import * as runtime from "@prisma/client/runtime/client"
-import type * as Prisma from "../models"
-import { type PrismaClient } from "./class"
+import type * as Prisma from "../models.js"
+import { type PrismaClient } from "./class.js"
 
-export type * from '../models'
+export type * from '../models.js'
 
 export type DMMF = typeof runtime.DMMF
 
@@ -1026,7 +1026,8 @@ export const CalendarEntryScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
-  date: 'date',
+  startDate: 'startDate',
+  endDate: 'endDate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   thesisId: 'thesisId'
@@ -1038,7 +1039,6 @@ export type CalendarEntryScalarFieldEnum = (typeof CalendarEntryScalarFieldEnum)
 export const ChapterScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  content: 'content',
   chapterNumber: 'chapterNumber',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',

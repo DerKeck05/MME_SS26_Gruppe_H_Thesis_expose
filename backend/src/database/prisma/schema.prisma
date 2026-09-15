@@ -62,8 +62,8 @@ model Thesis {
   studentId Int
   student   Student @relation(fields: [studentId], references: [id])
 
-  supervisorId    Int
-  supervisor      Supervisor      @relation(fields: [supervisorId], references: [id])
+  supervisorId Int
+  supervisor   Supervisor @relation(fields: [supervisorId], references: [id])
 
   // Relations, 1:N for calenderEntries and chapters
   calendarEntries CalendarEntry[]
@@ -74,8 +74,9 @@ model Thesis {
 model CalendarEntry {
   id          Int      @id @default(autoincrement())
   title       String
-  description String
-  date        DateTime
+  description String?
+  startDate   DateTime
+  endDate     DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -88,7 +89,6 @@ model CalendarEntry {
 model Chapter {
   id            Int      @id @default(autoincrement())
   title         String
-  content       String
   chapterNumber String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt

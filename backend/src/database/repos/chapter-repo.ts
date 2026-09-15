@@ -24,14 +24,14 @@ export async function getChapterById(chapterId: number) {
     });
 }
 
-export async function updateChapter(chapterId: number, title?: string, content?: string, chapterNumber?: string) {
+interface UpdateChapterData {
+    title?: string, chapterNumber?: string
+}
+
+export async function updateChapter(chapterId: number, data: UpdateChapterData) {
     return prisma.chapter.update({
         where: { id: chapterId },
-        data: {
-            title,
-            content,
-            chapterNumber
-        }
+        data
     });
 }
 

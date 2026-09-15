@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model Chapter
@@ -39,7 +39,6 @@ export type ChapterSumAggregateOutputType = {
 export type ChapterMinAggregateOutputType = {
   id: number | null
   title: string | null
-  content: string | null
   chapterNumber: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -49,7 +48,6 @@ export type ChapterMinAggregateOutputType = {
 export type ChapterMaxAggregateOutputType = {
   id: number | null
   title: string | null
-  content: string | null
   chapterNumber: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -59,7 +57,6 @@ export type ChapterMaxAggregateOutputType = {
 export type ChapterCountAggregateOutputType = {
   id: number
   title: number
-  content: number
   chapterNumber: number
   createdAt: number
   updatedAt: number
@@ -81,7 +78,6 @@ export type ChapterSumAggregateInputType = {
 export type ChapterMinAggregateInputType = {
   id?: true
   title?: true
-  content?: true
   chapterNumber?: true
   createdAt?: true
   updatedAt?: true
@@ -91,7 +87,6 @@ export type ChapterMinAggregateInputType = {
 export type ChapterMaxAggregateInputType = {
   id?: true
   title?: true
-  content?: true
   chapterNumber?: true
   createdAt?: true
   updatedAt?: true
@@ -101,7 +96,6 @@ export type ChapterMaxAggregateInputType = {
 export type ChapterCountAggregateInputType = {
   id?: true
   title?: true
-  content?: true
   chapterNumber?: true
   createdAt?: true
   updatedAt?: true
@@ -198,7 +192,6 @@ export type ChapterGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type ChapterGroupByOutputType = {
   id: number
   title: string
-  content: string
   chapterNumber: string
   createdAt: Date
   updatedAt: Date
@@ -231,7 +224,6 @@ export type ChapterWhereInput = {
   NOT?: Prisma.ChapterWhereInput | Prisma.ChapterWhereInput[]
   id?: Prisma.IntFilter<"Chapter"> | number
   title?: Prisma.StringFilter<"Chapter"> | string
-  content?: Prisma.StringFilter<"Chapter"> | string
   chapterNumber?: Prisma.StringFilter<"Chapter"> | string
   createdAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
@@ -243,7 +235,6 @@ export type ChapterWhereInput = {
 export type ChapterOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  content?: Prisma.SortOrder
   chapterNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -258,7 +249,6 @@ export type ChapterWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ChapterWhereInput[]
   NOT?: Prisma.ChapterWhereInput | Prisma.ChapterWhereInput[]
   title?: Prisma.StringFilter<"Chapter"> | string
-  content?: Prisma.StringFilter<"Chapter"> | string
   chapterNumber?: Prisma.StringFilter<"Chapter"> | string
   createdAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
@@ -270,7 +260,6 @@ export type ChapterWhereUniqueInput = Prisma.AtLeast<{
 export type ChapterOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  content?: Prisma.SortOrder
   chapterNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -288,7 +277,6 @@ export type ChapterScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ChapterScalarWhereWithAggregatesInput | Prisma.ChapterScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Chapter"> | number
   title?: Prisma.StringWithAggregatesFilter<"Chapter"> | string
-  content?: Prisma.StringWithAggregatesFilter<"Chapter"> | string
   chapterNumber?: Prisma.StringWithAggregatesFilter<"Chapter"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Chapter"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Chapter"> | Date | string
@@ -297,7 +285,6 @@ export type ChapterScalarWhereWithAggregatesInput = {
 
 export type ChapterCreateInput = {
   title: string
-  content: string
   chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -308,7 +295,6 @@ export type ChapterCreateInput = {
 export type ChapterUncheckedCreateInput = {
   id?: number
   title: string
-  content: string
   chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -318,7 +304,6 @@ export type ChapterUncheckedCreateInput = {
 
 export type ChapterUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -329,7 +314,6 @@ export type ChapterUpdateInput = {
 export type ChapterUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -340,7 +324,6 @@ export type ChapterUncheckedUpdateInput = {
 export type ChapterCreateManyInput = {
   id?: number
   title: string
-  content: string
   chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -349,7 +332,6 @@ export type ChapterCreateManyInput = {
 
 export type ChapterUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -358,7 +340,6 @@ export type ChapterUpdateManyMutationInput = {
 export type ChapterUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -378,7 +359,6 @@ export type ChapterOrderByRelationAggregateInput = {
 export type ChapterCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  content?: Prisma.SortOrder
   chapterNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -393,7 +373,6 @@ export type ChapterAvgOrderByAggregateInput = {
 export type ChapterMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  content?: Prisma.SortOrder
   chapterNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -403,7 +382,6 @@ export type ChapterMaxOrderByAggregateInput = {
 export type ChapterMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  content?: Prisma.SortOrder
   chapterNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -478,7 +456,6 @@ export type ChapterUpdateOneRequiredWithoutFeedbackEntriesNestedInput = {
 
 export type ChapterCreateWithoutThesisInput = {
   title: string
-  content: string
   chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -488,7 +465,6 @@ export type ChapterCreateWithoutThesisInput = {
 export type ChapterUncheckedCreateWithoutThesisInput = {
   id?: number
   title: string
-  content: string
   chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -527,7 +503,6 @@ export type ChapterScalarWhereInput = {
   NOT?: Prisma.ChapterScalarWhereInput | Prisma.ChapterScalarWhereInput[]
   id?: Prisma.IntFilter<"Chapter"> | number
   title?: Prisma.StringFilter<"Chapter"> | string
-  content?: Prisma.StringFilter<"Chapter"> | string
   chapterNumber?: Prisma.StringFilter<"Chapter"> | string
   createdAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
@@ -536,7 +511,6 @@ export type ChapterScalarWhereInput = {
 
 export type ChapterCreateWithoutFeedbackEntriesInput = {
   title: string
-  content: string
   chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -546,7 +520,6 @@ export type ChapterCreateWithoutFeedbackEntriesInput = {
 export type ChapterUncheckedCreateWithoutFeedbackEntriesInput = {
   id?: number
   title: string
-  content: string
   chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -571,7 +544,6 @@ export type ChapterUpdateToOneWithWhereWithoutFeedbackEntriesInput = {
 
 export type ChapterUpdateWithoutFeedbackEntriesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -581,7 +553,6 @@ export type ChapterUpdateWithoutFeedbackEntriesInput = {
 export type ChapterUncheckedUpdateWithoutFeedbackEntriesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -591,7 +562,6 @@ export type ChapterUncheckedUpdateWithoutFeedbackEntriesInput = {
 export type ChapterCreateManyThesisInput = {
   id?: number
   title: string
-  content: string
   chapterNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -599,7 +569,6 @@ export type ChapterCreateManyThesisInput = {
 
 export type ChapterUpdateWithoutThesisInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -609,7 +578,6 @@ export type ChapterUpdateWithoutThesisInput = {
 export type ChapterUncheckedUpdateWithoutThesisInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -619,7 +587,6 @@ export type ChapterUncheckedUpdateWithoutThesisInput = {
 export type ChapterUncheckedUpdateManyWithoutThesisInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -659,7 +626,6 @@ export type ChapterCountOutputTypeCountFeedbackEntriesArgs<ExtArgs extends runti
 export type ChapterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  content?: boolean
   chapterNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -672,7 +638,6 @@ export type ChapterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type ChapterSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  content?: boolean
   chapterNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -683,7 +648,6 @@ export type ChapterSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ChapterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  content?: boolean
   chapterNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -694,14 +658,13 @@ export type ChapterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ChapterSelectScalar = {
   id?: boolean
   title?: boolean
-  content?: boolean
   chapterNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   thesisId?: boolean
 }
 
-export type ChapterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "content" | "chapterNumber" | "createdAt" | "updatedAt" | "thesisId", ExtArgs["result"]["chapter"]>
+export type ChapterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "chapterNumber" | "createdAt" | "updatedAt" | "thesisId", ExtArgs["result"]["chapter"]>
 export type ChapterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   thesis?: boolean | Prisma.ThesisDefaultArgs<ExtArgs>
   feedbackEntries?: boolean | Prisma.Chapter$feedbackEntriesArgs<ExtArgs>
@@ -723,7 +686,6 @@ export type $ChapterPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     title: string
-    content: string
     chapterNumber: string
     createdAt: Date
     updatedAt: Date
@@ -1155,7 +1117,6 @@ export interface Prisma__ChapterClient<T, Null = never, ExtArgs extends runtime.
 export interface ChapterFieldRefs {
   readonly id: Prisma.FieldRef<"Chapter", 'Int'>
   readonly title: Prisma.FieldRef<"Chapter", 'String'>
-  readonly content: Prisma.FieldRef<"Chapter", 'String'>
   readonly chapterNumber: Prisma.FieldRef<"Chapter", 'String'>
   readonly createdAt: Prisma.FieldRef<"Chapter", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Chapter", 'DateTime'>
