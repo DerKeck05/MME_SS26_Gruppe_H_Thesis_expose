@@ -66,9 +66,12 @@ router.put("/:id", async (req, res) => {
     res.json(event);
 });
 
-export default router;
+router.delete("/:id", async (req, res) => {
+    const id = Number(req.params.id);
 
-/*
-Als nächstes machen:
-- Date umwandlung und validierung einbauen ßß
- */
+    const result = await calendarRepo.deleteCalendarEntry(id);
+
+    res.status(204).send();
+});
+
+export default router;
