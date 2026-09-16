@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "tsx backend/src/server.ts",
     "start": "tsx backend/src/server.ts",
-    "contract:emit": "database/prisma contract emit"
+    "contract:emit": "backend/src/database/prisma contract emit"
   },
   "type": "module",
   "dependencies": {
