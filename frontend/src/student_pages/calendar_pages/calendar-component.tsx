@@ -40,7 +40,7 @@ interface CalendarEvent {
 
 function CalendarComponent() {
     const [events/*, setEvents*/] = useState<CalendarEvent[]>(dummyEvents);
-
+    const [date, setDate] = useState(new Date());
     /*
     useEffect(() => {
         async function loadEvents() {
@@ -75,6 +75,10 @@ function CalendarComponent() {
                     events={events}
                     startAccessor="start"
                     endAccessor="end"
+                    date={date}
+                    onNavigate={(newDate) => {
+                        setDate(newDate);
+                    }}
                 />
             </div>
         </div>
