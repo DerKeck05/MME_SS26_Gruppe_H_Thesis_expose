@@ -7,6 +7,8 @@ export async function createCalendarEntry(
     thesisId: number,
     description?: string
 ) {
+    console.log(`Created Calendar Entry with Title: ${title}`);
+
     return prisma.calendarEntry.create({
         data: {
             title: title,
@@ -19,12 +21,16 @@ export async function createCalendarEntry(
 }
 
 export async function getCalendarEntriesByThesisId(thesisId: number) {
+    console.log("Get Calendar Entries with thesisId ${thesisId}");
+
     return prisma.calendarEntry.findMany({
         where: { thesisId }
     });
 }
 
 export async function getCalendarEntryById(calendarId: number) {
+    console.log("Get Calendar Entry with ID " + calendarId);
+
     return prisma.calendarEntry.findUnique({
         where: { id: calendarId }
     });
@@ -41,6 +47,8 @@ export async function updateCalendarEntry(
     calendarId: number,
     data: UpdateCalendarEntryData
 ) {
+    console.log("Update Calendar Entry with ID: " + calendarId);
+
     return prisma.calendarEntry.update({
         where: {
             id: calendarId
@@ -64,6 +72,8 @@ export async function updateCalendarEntry(
 
 
 export async function deleteCalendarEntry(calendarId: number) {
+    console.log("Delete Calendar Entry with ID: " + calendarId);
+
     return prisma.calendarEntry.delete({
         where: { id: calendarId }
     });

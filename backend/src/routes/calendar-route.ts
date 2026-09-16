@@ -8,6 +8,7 @@ router.get("/thesis/:id", async (req, res) => {
     const thesisId = Number(req.params.id);
     const events = await calendarRepo.getCalendarEntriesByThesisId(thesisId);
 
+    console.log("Router sent Entries");
     res.json(events);
 });
 
@@ -15,6 +16,7 @@ router.get("/:id", async (req, res) => {
     const entryId = Number(req.params.id);
     const event = await calendarRepo.getCalendarEntryById(entryId);
 
+    console.log("Router sent Entry");
     res.json(event);
 });
 
@@ -42,6 +44,7 @@ router.post("/thesis/:id", async (req, res) => {
         description
     );
 
+    console.log("Router created Entry");
     res.status(201).json(event);
 });
 
@@ -63,6 +66,7 @@ router.put("/:id", async (req, res) => {
         result.data
     );
 
+    console.log("Router updated Entry");
     res.json(event);
 });
 
@@ -71,6 +75,7 @@ router.delete("/:id", async (req, res) => {
 
     const result = await calendarRepo.deleteCalendarEntry(id);
 
+    console.log("Router deleted Entry");
     res.status(204).send();
 });
 
