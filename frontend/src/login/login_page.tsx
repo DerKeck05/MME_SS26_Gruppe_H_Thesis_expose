@@ -1,25 +1,11 @@
-function LoginPage () {
-    return ( 
-        <div> 
-            <h1> Login Page</h1>
+function LoginPage() {
+    return (
+        <div>
+            <h1>Login Page</h1>
+            <label>Email:</label>
+            <input type= "email" placeholder="ihre E-Mail"/>
         </div>
-    )
+    );
 }
 
 export default LoginPage;
-
-function Form() {
-    const ageInputId = useID();
-    return ( 
-        <>
-        <label>
-            Email:
-            <input name= "EMAIL"/>
-            </label></>
-            <hr /> 
-             <label>
-            <Password></Password>:
-            <input name= ">PASSWORD"/>
-            </label></>
-    )
-}
