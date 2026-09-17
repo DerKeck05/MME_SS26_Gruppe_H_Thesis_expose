@@ -1,11 +1,16 @@
 import { useState } from "react";
 
 
-
 function LoginPage() {
     const [role, setRole] = useState("student");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    function LoginFunction(){
+    console.log(role);
+    console.log(email);
+    console.log(password);
+    }
 
     if(role == "student"){
         //Logik hinzufügen bei ZEIT 
@@ -28,7 +33,7 @@ function LoginPage() {
               onChange={(event) => setPassword(event.target.value)}/>
             {/*überprüfung des States später entfernen  */}
             <p>{role}</p>
-            <button>Login</button>
+            <button onClick={LoginFunction}>Login</button>
         </div>
     );
 }

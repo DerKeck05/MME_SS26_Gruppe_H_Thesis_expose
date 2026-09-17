@@ -7,9 +7,9 @@ export async function getStudentById(studentId: number) {
 }
 
 export async function getStudentByName(studentName: string) {
-    return prisma.student.findUnique({
-        where: {name: studentName}
-    });
+    return prisma.student.findMany({
+    where: { name: studentName }
+});
 }
 
 export async function getStudentsBySupervisorId(supervisorId: number) {
