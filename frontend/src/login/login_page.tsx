@@ -21,8 +21,14 @@ function LoginPage() {
 
     const data = await response.json();
 
-    console.log(data);
-}
+    if (response.ok) {
+        console.log("Login erfolgreich");
+        console.log(data);
+    } else {
+        console.log("Login fehlgeschlagen");
+        console.log(data.message);
+    }
+   } 
 
     if(role == "student"){
         //Logik hinzufügen bei ZEIT 
