@@ -18,6 +18,12 @@ export async function getStudentsBySupervisorId(supervisorId: number) {
     });
 }
 
+export async function getStudentByEmail(email: string) {
+    return prisma.student.findUnique({
+        where: { email: email }
+    });
+}
+
 export async function createStudent(name: string, email: string, passwordHash: string, course: string) {
     return prisma.student.create({
         data: {

@@ -6,11 +6,23 @@ function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    function LoginFunction(){
-    console.log(role);
-    console.log(email);
-    console.log(password);
-    }
+ async function LoginFunction() {
+    const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email,
+            password,
+            role
+        })
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+}
 
     if(role == "student"){
         //Logik hinzufügen bei ZEIT 
