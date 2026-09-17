@@ -17,15 +17,67 @@ app.get("/", (req, res) => {
 app.post("/login", async (req, res) => {
     const { email, password, role } = req.body;
 
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Role:", role);
+    if (role == "student"){
+        const student = await getStudentByEmail(email);
 
-    res.json({
-        message: "Login-Daten angekommen"
+        if (!student){
+            return res.status(401).json({
+                message: "E-Mail oder Passwort falsch"
+            });
+
+        }
+        const passwordCorrect = await verifyPassword (
+            password,
+            student.passwordHash
+        );
+
+        if (!passwordCorrect){
+            return res.status(401).json({
+                message: "Emaio. Passwort falsch"
+            });
+        }
+        return res.json({
+            message: "Login erflog",
+            role: "student",
+            user: {
+                id:student.id,
+                name:student.name,
+                email: student.email,
+            }
+        });
+    }
+        if (role === "professor") {
+        const supervisor = await getSupervisorByEmail(email);
+
+        if (!supervisor) {
+            return res.status(401).json({
+                message: "E-Mail oder Passwort falsch"
+            });
+        }
+
+        const passwordCorrect = await verifyPassword(
+            password,
+            supervisor.passwordHash
+        );
+
+        if (!passwordCorrect) {
+            return res.status(401).json({
+                message: "E-Mail oder Passwort falsch"
+            });
+        }
+
+        return res.json({
+            message: "Login erfolgreich",
+            role: "professor",
+            user: {
+                id: supervisor.id,
+                name: supervisor.name,
+                email: supervisor.email
+            }
+        });
+    }
+
+    return res.status(400).json({
+        message: "Ungültige Rolle"
     });
-});
-
-app.listen(3000, () => {
-    console.log("Server läuft auf Port 3000");
 });
