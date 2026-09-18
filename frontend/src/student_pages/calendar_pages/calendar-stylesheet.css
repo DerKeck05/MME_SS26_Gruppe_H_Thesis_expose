@@ -70,3 +70,18 @@
     font-size: 24px;
     cursor: pointer;
 }
+
+.rbc-toolbar-label {
+    font-family: inherit;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--dark-blue);
+}
+
+.rbc-header {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-blue);
+    border-color: var(--night-blue);
+}

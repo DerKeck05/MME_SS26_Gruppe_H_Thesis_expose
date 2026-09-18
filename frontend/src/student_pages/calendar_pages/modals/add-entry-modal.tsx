@@ -1,8 +1,11 @@
 import {X} from "lucide-react";
+import "./modal-stylesheet.css";
 
-function AddEntryModal() {
+function AddEntryModal({onClose}: { onClose: () => void }) {
     return (
-        <div className={"modal-Backdrop"} onClick={() => {}}
+        <div className={"modal-Backdrop"} onClick={() => {
+            onClose();
+        }}
         >
             <div className={"modal"} onClick={(event) => event.stopPropagation()}>
                 <h3>Ereignis hinzufügen</h3>
@@ -13,6 +16,7 @@ function AddEntryModal() {
                     <button
                         type="button"
                         onClick={() => {
+                            onClose();
                         }}
                         className="modal-close"
                         aria-label="Modal schließen"
@@ -35,6 +39,8 @@ function AddEntryModal() {
 
 
                 <button type={"submit"} onClick={() => {
+
+                    onClose();
                 }}>
                     Ereignis erstellen
                 </button>
