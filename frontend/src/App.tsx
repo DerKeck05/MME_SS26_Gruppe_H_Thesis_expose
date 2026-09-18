@@ -3,7 +3,7 @@ import StudentDashboardSkeleton from "./student_pages/skeleton/student-dashboard
 import OutlinePage from "./student_pages/outline_pages/outline-page.tsx";
 import StudentDashboard from "./student_pages/student_dashboard/student-dashboard.tsx";
 import CalendarPage from "./student_pages/calendar_pages/calendar-page.tsx";
-import ErrorPage from "./student_pages/error-page.tsx";
+import ErrorPage from "./error_handling/component_error_handling/error-page.tsx";
 
 function App() {
     return (
