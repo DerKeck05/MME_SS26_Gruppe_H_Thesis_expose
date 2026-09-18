@@ -21,7 +21,6 @@
 
 .calendar-add-buttons button {
 
-    border-radius: var(--border-radius);
     background-color: var(--night-blue);
     display: flex;
     justify-content: center;
@@ -29,8 +28,13 @@
     cursor: pointer;
 }
 
+.calendar-add-buttons button:hover {
+    background-color: var(--dark-blue);
+}
+
 .calendar-add-buttons > button {
     width: 160px;
     height: 40px;
+    border-radius: var(--border-radius);
 }
 

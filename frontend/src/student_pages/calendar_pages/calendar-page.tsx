@@ -4,13 +4,14 @@ import {Plus} from "lucide-react";
 import {useState} from "react";
 import AddEntryModal from "./modals/add-entry-modal.tsx";
 
+const thesisId = 1;
 
 function CalendarPage() {
     const [showModal, setShowModal] = useState(false);
 
     return (
         <div className="calendar-page-main">
-            <CalendarComponent/>
+            <CalendarComponent /* thesisId = {thesisId}*//>
             <div className={"calendar-add-buttons"}>
                 <button
                     onClick={() => {
@@ -20,9 +21,11 @@ function CalendarPage() {
                 >
                     <Plus size={30} strokeWidth={2.5}/>
                 </button>
-
                 {showModal && (
-                    <AddEntryModal onClose={() => setShowModal(false)}/>
+                    <AddEntryModal
+                        onClose={() => setShowModal(false)}
+                        thesisId={ thesisId }
+                    />
                 )}
             </div>
         </div>

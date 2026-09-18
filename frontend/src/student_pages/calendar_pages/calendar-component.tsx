@@ -7,9 +7,7 @@ import { /*useEffect,*/ useState } from "react";
 
 const localizer = momentLocalizer(moment);
 
-// TODO: Hier später die tatsächliche aktuelle ThesisID verwenden
-//const thesisID = 1;
-
+//TODO: Dummy Data entfernen und stattdessen echte Daten laden
 const dummyEvents: CalendarEvent[] = [
     {
         id: 1,
@@ -38,14 +36,14 @@ interface CalendarEvent {
     end: Date;
 }
 
-function CalendarComponent() {
+function CalendarComponent(/*thesisId: number*/) {
     const [events/*, setEvents*/] = useState<CalendarEvent[]>(dummyEvents);
     const [date, setDate] = useState(new Date());
     /*
     useEffect(() => {
         async function loadEvents() {
             try {
-                const entries = await getCalendarEntries(thesisID);
+                const entries = await getCalendarEntries(thesisId);
 
                 const calendarEvents: CalendarEvent[] = entries.map(entry => ({
                     id: entry.id,
