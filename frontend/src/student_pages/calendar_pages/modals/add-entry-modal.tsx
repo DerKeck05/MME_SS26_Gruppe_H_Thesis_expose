@@ -8,10 +8,8 @@ function AddEntryModal({onClose}: { onClose: () => void }) {
         }}
         >
             <div className={"modal"} onClick={(event) => event.stopPropagation()}>
-                <h3>Ereignis hinzufügen</h3>
-
                 <div className="modal-header">
-                    <h2>Neues Event</h2>
+                    <h3>Ereignis hinzufügen</h3>
 
                     <button
                         type="button"
@@ -25,20 +23,24 @@ function AddEntryModal({onClose}: { onClose: () => void }) {
                     </button>
                 </div>
 
-                <input type={"text"} placeholder={"Neues Ereignis"}/>
-                <input type={"text"} placeholder={"Beschreibung"}/>
+                <div className={"modal-body"} id={"calendar-modal"}>
+                    <input type={"text"} placeholder={"Neues Ereignis"}/>
+                    <input type={"text"} placeholder={"Beschreibung"}/>
 
-                <label>
-                    Start:
-                    <input type="datetime-local"/>
-                </label>
-                <label>
-                    Ende:
-                    <input type="datetime-local"/>
-                </label>
+                    <div className={"date-row"}>
+                        <label>
+                            Start:
+                            <input type="datetime-local"/>
+                        </label>
+                        <label>
+                            Ende:
+                            <input type="datetime-local"/>
+                        </label>
+                    </div>
+                </div>
 
 
-                <button type={"submit"} onClick={() => {
+                <button className={"modal-submit-button"} type={"submit"} onClick={() => {
 
                     onClose();
                 }}>

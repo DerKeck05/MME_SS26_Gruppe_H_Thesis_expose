@@ -1,8 +1,10 @@
+/* General Modal Styling */
 .modal-Backdrop {
     position: fixed;
     inset: 0;
 
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -11,7 +13,86 @@
 }
 
 .modal {
-    background: white;
-    padding: 2rem;
+    background: var(--white);
+    padding: var(--spacing-medium);
     border-radius: 12px;
+    border: 4px var(--primary) solid;
+    width: 50%;
+    height: 40%;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    flex: 1;
+    justify-self: center;
+    text-align: center;
+    color: var(--dark-blue)
+}
+
+.modal-close button {
+    width: 40px;
+    height: auto;
+    justify-self: end;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    margin: var(--spacing-small);
+    gap: var(--spacing-medium);
+}
+
+input {
+    background-color: var(--background-grey);
+    border-color: var(--dark-blue);
+    color: var(--dark-blue);
+
+}
+
+input::placeholder {
+    color: var(--dark-blue);
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: brightness(0);
+}
+
+.modal-submit-button {
+    align-self: center;
+    justify-self: center;
+    margin-top: var(--spacing-medium);
+    font-size: 18px;
+    font-weight: 600;
+    width:200px;
+    padding: var(--spacing-small);
+}
+
+label {
+    color: var(--dark-blue);
+}
+
+
+
+/* Add Entry Modal Styling */
+
+.date-row {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.date-row input {
+    margin-left: var(--spacing-medium);
+    margin-right: var(--spacing-medium);
 }
