@@ -81,3 +81,7 @@ app.post("/login", async (req, res) => {
         message: "Ungültige Rolle"
     });
 });
+
+    app.listen(3000, () => {
+     console.log("Server läuft auf Port 3000");
+}); 
