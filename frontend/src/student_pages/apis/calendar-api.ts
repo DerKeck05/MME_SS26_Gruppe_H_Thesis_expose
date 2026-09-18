@@ -18,13 +18,18 @@ export async function getCalendarEntries(
     );
 
     if (!response.ok) {
-        throw new Error("Kalendereinträge konnten nicht geladen werden.");
-    } else {
-        console.log("Received API response");
+        const errorData = await response.json();
+
+        throw new Error(
+            errorData.error ?? "Kalendereinträge konnten nicht geladen werden."
+        );
     }
+
+    console.log("Received API response");
 
     return response.json();
 }
+
 
 export async function addCalendarEntry(
     thesisId: number,
@@ -47,10 +52,14 @@ export async function addCalendarEntry(
     );
 
     if (!response.ok) {
-        throw new Error("Kalendereintrag konnte nicht erstellt werden.");
-    } else {
-        console.log("Received API response");
+        const errorData = await response.json();
+
+        throw new Error(
+            errorData.error ?? "Kalendereintrag konnte nicht erstellt werden."
+        );
     }
+
+    console.log("Received API response");
 
     return response.json();
 }
