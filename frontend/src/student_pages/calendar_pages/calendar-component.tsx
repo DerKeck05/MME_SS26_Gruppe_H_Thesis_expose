@@ -5,6 +5,7 @@ import "./calendar-styling.css";
 import { /*useEffect,*/ useState} from "react";
 import {type CalendarEntry, getCalendarEntry} from "../apis/calendar-api.ts";
 import EntryDetailModal from "./modals/entry-detail-modal.tsx";
+import EditEntryModal from "./modals/edit-entry-modal.tsx";
 //import { getCalendarEntries } from "../apis/calendar-api";
 
 const localizer = momentLocalizer(moment);
@@ -83,9 +84,9 @@ function CalendarComponent(/*thesisId: number*/) {
     const [entries/*, setEntries*/] = useState<CalendarEntry[]>(dummyEntries);
     const [events/*, setEvents*/] = useState<CalendarEvent[]>(dummyEvents);
     const [date, setDate] = useState(new Date());
-    const [showDetail, setShowDetail] = useState(false);
+    const [showDetailModal, setShowDetailModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
     const [detailEntry, setDetailEntry] = useState<CalendarEntry | null>(null);
-
 
 
     /*
@@ -135,16 +136,38 @@ function CalendarComponent(/*thesisId: number*/) {
                         );
 
                         setDetailEntry(selectedEntry)
-                        setShowDetail(true);
+                        setShowDetailModal(true);
                     }}
                 />
             </div>
 
-            {showDetail && detailEntry && (
-                <EntryDetailModal onClose={() => {
-                    setShowDetail(false);
-                    setDetailEntry(null);
-                }} entry={detailEntry}/>
+            {showDetailModal && detailEntry && (
+                <EntryDetailModal
+                    onClose={() => {
+                        setShowDetailModal(false);
+                        setDetailEntry(null);
+                    }}
+                    onEdit={() => {
+                        setShowEditModal(true);
+                        setShowDetailModal(false);
+                    }}
+                    entry={detailEntry}
+                />
+            )}
+
+            {showEditModal && detailEntry && (
+                <EditEntryModal
+                    onCancel={() => {
+                        setShowEditModal(false);
+                        setShowDetailModal(true);
+                    }}
+                    onSubmit={(updatedEntry) => {
+                        setDetailEntry(updatedEntry);
+                        setShowEditModal(false);
+                        setShowDetailModal(true);
+                    }}
+                    entry={detailEntry}
+                />
             )}
         </div>
     );

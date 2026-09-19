@@ -9,6 +9,7 @@ const thesisId = 1;
 function CalendarPage() {
     const [showModal, setShowModal] = useState(false);
 
+
     return (
         <div className="calendar-page-main">
             <CalendarComponent /* thesisId = {thesisId}*//>
@@ -27,6 +28,7 @@ function CalendarPage() {
                         thesisId={ thesisId }
                     />
                 )}
+
             </div>
         </div>
     );

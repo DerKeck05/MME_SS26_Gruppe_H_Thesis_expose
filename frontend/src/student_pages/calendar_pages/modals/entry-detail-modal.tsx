@@ -1,8 +1,8 @@
-import {X} from "lucide-react";
+import {Pencil, X} from "lucide-react";
 import {type CalendarEntry, deleteCalendarEntry} from "../../apis/calendar-api.ts";
 import "./modal-stylesheet.css";
 
-function EntryDetailModal({onClose, entry}: { onClose: () => void, entry: CalendarEntry }) {
+function EntryDetailModal({onClose, onEdit, entry}: { onClose: () => void, onEdit: () => void, entry: CalendarEntry }) {
     async function deleteEntry(): Promise<boolean> {
         try {
             await deleteCalendarEntry(entry.id);
@@ -25,7 +25,7 @@ function EntryDetailModal({onClose, entry}: { onClose: () => void, entry: Calend
                 day: "2-digit",
                 month: "2-digit",
                 year: "numeric"
-            })}, ${start.toLocaleTimeString("de-DE", {
+            })} \n${start.toLocaleTimeString("de-DE", {
                 hour: "2-digit",
                 minute: "2-digit"
             })} - ${end.toLocaleTimeString("de-DE", {
@@ -55,10 +55,6 @@ function EntryDetailModal({onClose, entry}: { onClose: () => void, entry: Calend
         <div className={"modal-backdrop"} onClick={onClose}>
             <div className={"modal"} onClick={(event) => event.stopPropagation()}>
                 <div className={"modal-header"}>
-                    <h3>
-                        {entry.title}
-                    </h3>
-
                     <button
                         type="button"
                         onClick={() => {
@@ -69,20 +65,37 @@ function EntryDetailModal({onClose, entry}: { onClose: () => void, entry: Calend
                     >
                         <X/>
                     </button>
+
+                    <h3>
+                        {entry.title}
+                    </h3>
+
+                    <button
+                        type={"button"}
+                        onClick={() => {
+                            onEdit();
+                        }}
+                        className={"edit-calendar-entry"}
+                        aria-label="Eintrag bearbeiten"
+                    >
+                        <Pencil/>
+                    </button>
                 </div>
 
                 <div className={"modal-body"} id={"detail-modal"}>
+                    <div className={"date-cells"}>
+                        <p>
+                            {formatDate(entry.startDate, entry.endDate)}
+                        </p>
+                    </div>
+
                     {entry.description && <div className={"detail-description"}>
                         <p>
                             {entry.description}
                         </p>
                     </div>}
 
-                    <div className={"date-cells"}>
-                        <p>
-                            {formatDate(entry.startDate, entry.endDate)}
-                        </p>
-                    </div>
+
                 </div>
 
                 <div className={"spacer"}/>
