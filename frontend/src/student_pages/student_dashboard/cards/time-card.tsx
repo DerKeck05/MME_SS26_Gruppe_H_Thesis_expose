@@ -1,8 +1,8 @@
 function TimeCard() {
     return (
         <div className="card" id={"time-card"}>
-            <h3 className="card-header">Zeit übrig</h3>
-            <p className="card-content">03:07:24:38</p>
+            <h3 className="card-header">Days left</h3>
+            <p className="card-content">13 Tage</p>
         </div>
     );
 }

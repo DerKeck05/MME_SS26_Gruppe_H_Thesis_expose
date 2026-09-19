@@ -24,3 +24,14 @@
 
 }
 
+button {
+    background-color: var(--night-blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--dark-blue);
+}
