@@ -1,5 +1,5 @@
 /* General Modal Styling */
-.modal-Backdrop {
+.modal-backdrop {
     position: fixed;
     inset: 0;
 
@@ -28,23 +28,23 @@
 .modal-header {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .modal-header h3 {
     flex: 1;
-    justify-self: center;
     text-align: center;
-    color: var(--dark-blue)
+    color: var(--dark-blue);
 }
 
 .modal-close {
+    position: absolute;
+    left: 0;
+
     width: 40px;
     height: 40px;
-    justify-self: end;
     border: none;
-    background: transparent;
     cursor: pointer;
     border-radius: 50%;
 }
@@ -110,4 +110,25 @@ label {
 .date-row input {
     margin-left: var(--spacing-medium);
     margin-right: var(--spacing-medium);
+}
+
+/* Entry Detail Modal */
+
+.detail-description {
+    background-color: var(--background-grey);
+    width: 98%;
+    height: 4rem;
+    margin: var(--spacing-small);
+    padding: var(--spacing-medium);
+    border-radius: var(--border-radius);
+    align-items: start;
+    display:flex;
+}
+
+#detail-modal {
+    align-items: center;
+}
+
+.date-cells p {
+    white-space: pre-line;
 }

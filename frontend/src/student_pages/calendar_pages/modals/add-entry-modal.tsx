@@ -63,7 +63,7 @@ function AddEntryModal({onClose, thesisId}: { onClose: () => void, thesisId: num
     }
 
     return (
-        <div className={"modal-Backdrop"} onClick={() => {
+        <div className={"modal-backdrop"} onClick={() => {
             onClose();
         }}
         >
