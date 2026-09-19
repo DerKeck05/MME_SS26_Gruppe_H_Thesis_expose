@@ -87,6 +87,7 @@ function CalendarComponent(/*thesisId: number*/) {
     const [showDetailModal, setShowDetailModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [detailEntry, setDetailEntry] = useState<CalendarEntry | null>(null);
+    const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
 
 
     /*
@@ -126,10 +127,13 @@ function CalendarComponent(/*thesisId: number*/) {
                     startAccessor="start"
                     endAccessor="end"
                     date={date}
+                    selected={selectedEvent}
                     onNavigate={(newDate) => {
                         setDate(newDate);
                     }}
                     onSelectEvent={(e) => {
+                        setSelectedEvent(e);
+
                         const selectedEntry = getCalendarEntry(
                             e.id,
                             entries
@@ -138,6 +142,11 @@ function CalendarComponent(/*thesisId: number*/) {
                         setDetailEntry(selectedEntry)
                         setShowDetailModal(true);
                     }}
+                    onSelectSlot={() => {
+                        setSelectedEvent(null);
+                    }}
+
+                    selectable={true}
                 />
             </div>
 
@@ -146,6 +155,7 @@ function CalendarComponent(/*thesisId: number*/) {
                     onClose={() => {
                         setShowDetailModal(false);
                         setDetailEntry(null);
+                        setSelectedEvent(null);
                     }}
                     onEdit={() => {
                         setShowEditModal(true);
