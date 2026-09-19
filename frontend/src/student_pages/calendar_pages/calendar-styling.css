@@ -57,3 +57,23 @@ Klasse	            Was wird verändert?
     color: var(--dark-blue);
     border-color: var(--night-blue);
 }
+
+.mini-calendar .rbc-event {
+    padding: 2px 4px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.mini-calendar .rbc-event-label {
+    display: none;
+}
+
+.mini-calendar .rbc-event-content {
+    font-size: 12px;
+    font-weight: 500;
+    white-space: normal;
+}

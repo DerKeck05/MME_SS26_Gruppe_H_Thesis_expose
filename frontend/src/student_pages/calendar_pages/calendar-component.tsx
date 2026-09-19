@@ -1,5 +1,6 @@
 import {Calendar, momentLocalizer} from 'react-big-calendar';
 import moment from 'moment';
+import "moment/locale/de";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./calendar-styling.css";
 import { /*useEffect,*/ useState} from "react";
@@ -11,7 +12,7 @@ import EditEntryModal from "./modals/edit-entry-modal.tsx";
 const localizer = momentLocalizer(moment);
 
 //TODO: Dummy Data entfernen und stattdessen echte Daten laden
-const dummyEvents: CalendarEvent[] = [
+export const dummyEvents: CalendarEvent[] = [
     {
         id: 1,
         title: "Exposé abgeben",
