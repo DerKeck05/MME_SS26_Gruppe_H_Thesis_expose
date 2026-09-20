@@ -10,9 +10,15 @@ function LoginPage() {
     const [password, setPassword] = useState("");
     let studentButtonClass = "";
     let professorButtonClass = "";
+    const [errorMessage, setErrorMessage] = useState("");
+    let errorBox = null;
 
 
  async function LoginFunction() {
+        if (email == "" || password == "") {
+        setErrorMessage("Bitte E-Mail und Passwort eingeben");
+        return;
+        }
     const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: {
@@ -38,8 +44,7 @@ function LoginPage() {
         // navigate("/professor");
         }
     } else {
-        console.log(LOGIN_MESSAGES.LOGIN_FAILED);
-        console.log(data.message);
+        setErrorMessage(data.message);
     }
    } 
  
@@ -50,24 +55,31 @@ function LoginPage() {
     if (role == "professor") {
     professorButtonClass = "active-role";
     }
+    if (errorMessage != "") {
+    errorBox = (
+        <div className="error-box">
+            {errorMessage}
+        </div>
+    );
+   }
 
-return (
+  return (
     <div className="auth-page">
 
         <div className="login-glass">
             
 
-            <h1>Login</h1>
+            <h1>Clevermate</h1>
 
            <div className="role-buttons">
+            <button className={professorButtonClass} onClick={() => setRole("professor")}
+                  >Professor</button>
                <button
                    className={studentButtonClass} onClick={() => setRole("student")}
                    >Student  </button>
-                 <button className={professorButtonClass} onClick={() => setRole("professor")}
-                  >Professor</button>
                   </div>
 
-            <label>E-Mail</label>
+            <label>E-Mail: </label>
             <input
                 type="email"
                 placeholder="Ihre E-Mail"
@@ -75,7 +87,7 @@ return (
                 onChange={(event) => setEmail(event.target.value)}
             />
 
-            <label>Passwort</label>
+            <label>Passwort: </label>
             <input
                 type="password"
                 placeholder="Passwort eingeben"
@@ -92,6 +104,7 @@ return (
             </button>
 
         </div>
+        {errorBox}
 
     </div>
 );

@@ -180,3 +180,23 @@
      /* Aktiver Button wird minimal angehoben */
     transform: translateY(-3px);
 }
+.error-box {
+    /* Box wird unabhängig vom restlichen Layout positioniert */
+    position: fixed;
+     /* 30 Pixel Abstand vom rechten Bildschirmrand */
+    right: 30px;
+    /* 30 Pixel Abstand vom unteren Bildschirmrand */
+    bottom: 30px;
+    /* Hintergrundfarbe der Fehlermeldung */
+    background: red;
+    color: white;
+      /* Innenabstand*/
+    padding: 20px 30px;
+     /* Runde Ecken der Box */
+    border-radius: 15px;
+    /* Macht die Schrift fett */
+    font-weight: bold;
+    /* Sorgt dafür, dass die Box über anderen Elementen liegt */
+    /* umso höher der Wert umso Höher liegt die Box über den anderen*/
+    z-index: 9999;
+}
