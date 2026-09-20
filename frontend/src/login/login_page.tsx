@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import RegisterPage from "./register_page";
 
 function LoginPage() {
     const navigate = useNavigate();
