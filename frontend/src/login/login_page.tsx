@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_MESSAGES } from "./login_fails";
 import "./design_css/login.css";
 
 function LoginPage() {
