@@ -10,11 +10,20 @@ function RegisterStudentPage() {
     const [password, setPassword] = useState("");
     const [course, setCourse] = useState("");
 
-    function RegisterFunction() {
-    console.log(name);
-    console.log(email);
-    console.log(password);
-    console.log(course);
+    async function RegisterFunction() {
+        const response = await fetch("http://localhost:3000/register/student", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+        name,
+        email,
+        password,
+        course
+        })
+    });
+   
     }
     return (
         <div>

@@ -85,7 +85,20 @@ app.post("/login", async (req, res) => {
     return res.status(400).json({
         message: "Ungültige Rolle"
     });
-});
+ });
+
+   app.post("/register/student", (req, res) => {
+    const { name, email, password, course } = req.body;
+
+    console.log(name);
+    console.log(email);
+    console.log(password);
+    console.log(course);
+
+    res.json({
+        message: "Registrierungsdaten angekommen"
+    });
+   });
 
     app.listen(3000, () => {
      console.log("Server läuft auf Port 3000");
