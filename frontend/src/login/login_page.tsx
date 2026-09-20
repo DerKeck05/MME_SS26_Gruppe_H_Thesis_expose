@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import RegisterPage from "./register_page";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -53,10 +54,8 @@ function LoginPage() {
             <input type= "password" placeholder="password eingeben "
               value={password}
               onChange={(event) => setPassword(event.target.value)}/>
-            {/*überprüfung des States später entfernen  */}
-            <p>{role}</p>
             <button onClick={LoginFunction}>Login</button>
-            <button>Registrieren</button>
+            <button onClick={() => navigate("/register")}> Registrieren </button>
         </div>
     );
 }
