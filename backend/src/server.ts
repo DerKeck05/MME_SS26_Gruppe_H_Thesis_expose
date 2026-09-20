@@ -1,10 +1,15 @@
 import express from "express";
 import { verifyPassword } from "./utils/password.js";
 import { getStudentByEmail } from "../../database/repos/studentRepository.js";
-import { getSupervisorByEmail } from "../../database/repos/supervisorRepository.js";
+import { getSupervisorByEmail } from "../../database/repos/supervisorRepository.js"; 
+import cors from "cors";
 
 
 const app = express();
+
+app.use(cors({
+    origin: "http://localhost:5173"
+}));
 
 app.use(express.json());
 

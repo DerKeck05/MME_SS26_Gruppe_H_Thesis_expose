@@ -7,10 +7,10 @@ import LoginPage from "./login/login_page.tsx";
 function App() {
     return (
         <Routes>
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<LoginPage />} />
 
             <Route element={<StudentDashboardSkeleton />}>
-                <Route path="/" element={<StudentDashboard />} />
+                <Route path="/Student" element={<StudentDashboard />} />
                 <Route path="/outline" element={<OutlinePage />} />
             </Route>
         </Routes>

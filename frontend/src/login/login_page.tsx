@@ -1,7 +1,8 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
+    const navigate = useNavigate();
     const [role, setRole] = useState("student");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -24,6 +25,9 @@ function LoginPage() {
     if (response.ok) {
         console.log("Login erfolgreich");
         console.log(data);
+        if (role =="student"){
+            navigate("/student")
+        }
     } else {
         console.log("Login fehlgeschlagen");
         console.log(data.message);
@@ -52,6 +56,7 @@ function LoginPage() {
             {/*überprüfung des States später entfernen  */}
             <p>{role}</p>
             <button onClick={LoginFunction}>Login</button>
+            <button>Registrieren</button>
         </div>
     );
 }
