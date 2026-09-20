@@ -1,0 +1,79 @@
+/*
+
+Klasse	            Was wird verändert?
+.rbc-calendar	    gesamter Kalender
+.rbc-toolbar	    obere Leiste mit ← Heute → + Monatsname
+.rbc-toolbar button	Buttons der Toolbar
+.rbc-toolbar-label	z. B. „September 2026“
+.rbc-month-view	    kompletter Monatskalender
+.rbc-header	        Wochentage oben, z. B. Mo, Di, Mi
+.rbc-month-row	    einzelne Kalenderwoche
+.rbc-date-cell	    Tageszahl
+.rbc-off-range	    Tage aus vorherigem/nächstem Monat
+.rbc-today	        heutiger Tag
+.rbc-event	        deine Events
+.rbc-event-content	Text innerhalb eines Events
+.rbc-row-segment	Event-Bereich innerhalb einer Woche
+*/
+
+.rbc-event {
+    background-color: var(--primary);
+    margin: 1px;
+    padding: 2px 6px;
+    box-sizing: border-box;
+    border-radius: var(--border-radius);
+    color: var(--white);
+    font-size: 70%;
+    font-weight: 600;
+}
+
+.rbc-event:focus {
+    outline: 5px auto var(--secondary);
+}
+
+.rbc-today {
+    background-color: color-mix(
+            in srgb,
+            var(--secondary) 65%,
+            transparent
+    );
+}
+
+.rbc-off-range-bg {
+    background: var(--background-grey);
+}
+
+.rbc-toolbar-label {
+    font-family: inherit;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--dark-blue);
+}
+
+.rbc-header {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-blue);
+    border-color: var(--night-blue);
+}
+
+.mini-calendar .rbc-event {
+    padding: 2px 4px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.mini-calendar .rbc-event-label {
+    display: none;
+}
+
+.mini-calendar .rbc-event-content {
+    font-size: 12px;
+    font-weight: 500;
+    white-space: normal;
+}
