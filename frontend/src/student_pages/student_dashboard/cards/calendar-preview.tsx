@@ -64,7 +64,7 @@ function CalendarPreview(/*{ thesisId }: { thesisId: number }*/) {
                     startAccessor="start"
                     endAccessor="end"
                     view="week"
-                    style={{ height: 300 }}
+                    style={{ height: 440}}
 
                     min={new Date(1970, 0, 1, 8, 0)}
                     max={new Date(1970, 0, 1, 20, 0)}
