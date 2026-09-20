@@ -200,3 +200,32 @@
     /* umso höher der Wert umso Höher liegt die Box über den anderen*/
     z-index: 9999;
 }
+
+.login-glass p {
+    /* Schriftfarbe vom normalen Text im Container */
+    color: black;
+     /* Größe der Schrift*/
+    font-size: 16px;
+    /* Text wird horizontal mittig ausgerichtet */
+    text-align: center;
+}
+
+.register-title {
+    /* Größe der Überschrift */
+    font-size: 34px;
+
+    /* Abstand zwischen den Textzeilen */
+    line-height: 1.2;
+
+    /* Überschrift mittig */
+    text-align: center;
+
+    /* Kein großer Außenabstand oben */
+    margin: 0 0 18px 0;
+
+    /* Schriftfarbe */
+    color: black;
+
+    /* Schrift etwas kräftiger */
+    font-weight: 6000;
+}

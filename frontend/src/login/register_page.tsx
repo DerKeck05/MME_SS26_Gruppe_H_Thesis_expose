@@ -1,24 +1,30 @@
 import { useNavigate } from "react-router-dom";
-
+import "./design_css/login.css";
 
 
 function RegisterPage() {
     const navigate = useNavigate();
 
     return (
-        <div>
-          <h1>Registrieren</h1>
+        <div className="auth-page">
 
-    <p>Bitte eine der folgenden Rollen auswählen</p>
-      <button onClick={() => navigate("/register/professor")}>
-        Professor
-    </button>
+            <div className="login-glass">
 
-    <button onClick={() => navigate("/register/student")}>
-        Student
-    </button>
+                <h1>Registrieren</h1>
 
-    </div>
+                <p>Bitte eine der folgenden Rollen auswählen</p>
+
+                <button onClick={() => navigate("/register/professor")}>
+                    Professor
+                </button>
+
+                <button onClick={() => navigate("/register/student")}>
+                    Student
+                </button>
+
+            </div>
+
+        </div>
     );
 }
 
