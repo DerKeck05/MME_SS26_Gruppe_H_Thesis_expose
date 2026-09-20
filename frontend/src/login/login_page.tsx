@@ -28,18 +28,16 @@ function LoginPage() {
         if (role =="student"){
             navigate("/student")
         }
+          if (role == "professor") {
+        // TODO: Später Weiterleitung zum Professor-Dashboard einfügen
+        // navigate("/professor");
+        }
     } else {
         console.log("Login fehlgeschlagen");
         console.log(data.message);
     }
    } 
 
-    if(role == "student"){
-        //Logik hinzufügen bei ZEIT 
-    }
-    if(role == "professor"){
-        //Logik einfügen 
-    }
     return (
         <div>
             <h1>Login Page</h1>

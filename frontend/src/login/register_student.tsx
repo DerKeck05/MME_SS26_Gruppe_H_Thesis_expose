@@ -1,28 +1,42 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 
 
 
 function RegisterStudentPage() {
+    const navigate = useNavigate();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [course, setCourse] = useState("");
+    
 
-    async function RegisterFunction() {
-        const response = await fetch("http://localhost:3000/register/student", {
+   async function RegisterFunction() {
+    const response = await fetch("http://localhost:3000/register/student", {
         method: "POST",
         headers: {
-        "Content-Type": "application/json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({
-        name,
-        email,
-        password,
-        course
+            name,
+            email,
+            password,
+            course
         })
     });
+    const data = await response.json();
+
+    if (response.ok) {
+        console.log("Registrierung erfolgreich");
+        console.log(data);
+
+        navigate("/");
+    } else {
+        console.log("Registrierung fehlgeschlagen");
+        console.log(data.message);
+    }
+
    
     }
     return (

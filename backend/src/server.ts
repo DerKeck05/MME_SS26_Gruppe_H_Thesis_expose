@@ -1,7 +1,7 @@
 import express from "express";
 import { verifyPassword, hashPassword } from "./utils/password.js";
 import { getStudentByEmail, createStudent } from "../../database/repos/studentRepository.js";
-import { getSupervisorByEmail } from "../../database/repos/supervisorRepository.js"; 
+import {getSupervisorByEmail,createSupervisor} from "../../database/repos/supervisorRepository.js";
 import cors from "cors";
 
 
@@ -89,8 +89,15 @@ app.post("/login", async (req, res) => {
 
     app.post("/register/student", async (req, res) => {
     const { name, email, password, course } = req.body;
+    const existingStudent = await getStudentByEmail(email);
+
+    if (existingStudent) {
+    return res.status(400).json({
+        message: "E-Mail ist bereits registriert"
+    });
+     }
     const passwordHash = await hashPassword(password);
-    const student = await createStudent(
+     await createStudent(
         name,
         email,
         passwordHash,
@@ -104,8 +111,32 @@ app.post("/login", async (req, res) => {
     res.json({
         message: "Registrierungsdaten angekommen"
     });
+    
    });
+   app.post("/register/professor", async (req, res) => {
+    const { name, email, password, chair } = req.body;
 
-    app.listen(3000, () => {
-     console.log("Server läuft auf Port 3000");
-}); 
+    const existingProfessor = await getSupervisorByEmail(email);
+
+    if (existingProfessor) {
+        return res.status(400).json({
+            message: "E-Mail ist bereits registriert"
+        });
+    }
+
+    const passwordHash = await hashPassword(password);
+
+    await createSupervisor(
+        name,
+        email,
+        passwordHash,
+        chair
+    );
+
+    res.json({
+        message: "Professor erfolgreich registriert"
+    });
+    });
+   app.listen(3000, () => {
+    console.log("Server läuft auf Port 3000");
+    });
