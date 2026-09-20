@@ -1,6 +1,6 @@
 import express from "express";
-import { verifyPassword } from "./utils/password.js";
-import { getStudentByEmail } from "../../database/repos/studentRepository.js";
+import { verifyPassword, hashPassword } from "./utils/password.js";
+import { getStudentByEmail, createStudent } from "../../database/repos/studentRepository.js";
 import { getSupervisorByEmail } from "../../database/repos/supervisorRepository.js"; 
 import cors from "cors";
 
@@ -87,12 +87,18 @@ app.post("/login", async (req, res) => {
     });
  });
 
-   app.post("/register/student", (req, res) => {
+    app.post("/register/student", async (req, res) => {
     const { name, email, password, course } = req.body;
-
+    const passwordHash = await hashPassword(password);
+    const student = await createStudent(
+        name,
+        email,
+        passwordHash,
+        course
+      )  ;
     console.log(name);
     console.log(email);
-    console.log(password);
+    console.log(passwordHash);
     console.log(course);
 
     res.json({
