@@ -32,7 +32,7 @@ function LoginPage() {
         return;
         }
         /* hier schicken wir die Login Daten an unser Backend */
-        const response = await fetch("http://localhost:3000/login", {
+        const response = await fetch("http://localhost:9000/login", {
             /* POST weil wir Daten an das Backend schicken */
         method: "POST",
          /* wir schicken die Daten als JSON */

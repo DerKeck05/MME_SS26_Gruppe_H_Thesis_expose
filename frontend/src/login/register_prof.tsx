@@ -34,7 +34,7 @@ function RegisterProfessorPage() {
 
         /* wenn alle felder ausgefüllt sind schicken wir die daten ans backend */
         const response = await fetch(
-            "http://localhost:3000/register/professor",
+            "http://localhost:9000/register/professor",
             {
 
                 /* POST weil wir neue daten anlegen wollen */

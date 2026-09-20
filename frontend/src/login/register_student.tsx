@@ -37,7 +37,7 @@ function RegisterStudentPage() {
 
 
         /* Schickt die eingegebenen Daten ans Backend */
-        const response = await fetch("http://localhost:3000/register/student", {
+        const response = await fetch("http://localhost:9000/register/student", {
 
             /* POST bedeutet:
                Wir schicken Daten ans Backend */
