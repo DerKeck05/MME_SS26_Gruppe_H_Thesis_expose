@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_MESSAGES } from "./login_fails";
+import "./design_css/login.css";
 
 function LoginPage() {
     const navigate = useNavigate();
     const [role, setRole] = useState("student");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    let studentButtonClass = "";
+    let professorButtonClass = "";
+
 
  async function LoginFunction() {
     const response = await fetch("http://localhost:3000/login", {
@@ -38,24 +42,59 @@ function LoginPage() {
         console.log(data.message);
     }
    } 
+ 
+    if (role == "student") {
+    studentButtonClass = "active-role";
+    }
 
-    return (
-        <div>
-            <h1>Login Page</h1>
-            <button onClick={() => setRole("student")}>Student</button>
-            <button onClick={() => setRole("professor")}>Professor</button>
-            <label>Email:</label>
-            <input type= "email" placeholder="ihre E-Mail"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}/>
-            <label>Passwort:</label>
-            <input type= "password" placeholder="password eingeben "
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}/>
-            <button onClick={LoginFunction}>Login</button>
-            <button onClick={() => navigate("/register")}> Registrieren </button>
+    if (role == "professor") {
+    professorButtonClass = "active-role";
+    }
+
+return (
+    <div className="auth-page">
+
+        <div className="login-glass">
+            
+
+            <h1>Login</h1>
+
+           <div className="role-buttons">
+               <button
+                   className={studentButtonClass} onClick={() => setRole("student")}
+                   >Student  </button>
+                 <button className={professorButtonClass} onClick={() => setRole("professor")}
+                  >Professor</button>
+                  </div>
+
+            <label>E-Mail</label>
+            <input
+                type="email"
+                placeholder="Ihre E-Mail"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+            />
+
+            <label>Passwort</label>
+            <input
+                type="password"
+                placeholder="Passwort eingeben"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+            />
+
+            <button onClick={LoginFunction}>
+                Login
+            </button>
+
+            <button onClick={() => navigate("/register")}>
+                Registrieren
+            </button>
+
         </div>
-    );
+
+    </div>
+);
 
 
 }
