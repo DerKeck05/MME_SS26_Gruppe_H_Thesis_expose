@@ -229,3 +229,20 @@
     /* Schrift etwas kräftiger */
     font-weight: 6000;
 }
+.professor-title {
+
+    /* Schrift etwas kleiner weil der Text länger ist */
+    font-size: 26px;
+
+    /* Abstand zwischen den Zeilen falls der Text umbricht */
+    line-height: 1.15;
+
+    /* Überschrift mittig */
+    text-align: center;
+
+    /* Abstand nach unten */
+    margin: 0 0 18px 0;
+
+    /* Schriftfarbe */
+    color: black;
+}
