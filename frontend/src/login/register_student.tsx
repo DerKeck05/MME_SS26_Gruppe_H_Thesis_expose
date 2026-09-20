@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { LOGIN_MESSAGES } from "./login_fails";
 
 
 
@@ -28,12 +29,12 @@ function RegisterStudentPage() {
     const data = await response.json();
 
     if (response.ok) {
-        console.log("Registrierung erfolgreich");
+        console.log(LOGIN_MESSAGES.REGISTER_SUCCESS);
         console.log(data);
 
         navigate("/");
     } else {
-        console.log("Registrierung fehlgeschlagen");
+        console.log(LOGIN_MESSAGES.REGISTER_FAILED);
         console.log(data.message);
     }
 

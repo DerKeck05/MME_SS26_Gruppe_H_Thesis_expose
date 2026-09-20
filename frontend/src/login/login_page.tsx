@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { LOGIN_MESSAGES } from "./login_fails";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -33,7 +34,7 @@ function LoginPage() {
         // navigate("/professor");
         }
     } else {
-        console.log("Login fehlgeschlagen");
+        console.log(LOGIN_MESSAGES.LOGIN_FAILED);
         console.log(data.message);
     }
    } 
@@ -55,6 +56,8 @@ function LoginPage() {
             <button onClick={() => navigate("/register")}> Registrieren </button>
         </div>
     );
+
+
 }
 
 export default LoginPage;
