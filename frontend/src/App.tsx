@@ -30,8 +30,9 @@ function App() {
                 element={<StudentDashboardSkeleton />}
                 errorElement={<ErrorPage />}
             >
+                <Route path={"/login"} element={<LoginPage/>} />
 
-                <Route path="/Student" element={<StudentDashboard />} />
+                <Route path="/student" element={<StudentDashboard />} />
 
                 <Route path="/outline" element={<OutlinePage />} />
 
