@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
 
 :root {
     /* Color Palette */
@@ -22,6 +23,16 @@
     --font-family: 'Poppins', sans-serif;
 
 
+}
+
+@theme {
+    --color-primary: #74c365;
+    --color-secondary: #dbe64c;
+    --color-tertiary: #00804c;
+    --color-dark-blue: #001f3f;
+    --color-white: #f6f7ed;
+    --color-night-blue: #1e488f;
+    --color-background-grey: #e8e8e8;
 }
 
 button {
