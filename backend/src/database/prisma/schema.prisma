@@ -91,7 +91,7 @@ model Chapter {
   title String
 
   parentId Int?
-  parent   Chapter?  @relation("ChapterHierarchy", fields: [parentId], references: [id])
+  parent   Chapter?  @relation("ChapterHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
   children Chapter[] @relation("ChapterHierarchy")
 
   position Int @default(0)
@@ -116,7 +116,7 @@ model FeedbackEntry {
 
   // Foreign Key to Chapter
   chapterId Int
-  chapter   Chapter @relation(fields: [chapterId], references: [id])
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 }
 
 // FAQ Model
