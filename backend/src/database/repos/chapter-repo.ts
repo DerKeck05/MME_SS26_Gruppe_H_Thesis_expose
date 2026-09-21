@@ -20,11 +20,12 @@ export async function getChaptersByThesisId(thesisId: number) {
     });
 }
 
-export async function getChapterChildren(chapterId: number) {
-    return prisma.chapter.findMany({
-        where: {parentId: chapterId},
-        orderBy: {position: "asc"}
-    })
+export async function getChapterById(chapterId: number) {
+    return prisma.chapter.findUnique({
+        where: {
+            id: chapterId
+        }
+    });
 }
 
 interface UpdateChapterData {

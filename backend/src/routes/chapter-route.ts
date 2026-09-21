@@ -1,12 +1,23 @@
-import {Router} from "express";
-import * as chapterRepo from "../database/repos/chapter-repo.js";
-import {createChapterSchema, updateChapterSchema} from "../utils/chapter-schema.js";
+import { Router } from "express";
+import * as chapterService from "../services/chapter-service.js";
+import {
+    createChapterSchema,
+    updateChapterSchema
+} from "../utils/chapter-schema.js";
 
 const router = Router();
 
 router.get("/thesis/:id", async (req, res) => {
     const thesisId = Number(req.params.id);
-    const chapters = await chapterRepo.getChaptersByThesisId(thesisId);
+
+    if (Number.isNaN(thesisId)) {
+        res.status(400).json({
+            error: "Invalid thesis ID"
+        });
+        return;
+    }
+
+    const chapters = await chapterService.getChaptersByThesisId(thesisId);
 
     console.log(`Router sent ${chapters.length} chapters`);
 
@@ -15,6 +26,13 @@ router.get("/thesis/:id", async (req, res) => {
 
 router.post("/thesis/:id", async (req, res) => {
     const thesisId = Number(req.params.id);
+
+    if (Number.isNaN(thesisId)) {
+        res.status(400).json({
+            error: "Invalid thesis ID"
+        });
+        return;
+    }
 
     const result = createChapterSchema.safeParse(req.body);
 
@@ -28,12 +46,14 @@ router.post("/thesis/:id", async (req, res) => {
 
     const { title, parentId, position } = result.data;
 
-    const chapter = await chapterRepo.createChapter({
-        title,
-        parentId: parentId ?? null,
-        position,
-        thesisId
-    });
+    const chapter = await chapterService.createChapter(
+        thesisId,
+        {
+            title,
+            parentId: parentId ?? null,
+            position
+        }
+    );
 
     console.log("Router created Chapter");
 
@@ -42,6 +62,13 @@ router.post("/thesis/:id", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
     const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+        res.status(400).json({
+            error: "Invalid chapter ID"
+        });
+        return;
+    }
 
     const result = updateChapterSchema.safeParse(req.body);
 
@@ -55,7 +82,7 @@ router.put("/:id", async (req, res) => {
 
     const { title, parentId, position } = result.data;
 
-    const chapter = await chapterRepo.updateChapter(
+    const chapter = await chapterService.updateChapter(
         id,
         {
             ...(title !== undefined && { title }),
@@ -70,9 +97,17 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
     const id = Number(req.params.id);
 
-    await chapterRepo.deleteChapter(id);
+    if (Number.isNaN(id)) {
+        res.status(400).json({
+            error: "Invalid chapter ID"
+        });
+        return;
+    }
+
+    await chapterService.deleteChapter(id);
 
     console.log("Router deleted Chapter");
+
     res.status(204).send();
 });
 
