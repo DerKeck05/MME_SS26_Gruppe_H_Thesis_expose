@@ -12,6 +12,14 @@ function CalendarPage() {
 
     return (
         <div className="calendar-page-main">
+            <div className={"calendar-deadline"}>
+                <p>
+                    Tage bis zur Abgabe:
+                </p>
+                <h3>
+                    13 Tage
+                </h3>
+            </div>
             <CalendarComponent /* thesisId = {thesisId}*//>
             <div className={"calendar-add-buttons"}>
                 <button

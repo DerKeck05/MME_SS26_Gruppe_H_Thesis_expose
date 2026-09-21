@@ -25,3 +25,19 @@
     border-radius: var(--border-radius);
 }
 
+.calendar-deadline {
+    background-color: var(--tertiary);
+    padding: var(--spacing-small);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-small);
+    color: var(--secondary);
+}
+
+.calendar-deadline h3 {
+    font-size: xx-large;
+}
+
+.calendar-deadline p {
+    font-weight: 500;
+    font-size: larger;
+}

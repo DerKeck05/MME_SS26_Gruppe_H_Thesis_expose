@@ -2,8 +2,9 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "moment/locale/de";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "../../calendar_pages/calendar-styling.css";
 import {/* useEffect, */useState } from "react";
-import {dummyEvents} from "../../calendar_pages/calendar-component.tsx";
+import {type CalendarEvent, dummyEvents} from "../../calendar_pages/calendar-component.tsx";
 import {useNavigate} from "react-router-dom";
 /*import {
     type CalendarEntry,
@@ -11,13 +12,6 @@ import {useNavigate} from "react-router-dom";
 } from "../../apis/calendar-api.ts";
 */
 const localizer = momentLocalizer(moment);
-
-interface CalendarEvent {
-    id: number;
-    title: string;
-    start: Date;
-    end: Date;
-}
 
 function CalendarPreview(/*{ thesisId }: { thesisId: number }*/) {
     const [events/*, setEvents*/] = useState<CalendarEvent[]>(dummyEvents);
@@ -64,7 +58,19 @@ function CalendarPreview(/*{ thesisId }: { thesisId: number }*/) {
                     startAccessor="start"
                     endAccessor="end"
                     view="week"
-                    style={{ height: 300 }}
+                    style={{ height: 440}}
+
+                    eventPropGetter={(e) => {
+                        switch (e.type) {
+                            case "deadline":
+                                return {
+                                    className: "deadline",
+                                };
+
+                            default:
+                                return {};
+                        }
+                    }}
 
                     min={new Date(1970, 0, 1, 8, 0)}
                     max={new Date(1970, 0, 1, 20, 0)}
