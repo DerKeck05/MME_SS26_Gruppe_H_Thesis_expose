@@ -2,7 +2,7 @@ import {prisma} from "../lib/prisma.js";
 
 interface Chapter {
     title: string;
-    parentId?: number | null;
+    parentId: number | null;
     position: number;
     thesisId: number;
 }
@@ -17,12 +17,6 @@ export async function getChaptersByThesisId(thesisId: number) {
     return prisma.chapter.findMany({
         where: {thesisId},
         orderBy: {position: "asc"}
-    });
-}
-
-export async function getChapterById(chapterId: number) {
-    return prisma.chapter.findUnique({
-        where: {id: chapterId}
     });
 }
 
