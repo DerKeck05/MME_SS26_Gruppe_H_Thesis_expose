@@ -1,5 +1,5 @@
 import {Pencil, X} from "lucide-react";
-import {type CalendarEntry, deleteCalendarEntry} from "../../apis/calendar-api.ts";
+import {type CalendarEntry, deleteCalendarEntry} from "../../../apis/calendar-api.ts";
 import "./modal-stylesheet.css";
 
 function EntryDetailModal({onClose, onEdit, entry}: { onClose: () => void, onEdit: () => void, entry: CalendarEntry }) {

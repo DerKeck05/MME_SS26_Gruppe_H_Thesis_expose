@@ -1,7 +1,7 @@
 import {X} from "lucide-react";
 import "./modal-stylesheet.css";
 import {useState} from "react";
-import {addCalendarEntry} from "../../apis/calendar-api.ts";
+import {addCalendarEntry} from "../../../apis/calendar-api.ts";
 
 function AddEntryModal({onClose, thesisId}: { onClose: () => void, thesisId: number }) {
     const [entryTitle, setEntryTitle] = useState("");
