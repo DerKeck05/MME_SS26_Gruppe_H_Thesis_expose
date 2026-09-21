@@ -1,7 +1,7 @@
 import {X} from "lucide-react";
 import "./modal-stylesheet.css";
 import {useState} from "react";
-import {type CalendarEntry, updateCalendarEntry} from "../../apis/calendar-api.ts";
+import {type CalendarEntry, updateCalendarEntry} from "../../../apis/calendar-api.ts";
 
 function formatDateTimeLocal(dateString: string): string {
     const date = new Date(dateString);

@@ -36,11 +36,12 @@
 }
 
 button {
-    background-color: var(--night-blue);
+    background-color: var(--tertiary);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    color: var(--secondary);
 }
 
 button:hover {

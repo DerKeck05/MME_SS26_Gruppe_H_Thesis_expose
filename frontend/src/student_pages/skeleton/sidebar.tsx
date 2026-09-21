@@ -10,6 +10,7 @@ function Sidebar() {
             <Link to="/">Homepage</Link>
             <Link to="/outline">Kapitel</Link>
             <Link to="/calendar">Kalender</Link>
+            <Link to="/login">Login</Link>
             
             { /*
                 <Link to="/theses">Thesen</NavLink>
