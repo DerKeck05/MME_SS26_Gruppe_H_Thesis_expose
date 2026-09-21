@@ -135,7 +135,8 @@ export type CalendarEntryScalarFieldEnum = (typeof CalendarEntryScalarFieldEnum)
 export const ChapterScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  chapterNumber: 'chapterNumber',
+  parentId: 'parentId',
+  position: 'position',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   thesisId: 'thesisId'

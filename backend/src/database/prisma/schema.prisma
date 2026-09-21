@@ -87,11 +87,17 @@ model CalendarEntry {
 
 // Chapter Model
 model Chapter {
-  id            Int      @id @default(autoincrement())
-  title         String
-  chapterNumber String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id    Int    @id @default(autoincrement())
+  title String
+
+  parentId Int?
+  parent   Chapter?  @relation("ChapterHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children Chapter[] @relation("ChapterHierarchy")
+
+  position Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Foreign Key to Thesis
   thesisId Int
@@ -110,7 +116,7 @@ model FeedbackEntry {
 
   // Foreign Key to Chapter
   chapterId Int
-  chapter   Chapter @relation(fields: [chapterId], references: [id])
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 }
 
 // FAQ Model

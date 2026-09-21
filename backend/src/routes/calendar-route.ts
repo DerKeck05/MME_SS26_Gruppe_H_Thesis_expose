@@ -73,7 +73,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
     const id = Number(req.params.id);
 
-    const result = await calendarRepo.deleteCalendarEntry(id);
+    await calendarRepo.deleteCalendarEntry(id);
 
     console.log("Router deleted Entry");
     res.status(204).send();
