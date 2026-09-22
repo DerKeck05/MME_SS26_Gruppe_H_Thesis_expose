@@ -7,7 +7,7 @@ interface ChapterDisplay {
     isChild: boolean;
 }
 
-function OutlineItem({ chapterNumber, title, isChild }: ChapterDisplay) {
+function OutlineItem({chapterNumber, title, isChild }: ChapterDisplay) {
     const [showChildren, setShowChildren] = useState(true);
 
     return (

@@ -1,4 +1,4 @@
-/*import {prisma} from "../lib/prisma.js";
+import {prisma} from "../lib/prisma.js";
 
 export async function getStudentById(studentId: number) {
     return prisma.student.findUnique({
@@ -107,4 +107,3 @@ export async function deleteStudent(studentId: number) {
         where: {id: studentId}
     });
 }
-*/
