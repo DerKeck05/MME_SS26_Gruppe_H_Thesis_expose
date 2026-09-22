@@ -14,9 +14,10 @@ export interface UIChapter {
 interface OutlineComponentProps {
     chapters: Chapter[];
     onEditChapter: (chapter: Chapter) => void;
+    onCommentClick: (chapter: Chapter) => void;
 }
 
-function OutlineComponent({chapters, onEditChapter}: OutlineComponentProps) {
+function OutlineComponent({chapters, onEditChapter, onCommentClick}: OutlineComponentProps) {
     const [expandedChapters, setExpandedChapters] = useState<Set<number>>(
         new Set(chapters.filter(chapter =>
             chapters.some(child => child.parentId === chapter.id)
@@ -86,9 +87,7 @@ function OutlineComponent({chapters, onEditChapter}: OutlineComponentProps) {
                         isExpanded={expandedChapters.has(chapter.id)}
                         onToggle={() => toggleChapter(chapter.id)}
                         onEdit={() => onEditChapter(originalChapter)}
-                        onCommentClick={() => {
-                            // showCommentSidebar
-                        }}
+                        onCommentClick={()=> onCommentClick(originalChapter)}
                     />
                 );
             })}
