@@ -10,6 +10,7 @@ import LoginPage from "./login/login_page.tsx";
 import RegisterPage from "./login/register_page.tsx";
 import RegisterStudentPage from "./login/register_student.tsx";
 import RegisterProfessorPage from "./login/register_prof.tsx";
+import ProfStartpage from "./prof_pages/prof_starpage.tsx";
 
 
 function App() {
@@ -23,6 +24,9 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/register/student" element={<RegisterStudentPage />} />
             <Route path="/register/professor" element={<RegisterProfessorPage />} />
+
+            {/* Professor Bereich */}
+            <Route path="/professor" element={<ProfStartpage />} />
 
 
             {/* Student Bereich */}
