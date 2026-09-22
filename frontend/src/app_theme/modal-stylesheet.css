@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* General Modal Styling */
 .modal-backdrop {
     position: fixed;
@@ -18,7 +20,7 @@
     border-radius: 12px;
     border: 4px var(--primary) solid;
     width: 50%;
-    height: 40%;
+    height: auto;
     display: flex;
     flex-direction: column;
 
@@ -36,6 +38,8 @@
     flex: 1;
     text-align: center;
     color: var(--dark-blue);
+    font-weight: bold;
+    font-size: x-large;
 }
 
 .modal-close {
@@ -53,26 +57,31 @@
 .modal-body {
     display: flex;
     flex-direction: column;
-    margin: var(--spacing-small);
+    margin-top: var(--spacing-large);
+    margin-bottom: var(--spacing-large);
+
+
     gap: var(--spacing-medium);
 }
 
 input {
     background-color: var(--background-grey);
-    border-color: var(--dark-blue);
     color: var(--dark-blue);
     cursor: text;
-    font-size: 16px;
+    font-size: 18px;
     font-family: inherit;
     font-weight: 500;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-small);
+    min-height: 42px;
+    box-sizing: border-box;
 }
 
 input::placeholder {
     color: var(--dark-blue);
-    font-size: 16px;
+    font-size: 18px;
     font-family: inherit;
     font-weight: 500;
-    align-self: center;
 }
 
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
@@ -139,4 +148,54 @@ label {
     border: none;
     cursor: pointer;
     border-radius: 50%;
+}
+
+/* Edit Chapter Modal */
+
+.chapter-number-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-small);
+
+    width: fit-content;
+    align-self: center;
+}
+
+.chapter-number-field label {
+    width: 100%;
+}
+
+#chapter-number-input {
+    width: 200px;
+    height: auto;
+    text-align: center;
+    padding: 2px;
+    font-size: xx-large;
+}
+
+#edit-chapter-modal {
+    justify-content: space-evenly;
+    flex: 1;
+}
+
+.edit-chapter-form .modal-submit-button {
+    align-self: center;
+    margin-top: auto;
+}
+
+/* Add chapter modal */
+
+.add-chapter-modal {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-small);
+}
+
+#title-input {
+    flex: 1;
+}
+
+.ui-error-notice {
+    color: darkred;
+
 }
