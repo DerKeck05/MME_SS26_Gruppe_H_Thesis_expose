@@ -128,3 +128,28 @@ export function getChapter(chapterId: number, chapters: Chapter[]): Chapter {
     return chapter;
 }
 
+export function isChapterVisible(
+    chapter: Chapter,
+    chapters: Chapter[],
+    expandedChapters: Set<number>
+): boolean {
+    let parentId = chapter.parentId;
+
+    while (parentId !== null) {
+        if (!expandedChapters.has(parentId)) {
+            return false;
+        }
+
+        const parent = chapters.find(
+            chapter => chapter.id === parentId
+        );
+
+        if (!parent) {
+            break;
+        }
+
+        parentId = parent.parentId;
+    }
+
+    return true;
+}

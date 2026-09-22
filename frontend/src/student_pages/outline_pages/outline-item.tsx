@@ -1,19 +1,21 @@
-import {useState} from "react";
 import {ChevronDown, ChevronUp, MessageSquareText} from "lucide-react";
 import type {UIChapter} from "./outline-component.tsx";
 
 interface OutlineItemProps {
     chapter: UIChapter;
+    isExpanded: boolean;
+    onToggle: () => void;
     onCommentClick?: () => void;
     onEdit?: () => void;
 }
 
 function OutlineItem({
                          chapter,
+                         isExpanded,
+                         onToggle,
                          onCommentClick,
                          onEdit
                      }: OutlineItemProps) {
-    const [showChildren, setShowChildren] = useState(true);
 
     return (
         <div
@@ -34,18 +36,14 @@ function OutlineItem({
             }}
             onDoubleClick={onEdit}
         >
-
-            {/* Kapitelnummer */}
             <p className="font-semibold text-xl">
                 {chapter.number}
             </p>
 
-            {/* Titel */}
             <p className="font-medium text-lg text-left">
                 {chapter.title}
             </p>
 
-            {/* Buttons */}
             <div className="flex items-center justify-end gap-2">
                 {chapter.hasComment && (
                     <button
@@ -61,9 +59,9 @@ function OutlineItem({
                     <button
                         type="button"
                         className="flex h-8 w-8 items-center justify-center rounded-full"
-                        onClick={() => setShowChildren(!showChildren)}
+                        onClick={onToggle}
                     >
-                        {showChildren
+                        {isExpanded
                             ? <ChevronUp/>
                             : <ChevronDown/>
                         }

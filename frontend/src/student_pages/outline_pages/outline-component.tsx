@@ -1,7 +1,6 @@
+import {useState} from "react";
 import OutlineItem from "./outline-item.tsx";
-import {type Chapter, getChapterNumbers} from "../../utils/outline-utils.ts";
-//import {useEffect, useState} from "react";
-//import {getChapters} from "../../apis/chapter-api.ts";
+import {type Chapter, getChapterNumbers, isChapterVisible} from "../../utils/outline-utils.ts";
 
 export interface UIChapter {
     id: number;
@@ -12,14 +11,32 @@ export interface UIChapter {
     hasComment: boolean;
 }
 
-//const thesisId = 1;
-
 interface OutlineComponentProps {
     chapters: Chapter[];
     onEditChapter: (chapter: Chapter) => void;
 }
 
 function OutlineComponent({chapters, onEditChapter}: OutlineComponentProps) {
+    const [expandedChapters, setExpandedChapters] = useState<Set<number>>(
+        new Set(chapters.filter(chapter =>
+            chapters.some(child => child.parentId === chapter.id)
+        ).map(chapter => chapter.id))
+    );
+
+    function toggleChapter(chapterId: number) {
+        setExpandedChapters(current => {
+            const next = new Set(current);
+
+            if (next.has(chapterId)) {
+                next.delete(chapterId);
+            } else {
+                next.add(chapterId);
+            }
+
+            return next;
+        });
+    }
+
     const uiChapters: UIChapter[] = [...chapters]
         .sort((a, b) => {
             return getChapterNumbers(a, chapters).localeCompare(
@@ -54,10 +71,20 @@ function OutlineComponent({chapters, onEditChapter}: OutlineComponentProps) {
                     return null;
                 }
 
+                if (!isChapterVisible(
+                    originalChapter,
+                    chapters,
+                    expandedChapters
+                )) {
+                    return null;
+                }
+
                 return (
                     <OutlineItem
                         key={chapter.id}
                         chapter={chapter}
+                        isExpanded={expandedChapters.has(chapter.id)}
+                        onToggle={() => toggleChapter(chapter.id)}
                         onEdit={() => onEditChapter(originalChapter)}
                         onCommentClick={() => {
                             // showCommentSidebar
