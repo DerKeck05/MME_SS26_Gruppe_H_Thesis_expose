@@ -27,20 +27,21 @@ function App() {
 
             {/* Student Bereich */}
             <Route
+                path="/student"
                 element={<StudentDashboardSkeleton />}
                 errorElement={<ErrorPage />}
             >
-                <Route path={"/login"} element={<LoginPage/>} />
+                {/* Standardseite für /student */}
+                <Route index element={<StudentDashboard />} />
 
-                <Route path="/student" element={<StudentDashboard />} />
+                <Route path="homepage" element={<StudentDashboard />} />
 
-                <Route path="/outline" element={<OutlinePage />} />
+                <Route path="outline" element={<OutlinePage />} />
 
-                <Route path="/calendar" element={<CalendarPage />} />
+                <Route path="calendar" element={<CalendarPage />} />
 
-                {/* Falls eine unbekannte Route aufgerufen wird */}
+                {/* Unbekannte Route */}
                 <Route path="*" element={<ErrorPage />} />
-
             </Route>
 
         </Routes>

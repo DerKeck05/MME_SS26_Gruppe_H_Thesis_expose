@@ -7,6 +7,7 @@ import cors from "cors";
 /* Unsere Routes */
 import calendarRoutes from "./routes/calendar-route.js";
 import authRoutes from "./routes/auth-route.js";
+import chapterRoute from "./routes/chapter-route.js";
 
 
 /* Express Anwendung erstellen */
@@ -37,15 +38,8 @@ app.use("/api/calendar", calendarRoutes);
 
 /* Login und Registrierung */
 app.use("/api/auth", authRoutes);
-
-
-/* =========================
-   TEST ROUTE
-   ========================= */
-
-app.get("/", (req, res) => {
-    res.send("Hello from Server");
-});
+/* Chapter */
+app.use("/api/chapter", chapterRoute)
 
 
 /* =========================

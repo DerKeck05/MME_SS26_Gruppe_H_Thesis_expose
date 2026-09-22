@@ -1,4 +1,5 @@
 import "../student-dashboard-stylesheet.css";
+import "../../app_theme/modal-stylesheet.css";
 import Sidebar from "./sidebar.tsx";
 import "lucide-react";
 import { Outlet, useLocation } from "react-router-dom";
