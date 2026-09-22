@@ -21,6 +21,14 @@ function ProfStartpage() {
                 <th>Thesis</th>
                 </tr>
             </thead>
+            <tbody>
+                <tr>
+                    <td> maaaa</td>
+                    <td> jfdjjfej</td>
+                    <td>fefffefe</td>
+                    <td>djejwdj</td>
+                </tr>
+            </tbody>
         </table>
     </div>
   </main>
