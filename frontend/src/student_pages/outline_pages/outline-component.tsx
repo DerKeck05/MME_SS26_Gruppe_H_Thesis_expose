@@ -1,8 +1,10 @@
 import OutlineItem from "./outline-item.tsx";
 import {type Chapter, getChapterNumbers} from "../../utils/outline-utils.ts";
-import {dummyChapters} from "../../utils/chapter-dummy-data.ts";
+//import {useEffect, useState} from "react";
+//import {getChapters} from "../../apis/chapter-api.ts";
 
 export interface UIChapter {
+    id: number;
     title: string;
     number: string;
     level: number;
@@ -10,48 +12,56 @@ export interface UIChapter {
     hasComment: boolean;
 }
 
-function OutlineComponent() {
-    const dummyData: Chapter[] = dummyChapters;
+//const thesisId = 1;
 
-    const uiChapters: UIChapter[] = [...dummyData]
+interface OutlineComponentProps {
+    chapters: Chapter[];
+    onEditChapter: (chapter: Chapter) => void;
+}
+
+function OutlineComponent({chapters, onEditChapter}: OutlineComponentProps) {
+    const uiChapters: UIChapter[] = [...chapters]
         .sort((a, b) => {
-            return getChapterNumbers(a, dummyData).localeCompare(
-                getChapterNumbers(b, dummyData),
+            return getChapterNumbers(a, chapters).localeCompare(
+                getChapterNumbers(b, chapters),
                 undefined,
                 {numeric: true}
             );
         })
         .map((chapter) => {
-            const number = getChapterNumbers(chapter, dummyData);
+            const number = getChapterNumbers(chapter, chapters);
 
             return {
+                id: chapter.id,
                 title: chapter.title,
                 number,
                 level: number.split(".").length - 1,
-                thesisId: 1, // später chapter.thesisId
-                isParent: dummyData.some(
+                isParent: chapters.some(
                     child => child.parentId === chapter.id
                 ),
                 hasComment: true,
             };
         });
 
-    /*function loadChapter() {
-
-    }
-    */
     return (
-        <div className={"outline-component flex flex-col gap-2 mt-(--spacing-small) "}>
-            {uiChapters.map((chapter: UIChapter) => {
+        <div className="outline-component flex flex-col gap-2 mt-(--spacing-small)">
+            {uiChapters.map((chapter) => {
+                const originalChapter = chapters.find(
+                    item => item.id === chapter.id
+                );
+
+                if (!originalChapter) {
+                    return null;
+                }
+
                 return (
-                    <OutlineItem key={chapter.number}
-                                 chapter={chapter}
-                                 onDoubleClick={() => {
-                                     //showEditModal
-                                 }}
-                                 onCommentClick={() => {
-                                     //showCommentSidebar
-                                 }}
+                    <OutlineItem
+                        key={chapter.id}
+                        chapter={chapter}
+                        onEdit={() => onEditChapter(originalChapter)}
+                        onCommentClick={() => {
+                            // showCommentSidebar
+                        }}
                     />
                 );
             })}

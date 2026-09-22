@@ -1,7 +1,7 @@
 import CloseModalButton from "../../../globals/close-modal-button.tsx";
 import {useState} from "react";
 
-function AddChapterModal({onSubmit, onCancel}: { onSubmit: () => void, onCancel: () => void }) {
+function AddChapterModal({onSubmit, onCancel}: { onSubmit: (title: string, chapterNumber: string) => void, onCancel: () => void }) {
     const [chapterTitle, setChapterTitle] = useState("");
     const [chapterNumber, setChapterNumber] = useState("");
 
@@ -41,8 +41,8 @@ function AddChapterModal({onSubmit, onCancel}: { onSubmit: () => void, onCancel:
                     className={"modal-submit-button"}
                     type={"button"}
                     disabled={!isFormValid}
-                    onClick={async () => {
-                        onSubmit();
+                    onClick={() => {
+                        onSubmit(chapterTitle.trim(), chapterNumber);
                     }}
                 >
                     Kapitel erstellen

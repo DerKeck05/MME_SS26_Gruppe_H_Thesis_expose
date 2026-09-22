@@ -1,38 +1,38 @@
 import {useState} from "react";
 import {ChevronDown, ChevronUp, MessageSquareText} from "lucide-react";
 import type {UIChapter} from "./outline-component.tsx";
-import EditChapterModal from "./modals/edit-chapter-modal.tsx";
+
+interface OutlineItemProps {
+    chapter: UIChapter;
+    onCommentClick?: () => void;
+    onEdit?: () => void;
+}
 
 function OutlineItem({
                          chapter,
-                         onCommentClick
-                     }: {
-    chapter: UIChapter;
-    onCommentClick?: () => void;
-}) {
+                         onCommentClick,
+                         onEdit
+                     }: OutlineItemProps) {
     const [showChildren, setShowChildren] = useState(true);
-    const [showEditModal, setShowEditModal] = useState(false);
 
     return (
         <div
             className="
-        outline-item
-        grid
-        grid-cols-[auto_1fr_auto]
-        items-center
-        gap-4
-        p-(--spacing-small)
-        bg-night-blue
-        text-(--white)
-        rounded-(--border-radius)
-        select-none
-    "
+                outline-item
+                grid
+                grid-cols-[auto_1fr_auto]
+                items-center
+                gap-4
+                p-(--spacing-small)
+                bg-night-blue
+                text-(--white)
+                rounded-(--border-radius)
+                select-none
+            "
             style={{
                 marginLeft: `${chapter.level * 32}px`
             }}
-            onDoubleClick={() => {
-                setShowEditModal(true)
-            }}
+            onDoubleClick={onEdit}
         >
 
             {/* Kapitelnummer */}
@@ -49,6 +49,7 @@ function OutlineItem({
             <div className="flex items-center justify-end gap-2">
                 {chapter.hasComment && (
                     <button
+                        type="button"
                         className="flex h-8 w-8 items-center justify-center rounded-full"
                         onClick={onCommentClick}
                     >
@@ -58,27 +59,17 @@ function OutlineItem({
 
                 {chapter.isParent && (
                     <button
+                        type="button"
                         className="flex h-8 w-8 items-center justify-center rounded-full"
                         onClick={() => setShowChildren(!showChildren)}
                     >
-                        {showChildren ? <ChevronUp/> : <ChevronDown/>}
+                        {showChildren
+                            ? <ChevronUp/>
+                            : <ChevronDown/>
+                        }
                     </button>
                 )}
             </div>
-
-            {showEditModal && (
-                <EditChapterModal
-                    onCancel={() => {
-                        setShowEditModal(false)
-                    }}
-                    onSubmit={() => {
-                        setShowEditModal(false)
-                    }}
-                    onDelete={() => {
-                    }}
-                    chapter={chapter}
-                />
-            )}
         </div>
     );
 }

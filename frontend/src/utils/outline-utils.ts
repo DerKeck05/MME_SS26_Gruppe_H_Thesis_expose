@@ -82,6 +82,42 @@ export function getChapterPositionAndParent(
     return current;
 }
 
+export function getParentIdAndPosition(
+    chapterNumber: string,
+    chapters: Chapter[]
+): { parentId: number | null; position: number } | undefined {
+    const positions = chapterNumber
+        .split(".")
+        .map(number => Number(number) - 1);
+
+    const position = positions.pop();
+
+    if (position === undefined) {
+        return undefined;
+    }
+
+    let parentId: number | null = null;
+
+    for (const parentPosition of positions) {
+        const siblings = chapters
+            .filter(chapter => chapter.parentId === parentId)
+            .sort((a, b) => a.position - b.position);
+
+        const parent = siblings[parentPosition];
+
+        if (!parent) {
+            return undefined;
+        }
+
+        parentId = parent.id;
+    }
+
+    return {
+        parentId,
+        position,
+    };
+}
+
 export function getChapter(chapterId: number, chapters: Chapter[]): Chapter {
     const chapter = chapters.find((c) => c.id === chapterId);
 
@@ -91,3 +127,4 @@ export function getChapter(chapterId: number, chapters: Chapter[]): Chapter {
 
     return chapter;
 }
+
