@@ -3,6 +3,13 @@ export interface Chapter {
     title: string;
     parentId: number | null;
     position: number;
+    thesisId: number;
+}
+
+export interface ChapterInput {
+    title: string;
+    position: number;
+    parentId: number | null;
 }
 
 export function getChapterNumbers(
@@ -73,4 +80,14 @@ export function getChapterPositionAndParent(
     }
 
     return current;
+}
+
+export function getChapter(chapterId: number, chapters: Chapter[]): Chapter {
+    const chapter = chapters.find((c) => c.id === chapterId);
+
+    if(!chapter) {
+        throw new Error("Kapitel wurde nicht gefunden");
+    }
+
+    return chapter;
 }
