@@ -2,7 +2,9 @@
 
 
 
-
+function assignThesis(){
+    console.log("Thesis zuordnen geklickt");
+}
 
 
 
@@ -27,7 +29,7 @@ function ProfStartpage() {
                     <td> jfdjjfej</td>
                     <td>fefffefe</td>
                     <td>
-                        <button onClick={() => console.log("Thesis zuordnen geklickt")}> 
+                        <button onClick={() => console.log(assignThesis)}> 
                             Thesis Zuordnen 
                         </button>
                     </td>
