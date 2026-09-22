@@ -26,7 +26,11 @@ function ProfStartpage() {
                     <td> maaaa</td>
                     <td> jfdjjfej</td>
                     <td>fefffefe</td>
-                    <td>djejwdj</td>
+                    <td>
+                        <button onClick={() => console.log("Thesis zuordnen geklickt")}> 
+                            Thesis Zuordnen 
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
