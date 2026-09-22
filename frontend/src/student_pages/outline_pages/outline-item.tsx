@@ -4,14 +4,22 @@ import {ChevronDown, ChevronUp} from "lucide-react";
 interface ChapterDisplay {
     chapterNumber: string;
     title: string;
-    isChild: boolean;
+    level: number;
+    isParent: boolean;
 }
 
-function OutlineItem({chapterNumber, title, isChild }: ChapterDisplay) {
+function OutlineItem({chapterNumber, title, level, isParent}: ChapterDisplay) {
     const [showChildren, setShowChildren] = useState(true);
 
     return (
-        <div className="outline-item grid grid-cols-[40px_1fr_40px] items-center p-(--spacing-small) bg-night-blue text-(--white) rounded-(--border-radius) mt-(--spacing-small) mb-(--spacing-small)">
+
+
+        <div
+            className="outline-item grid grid-cols-[40px_1fr_40px] items-center p-(--spacing-small) bg-night-blue text-(--white) rounded-(--border-radius) "
+            style={{
+                marginLeft: `${level * 32}px`
+            }}
+        >
             <p className="font-semibold text-xl">
                 {chapterNumber}
             </p>
@@ -21,12 +29,12 @@ function OutlineItem({chapterNumber, title, isChild }: ChapterDisplay) {
             </p>
 
             <div className="flex justify-center">
-                {isChild && (
+                {isParent && (
                     <button
                         className="show-children-button rounded-full"
                         onClick={() => setShowChildren(!showChildren)}
                     >
-                        {showChildren ? <ChevronUp /> : <ChevronDown />}
+                        {showChildren ? <ChevronUp/> : <ChevronDown/>}
                     </button>
                 )}
             </div>

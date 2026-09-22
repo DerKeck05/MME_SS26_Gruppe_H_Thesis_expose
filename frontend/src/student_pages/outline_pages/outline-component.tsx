@@ -5,19 +5,27 @@ import {dummyChapters} from "../../utils/chapter-dummy-data.ts";
 function OutlineComponent() {
     const dummyData: Chapter[] = dummyChapters;
 
+    const sortedChapters = [...dummyData].sort((a, b) => {
+        return getChapterNumbers(a, dummyData).localeCompare(
+            getChapterNumbers(b, dummyData),
+            undefined,
+            {numeric: true}
+        );
+    });
 
     /*function loadChapter() {
 
     }
     */
     return (
-        <div className={"outline-component flex flex-col gap-4"}>
-            {dummyData.map((chapter: Chapter) => {
+        <div className={"outline-component flex flex-col gap-2 mt-(--spacing-small) "}>
+            {sortedChapters.map((chapter: Chapter) => {
                 return (
                     <OutlineItem key={chapter.id}
                                  chapterNumber={getChapterNumbers(chapter, dummyData)}
                                  title={chapter.title}
-                                 isChild={chapter.parentId !== null}
+                                 level={getChapterNumbers(chapter, dummyData).split(".").length - 1}
+                                 isParent={dummyData.some(child => child.parentId === chapter.id)}
                     />
                 );
             })}
