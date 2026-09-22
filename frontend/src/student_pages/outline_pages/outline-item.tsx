@@ -1,37 +1,65 @@
 import {useState} from "react";
-import {ChevronDown, ChevronUp} from "lucide-react";
+import {ChevronDown, ChevronUp, MessageSquareText} from "lucide-react";
 
 interface ChapterDisplay {
     chapterNumber: string;
     title: string;
     level: number;
     isParent: boolean;
+    hasComment: boolean;
 }
 
-function OutlineItem({chapterNumber, title, level, isParent}: ChapterDisplay) {
+function OutlineItem({
+                         chapterNumber,
+                         title,
+                         level,
+                         isParent,
+                         hasComment
+                     }: ChapterDisplay) {
     const [showChildren, setShowChildren] = useState(true);
 
     return (
-
-
         <div
-            className="outline-item grid grid-cols-[40px_1fr_40px] items-center p-(--spacing-small) bg-night-blue text-(--white) rounded-(--border-radius) "
+            className="
+        outline-item
+        grid
+        grid-cols-[auto_1fr_auto]
+        items-center
+        gap-4
+        p-(--spacing-small)
+        bg-night-blue
+        text-(--white)
+        rounded-(--border-radius)
+    "
             style={{
                 marginLeft: `${level * 32}px`
             }}
         >
+            {/* Kapitelnummer */}
             <p className="font-semibold text-xl">
                 {chapterNumber}
             </p>
 
-            <p className="font-medium text-lg text-center">
+            {/* Titel */}
+            <p className="font-medium text-lg text-left">
                 {title}
             </p>
 
-            <div className="flex justify-center">
+            {/* Buttons */}
+            <div className="flex items-center justify-end gap-2">
+                {hasComment && (
+                    <button
+                        className="flex h-8 w-8 items-center justify-center rounded-full"
+                        onClick={() => {
+                        }}
+                    >
+                        <MessageSquareText/>
+                    </button>
+                )}
+
                 {isParent && (
                     <button
-                        className="show-children-button rounded-full"
+                        className="flex h-8 w-8 items-center justify-center rounded-full"
                         onClick={() => setShowChildren(!showChildren)}
                     >
                         {showChildren ? <ChevronUp/> : <ChevronDown/>}

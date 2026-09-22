@@ -26,6 +26,7 @@ function OutlineComponent() {
                                  title={chapter.title}
                                  level={getChapterNumbers(chapter, dummyData).split(".").length - 1}
                                  isParent={dummyData.some(child => child.parentId === chapter.id)}
+                                 hasComment={true}
                     />
                 );
             })}
