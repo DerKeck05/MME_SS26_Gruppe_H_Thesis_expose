@@ -1,0 +1,248 @@
+.auth-page {
+    /*Bild über kompletten Bildschirm daher 100%*/
+    width: 100%;
+    /* Höhe des Bildschirms*/
+    min-height: 100vh;
+    
+    background-image: url("/login-background.png");
+       /* Bild wird über kompletten Bildschirm gezogen*/
+    background-size: cover;
+       /*Center damit Bild mittig zentriert ist*/
+    background-position: center;
+   
+       /* zum Positionieren des Containers*/
+    display: flex;
+       /*horizontal mittag */
+    justify-content: center;
+       /*  vertikal mittig*/
+    align-items: center;
+}
+
+
+
+   /* Container der auf Liquidglass umgebaut wurde */
+.login-glass {
+       /*breite*/
+    width: 380px;
+       /*höhe*/
+    padding: 40px;
+       /*dafür da um den Container flexibel anzuordnen
+       Ist wichtig um die Elemente einfach ansteuern zu können*/
+    display: flex;
+    
+    /* Elemente untereinadner angereiht statt nebeneinander*/
+    flex-direction: column;
+    
+    /* Einheitlicher Abstand */
+    gap: 14px;
+
+    
+    /*Hintergrundfarbe der Liquidglas box */
+    /* 0.20 in dem Fall 20% Sichtbar  */
+    background: rgba(255, 255, 255, 0.20);
+    
+    /*Schärfe-Effekt umso höher umso unschärfer */
+    backdrop-filter: blur(18px);
+    
+    /* gleiche Funktion nur für den Safari Web Browser  */
+    -webkit-backdrop-filter: blur(18px);
+    
+    /* Rand um die Box und die Farbwerte und dicke*/
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    
+    /* Rundung der Ecken*/
+    border-radius: 28px;
+    
+    /*Schatten effekt*/
+    box-shadow:
+           /* Äußerer Schatten
+           0 = keine Verschiebung nach links/rechts
+           8px = Schatten geht etwas nach unten
+           32px = wie weich/groß der Schatten wird
+           0.18 = Stärke des Schattens */
+        0 8px 32px rgba(0, 0, 0, 0.18),
+           /* Heller Schatten innerhalb der Box.
+           Dadurch wirkt der obere Rand etwas wie echtes Glas. */
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+
+
+ 
+    
+.login-glass h1 {
+       /* Abstand in dem fall 12 px zu den Button unten */
+    margin: 0 0 19px 0;
+       /*Überschrift mittig  */
+    text-align: center;
+       /* FArbe Überschrift*/
+    color: rgb(3, 3, 3);
+        /* Schatteneffekt*/
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+
+.login-glass label {
+       /*Beschriftung für Email und Passwort und ausrichtung */
+    text-align: left;
+       /* Farbe*/
+    color: rgb(0, 0, 0);
+       /*Schriftgröße */
+    font-weight: 500;
+}
+
+.login-glass input {
+       /* Innenabstand im Eingabefeld*/
+    padding: 13px 15px;
+    /* Runde Ecken der Eingabefelder */
+    border-radius: 12px;
+     /* Dünner weißer transparenter Rand */
+    border: 1px solid rgba(255, 255, 255, 0.45);
+     /* Hintergrund */
+    background: rgba(255, 255, 255, 0.72);
+   
+    /* Farbe des eingegebenen Textes */
+    color: #222;
+     /* Schriftgröße innerhalb der Eingabefelder */
+    font-size: 16px 
+  
+}
+
+
+.login-glass input:focus {
+     /* BUTTONSEINGABE email und Passwort*/
+      /* Eingabefeld wird heller,
+       sobald der Nutzer hineinklickt */
+    background: rgba(255, 255, 255, 0.9);
+    /* Hintergrund*/
+    border-color: white;
+}
+
+
+.login-glass button {
+     /* alle Buttons in liquid box*/
+     /* Höhe bzw. Innenabstand des Buttons */
+    padding: 12px;
+    /* Rand des Buttons */
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    /* Runde Ecken */
+    border-radius: 12px;
+    /* Transparenter weißer Button-Hintergrund*/
+    background: rgba(255, 255, 255, 0.28);
+    
+    /* Schriftfarbe */
+    color: rgb(0, 0, 0);
+    /* Schriftgröße */
+    font-size: 16px;
+    /* Schrift etwas fett */
+    font-weight: 600;
+     /* Mauszeiger wird zur Hand */
+    cursor: pointer;
+    /* Auch hinter dem Button wird der Hintergrund
+       etwas unscharf */
+    backdrop-filter: blur(10px);
+      /* Animation beim Hover oder anderen Veränderungen*/
+      /* Größerer Wert = langsamer und schneller dann kleiner, du checkst*/
+    transition: 0.2s;
+}
+
+
+
+.role-buttons {
+     /* Student Prof Button*/
+     /* Student und Professor nebeneinander */
+    display: flex;
+    /* Abstand zwischen beiden Buttons */
+    gap: 10px;
+}
+
+.role-buttons button {
+    /* Beide Rollen-Buttons bekommen gleich viel Platz */
+    flex: 1;
+}
+
+.role-buttons .active-role {
+     /* Aktiver Button wird deutlich heller.
+       Dadurch erkennt man, welcher ausgewählt wurde. */
+    background: rgba(89, 214, 5, 0.20);
+     /* Schwarze Schrift */
+    color: #020202;
+     /* Heller Rand um den aktiven Button */
+    border: 1px solid rgba(0, 0, 0, 0.95);
+
+    /* Schatten macht den aktiven Button
+       etwas hervorgehoben */
+    box-shadow:
+     /* Schatten außen */
+        0 4px 16px rgba(0, 0, 0, 0.15),
+         /* Heller Rand/Schein innerhalb des Buttons */
+        inset 0 1px 0 rgba(8, 8, 8, 0.8);
+     /* Aktiver Button wird minimal angehoben */
+    transform: translateY(-3px);
+}
+.error-box {
+    /* Box wird unabhängig vom restlichen Layout positioniert */
+    position: fixed;
+     /* 30 Pixel Abstand vom rechten Bildschirmrand */
+    right: 30px;
+    /* 30 Pixel Abstand vom unteren Bildschirmrand */
+    bottom: 30px;
+    /* Hintergrundfarbe der Fehlermeldung */
+    background: red;
+    color: white;
+      /* Innenabstand*/
+    padding: 20px 30px;
+     /* Runde Ecken der Box */
+    border-radius: 15px;
+    /* Macht die Schrift fett */
+    font-weight: bold;
+    /* Sorgt dafür, dass die Box über anderen Elementen liegt */
+    /* umso höher der Wert umso Höher liegt die Box über den anderen*/
+    z-index: 9999;
+}
+
+.login-glass p {
+    /* Schriftfarbe vom normalen Text im Container */
+    color: black;
+     /* Größe der Schrift*/
+    font-size: 16px;
+    /* Text wird horizontal mittig ausgerichtet */
+    text-align: center;
+}
+
+.register-title {
+    /* Größe der Überschrift */
+    font-size: 34px;
+
+    /* Abstand zwischen den Textzeilen */
+    line-height: 1.2;
+
+    /* Überschrift mittig */
+    text-align: center;
+
+    /* Kein großer Außenabstand oben */
+    margin: 0 0 18px 0;
+
+    /* Schriftfarbe */
+    color: black;
+
+    /* Schrift etwas kräftiger */
+    font-weight: 6000;
+}
+.professor-title {
+
+    /* Schrift etwas kleiner weil der Text länger ist */
+    font-size: 26px;
+
+    /* Abstand zwischen den Zeilen falls der Text umbricht */
+    line-height: 1.15;
+
+    /* Überschrift mittig */
+    text-align: center;
+
+    /* Abstand nach unten */
+    margin: 0 0 18px 0;
+
+    /* Schriftfarbe */
+    color: black;
+}

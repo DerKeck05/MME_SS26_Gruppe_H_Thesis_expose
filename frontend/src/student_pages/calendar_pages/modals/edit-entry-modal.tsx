@@ -1,7 +1,6 @@
-import {X} from "lucide-react";
-import "./modal-stylesheet.css";
 import {useState} from "react";
-import {type CalendarEntry, updateCalendarEntry} from "../../apis/calendar-api.ts";
+import {type CalendarEntry, updateCalendarEntry} from "../../../apis/calendar-api.ts";
+import CloseModalButton from "../../../globals/close-modal-button.tsx";
 
 function formatDateTimeLocal(dateString: string): string {
     const date = new Date(dateString);
@@ -25,6 +24,7 @@ function EditEntryModal({onCancel, onSubmit, entry}: {onCancel: () => void, onSu
 
     const isFormValid =
         entryTitle.trim() !== "" &&
+        entryTitle.trim().length <= 50 &&
         startDate !== "" &&
         endDate !== "" &&
         new Date(endDate) > new Date(startDate);
@@ -82,16 +82,7 @@ function EditEntryModal({onCancel, onSubmit, entry}: {onCancel: () => void, onSu
                 <div className="modal-header">
                     <h3>Ereignis bearbeiten</h3>
 
-                    <button
-                        type="button"
-                        onClick={() => {
-                            onCancel();
-                        }}
-                        className="modal-close"
-                        aria-label="Modal schließen"
-                    >
-                        <X/>
-                    </button>
+                    <CloseModalButton onClick={onCancel}/>
                 </div>
 
                 <div className={"modal-body"} id={"calendar-modal"}>

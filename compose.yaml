@@ -1,8 +1,23 @@
 services:
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
   backend:
-    build: .
+    build:
+      context: ./backend
     ports:
       - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/thesis_expose
     depends_on:
       - postgres
 

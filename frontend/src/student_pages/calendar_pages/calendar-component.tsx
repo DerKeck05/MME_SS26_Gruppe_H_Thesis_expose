@@ -4,7 +4,7 @@ import "moment/locale/de";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./calendar-styling.css";
 import { /*useEffect,*/ useState} from "react";
-import {type CalendarEntry, getCalendarEntry} from "../apis/calendar-api.ts";
+import {type CalendarEntry, getCalendarEntry} from "../../apis/calendar-api.ts";
 import EntryDetailModal from "./modals/entry-detail-modal.tsx";
 import EditEntryModal from "./modals/edit-entry-modal.tsx";
 //import { getCalendarEntries } from "../apis/calendar-api";
@@ -17,25 +17,36 @@ export const dummyEvents: CalendarEvent[] = [
         id: 1,
         title: "Exposé abgeben",
         start: new Date(2026, 8, 18, 10, 0),
-        end: new Date(2026, 8, 18, 11, 0)
+        end: new Date(2026, 8, 18, 11, 0),
+        type: "normal"
     },
     {
         id: 2,
         title: "Besprechung mit Betreuer",
         start: new Date(2026, 8, 21, 14, 0),
-        end: new Date(2026, 8, 21, 15, 30)
+        end: new Date(2026, 8, 21, 15, 30),
+        type: "normal"
     },
     {
         id: 3,
         title: "Kapitel 1 fertigstellen",
         start: new Date(2026, 8, 25, 9, 0),
-        end: new Date(2026, 8, 25, 12, 0)
+        end: new Date(2026, 8, 25, 12, 0),
+        type: "normal"
     },
     {
         id: 4,
         title: "Mehrtägiges",
         start: new Date(2026, 8, 27, 11, 0),
         end: new Date(2026, 8, 29, 10, 0),
+        type: "normal",
+    },
+    {
+        id: 5,
+        title: "ABGABE",
+        start: new Date(2026, 8, 30, 0, 1),
+        end: new Date(2026, 8, 30, 23, 59),
+        type: "deadline"
     }
 ];
 
@@ -71,14 +82,23 @@ const dummyEntries: CalendarEntry[] = [
         startDate: new Date(2026, 8, 27, 11, 0).toISOString(),
         endDate: new Date(2026, 8, 29, 10, 0).toISOString(),
         thesisId: 1
+    },
+    {
+        id: 5,
+        title: "ABGABE",
+        description: "",
+        startDate: new Date(2026, 8, 30, 0, 1).toISOString(),
+        endDate: new Date(2026, 8, 30, 23, 59).toISOString(),
+        thesisId: 1,
     }
 ]
 
-interface CalendarEvent {
+export interface CalendarEvent {
     id: number;
     title: string;
     start: Date;
     end: Date;
+    type: "normal" | "deadline";
 }
 
 function CalendarComponent(/*thesisId: number*/) {
@@ -90,6 +110,7 @@ function CalendarComponent(/*thesisId: number*/) {
     const [detailEntry, setDetailEntry] = useState<CalendarEntry | null>(null);
     const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
 
+    //TODO Abgabe Datum aus Database ziehen und einbauen
 
     /*
     useEffect(() => {
@@ -145,6 +166,17 @@ function CalendarComponent(/*thesisId: number*/) {
                     }}
                     onSelectSlot={() => {
                         setSelectedEvent(null);
+                    }}
+                    eventPropGetter={(e) => {
+                        switch (e.type) {
+                            case "deadline":
+                                return {
+                                    className: "deadline",
+                                };
+
+                            default:
+                                return {};
+                        }
                     }}
 
                     selectable={true}

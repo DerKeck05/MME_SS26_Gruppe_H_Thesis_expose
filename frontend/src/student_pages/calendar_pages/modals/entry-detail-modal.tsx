@@ -1,6 +1,6 @@
-import {Pencil, X} from "lucide-react";
-import {type CalendarEntry, deleteCalendarEntry} from "../../apis/calendar-api.ts";
-import "./modal-stylesheet.css";
+import {Pencil} from "lucide-react";
+import {type CalendarEntry, deleteCalendarEntry} from "../../../apis/calendar-api.ts";
+import CloseModalButton from "../../../globals/close-modal-button.tsx";
 
 function EntryDetailModal({onClose, onEdit, entry}: { onClose: () => void, onEdit: () => void, entry: CalendarEntry }) {
     async function deleteEntry(): Promise<boolean> {
@@ -55,16 +55,7 @@ function EntryDetailModal({onClose, onEdit, entry}: { onClose: () => void, onEdi
         <div className={"modal-backdrop"} onClick={onClose}>
             <div className={"modal"} onClick={(event) => event.stopPropagation()}>
                 <div className={"modal-header"}>
-                    <button
-                        type="button"
-                        onClick={() => {
-                            onClose();
-                        }}
-                        className="modal-close"
-                        aria-label="Modal schließen"
-                    >
-                        <X/>
-                    </button>
+                    <CloseModalButton onClick={onClose} />
 
                     <h3>
                         {entry.title}

@@ -77,3 +77,8 @@ Klasse	            Was wird verändert?
     font-weight: 500;
     white-space: normal;
 }
+
+.deadline {
+    background-color: var(--night-blue);
+    border: 2px var(--dark-blue) solid;
+}

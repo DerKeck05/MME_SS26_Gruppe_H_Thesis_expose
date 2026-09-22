@@ -1,7 +1,6 @@
-import {X} from "lucide-react";
-import "./modal-stylesheet.css";
 import {useState} from "react";
-import {addCalendarEntry} from "../../apis/calendar-api.ts";
+import {addCalendarEntry} from "../../../apis/calendar-api.ts";
+import CloseModalButton from "../../../globals/close-modal-button.tsx";
 
 function AddEntryModal({onClose, thesisId}: { onClose: () => void, thesisId: number }) {
     const [entryTitle, setEntryTitle] = useState("");
@@ -11,6 +10,7 @@ function AddEntryModal({onClose, thesisId}: { onClose: () => void, thesisId: num
 
     const isFormValid =
         entryTitle.trim() !== "" &&
+        entryTitle.trim().length <= 50 &&
         startDate !== "" &&
         endDate !== "" &&
         new Date(endDate) > new Date(startDate);
@@ -71,16 +71,7 @@ function AddEntryModal({onClose, thesisId}: { onClose: () => void, thesisId: num
                 <div className="modal-header">
                     <h3>Ereignis hinzufügen</h3>
 
-                    <button
-                        type="button"
-                        onClick={() => {
-                            onClose();
-                        }}
-                        className="modal-close"
-                        aria-label="Modal schließen"
-                    >
-                        <X/>
-                    </button>
+                    <CloseModalButton onClick={onClose}/>
                 </div>
 
                 <div className={"modal-body"} id={"calendar-modal"}>
