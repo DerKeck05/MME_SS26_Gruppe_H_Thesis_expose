@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 
 function ProfStartpage() {
 
 const [showThesisModal, setShowThesisModal] = useState(false);
+const [students, setStudents] = useState([]);
 
 
 function assignThesis(){

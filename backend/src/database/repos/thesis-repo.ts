@@ -1,4 +1,4 @@
-import {prisma} from "../lib/prisma.js";
+import { prisma } from "../lib/prisma.js";
 
 export async function getThesisById(thesisId: number) {
     return prisma.thesis.findUnique({
@@ -18,9 +18,17 @@ export async function getThesesByStudentId(studentId: number) {
     });
 }
 
-export async function createThesis(studentId: number, title: string, description: string, startDate: Date, endDate: Date) {
+export async function createThesis(
+    studentId: number,
+    supervisorId: number,
+    title: string,
+    description: string,
+    startDate: Date,
+    endDate: Date
+) {
     return prisma.thesis.create({
         data: {
+            supervisorId,
             studentId,
             title,
             description,
@@ -30,23 +38,51 @@ export async function createThesis(studentId: number, title: string, description
     });
 }
 
-export async function updateThesis(thesisId: number, title?: string, description?: string) {
+export async function updateThesis(
+    thesisId: number,
+    title?: string,
+    description?: string
+) {
+    const data: {
+        title?: string;
+        description?: string;
+    } = {};
+
+    if (title !== undefined) {
+        data.title = title;
+    }
+
+    if (description !== undefined) {
+        data.description = description;
+    }
+
     return prisma.thesis.update({
         where: { id: thesisId },
-        data: {
-            title,
-            description
-        }
+        data: data
     });
 }
 
-export async function updateThesisDates(thesisId: number, startDate?: Date, endDate?: Date) {
+export async function updateThesisDates(
+    thesisId: number,
+    startDate?: Date,
+    endDate?: Date
+) {
+    const data: {
+        startDate?: Date;
+        endDate?: Date;
+    } = {};
+
+    if (startDate !== undefined) {
+        data.startDate = startDate;
+    }
+
+    if (endDate !== undefined) {
+        data.endDate = endDate;
+    }
+
     return prisma.thesis.update({
         where: { id: thesisId },
-        data: {
-            startDate,
-            endDate
-        }
+        data: data
     });
 }
 

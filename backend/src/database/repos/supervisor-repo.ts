@@ -1,6 +1,11 @@
-import {prisma} from "../lib/prisma.js";
+import { prisma } from "../lib/prisma.js";
 
-export async function createSupervisor(name: string, email: string, passwordHash: string, chair: string) {
+export async function createSupervisor(
+    name: string,
+    email: string,
+    passwordHash: string,
+    chair: string
+) {
     return prisma.supervisor.create({
         data: {
             name,
@@ -23,15 +28,39 @@ export async function getSupervisorByEmail(email: string) {
     });
 }
 
-export async function updateSupervisor(supervisorId: number, name?: string, email?: string, passwordHash?: string, chair?: string) {
+export async function updateSupervisor(
+    supervisorId: number,
+    name?: string,
+    email?: string,
+    passwordHash?: string,
+    chair?: string
+) {
+    const data: {
+        name?: string;
+        email?: string;
+        passwordHash?: string;
+        chair?: string;
+    } = {};
+
+    if (name !== undefined) {
+        data.name = name;
+    }
+
+    if (email !== undefined) {
+        data.email = email;
+    }
+
+    if (passwordHash !== undefined) {
+        data.passwordHash = passwordHash;
+    }
+
+    if (chair !== undefined) {
+        data.chair = chair;
+    }
+
     return prisma.supervisor.update({
         where: { id: supervisorId },
-        data: {
-            name,
-            email,
-            passwordHash,
-            chair
-        }
+        data: data
     });
 }
 
