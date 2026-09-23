@@ -107,3 +107,7 @@ export async function deleteStudent(studentId: number) {
         where: {id: studentId}
     });
 }
+
+export async function getAllStudents() {
+    return prisma.student.findMany();
+}

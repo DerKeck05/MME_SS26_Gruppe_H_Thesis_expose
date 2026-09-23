@@ -12,8 +12,20 @@ function assignThesis(){
 }
 
 console.log(showThesisModal);
+let thesisModal = null;
+
+if (showThesisModal == true) {
+    thesisModal = (
+    <div className="modal-background">
+    <div className="modal-box">
+        Thesis Popup
+    </div>
+</div>
+    );
+}
   return (
   <main>
+    {thesisModal}
     <div>
         <h1>Professor Dashboard</h1>
         <table>
