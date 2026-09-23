@@ -1,12 +1,27 @@
 import { useState, useEffect } from "react";
 
 
+type Student = {
+    id: number;
+    name: string;
+    email: string;
+    course: string;
+    supervisorId: number | null;
+};
 
 function ProfStartpage() {
 
 const [showThesisModal, setShowThesisModal] = useState(false);
-const [students, setStudents] = useState([]);
+const [students, setStudents] = useState<Student[]>([]);
 
+
+useEffect(() => {
+    fetch("http://localhost:3000/api/students")
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+        });
+}, []);
 
 function assignThesis(){
     setShowThesisModal(true);

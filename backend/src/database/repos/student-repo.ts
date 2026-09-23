@@ -109,5 +109,13 @@ export async function deleteStudent(studentId: number) {
 }
 
 export async function getAllStudents() {
-    return prisma.student.findMany();
+    return prisma.student.findMany({
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            course: true,
+            supervisorId: true
+        }
+    });
 }
