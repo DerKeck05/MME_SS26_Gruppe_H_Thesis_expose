@@ -2,7 +2,7 @@ import CalendarComponent from "./calendar-component";
 import "../calendar_pages/calendar-stylesheet.css";
 import {Plus} from "lucide-react";
 import {useState} from "react";
-import AddEntryModal from "./modals/add-entry-modal.tsx";
+import AddEntryModal from "../modals/calendar-modals/add-entry-modal.tsx";
 
 const thesisId = 1;
 

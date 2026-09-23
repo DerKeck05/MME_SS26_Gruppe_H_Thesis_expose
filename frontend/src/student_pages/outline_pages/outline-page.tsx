@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import OutlineComponent from "./outline-component.tsx";
-import AddChapterModal from "./modals/add-chapter-modal.tsx";
-import EditChapterModal from "./modals/edit-chapter-modal.tsx";
+import AddChapterModal from "../modals/outline-modals/add-chapter-modal.tsx";
+import EditChapterModal from "../modals/outline-modals/edit-chapter-modal.tsx";
 import type {Chapter} from "../../utils/outline-utils.ts";
 import {
     getChapterNumbers,

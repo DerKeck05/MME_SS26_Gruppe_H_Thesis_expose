@@ -17,7 +17,7 @@ export async function getThesesByStudentId(studentId: number) {
         where: { studentId }
     });
 }
-
+/*
 export async function createThesis(studentId: number, title: string, description: string, startDate: Date, endDate: Date) {
     return prisma.thesis.create({
         data: {
@@ -54,4 +54,4 @@ export async function deleteThesis(thesisId: number) {
     return prisma.thesis.delete({
         where: { id: thesisId }
     });
-}
+}*/
