@@ -1,15 +1,17 @@
-
-
-
-
-function assignThesis(){
-    console.log("Thesis zuordnen geklickt");
-}
-
+import { useState } from "react";
 
 
 
 function ProfStartpage() {
+
+const [showThesisModal, setShowThesisModal] = useState(false);
+
+
+function assignThesis(){
+    setShowThesisModal(true);
+}
+
+console.log(showThesisModal);
   return (
   <main>
     <div>
@@ -29,11 +31,11 @@ function ProfStartpage() {
                     <td> jfdjjfej</td>
                     <td>fefffefe</td>
                     <td>
-                        <button onClick={() => console.log(assignThesis)}> 
+                        <button onClick={assignThesis}> 
                             Thesis Zuordnen 
                         </button>
                     </td>
-                </tr>
+                </tr>   
             </tbody>
         </table>
     </div>
