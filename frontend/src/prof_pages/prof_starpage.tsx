@@ -13,6 +13,9 @@ function ProfStartpage() {
 
     const [showThesisModal, setShowThesisModal] = useState(false);
     const [students, setStudents] = useState<Student[]>([]);
+    const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+    const [thesisTitle, setThesisTitle] = useState("");
+    let thesisModal = null;
 
 
     useEffect(() => {
@@ -23,22 +26,22 @@ function ProfStartpage() {
             });
     }, []);
 
-    function assignThesis() {
+    function assignThesis(student: Student) {
+        setSelectedStudent(student);
         setShowThesisModal(true);
     }
 
-    console.log(showThesisModal);
-    let thesisModal = null;
 
-    if (showThesisModal == true) {
+    if (showThesisModal == true && selectedStudent != null) {
         thesisModal = (
-            <div className="modal-background">
-                <div className="modal-box">
-                    Thesis Popup
-                </div>
+            <div>
+                <h2>Thesis erstellen</h2>
+                <p>Student: {selectedStudent.name}</p>
             </div>
         );
+
     }
+
     return (
         <main>
             {thesisModal}
@@ -59,10 +62,9 @@ function ProfStartpage() {
                                 <td>{student.name}</td>
                                 <td>{student.email}</td>
                                 <td>{student.course}</td>
-                                <td>
-                                    <button onClick={assignThesis}>
-                                        Thesis Zuordnen
-                                    </button>
+                                <td><button onClick={() => assignThesis(student)}>
+                                    Thesis Zuordnen
+                                </button>
                                 </td>
                             </tr>
                         ))}
