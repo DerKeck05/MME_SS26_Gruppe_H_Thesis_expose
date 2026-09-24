@@ -16,6 +16,9 @@ function ProfStartpage() {
     const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
     const [thesisTitle, setThesisTitle] = useState("");
     const [deadline, setDeadline] = useState("");
+    const supervisorId = sessionStorage.getItem("supervisorId");
+
+    console.log(supervisorId);
     let thesisModal = null;
 
 
@@ -31,14 +34,34 @@ function ProfStartpage() {
         setSelectedStudent(student);
         setShowThesisModal(true);
     }
-    function createThesis() {
-        if(selectedStudent==null){
+    async function createThesis() {
+
+        if (selectedStudent == null) {
             return;
         }
 
-        console.log("Student ID:", selectedStudent.id);
-        console.log("Thema:", thesisTitle);
-        console.log("Abgabe:", deadline);
+        if (supervisorId == null) {
+            return;
+        }
+
+        const supervisorIdNumber = Number(supervisorId);
+
+        const response = await fetch("http://localhost:3000/api/thesis", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                studentId: selectedStudent.id,
+                supervisorId: supervisorIdNumber,
+                title: thesisTitle,
+                deadline: deadline
+            })
+        });
+
+        const data = await response.json();
+
+        console.log(data);
     }
 
 

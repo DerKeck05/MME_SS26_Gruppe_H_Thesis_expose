@@ -46,8 +46,11 @@ function LoginPage() {
 
 
             if (role === "professor") {
-                // später:
-                // navigate("/professor");
+                sessionStorage.setItem("supervisorId", data.user.id.toString());
+
+                console.log("Professor ID:", data.user.id);
+                console.log("Gespeichert:", sessionStorage.getItem("supervisorId"));
+                navigate("/professor");
             }
 
 
