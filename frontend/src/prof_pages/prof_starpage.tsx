@@ -37,6 +37,13 @@ function ProfStartpage() {
             <div>
                 <h2>Thesis erstellen</h2>
                 <p>Student: {selectedStudent.name}</p>
+                <label>Thema</label>
+
+                <input
+                    type="text"
+                    value={thesisTitle}
+                    onChange={(event) => setThesisTitle(event.target.value)}
+                />
             </div>
         );
 
