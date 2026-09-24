@@ -15,6 +15,7 @@ function ProfStartpage() {
     const [students, setStudents] = useState<Student[]>([]);
     const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
     const [thesisTitle, setThesisTitle] = useState("");
+    const [deadline, setDeadline] = useState("");
     let thesisModal = null;
 
 
@@ -44,6 +45,16 @@ function ProfStartpage() {
                     value={thesisTitle}
                     onChange={(event) => setThesisTitle(event.target.value)}
                 />
+                <label>Abgabedatum</label>
+
+                <input
+                    type="date"
+                    value={deadline}
+                    onChange={(event) => setDeadline(event.target.value)}
+                />
+                <button>
+                    Thesis erstellen
+                </button>
             </div>
         );
 
