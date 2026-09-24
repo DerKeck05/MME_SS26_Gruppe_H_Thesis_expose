@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {type CalendarEntry, updateCalendarEntry} from "../../../apis/calendar-api.ts";
+import {type CalendarEntry} from "../../../apis/calendar-api.ts";
 import CloseModalButton from "../../../globals/close-modal-button.tsx";
 
 function formatDateTimeLocal(dateString: string): string {
@@ -14,13 +14,31 @@ function formatDateTimeLocal(dateString: string): string {
     return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
-function EditEntryModal({onCancel, onSubmit, entry}: {onCancel: () => void, onSubmit: (updatedEntry: CalendarEntry) => void, entry: CalendarEntry}) {
+interface EditEntryModalProps {
+    entry: CalendarEntry;
+    onCancel: () => void;
+    onSubmit: (entry: {
+        title: string;
+        description: string | null;
+        startDate: string;
+        endDate: string;
+    }) => Promise<void>;
+}
+
+function EditEntryModal({
+                            onCancel,
+                            onSubmit,
+                            entry
+                        }: EditEntryModalProps) {
+
     const [entryTitle, setEntryTitle] = useState(entry.title);
     const [entryDescription, setEntryDescription] = useState(entry.description);
-    const [startDate, setStartDate] = useState(formatDateTimeLocal(entry.startDate));
-    const [endDate, setEndDate] = useState(formatDateTimeLocal(entry.endDate));
-
-    let updatedEntry: CalendarEntry | null = null;
+    const [startDate, setStartDate] = useState(
+        formatDateTimeLocal(entry.startDate)
+    );
+    const [endDate, setEndDate] = useState(
+        formatDateTimeLocal(entry.endDate)
+    );
 
     const isFormValid =
         entryTitle.trim() !== "" &&
@@ -29,98 +47,85 @@ function EditEntryModal({onCancel, onSubmit, entry}: {onCancel: () => void, onSu
         endDate !== "" &&
         new Date(endDate) > new Date(startDate);
 
-    async function editEntry(): Promise<boolean> {
-        try {
-            if (!entryTitle.trim()) {
-                console.log("Titel fehlt");
-                return false;
-            }
-
-            if (!startDate || !endDate) {
-                console.error("Start- oder Enddatum fehlt");
-                return false;
-            }
-
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-
-            if (end < start) {
-                console.log("Ende muss später als der Start liegen");
-                return false;
-            }
-
-            updatedEntry = await updateCalendarEntry(entry.id, {
-                title: entryTitle,
-                description: entryDescription,
-                startDate: startDate,
-                endDate: endDate,
-            });
-
-            console.log("Submitting entry:");
-            console.log("Titel: ", entryTitle, "Desc: ", entryDescription);
-            console.log("Start: ", startDate, "End", endDate);
-            console.log("Submission Time: ", new Date());
-
-            return true;
-        } catch (error) {
-            console.error(
-                //TODO Hier später UI Error Handling einbauen
-                "Fehler beim erstellen des Kalendereintrags",
-                error
-            );
-
-            return false;
+    async function submitEdit() {
+        if (!isFormValid) {
+            return;
         }
+
+        await onSubmit({
+            title: entryTitle,
+            description: entryDescription,
+            startDate,
+            endDate,
+        });
     }
 
     return (
-        <div className={"modal-backdrop"} onClick={() => {
-            onCancel();
-        }}
+        <div
+            className="modal-backdrop"
+            onClick={onCancel}
         >
-            <div className={"modal"} onClick={(event) => event.stopPropagation()}>
+            <div
+                className="modal"
+                onClick={(event) => event.stopPropagation()}
+            >
                 <div className="modal-header">
                     <h3>Ereignis bearbeiten</h3>
 
                     <CloseModalButton onClick={onCancel}/>
                 </div>
 
-                <div className={"modal-body"} id={"calendar-modal"}>
-                    <input type={"text"} placeholder={"Neues Ereignis"} value={entryTitle}
-                           onChange={(e) => setEntryTitle(e.target.value)}/>
-                    <input type={"text"} placeholder={"Beschreibung"} value={entryDescription}
-                           onChange={(e) => setEntryDescription(e.target.value)}/>
+                <div className="modal-body" id="calendar-modal">
 
-                    <div className={"date-row"}>
+                    <input
+                        type="text"
+                        placeholder="Neues Ereignis"
+                        value={entryTitle}
+                        onChange={(e) => setEntryTitle(e.target.value)}
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Beschreibung"
+                        value={entryDescription ?? ""}
+                        onChange={(e) => setEntryDescription(e.target.value)}
+                    />
+
+                    <div className="date-row">
                         <label>
                             Start:
-                            <input type="datetime-local" value={startDate}
-                                   onChange={(e) => setStartDate(e.target.value)}/>
+                            <input
+                                type="datetime-local"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+                            />
                         </label>
+
                         <label>
                             Ende:
-                            <input type="datetime-local" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
+                            <input
+                                type="datetime-local"
+                                value={endDate}
+                                onChange={(e) => setEndDate(e.target.value)}
+                            />
                         </label>
                     </div>
+
                 </div>
 
-                <div className={"spacer"}/>
-
+                <div className="spacer"/>
 
                 <button
-                    className={"modal-submit-button"}
-                    type={"button"}
+                    className="modal-submit-button"
+                    type="button"
                     disabled={!isFormValid}
-                    onClick={async () => {
-                        const success = await editEntry();
-                        if (success && updatedEntry) onSubmit(updatedEntry);
-                    }}
+                    onClick={() => void submitEdit()}
                 >
-                    Ereignis erstellen
+                    Ereignis speichern
                 </button>
             </div>
         </div>
-    )
+    );
 }
 
 export default EditEntryModal;

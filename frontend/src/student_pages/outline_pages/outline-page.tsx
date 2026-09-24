@@ -13,12 +13,11 @@ import {
     updateChapter,
     deleteChapter
 } from "../../apis/chapter-api.ts";
-import {dummyChapters} from "../../utils/chapter-dummy-data.ts";
 import {Plus} from "lucide-react";
 import {useStudent} from "../route_handling/student-provider.tsx";
 
 function OutlinePage() {
-    const [chapters, setChapters] = useState<Chapter[]>(dummyChapters);
+    const [chapters, setChapters] = useState<Chapter[]>([]);
     const [showAddModal, setShowAddModal] = useState(false);
     const [editChapter, setEditChapter] = useState<Chapter | null>(null);
     const [showCommentSidebar, setShowCommentSidebar] = useState(false);

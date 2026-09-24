@@ -1,23 +1,26 @@
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import {Calendar, momentLocalizer} from "react-big-calendar";
 import moment from "moment";
 import "moment/locale/de";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../../calendar_pages/calendar-styling.css";
-import {/* useEffect, */useState } from "react";
-import {type CalendarEvent, dummyEvents} from "../../calendar_pages/calendar-component.tsx";
+import {useEffect, useState} from "react";
+import {type CalendarEvent} from "../../calendar_pages/calendar-component.tsx";
 import {useNavigate} from "react-router-dom";
-/*import {
+import {
     type CalendarEntry,
     getCalendarEntries
-} from "../../apis/calendar-api.ts";
-*/
+} from "../../../apis/calendar-api.ts";
+import {useStudent} from "../../route_handling/student-provider.tsx";
+import {getThesisDeadline} from "../../../utils/thesis-utils.ts";
+
 const localizer = momentLocalizer(moment);
 
-function CalendarPreview(/*{ thesisId }: { thesisId: number }*/) {
-    const [events/*, setEvents*/] = useState<CalendarEvent[]>(dummyEvents);
+function CalendarPreview() {
+    const [events, setEvents] = useState<CalendarEvent[]>([]);
     const navigate = useNavigate();
 
-    /*
+    const thesisId = useStudent().thesisId;
+
     useEffect(() => {
         async function loadEvents() {
             try {
@@ -29,9 +32,14 @@ function CalendarPreview(/*{ thesisId }: { thesisId: number }*/) {
                         id: entry.id,
                         title: entry.title,
                         start: new Date(entry.startDate),
-                        end: new Date(entry.endDate)
+                        end: new Date(entry.endDate),
+                        type: "normal"
                     })
                 );
+
+                const deadline = await getThesisDeadline(thesisId);
+
+                calendarEvents.push(deadline);
 
                 setEvents(calendarEvents);
             } catch (error) {
@@ -43,7 +51,7 @@ function CalendarPreview(/*{ thesisId }: { thesisId: number }*/) {
         }
 
         void loadEvents();
-    }, [thesisId]);*/
+    }, [thesisId]);
 
     return (
         <div className="calendar-preview" onClick={() => {
@@ -58,7 +66,7 @@ function CalendarPreview(/*{ thesisId }: { thesisId: number }*/) {
                     startAccessor="start"
                     endAccessor="end"
                     view="week"
-                    style={{ height: 440}}
+                    style={{height: 440}}
 
                     eventPropGetter={(e) => {
                         switch (e.type) {
@@ -71,9 +79,6 @@ function CalendarPreview(/*{ thesisId }: { thesisId: number }*/) {
                                 return {};
                         }
                     }}
-
-                    min={new Date(1970, 0, 1, 8, 0)}
-                    max={new Date(1970, 0, 1, 20, 0)}
 
                     toolbar={false}
                     selectable={false}
