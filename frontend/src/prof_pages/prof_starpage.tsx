@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 type Student = {
@@ -7,10 +8,15 @@ type Student = {
     email: string;
     course: string;
     supervisorId: number | null;
+    theses: {
+        id: number;
+        title: string;
+        endDate: string;
+    }[];
 };
 
 function ProfStartpage() {
-
+    const navigate = useNavigate();
     const [showThesisModal, setShowThesisModal] = useState(false);
     const [students, setStudents] = useState<Student[]>([]);
     const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
