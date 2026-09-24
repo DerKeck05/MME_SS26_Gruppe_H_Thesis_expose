@@ -4,7 +4,7 @@
     /* Höhe des Bildschirms*/
     min-height: 100vh;
 
-    background-image: url("frontend/public/login-background.png");
+    background-image: url("/login-background.png");
     /* Bild wird über kompletten Bildschirm gezogen*/
     background-size: cover;
     /*Center damit Bild mittig zentriert ist*/
