@@ -3,7 +3,7 @@ import CalendarComponent, {
 } from "./calendar-component";
 import "../calendar_pages/calendar-stylesheet.css";
 import {Plus} from "lucide-react";
-import { useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import AddEntryModal from "../modals/calendar-modals/add-entry-modal.tsx";
 import EntryDetailModal from "../modals/calendar-modals/entry-detail-modal.tsx";
 import EditEntryModal from "../modals/calendar-modals/edit-entry-modal.tsx";
@@ -16,6 +16,16 @@ import {
 } from "../../apis/calendar-api.ts";
 import {useStudent} from "../route_handling/student-provider.tsx";
 import {getThesisDeadline} from "../../utils/thesis-utils.ts";
+import Loading from "../../globals/loading.tsx";
+
+export function calcLeftDays(deadline: CalendarEvent):string {
+    const deadlineDate = deadline.end.getTime();
+    const currentDate = Date.now();
+
+    const difference = deadlineDate - currentDate;
+
+    return Math.ceil(difference / (1000 * 60 * 60 * 24)).toString();
+}
 
 function CalendarPage() {
     const {thesisId} = useStudent();
@@ -31,7 +41,8 @@ function CalendarPage() {
     const [showEditModal, setShowEditModal] = useState(false);
 
     const [date, setDate] = useState(new Date());
-    const [deadline, setDeadline] = useState<CalendarEvent>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [daysLeft, setDaysLeft] = useState<string>("--");
 
     async function loadEvents() {
         try {
@@ -48,11 +59,12 @@ function CalendarPage() {
             }));
 
             const dl = await getThesisDeadline(thesisId);
-            setDeadline(dl);
 
             calendarEvents.push(dl);
 
             setEvents(calendarEvents);
+            setDaysLeft(calcLeftDays(dl));
+            setIsLoading(false);
         } catch (error) {
             console.error(
                 "Fehler beim Laden der Kalendereinträge:",
@@ -150,23 +162,20 @@ function CalendarPage() {
         setDetailEntry(entry);
         setShowDetailModal(true);
     }
-    function calcLeftDays() {
-        const deadlineDate = deadline.end.getTime();
-        const currentDate = Date.now();
 
-        const difference = deadlineDate - currentDate;
-
-        return Math.ceil(difference / (1000 * 60 * 60 * 24));
+    if (isLoading) {
+        return (<Loading/>);
     }
+
     return (
         <div className="calendar-page-main">
 
-            <div className="calendar-deadline">
-                <p>
+            <div className="flex flex-col justify-center items-center gap-4 bg-(--tertiary) text-(--secondary) p-2 rounded-(--border-radius) mb-(--spacing-medium)">
+                <p className={" text-2xl"}>
                     Tage bis zur Abgabe:
                 </p>
-                <h3>
-                    {calcLeftDays()} Tage
+                <h3 className={" font-semibold text-4xl"}>
+                    {daysLeft} Tage
                 </h3>
             </div>
 
