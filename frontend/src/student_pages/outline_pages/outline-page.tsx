@@ -15,14 +15,15 @@ import {
 } from "../../apis/chapter-api.ts";
 import {dummyChapters} from "../../utils/chapter-dummy-data.ts";
 import {Plus} from "lucide-react";
-
-const thesisId = 1;
+import {useStudent} from "../route_handling/student-provider.tsx";
 
 function OutlinePage() {
     const [chapters, setChapters] = useState<Chapter[]>(dummyChapters);
     const [showAddModal, setShowAddModal] = useState(false);
     const [editChapter, setEditChapter] = useState<Chapter | null>(null);
     const [showCommentSidebar, setShowCommentSidebar] = useState(false);
+
+    const thesisId = useStudent().thesisId;
 
     useEffect(() => {
         async function loadChapters() {
