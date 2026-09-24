@@ -31,6 +31,15 @@ function ProfStartpage() {
         setSelectedStudent(student);
         setShowThesisModal(true);
     }
+    function createThesis() {
+        if(selectedStudent==null){
+            return;
+        }
+
+        console.log("Student ID:", selectedStudent.id);
+        console.log("Thema:", thesisTitle);
+        console.log("Abgabe:", deadline);
+    }
 
 
     if (showThesisModal == true && selectedStudent != null) {
@@ -52,7 +61,8 @@ function ProfStartpage() {
                     value={deadline}
                     onChange={(event) => setDeadline(event.target.value)}
                 />
-                <button>
+                <button
+                    onClick={createThesis}>
                     Thesis erstellen
                 </button>
             </div>
