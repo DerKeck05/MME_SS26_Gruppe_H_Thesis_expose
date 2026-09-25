@@ -16,6 +16,7 @@ export async function getThesisDeadline(thesisId: number):Promise<CalendarEvent>
         title: "Abgabe Thesis",
         start: start,
         end: end,
+        allDay: true,
         type: "deadline"
     }
 }

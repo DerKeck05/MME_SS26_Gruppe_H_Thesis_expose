@@ -6,6 +6,7 @@ interface AddEntry {
     description: string;
     startDate: string;
     endDate: string;
+    allDay: boolean;
 }
 
 interface AddEntryModalProps {
@@ -22,17 +23,42 @@ function AddEntryModal({
     const [entryDescription, setEntryDescription] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [date, setDate] = useState("");
+    const [allDay, setAllDay] = useState(false);
 
     const isFormValid =
         entryTitle.trim() !== "" &&
         entryTitle.trim().length <= 50 &&
-        startDate !== "" &&
-        endDate !== "" &&
-        new Date(endDate) > new Date(startDate);
+        (
+            allDay
+                ? date !== ""
+                : startDate !== "" &&
+                endDate !== "" &&
+                new Date(endDate) > new Date(startDate)
+        );
 
     async function submitEntry() {
         if (!entryTitle.trim()) {
             console.log("Titel fehlt");
+            return;
+        }
+
+        if (allDay) {
+            if (!date) {
+                console.error("Datum fehlt");
+                return;
+            }
+
+            const start = new Date(`${date}T12:00:00Z`);
+
+            await onSubmit({
+                title: entryTitle,
+                description: entryDescription,
+                startDate: start.toISOString(),
+                endDate: start.toISOString(),
+                allDay: true
+            });
+
             return;
         }
 
@@ -44,7 +70,7 @@ function AddEntryModal({
         const start = new Date(startDate);
         const end = new Date(endDate);
 
-        if (end < start) {
+        if (end <= start) {
             console.log("Ende muss später als der Start liegen");
             return;
         }
@@ -54,6 +80,7 @@ function AddEntryModal({
             description: entryDescription,
             startDate,
             endDate,
+            allDay: false
         });
     }
 
@@ -88,7 +115,21 @@ function AddEntryModal({
                         onChange={(e) => setEntryDescription(e.target.value)}
                     />
 
-                    <div className="date-row">
+                    <div className={"flex flex-row gap-2"}>
+                        <input type={"checkbox"} id={"allDay"} checked={allDay}
+                               onChange={(e) => setAllDay(e.target.checked)}/>
+                        <label className={"flex-1"} htmlFor="allDay">
+                            Ganztägig
+                        </label>
+                    </div>
+
+                    {allDay ? (
+                        <input
+                            type="date"
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                        />
+                    ) : (<div className="date-row">
                         <label>
                             Start:
                             <input
@@ -106,7 +147,7 @@ function AddEntryModal({
                                 onChange={(e) => setEndDate(e.target.value)}
                             />
                         </label>
-                    </div>
+                    </div>)}
 
                 </div>
 

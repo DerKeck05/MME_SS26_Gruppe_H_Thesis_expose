@@ -12,7 +12,8 @@ export interface CalendarEvent {
     title: string;
     start: Date;
     end: Date;
-    type: "normal" | "deadline";
+    allDay: boolean;
+    type: "normal" | "deadline" | "allDay";
 }
 
 interface CalendarComponentProps {
@@ -44,8 +45,8 @@ function CalendarComponent({
                     endAccessor="end"
                     date={date}
                     view={view}
-
                     onView={setView}
+                    allDayAccessor={"allDay"}
                     selected={selectedEvent}
                     onNavigate={onNavigate}
                     onSelectEvent={onSelectEvent}
@@ -54,6 +55,10 @@ function CalendarComponent({
                         if (event.type === "deadline") {
                             return {
                                 className: "deadline",
+                            };
+                        } else if (event.type === "allDay") {
+                            return {
+                                className: "allDay",
                             };
                         }
 

@@ -42,6 +42,7 @@ export type CalendarEntryMinAggregateOutputType = {
   description: string | null
   startDate: Date | null
   endDate: Date | null
+  allDay: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   thesisId: number | null
@@ -53,6 +54,7 @@ export type CalendarEntryMaxAggregateOutputType = {
   description: string | null
   startDate: Date | null
   endDate: Date | null
+  allDay: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   thesisId: number | null
@@ -64,6 +66,7 @@ export type CalendarEntryCountAggregateOutputType = {
   description: number
   startDate: number
   endDate: number
+  allDay: number
   createdAt: number
   updatedAt: number
   thesisId: number
@@ -87,6 +90,7 @@ export type CalendarEntryMinAggregateInputType = {
   description?: true
   startDate?: true
   endDate?: true
+  allDay?: true
   createdAt?: true
   updatedAt?: true
   thesisId?: true
@@ -98,6 +102,7 @@ export type CalendarEntryMaxAggregateInputType = {
   description?: true
   startDate?: true
   endDate?: true
+  allDay?: true
   createdAt?: true
   updatedAt?: true
   thesisId?: true
@@ -109,6 +114,7 @@ export type CalendarEntryCountAggregateInputType = {
   description?: true
   startDate?: true
   endDate?: true
+  allDay?: true
   createdAt?: true
   updatedAt?: true
   thesisId?: true
@@ -207,6 +213,7 @@ export type CalendarEntryGroupByOutputType = {
   description: string | null
   startDate: Date
   endDate: Date
+  allDay: boolean
   createdAt: Date
   updatedAt: Date
   thesisId: number
@@ -241,6 +248,7 @@ export type CalendarEntryWhereInput = {
   description?: Prisma.StringNullableFilter<"CalendarEntry"> | string | null
   startDate?: Prisma.DateTimeFilter<"CalendarEntry"> | Date | string
   endDate?: Prisma.DateTimeFilter<"CalendarEntry"> | Date | string
+  allDay?: Prisma.BoolFilter<"CalendarEntry"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CalendarEntry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CalendarEntry"> | Date | string
   thesisId?: Prisma.IntFilter<"CalendarEntry"> | number
@@ -253,6 +261,7 @@ export type CalendarEntryOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  allDay?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   thesisId?: Prisma.SortOrder
@@ -268,6 +277,7 @@ export type CalendarEntryWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"CalendarEntry"> | string | null
   startDate?: Prisma.DateTimeFilter<"CalendarEntry"> | Date | string
   endDate?: Prisma.DateTimeFilter<"CalendarEntry"> | Date | string
+  allDay?: Prisma.BoolFilter<"CalendarEntry"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CalendarEntry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CalendarEntry"> | Date | string
   thesisId?: Prisma.IntFilter<"CalendarEntry"> | number
@@ -280,6 +290,7 @@ export type CalendarEntryOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  allDay?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   thesisId?: Prisma.SortOrder
@@ -299,6 +310,7 @@ export type CalendarEntryScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"CalendarEntry"> | string | null
   startDate?: Prisma.DateTimeWithAggregatesFilter<"CalendarEntry"> | Date | string
   endDate?: Prisma.DateTimeWithAggregatesFilter<"CalendarEntry"> | Date | string
+  allDay?: Prisma.BoolWithAggregatesFilter<"CalendarEntry"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CalendarEntry"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CalendarEntry"> | Date | string
   thesisId?: Prisma.IntWithAggregatesFilter<"CalendarEntry"> | number
@@ -309,6 +321,7 @@ export type CalendarEntryCreateInput = {
   description?: string | null
   startDate: Date | string
   endDate: Date | string
+  allDay?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   thesis: Prisma.ThesisCreateNestedOneWithoutCalendarEntriesInput
@@ -320,6 +333,7 @@ export type CalendarEntryUncheckedCreateInput = {
   description?: string | null
   startDate: Date | string
   endDate: Date | string
+  allDay?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   thesisId: number
@@ -330,6 +344,7 @@ export type CalendarEntryUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allDay?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thesis?: Prisma.ThesisUpdateOneRequiredWithoutCalendarEntriesNestedInput
@@ -341,6 +356,7 @@ export type CalendarEntryUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allDay?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thesisId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -352,6 +368,7 @@ export type CalendarEntryCreateManyInput = {
   description?: string | null
   startDate: Date | string
   endDate: Date | string
+  allDay?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   thesisId: number
@@ -362,6 +379,7 @@ export type CalendarEntryUpdateManyMutationInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allDay?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -372,6 +390,7 @@ export type CalendarEntryUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allDay?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thesisId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -393,6 +412,7 @@ export type CalendarEntryCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  allDay?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   thesisId?: Prisma.SortOrder
@@ -409,6 +429,7 @@ export type CalendarEntryMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  allDay?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   thesisId?: Prisma.SortOrder
@@ -420,6 +441,7 @@ export type CalendarEntryMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  allDay?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   thesisId?: Prisma.SortOrder
@@ -476,11 +498,16 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type CalendarEntryCreateWithoutThesisInput = {
   title: string
   description?: string | null
   startDate: Date | string
   endDate: Date | string
+  allDay?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -491,6 +518,7 @@ export type CalendarEntryUncheckedCreateWithoutThesisInput = {
   description?: string | null
   startDate: Date | string
   endDate: Date | string
+  allDay?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -530,6 +558,7 @@ export type CalendarEntryScalarWhereInput = {
   description?: Prisma.StringNullableFilter<"CalendarEntry"> | string | null
   startDate?: Prisma.DateTimeFilter<"CalendarEntry"> | Date | string
   endDate?: Prisma.DateTimeFilter<"CalendarEntry"> | Date | string
+  allDay?: Prisma.BoolFilter<"CalendarEntry"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CalendarEntry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CalendarEntry"> | Date | string
   thesisId?: Prisma.IntFilter<"CalendarEntry"> | number
@@ -541,6 +570,7 @@ export type CalendarEntryCreateManyThesisInput = {
   description?: string | null
   startDate: Date | string
   endDate: Date | string
+  allDay?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -550,6 +580,7 @@ export type CalendarEntryUpdateWithoutThesisInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allDay?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -560,6 +591,7 @@ export type CalendarEntryUncheckedUpdateWithoutThesisInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allDay?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -570,6 +602,7 @@ export type CalendarEntryUncheckedUpdateManyWithoutThesisInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allDay?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -582,6 +615,7 @@ export type CalendarEntrySelect<ExtArgs extends runtime.Types.Extensions.Interna
   description?: boolean
   startDate?: boolean
   endDate?: boolean
+  allDay?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   thesisId?: boolean
@@ -594,6 +628,7 @@ export type CalendarEntrySelectCreateManyAndReturn<ExtArgs extends runtime.Types
   description?: boolean
   startDate?: boolean
   endDate?: boolean
+  allDay?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   thesisId?: boolean
@@ -606,6 +641,7 @@ export type CalendarEntrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   description?: boolean
   startDate?: boolean
   endDate?: boolean
+  allDay?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   thesisId?: boolean
@@ -618,12 +654,13 @@ export type CalendarEntrySelectScalar = {
   description?: boolean
   startDate?: boolean
   endDate?: boolean
+  allDay?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   thesisId?: boolean
 }
 
-export type CalendarEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "startDate" | "endDate" | "createdAt" | "updatedAt" | "thesisId", ExtArgs["result"]["calendarEntry"]>
+export type CalendarEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "startDate" | "endDate" | "allDay" | "createdAt" | "updatedAt" | "thesisId", ExtArgs["result"]["calendarEntry"]>
 export type CalendarEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   thesis?: boolean | Prisma.ThesisDefaultArgs<ExtArgs>
 }
@@ -645,6 +682,7 @@ export type $CalendarEntryPayload<ExtArgs extends runtime.Types.Extensions.Inter
     description: string | null
     startDate: Date
     endDate: Date
+    allDay: boolean
     createdAt: Date
     updatedAt: Date
     thesisId: number
@@ -1077,6 +1115,7 @@ export interface CalendarEntryFieldRefs {
   readonly description: Prisma.FieldRef<"CalendarEntry", 'String'>
   readonly startDate: Prisma.FieldRef<"CalendarEntry", 'DateTime'>
   readonly endDate: Prisma.FieldRef<"CalendarEntry", 'DateTime'>
+  readonly allDay: Prisma.FieldRef<"CalendarEntry", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"CalendarEntry", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CalendarEntry", 'DateTime'>
   readonly thesisId: Prisma.FieldRef<"CalendarEntry", 'Int'>

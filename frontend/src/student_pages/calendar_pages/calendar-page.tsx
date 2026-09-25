@@ -54,7 +54,8 @@ function CalendarPage() {
                 title: entry.title,
                 start: new Date(entry.startDate),
                 end: new Date(entry.endDate),
-                type: "normal",
+                allDay: entry.allDay,
+                type: entry.allDay ? "allDay" : "normal",
             }));
 
             if (deadline) {
@@ -81,6 +82,7 @@ function CalendarPage() {
         description: string;
         startDate: string;
         endDate: string;
+        allDay: boolean;
     }) {
         try {
             await addCalendarEntry(thesisId, entry);
@@ -101,6 +103,7 @@ function CalendarPage() {
         description: string | null;
         startDate: string;
         endDate: string;
+        allDay: boolean;
     }) {
         if (!detailEntry) {
             return;

@@ -23,6 +23,15 @@ function EntryDetailModal({
         const start = new Date(startDate);
         const end = new Date(endDate);
 
+        if (entry.allDay) {
+            return `${start.toLocaleDateString("de-DE", {
+                weekday: "long",
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+            })}`
+        }
+
         if (start.toDateString() === end.toDateString()) {
             return `${start.toLocaleDateString("de-DE", {
                 weekday: "long",
