@@ -23,14 +23,33 @@ export async function getStudentByEmail(email: string) {
         where: { email: email }
     });
 }
+export async function createStudent(
+    name: string,
+    email: string,
+    passwordHash: string,
+    universityId: number,
+    courseId: number,
+    supervisorId: number
+) {
+    const selectedCourse = await prisma.course.findUnique({
+        where: {
+            id: courseId
+        }
+    });
 
-export async function createStudent(name: string, email: string, passwordHash: string, course: string) {
+    if (selectedCourse == null) {
+        throw new Error("Kurs nicht gefunden");
+    }
+
     return prisma.student.create({
         data: {
             name,
             email,
             passwordHash,
-            course
+            course: selectedCourse.name,
+            universityId,
+            courseId,
+            supervisorId
         }
     });
 }

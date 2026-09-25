@@ -16,8 +16,8 @@ export async function createSupervisor(
             chair,
             universityId,
             courses: {
-                connect: courseIds.map((courseId)=>({
-                    id:courseId
+                connect: courseIds.map((courseId) => ({
+                    id: courseId
                 }))
             }
         }
@@ -75,5 +75,25 @@ export async function updateSupervisor(
 export async function deleteSupervisor(supervisorId: number) {
     return prisma.supervisor.delete({
         where: { id: supervisorId }
+    });
+}
+export async function getSupervisorsByUniversityAndCourse(
+    universityId: number,
+    courseId: number
+) {
+    return prisma.supervisor.findMany({
+        where: {
+            universityId: universityId,
+            courses: {
+                some: {
+                    id: courseId
+                }
+            }
+        },
+        select: {
+            id: true,
+            name: true,
+            chair: true
+        }
     });
 }

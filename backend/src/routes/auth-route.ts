@@ -145,7 +145,9 @@ router.post("/register/student", async (req, res) => {
         name,
         email,
         password,
-        course
+        universityId,
+        courseId,
+        supervisorId
     } = req.body;
 
 
@@ -169,7 +171,9 @@ router.post("/register/student", async (req, res) => {
         name,
         email,
         passwordHash,
-        course
+        universityId,
+        courseId,
+        supervisorId
     );
 
 
