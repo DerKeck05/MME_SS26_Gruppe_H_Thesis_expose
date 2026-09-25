@@ -46,7 +46,8 @@ function LoginPage() {
 
 
             if (role === "professor") {
-                sessionStorage.setItem("supervisorId", data.user.id.toString());
+                localStorage.setItem("supervisorId", data.user.id.toString());
+                console.log("Gespeichert:", sessionStorage.getItem("supervisorId"));
 
                 console.log("Professor ID:", data.user.id);
                 console.log("Gespeichert:", sessionStorage.getItem("supervisorId"));

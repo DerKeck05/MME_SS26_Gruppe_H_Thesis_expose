@@ -7,18 +7,20 @@ import express from "express";
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-    const { studentId, supervisorId, title, deadline } = req.body;
-    const startDate = new Date();
+    const { studentId, supervisorId, title, startDate, deadline } = req.body;
+
+    const startDateValue = new Date(startDate);
     const endDate = new Date(deadline);
+
     const thesis = await createThesis(
         studentId,
         supervisorId,
         title,
         "",
-        startDate,
+        startDateValue,
         endDate
-
     );
+
     res.status(201).json(thesis);
 });
 router.get("/:id", async (req, res) => {

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 type Student = {
     id: number;
     name: string;
@@ -22,27 +21,29 @@ function ProfStartpage() {
     const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
     const [thesisTitle, setThesisTitle] = useState("");
     const [deadline, setDeadline] = useState("");
+    const [startDate, setStartDate] = useState("");
     const supervisorId = sessionStorage.getItem("supervisorId");
 
-    console.log(supervisorId);
     let thesisModal = null;
 
-
-    useEffect(() => {
+    function loadStudents() {
         fetch("http://localhost:3000/api/students")
             .then((response) => response.json())
             .then((data) => {
                 setStudents(data);
             });
+    }
+    useEffect(() => {
+        loadStudents();
     }, []);
 
     function assignThesis(student: Student) {
         setSelectedStudent(student);
         setShowThesisModal(true);
     }
-    function thesisButton(student: Student) {
 
-        if (student.theses.length > 0) {
+    function thesisButton(student: Student) {
+        if (student.theses && student.theses.length > 0) {
             return (
                 <button onClick={() => navigate("/thesis/" + student.theses[0].id)}>
                     {student.theses[0].title}
@@ -57,6 +58,12 @@ function ProfStartpage() {
         }
     }
     async function createThesis() {
+        console.log("BUTTON GEKLICKT");
+        console.log("Student:", selectedStudent);
+        console.log("Supervisor:", supervisorId);
+        console.log("Titel:", thesisTitle);
+        console.log("Start:", startDate);
+        console.log("Ende:", deadline);
 
         if (selectedStudent == null) {
             return;
@@ -77,6 +84,7 @@ function ProfStartpage() {
                 studentId: selectedStudent.id,
                 supervisorId: supervisorIdNumber,
                 title: thesisTitle,
+                startDate: startDate,
                 deadline: deadline
             })
         });
@@ -84,8 +92,16 @@ function ProfStartpage() {
         const data = await response.json();
 
         console.log(data);
-    }
 
+        if (response.ok) {
+            setShowThesisModal(false);
+            setThesisTitle("");
+            setStartDate("");
+            setDeadline("");
+            loadStudents();
+            setSelectedStudent(null);
+        }
+    }
 
     if (showThesisModal == true && selectedStudent != null) {
         thesisModal = (
@@ -93,26 +109,31 @@ function ProfStartpage() {
                 <h2>Thesis erstellen</h2>
                 <p>Student: {selectedStudent.name}</p>
                 <label>Thema</label>
-
                 <input
                     type="text"
                     value={thesisTitle}
                     onChange={(event) => setThesisTitle(event.target.value)}
                 />
-                <label>Abgabedatum</label>
 
+                <label>Startdatum</label>
+                <input
+                    type="date"
+                    value={startDate}
+                    onChange={(event) => setStartDate(event.target.value)}
+                />
+
+                <label>Abgabedatum</label>
                 <input
                     type="date"
                     value={deadline}
                     onChange={(event) => setDeadline(event.target.value)}
                 />
-                <button
-                    onClick={createThesis}>
+
+                <button onClick={createThesis}>
                     Thesis erstellen
                 </button>
             </div>
         );
-
     }
 
     return (
@@ -123,8 +144,8 @@ function ProfStartpage() {
                 <table>
                     <thead>
                         <tr>
-                            <th> Name</th>
-                            <th> E-Mail</th>
+                            <th>Name</th>
+                            <th>E-Mail</th>
                             <th>Kurs</th>
                             <th>Thesis</th>
                         </tr>
@@ -135,9 +156,7 @@ function ProfStartpage() {
                                 <td>{student.name}</td>
                                 <td>{student.email}</td>
                                 <td>{student.course}</td>
-                                <td>
-                                  {thesisButton(student)}
-                                </td>
+                                <td>{thesisButton(student)}</td>
                             </tr>
                         ))}
                     </tbody>
