@@ -13,6 +13,7 @@ import RegisterProfessorPage from "./login/register_prof.tsx";
 import ProfStartpage from "./prof_pages/prof_starpage.tsx";
 import ThesisDetail from "./prof_pages/thesis_detail.tsx";
 import ProfDashboardSkeleton from "./prof_pages/prof_dashboard_skeleton.tsx";
+import StudentWaiting from "./student_pages/student_waiting.tsx";
 
 
 
@@ -33,6 +34,9 @@ function App() {
             <Route path="/professor/thesis/:id" element={<ProfDashboardSkeleton />}>
                 <Route index element={<ThesisDetail />} />
             </Route>
+
+            {/* Student wartet noch auf Thesis */}
+            <Route path="/student/waiting" element={<StudentWaiting />} />
 
             {/* Student Bereich */}
             <Route

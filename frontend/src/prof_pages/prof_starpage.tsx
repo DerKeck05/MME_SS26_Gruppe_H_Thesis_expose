@@ -22,18 +22,21 @@ function ProfStartpage() {
     const [thesisTitle, setThesisTitle] = useState("");
     const [deadline, setDeadline] = useState("");
     const [startDate, setStartDate] = useState("");
-    const supervisorId = sessionStorage.getItem("supervisorId");
+    const supervisorId = localStorage.getItem("supervisorId");
 
     let thesisModal = null;
 
     function loadStudents() {
-        if (supervisorId == null) {
+        const currentSupervisorId = localStorage.getItem("supervisorId");
+
+        if (currentSupervisorId == null) {
             return;
         }
 
-        fetch("http://localhost:3000/api/students/supervisor/" + supervisorId)
+        fetch("http://localhost:3000/api/students/supervisor/" + currentSupervisorId)
             .then((response) => response.json())
             .then((data) => {
+                console.log("Geladene Studenten:", data);
                 setStudents(data);
             });
     }

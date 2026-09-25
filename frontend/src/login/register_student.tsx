@@ -247,7 +247,7 @@ function RegisterStudentPage() {
                             key={supervisor.id}
                             value={supervisor.id}
                         >
-                            {supervisor.name} - {supervisor.chair}
+                            {supervisor.name}
                         </option>
                     ))}
                 </select>

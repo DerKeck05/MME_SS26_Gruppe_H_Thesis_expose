@@ -22,7 +22,7 @@ function LoginPage() {
     async function loginFunction() {
 
         /* Prüfung ob Email oder Passwort leer ist */
-        if (email === "" || password === "") {
+        if (email == "" || password === "") {
             setErrorMessage("Bitte E-Mail und Passwort eingeben");
             return;
         }
@@ -40,12 +40,24 @@ function LoginPage() {
             console.log(data);
 
 
-            if (role === "student") {
-                navigate("/student");
+            if (role == "student") {
+                sessionStorage.setItem("studentId", data.user.id.toString());
+
+                const response = await fetch(
+                    "http://localhost:3000/api/thesis/student/" + data.user.id
+                );
+
+                const theses = await response.json();
+
+                if (theses.length > 0) {
+                    navigate("/student");
+                } else {
+                    navigate("/student/waiting");
+                }
             }
 
 
-            if (role === "professor") {
+            if (role == "professor") {
                 localStorage.setItem("supervisorId", data.user.id.toString());
                 console.log("Gespeichert:", sessionStorage.getItem("supervisorId"));
 
@@ -68,10 +80,10 @@ function LoginPage() {
 
     /* CSS-Klasse für den aktiven Rollen-Button */
     const studentButtonClass =
-        role === "student" ? "active-role" : "";
+        role == "student" ? "active-role" : "";
 
     const professorButtonClass =
-        role === "professor" ? "active-role" : "";
+        role == "professor" ? "active-role" : "";
 
 
     return (
