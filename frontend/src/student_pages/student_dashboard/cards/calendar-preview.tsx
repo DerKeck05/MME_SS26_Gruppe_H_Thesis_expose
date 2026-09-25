@@ -3,54 +3,18 @@ import moment from "moment";
 import "moment/locale/de";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../../calendar_pages/calendar-styling.css";
-import {useEffect, useState} from "react";
 import {type CalendarEvent} from "../../calendar_pages/calendar-component.tsx";
 import {useNavigate} from "react-router-dom";
-import {
-    type CalendarEntry,
-    getCalendarEntries
-} from "../../../apis/calendar-api.ts";
-import {useStudent} from "../../route_handling/student-provider.tsx";
+
 
 const localizer = momentLocalizer(moment);
 
-function CalendarPreview() {
-    const [events, setEvents] = useState<CalendarEvent[]>([]);
+interface CalendarPreviewProps {
+    events: CalendarEvent[];
+}
+
+function CalendarPreview({events}: CalendarPreviewProps) {
     const navigate = useNavigate();
-
-    const {thesisId, deadline} = useStudent();
-
-    useEffect(() => {
-        async function loadEvents() {
-            try {
-                const entries: CalendarEntry[] =
-                    await getCalendarEntries(thesisId);
-
-                const calendarEvents: CalendarEvent[] = entries.map(
-                    (entry) => ({
-                        id: entry.id,
-                        title: entry.title,
-                        start: new Date(entry.startDate),
-                        end: new Date(entry.endDate),
-                        allDay: entry.allDay,
-                        type: entry.allDay? "allDay" : "normal"
-                    })
-                );
-                if (deadline) {
-                    calendarEvents.push(deadline);
-                }
-
-                setEvents(calendarEvents);
-            } catch (error) {
-                console.error(
-                    "Fehler beim Laden der Kalendereinträge:",
-                    error
-                );
-            }
-        }
-
-        void loadEvents();
-    }, [thesisId]);
 
     return (
         <div className="calendar-preview" onClick={() => {
@@ -65,7 +29,7 @@ function CalendarPreview() {
                     startAccessor="start"
                     endAccessor="end"
                     view="week"
-                    style={{height: 440}}
+                    style={{height: 400}}
                     allDayAccessor={"allDay"}
 
                     eventPropGetter={(e) => {
