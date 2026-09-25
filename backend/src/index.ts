@@ -10,6 +10,7 @@ import authRoutes from "./routes/auth-route.js";
 import chapterRoute from "./routes/chapter-route.js";
 import studentRoute from "./routes/student-route.js";
 import thesisRoute from "./routes/thesis-route.js";
+import universityRoute from "./routes/university-route.js";
 
 
 /* Express Anwendung erstellen */
@@ -45,7 +46,7 @@ app.use("/api/chapter", chapterRoute)
 
 app.use("/api/students", studentRoute);
 app.use("/api/thesis", thesisRoute);
-
+app.use("/api/universities", universityRoute);
 
 /* =========================
    SERVER STARTEN
