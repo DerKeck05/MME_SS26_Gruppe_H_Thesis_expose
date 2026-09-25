@@ -1,8 +1,10 @@
 import {
     createThesis,
-    getThesisById
+    getThesisById,
+    getThesesByStudentId
 } from "../database/repos/thesis-repo.js";
 import express from "express";
+
 
 const router = express.Router();
 
@@ -30,5 +32,12 @@ router.get("/:id", async (req, res) => {
     const thesis = await getThesisById(thesisId);
 
     res.json(thesis);
+});
+router.get("/student/:studentId", async (req, res) => {
+    const studentId = Number(req.params.studentId);
+
+    const theses = await getThesesByStudentId(studentId);
+
+    res.json(theses);
 });
 export default router;

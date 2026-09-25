@@ -11,10 +11,27 @@ export async function getStudentByName(studentName: string) {
         where: { name: studentName }
     });
 }
-
 export async function getStudentsBySupervisorId(supervisorId: number) {
     return prisma.student.findMany({
-        where: { supervisorId: supervisorId }
+        where: {
+            supervisorId: supervisorId
+        },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            course: true,
+            universityId: true,
+            supervisorId: true,
+            theses: {
+                select: {
+                    id: true,
+                    title: true,
+                    startDate: true,
+                    endDate: true
+                }
+            }
+        }
     });
 }
 

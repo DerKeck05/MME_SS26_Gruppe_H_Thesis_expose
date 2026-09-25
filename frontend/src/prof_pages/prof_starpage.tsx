@@ -27,7 +27,11 @@ function ProfStartpage() {
     let thesisModal = null;
 
     function loadStudents() {
-        fetch("http://localhost:3000/api/students")
+        if (supervisorId == null) {
+            return;
+        }
+
+        fetch("http://localhost:3000/api/students/supervisor/" + supervisorId)
             .then((response) => response.json())
             .then((data) => {
                 setStudents(data);
