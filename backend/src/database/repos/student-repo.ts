@@ -1,20 +1,20 @@
-import {prisma} from "../lib/prisma.js";
+import { prisma } from "../lib/prisma.js";
 
 export async function getStudentById(studentId: number) {
     return prisma.student.findUnique({
-        where: {id: studentId}
+        where: { id: studentId }
     });
 }
 
 export async function getStudentByName(studentName: string) {
     return prisma.student.findMany({
-    where: { name: studentName }
-});
+        where: { name: studentName }
+    });
 }
 
 export async function getStudentsBySupervisorId(supervisorId: number) {
     return prisma.student.findMany({
-        where: {supervisorId: supervisorId}
+        where: { supervisorId: supervisorId }
     });
 }
 
@@ -37,7 +37,7 @@ export async function createStudent(name: string, email: string, passwordHash: s
 
 export async function assignSupervisor(id: number, supervisorId: number) {
     return prisma.student.update({
-        where: {id: id},
+        where: { id: id },
         data: {
             supervisorId: supervisorId,
         }
@@ -51,7 +51,7 @@ export async function updateStudent(
     course?: string
 ) {
 
-    
+
     const data: {
         name?: string;
         email?: string;
@@ -60,7 +60,7 @@ export async function updateStudent(
     } = {};
 
 
-   
+
     if (name !== undefined) {
         data.name = name;
     }
@@ -71,19 +71,19 @@ export async function updateStudent(
     }
 
 
-   
+
     if (passwordHash !== undefined) {
         data.passwordHash = passwordHash;
     }
 
 
-  
+
     if (course !== undefined) {
         data.course = course;
     }
 
 
-   
+
     return prisma.student.update({
         where: {
             id: studentId
@@ -93,8 +93,8 @@ export async function updateStudent(
 }
 export async function hasSupervisor(id: number) {
     const student = await prisma.student.findUnique({
-        where: {id: id},
-        select: {supervisorId: true}
+        where: { id: id },
+        select: { supervisorId: true }
     });
 
     return student?.supervisorId != null;
@@ -104,7 +104,7 @@ export async function hasSupervisor(id: number) {
 
 export async function deleteStudent(studentId: number) {
     return prisma.student.delete({
-        where: {id: studentId}
+        where: { id: studentId }
     });
 }
 
@@ -115,7 +115,14 @@ export async function getAllStudents() {
             name: true,
             email: true,
             course: true,
-            supervisorId: true
+            supervisorId: true,
+            theses: {
+                select: {
+                    id: true,
+                    title: true,
+                    endDate: true
+                }
+            }
         }
     });
 }

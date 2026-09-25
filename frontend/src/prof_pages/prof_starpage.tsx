@@ -40,6 +40,22 @@ function ProfStartpage() {
         setSelectedStudent(student);
         setShowThesisModal(true);
     }
+    function thesisButton(student: Student) {
+
+        if (student.theses.length > 0) {
+            return (
+                <button onClick={() => navigate("/thesis/" + student.theses[0].id)}>
+                    {student.theses[0].title}
+                </button>
+            );
+        } else {
+            return (
+                <button onClick={() => assignThesis(student)}>
+                    Thesis Zuordnen
+                </button>
+            );
+        }
+    }
     async function createThesis() {
 
         if (selectedStudent == null) {
@@ -119,9 +135,8 @@ function ProfStartpage() {
                                 <td>{student.name}</td>
                                 <td>{student.email}</td>
                                 <td>{student.course}</td>
-                                <td><button onClick={() => assignThesis(student)}>
-                                    Thesis Zuordnen
-                                </button>
+                                <td>
+                                  {thesisButton(student)}
                                 </td>
                             </tr>
                         ))}
