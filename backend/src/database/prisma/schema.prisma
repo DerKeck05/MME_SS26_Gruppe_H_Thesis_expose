@@ -23,10 +23,13 @@ model Supervisor {
   chair        String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  universityId Int?
+  university   University? @relation(fields: [universityId], references: [id])
 
   // Relations, 1:N for students & Thesis and 1:1 for FAQ
   students Student[]
   theses   Thesis[]
+  courses Course[]
   faq      Faq?
 }
 
@@ -39,6 +42,8 @@ model Student {
   course       String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  universityId Int?
+  university   University? @relation(fields: [universityId], references: [id])
 
   // Foreign Key to Supervisor
   supervisorId Int?
@@ -46,6 +51,8 @@ model Student {
 
   // Relations, 1:N for Thesis
   theses Thesis[]
+  courseId Int?
+  courseRelation Course? @relation(fields: [courseId], references: [id])
 }
 
 // Thesis Model
@@ -129,4 +136,25 @@ model Faq {
   // Foreign Key to Supervisor
   supervisorId Int        @unique
   supervisor   Supervisor @relation(fields: [supervisorId], references: [id])
+}
+model University {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  supervisors Supervisor[]
+  students    Student[]
+  courses     Course[]
+}
+
+model Course {
+  id           Int    @id @default(autoincrement())
+  name         String
+  universityId Int
+
+  university University @relation(fields: [universityId], references: [id])
+
+  supervisors Supervisor[]
+  students    Student[]
+
+  @@unique([name, universityId])
 }

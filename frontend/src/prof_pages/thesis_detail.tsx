@@ -1,6 +1,7 @@
-import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import { useParams } from "react-router-dom";
+import CalendarPreview from "../student_pages/student_dashboard/cards/calendar-preview.tsx";
+import TimeCard from "../student_pages/student_dashboard/cards/time-card.tsx";
 
 type Thesis = {
     id: number;
@@ -22,19 +23,27 @@ function ThesisDetail() {
             });
     }, [id]);
 
-    console.log(id);
-    console.log(thesis);
     if (thesis == null) {
         return (
-            <main>
+            <div className="dashboard-content">
                 <p>Thesis wird geladen...</p>
-            </main>
+            </div>
         );
     }
     return (
-        <main>
-            <h1>Thesis Details</h1>
-        </main>
+        <div className="dashboard-content">
+            <h2>{thesis.title}</h2>
+
+            <CalendarPreview />
+
+            <div className="card-row">
+                <div className="placeholder">
+                    <p>Fortschritt</p>
+                </div>
+
+                <TimeCard />
+            </div>
+        </div>
     );
 }
 

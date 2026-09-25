@@ -45,7 +45,7 @@ function ProfStartpage() {
     function thesisButton(student: Student) {
         if (student.theses && student.theses.length > 0) {
             return (
-                <button onClick={() => navigate("/thesis/" + student.theses[0].id)}>
+                <button onClick={() => navigate("/professor/thesis/" + student.theses[0].id)}>
                     {student.theses[0].title}
                 </button>
             );
