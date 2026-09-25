@@ -4,14 +4,16 @@ export async function createSupervisor(
     name: string,
     email: string,
     passwordHash: string,
-    chair: string
+    chair: string,
+    universityId: number
 ) {
     return prisma.supervisor.create({
         data: {
             name,
             email,
             passwordHash,
-            chair
+            chair,
+            universityId
         }
     });
 }

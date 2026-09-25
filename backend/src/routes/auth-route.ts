@@ -192,7 +192,8 @@ router.post("/register/professor", async (req, res) => {
         name,
         email,
         password,
-        chair
+        chair,
+        universityId
     } = req.body;
 
 
@@ -216,7 +217,8 @@ router.post("/register/professor", async (req, res) => {
         name,
         email,
         passwordHash,
-        chair
+        chair,
+        universityId
     );
 
 

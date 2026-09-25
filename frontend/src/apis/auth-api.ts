@@ -114,7 +114,8 @@ export async function registerProfessor(
     name: string,
     email: string,
     password: string,
-    chair: string
+    chair: string,
+    universityId: number
 ) {
 
     const response = await fetch(
@@ -130,7 +131,8 @@ export async function registerProfessor(
                 name,
                 email,
                 password,
-                chair
+                chair,
+                universityId
             })
         }
     );

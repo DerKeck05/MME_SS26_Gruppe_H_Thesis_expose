@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerProfessor } from "../apis/auth-api.ts";
 import { LOGIN_MESSAGES } from "./login_fails";
 import "./design_css/login.css";
 
-
+type University = {
+    id: number;
+    name: string;
+};
 function RegisterProfessorPage() {
 
     /* Wird benutzt, um nach erfolgreicher Registrierung
@@ -31,15 +34,25 @@ function RegisterProfessorPage() {
     /* Speichert eine mögliche Fehlermeldung */
     const [errorMessage, setErrorMessage] = useState("");
 
+    const [universities, setUniversities] = useState<University[]>([]);
+    const [universityId, setUniversityId] = useState("");
 
+    useEffect(() => {
+        fetch("http://localhost:3000/api/universities")
+            .then((response) => response.json())
+            .then((data) => {
+                setUniversities(data);
+            });
+    }, []);
     async function RegisterFunction() {
 
         /* Prüft zuerst, ob irgendein Feld leer ist */
         if (
-            name === "" ||
-            email === "" ||
-            password === "" ||
-            chair === ""
+            name == "" ||
+            email == "" ||
+            password == "" ||
+            chair == "" ||
+            universityId == ""
         ) {
 
             /* Fehlermeldung anzeigen */
@@ -58,7 +71,8 @@ function RegisterProfessorPage() {
                 name,
                 email,
                 password,
-                chair
+                chair,
+                Number(universityId)
             );
 
 
@@ -148,6 +162,23 @@ function RegisterProfessorPage() {
                         setChair(event.target.value)
                     }
                 />
+                <label>Hochschule:</label>
+
+                <select
+                    value={universityId}
+                    onChange={(event) => setUniversityId(event.target.value)}
+                >
+                    <option value="">Hochschule auswählen</option>
+
+                    {universities.map((university) => (
+                        <option
+                            key={university.id}
+                            value={university.id}
+                        >
+                            {university.name}
+                        </option>
+                    ))}
+                </select>
 
 
                 {/* Registrierung */}
