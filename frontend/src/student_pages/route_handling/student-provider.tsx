@@ -1,11 +1,14 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {getStudent} from "../../apis/student-api.ts";
 import {Outlet} from "react-router-dom";
+import type {CalendarEvent} from "../calendar_pages/calendar-component.tsx";
+import {getThesisDeadline} from "../../utils/thesis-utils.ts";
 
 type StudentContextType = {
     studentId: number | null;
     thesisId: number | null;
     isLoading: boolean;
+    deadline: CalendarEvent | null;
 };
 
 const StudentContext = createContext<StudentContextType | null>(null);
@@ -14,6 +17,7 @@ function StudentProvider() {
     const [thesisId, setThesisId] = useState<number | null>(null);
     const [studentId, setStudentId] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [deadline, setDeadline] = useState<CalendarEvent | null>(null);
 
     useEffect(() => {
         async function loadStudent() {
@@ -24,9 +28,11 @@ function StudentProvider() {
 
                 const id = Number(storedStudiId);
                 const student = await getStudent(id);
+                const dl = await getThesisDeadline(student.thesis?.id ?? null);
 
                 setStudentId(student.id);
                 setThesisId(student.thesis?.id ?? null);
+                setDeadline(dl);
 
                 console.log(student);
             } catch (e) {
@@ -44,7 +50,8 @@ function StudentProvider() {
             value={{
                 studentId,
                 thesisId,
-                isLoading
+                isLoading,
+                deadline
             }}
         >
             <Outlet/>

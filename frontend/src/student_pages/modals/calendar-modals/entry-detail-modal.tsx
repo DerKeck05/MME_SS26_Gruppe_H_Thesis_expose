@@ -1,21 +1,25 @@
 import {Pencil} from "lucide-react";
-import {type CalendarEntry, deleteCalendarEntry} from "../../../apis/calendar-api.ts";
+import {type CalendarEntry} from "../../../apis/calendar-api.ts";
 import CloseModalButton from "../../../globals/close-modal-button.tsx";
 
-function EntryDetailModal({onClose, onEdit, entry}: { onClose: () => void, onEdit: () => void, entry: CalendarEntry }) {
-    async function deleteEntry(): Promise<boolean> {
-        try {
-            await deleteCalendarEntry(entry.id);
+interface EntryDetailModalProps {
+    onClose: () => void;
+    onEdit: () => void;
+    onDelete: () => Promise<void>;
+    entry: CalendarEntry;
+}
 
-            return true;
-        } catch (error) {
-            //TODO error handling
-            console.error(error);
-            return false;
-        }
-    }
+function EntryDetailModal({
+                              onClose,
+                              onEdit,
+                              onDelete,
+                              entry
+                          }: EntryDetailModalProps) {
 
-    function formatDate(startDate: string, endDate: string): string {
+    function formatDate(
+        startDate: string,
+        endDate: string
+    ): string {
         const start = new Date(startDate);
         const end = new Date(endDate);
 
@@ -52,52 +56,65 @@ function EntryDetailModal({onClose, onEdit, entry}: { onClose: () => void, onEdi
     }
 
     return (
-        <div className={"modal-backdrop"} onClick={onClose}>
-            <div className={"modal"} onClick={(event) => event.stopPropagation()}>
-                <div className={"modal-header"}>
-                    <CloseModalButton onClick={onClose} />
+        <div
+            className="modal-backdrop"
+            onClick={onClose}
+        >
+            <div
+                className="modal"
+                onClick={(event) => event.stopPropagation()}
+            >
+                <div className="modal-header">
+
+                    <CloseModalButton onClick={onClose}/>
 
                     <h3>
                         {entry.title}
                     </h3>
 
                     <button
-                        type={"button"}
-                        onClick={() => {
-                            onEdit();
-                        }}
-                        className={"edit-calendar-entry"}
+                        type="button"
+                        onClick={onEdit}
+                        className="edit-calendar-entry"
                         aria-label="Eintrag bearbeiten"
                     >
                         <Pencil/>
                     </button>
+
                 </div>
 
-                <div className={"modal-body"} id={"detail-modal"}>
-                    <div className={"date-cells"}>
+                <div className="modal-body" id="detail-modal">
+
+                    <div className="date-cells">
                         <p>
-                            {formatDate(entry.startDate, entry.endDate)}
+                            {formatDate(
+                                entry.startDate,
+                                entry.endDate
+                            )}
                         </p>
                     </div>
 
-                    {entry.description && <div className={"detail-description"}>
-                        <p>
-                            {entry.description}
-                        </p>
-                    </div>}
-
+                    {entry.description && (
+                        <div className="detail-description">
+                            <p>
+                                {entry.description}
+                            </p>
+                        </div>
+                    )}
 
                 </div>
 
-                <div className={"spacer"}/>
+                <div className="spacer"/>
 
-                <button className={"modal-submit-button"} id={"entry-delete-button"} type={"button"}
-                        onClick={async () => {
-                            const result = await deleteEntry();
-                            if (result) onClose();
-                        }}>
+                <button
+                    className="modal-submit-button"
+                    id="entry-delete-button"
+                    type="button"
+                    onClick={() => void onDelete()}
+                >
                     Ereignis löschen
                 </button>
+
             </div>
         </div>
     );

@@ -9,6 +9,7 @@ import calendarRoutes from "./routes/calendar-route.js";
 import authRoutes from "./routes/auth-route.js";
 import chapterRoute from "./routes/chapter-route.js";
 import studentRoute from "./routes/student-route.js";
+import thesisRoute from "./routes/thesis-route.js";
 
 
 /* Express Anwendung erstellen */
@@ -45,6 +46,9 @@ app.use("/api/chapter", chapterRoute);
 
 /* Student */
 app.use("/api/student", studentRoute);
+
+/* Thesis */
+app.use("/api/thesis", thesisRoute)
 
 /* =========================
    SERVER STARTEN
