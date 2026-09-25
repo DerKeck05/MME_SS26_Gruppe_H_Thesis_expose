@@ -11,7 +11,7 @@ import RegisterPage from "./login/register_page.tsx";
 import RegisterStudentPage from "./login/register_student.tsx";
 import RegisterProfessorPage from "./login/register_prof.tsx";
 import ProfStartpage from "./prof_pages/prof_starpage.tsx";
-
+import ThesisDetail from "./prof_pages/thesis_detail.tsx";
 
 function App() {
     return (
@@ -27,6 +27,7 @@ function App() {
 
             {/* Professor Bereich */}
             <Route path="/professor" element={<ProfStartpage />} />
+            <Route path="/thesis/:id" element={<ThesisDetail />} />
 
 
             {/* Student Bereich */}
