@@ -5,7 +5,8 @@ export async function createSupervisor(
     email: string,
     passwordHash: string,
     chair: string,
-    universityId: number
+    universityId: number,
+    courseIds: number[]
 ) {
     return prisma.supervisor.create({
         data: {
@@ -13,7 +14,12 @@ export async function createSupervisor(
             email,
             passwordHash,
             chair,
-            universityId
+            universityId,
+            courses: {
+                connect: courseIds.map((courseId)=>({
+                    id:courseId
+                }))
+            }
         }
     });
 }

@@ -115,7 +115,8 @@ export async function registerProfessor(
     email: string,
     password: string,
     chair: string,
-    universityId: number
+    universityId: number,
+    courseIds: number[]
 ) {
 
     const response = await fetch(
@@ -132,7 +133,8 @@ export async function registerProfessor(
                 email,
                 password,
                 chair,
-                universityId
+                universityId,
+                courseIds
             })
         }
     );

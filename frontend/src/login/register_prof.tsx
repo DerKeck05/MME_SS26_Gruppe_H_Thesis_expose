@@ -8,6 +8,11 @@ type University = {
     id: number;
     name: string;
 };
+type Course = {
+    id: number;
+    name: string;
+    universityId: number;
+};
 function RegisterProfessorPage() {
 
     /* Wird benutzt, um nach erfolgreicher Registrierung
@@ -36,6 +41,21 @@ function RegisterProfessorPage() {
 
     const [universities, setUniversities] = useState<University[]>([]);
     const [universityId, setUniversityId] = useState("");
+    const [courses, setCourses] = useState<Course[]>([]);
+    const [selectedCourseIds, setSelectedCourseIds] = useState<number[]>([]);
+
+    useEffect(() => {
+        if (universityId === "") {
+            setCourses([]);
+            return;
+        }
+
+        fetch("http://localhost:3000/api/universities/" + universityId + "/courses")
+            .then((response) => response.json())
+            .then((data) => {
+                setCourses(data);
+            });
+    }, [universityId]);
 
     useEffect(() => {
         fetch("http://localhost:3000/api/universities")
@@ -43,7 +63,21 @@ function RegisterProfessorPage() {
             .then((data) => {
                 setUniversities(data);
             });
-    }, []);
+    },
+        []);
+
+    function toggleCourse(courseId: number) {
+        if (selectedCourseIds.includes(courseId)) {
+            setSelectedCourseIds(
+                selectedCourseIds.filter((id) => id != courseId)
+            );
+        } else {
+            setSelectedCourseIds([
+                ...selectedCourseIds,
+                courseId
+            ]);
+        }
+    }
     async function RegisterFunction() {
 
         /* Prüft zuerst, ob irgendein Feld leer ist */
@@ -72,7 +106,8 @@ function RegisterProfessorPage() {
                 email,
                 password,
                 chair,
-                Number(universityId)
+                Number(universityId),
+                selectedCourseIds
             );
 
 
@@ -179,6 +214,18 @@ function RegisterProfessorPage() {
                         </option>
                     ))}
                 </select>
+                <label>Kurse:</label>
+
+                {courses.map((course) => (
+                    <label key={course.id}>
+                        <input
+                            type="checkbox"
+                            checked={selectedCourseIds.includes(course.id)}
+                            onChange={() => toggleCourse(course.id)}
+                        />
+                        {course.name}
+                    </label>
+                ))}
 
 
                 {/* Registrierung */}
