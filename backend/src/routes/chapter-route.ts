@@ -7,8 +7,8 @@ import {
 
 const router = Router();
 
-router.get("/thesis/:id", async (req, res) => {
-    const thesisId = Number(req.params.id);
+router.get("/thesis/:thesisId", async (req, res) => {
+    const thesisId = Number(req.params.thesisId);
 
     if (Number.isNaN(thesisId)) {
         res.status(400).json({
@@ -24,8 +24,8 @@ router.get("/thesis/:id", async (req, res) => {
     res.json(chapters);
 });
 
-router.post("/thesis/:id", async (req, res) => {
-    const thesisId = Number(req.params.id);
+router.post("/thesis/:thesisId", async (req, res) => {
+    const thesisId = Number(req.params.thesisId);
 
     if (Number.isNaN(thesisId)) {
         res.status(400).json({

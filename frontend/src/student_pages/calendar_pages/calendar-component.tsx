@@ -5,8 +5,8 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./calendar-styling.css";
 import { /*useEffect,*/ useState} from "react";
 import {type CalendarEntry, getCalendarEntry} from "../../apis/calendar-api.ts";
-import EntryDetailModal from "./modals/entry-detail-modal.tsx";
-import EditEntryModal from "./modals/edit-entry-modal.tsx";
+import EntryDetailModal from "../modals/calendar-modals/entry-detail-modal.tsx";
+import EditEntryModal from "../modals/calendar-modals/edit-entry-modal.tsx";
 //import { getCalendarEntries } from "../apis/calendar-api";
 
 const localizer = momentLocalizer(moment);

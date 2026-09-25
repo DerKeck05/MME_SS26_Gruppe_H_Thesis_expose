@@ -45,7 +45,7 @@ model Student {
   supervisor   Supervisor? @relation(fields: [supervisorId], references: [id])
 
   // Relations, 1:N for Thesis
-  theses Thesis[]
+  thesis Thesis?
 }
 
 // Thesis Model
@@ -59,8 +59,8 @@ model Thesis {
   updatedAt   DateTime @updatedAt
 
   // Foreign Keys to Student and Supervisor
-  studentId Int
-  student   Student @relation(fields: [studentId], references: [id])
+  studentId Int @unique
+  student   Student  @relation(fields: [studentId], references: [id])
 
   supervisorId Int
   supervisor   Supervisor @relation(fields: [supervisorId], references: [id])

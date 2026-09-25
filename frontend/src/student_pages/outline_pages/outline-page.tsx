@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import OutlineComponent from "./outline-component.tsx";
-import AddChapterModal from "./modals/add-chapter-modal.tsx";
-import EditChapterModal from "./modals/edit-chapter-modal.tsx";
+import AddChapterModal from "../modals/outline-modals/add-chapter-modal.tsx";
+import EditChapterModal from "../modals/outline-modals/edit-chapter-modal.tsx";
 import type {Chapter} from "../../utils/outline-utils.ts";
 import {
     getChapterNumbers,
@@ -15,14 +15,15 @@ import {
 } from "../../apis/chapter-api.ts";
 import {dummyChapters} from "../../utils/chapter-dummy-data.ts";
 import {Plus} from "lucide-react";
-
-const thesisId = 1;
+import {useStudent} from "../route_handling/student-provider.tsx";
 
 function OutlinePage() {
     const [chapters, setChapters] = useState<Chapter[]>(dummyChapters);
     const [showAddModal, setShowAddModal] = useState(false);
     const [editChapter, setEditChapter] = useState<Chapter | null>(null);
     const [showCommentSidebar, setShowCommentSidebar] = useState(false);
+
+    const thesisId = useStudent().thesisId;
 
     useEffect(() => {
         async function loadChapters() {

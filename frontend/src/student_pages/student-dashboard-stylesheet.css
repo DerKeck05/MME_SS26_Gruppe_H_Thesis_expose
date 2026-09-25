@@ -17,7 +17,7 @@ body {
 
 /* HEADER */
 
-.student-dashboard-header {
+.app-bar {
     background-color: var(--white);
     padding: 1rem;
     color: var(--dark-blue);
@@ -27,7 +27,7 @@ body {
     align-items: center;
 }
 
-.student-dashboard-header h1 {
+.app-bar h1 {
     color: var(--dark-blue);
     margin: 0;
     font-weight: 700;

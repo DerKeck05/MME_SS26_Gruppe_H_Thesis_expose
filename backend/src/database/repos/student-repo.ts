@@ -2,7 +2,10 @@ import {prisma} from "../lib/prisma.js";
 
 export async function getStudentById(studentId: number) {
     return prisma.student.findUnique({
-        where: {id: studentId}
+        where: { id: studentId },
+        include: {
+            thesis: true
+        }
     });
 }
 
@@ -47,7 +50,6 @@ export async function updateStudent(
     studentId: number,
     name?: string,
     email?: string,
-    passwordHash?: string,
     course?: string
 ) {
 
@@ -55,7 +57,6 @@ export async function updateStudent(
     const data: {
         name?: string;
         email?: string;
-        passwordHash?: string;
         course?: string;
     } = {};
 
@@ -68,12 +69,6 @@ export async function updateStudent(
 
     if (email !== undefined) {
         data.email = email;
-    }
-
-
-   
-    if (passwordHash !== undefined) {
-        data.passwordHash = passwordHash;
     }
 
 

@@ -22,7 +22,7 @@ export async function getSupervisorByEmail(email: string) {
         where: { email }
     });
 }
-
+/*
 export async function updateSupervisor(supervisorId: number, name?: string, email?: string, passwordHash?: string, chair?: string) {
     return prisma.supervisor.update({
         where: { id: supervisorId },
@@ -33,7 +33,7 @@ export async function updateSupervisor(supervisorId: number, name?: string, emai
             chair
         }
     });
-}
+}*/
 
 export async function deleteSupervisor(supervisorId: number) {
     return prisma.supervisor.delete({

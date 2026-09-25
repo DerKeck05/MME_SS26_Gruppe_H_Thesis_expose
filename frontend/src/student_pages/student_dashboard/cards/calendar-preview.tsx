@@ -47,7 +47,7 @@ function CalendarPreview(/*{ thesisId }: { thesisId: number }*/) {
 
     return (
         <div className="calendar-preview" onClick={() => {
-            navigate("/calendar");
+            navigate("/student/calendar");
         }}>
             <h2 className="calendar-header">Kalender</h2>
 

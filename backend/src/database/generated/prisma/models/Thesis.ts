@@ -280,6 +280,7 @@ export type ThesisOrderByWithRelationInput = {
 
 export type ThesisWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  studentId?: number
   AND?: Prisma.ThesisWhereInput | Prisma.ThesisWhereInput[]
   OR?: Prisma.ThesisWhereInput[]
   NOT?: Prisma.ThesisWhereInput | Prisma.ThesisWhereInput[]
@@ -289,13 +290,12 @@ export type ThesisWhereUniqueInput = Prisma.AtLeast<{
   endDate?: Prisma.DateTimeFilter<"Thesis"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"Thesis"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Thesis"> | Date | string
-  studentId?: Prisma.IntFilter<"Thesis"> | number
   supervisorId?: Prisma.IntFilter<"Thesis"> | number
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   supervisor?: Prisma.XOR<Prisma.SupervisorScalarRelationFilter, Prisma.SupervisorWhereInput>
   calendarEntries?: Prisma.CalendarEntryListRelationFilter
   chapters?: Prisma.ChapterListRelationFilter
-}, "id">
+}, "id" | "studentId">
 
 export type ThesisOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -336,7 +336,7 @@ export type ThesisCreateInput = {
   endDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  student: Prisma.StudentCreateNestedOneWithoutThesesInput
+  student: Prisma.StudentCreateNestedOneWithoutThesisInput
   supervisor: Prisma.SupervisorCreateNestedOneWithoutThesesInput
   calendarEntries?: Prisma.CalendarEntryCreateNestedManyWithoutThesisInput
   chapters?: Prisma.ChapterCreateNestedManyWithoutThesisInput
@@ -363,7 +363,7 @@ export type ThesisUpdateInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  student?: Prisma.StudentUpdateOneRequiredWithoutThesesNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutThesisNestedInput
   supervisor?: Prisma.SupervisorUpdateOneRequiredWithoutThesesNestedInput
   calendarEntries?: Prisma.CalendarEntryUpdateManyWithoutThesisNestedInput
   chapters?: Prisma.ChapterUpdateManyWithoutThesisNestedInput
@@ -424,6 +424,11 @@ export type ThesisListRelationFilter = {
 
 export type ThesisOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type ThesisNullableScalarRelationFilter = {
+  is?: Prisma.ThesisWhereInput | null
+  isNot?: Prisma.ThesisWhereInput | null
 }
 
 export type ThesisCountOrderByAggregateInput = {
@@ -521,46 +526,36 @@ export type ThesisUncheckedUpdateManyWithoutSupervisorNestedInput = {
   deleteMany?: Prisma.ThesisScalarWhereInput | Prisma.ThesisScalarWhereInput[]
 }
 
-export type ThesisCreateNestedManyWithoutStudentInput = {
-  create?: Prisma.XOR<Prisma.ThesisCreateWithoutStudentInput, Prisma.ThesisUncheckedCreateWithoutStudentInput> | Prisma.ThesisCreateWithoutStudentInput[] | Prisma.ThesisUncheckedCreateWithoutStudentInput[]
-  connectOrCreate?: Prisma.ThesisCreateOrConnectWithoutStudentInput | Prisma.ThesisCreateOrConnectWithoutStudentInput[]
-  createMany?: Prisma.ThesisCreateManyStudentInputEnvelope
-  connect?: Prisma.ThesisWhereUniqueInput | Prisma.ThesisWhereUniqueInput[]
+export type ThesisCreateNestedOneWithoutStudentInput = {
+  create?: Prisma.XOR<Prisma.ThesisCreateWithoutStudentInput, Prisma.ThesisUncheckedCreateWithoutStudentInput>
+  connectOrCreate?: Prisma.ThesisCreateOrConnectWithoutStudentInput
+  connect?: Prisma.ThesisWhereUniqueInput
 }
 
-export type ThesisUncheckedCreateNestedManyWithoutStudentInput = {
-  create?: Prisma.XOR<Prisma.ThesisCreateWithoutStudentInput, Prisma.ThesisUncheckedCreateWithoutStudentInput> | Prisma.ThesisCreateWithoutStudentInput[] | Prisma.ThesisUncheckedCreateWithoutStudentInput[]
-  connectOrCreate?: Prisma.ThesisCreateOrConnectWithoutStudentInput | Prisma.ThesisCreateOrConnectWithoutStudentInput[]
-  createMany?: Prisma.ThesisCreateManyStudentInputEnvelope
-  connect?: Prisma.ThesisWhereUniqueInput | Prisma.ThesisWhereUniqueInput[]
+export type ThesisUncheckedCreateNestedOneWithoutStudentInput = {
+  create?: Prisma.XOR<Prisma.ThesisCreateWithoutStudentInput, Prisma.ThesisUncheckedCreateWithoutStudentInput>
+  connectOrCreate?: Prisma.ThesisCreateOrConnectWithoutStudentInput
+  connect?: Prisma.ThesisWhereUniqueInput
 }
 
-export type ThesisUpdateManyWithoutStudentNestedInput = {
-  create?: Prisma.XOR<Prisma.ThesisCreateWithoutStudentInput, Prisma.ThesisUncheckedCreateWithoutStudentInput> | Prisma.ThesisCreateWithoutStudentInput[] | Prisma.ThesisUncheckedCreateWithoutStudentInput[]
-  connectOrCreate?: Prisma.ThesisCreateOrConnectWithoutStudentInput | Prisma.ThesisCreateOrConnectWithoutStudentInput[]
-  upsert?: Prisma.ThesisUpsertWithWhereUniqueWithoutStudentInput | Prisma.ThesisUpsertWithWhereUniqueWithoutStudentInput[]
-  createMany?: Prisma.ThesisCreateManyStudentInputEnvelope
-  set?: Prisma.ThesisWhereUniqueInput | Prisma.ThesisWhereUniqueInput[]
-  disconnect?: Prisma.ThesisWhereUniqueInput | Prisma.ThesisWhereUniqueInput[]
-  delete?: Prisma.ThesisWhereUniqueInput | Prisma.ThesisWhereUniqueInput[]
-  connect?: Prisma.ThesisWhereUniqueInput | Prisma.ThesisWhereUniqueInput[]
-  update?: Prisma.ThesisUpdateWithWhereUniqueWithoutStudentInput | Prisma.ThesisUpdateWithWhereUniqueWithoutStudentInput[]
-  updateMany?: Prisma.ThesisUpdateManyWithWhereWithoutStudentInput | Prisma.ThesisUpdateManyWithWhereWithoutStudentInput[]
-  deleteMany?: Prisma.ThesisScalarWhereInput | Prisma.ThesisScalarWhereInput[]
+export type ThesisUpdateOneWithoutStudentNestedInput = {
+  create?: Prisma.XOR<Prisma.ThesisCreateWithoutStudentInput, Prisma.ThesisUncheckedCreateWithoutStudentInput>
+  connectOrCreate?: Prisma.ThesisCreateOrConnectWithoutStudentInput
+  upsert?: Prisma.ThesisUpsertWithoutStudentInput
+  disconnect?: Prisma.ThesisWhereInput | boolean
+  delete?: Prisma.ThesisWhereInput | boolean
+  connect?: Prisma.ThesisWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ThesisUpdateToOneWithWhereWithoutStudentInput, Prisma.ThesisUpdateWithoutStudentInput>, Prisma.ThesisUncheckedUpdateWithoutStudentInput>
 }
 
-export type ThesisUncheckedUpdateManyWithoutStudentNestedInput = {
-  create?: Prisma.XOR<Prisma.ThesisCreateWithoutStudentInput, Prisma.ThesisUncheckedCreateWithoutStudentInput> | Prisma.ThesisCreateWithoutStudentInput[] | Prisma.ThesisUncheckedCreateWithoutStudentInput[]
-  connectOrCreate?: Prisma.ThesisCreateOrConnectWithoutStudentInput | Prisma.ThesisCreateOrConnectWithoutStudentInput[]
-  upsert?: Prisma.ThesisUpsertWithWhereUniqueWithoutStudentInput | Prisma.ThesisUpsertWithWhereUniqueWithoutStudentInput[]
-  createMany?: Prisma.ThesisCreateManyStudentInputEnvelope
-  set?: Prisma.ThesisWhereUniqueInput | Prisma.ThesisWhereUniqueInput[]
-  disconnect?: Prisma.ThesisWhereUniqueInput | Prisma.ThesisWhereUniqueInput[]
-  delete?: Prisma.ThesisWhereUniqueInput | Prisma.ThesisWhereUniqueInput[]
-  connect?: Prisma.ThesisWhereUniqueInput | Prisma.ThesisWhereUniqueInput[]
-  update?: Prisma.ThesisUpdateWithWhereUniqueWithoutStudentInput | Prisma.ThesisUpdateWithWhereUniqueWithoutStudentInput[]
-  updateMany?: Prisma.ThesisUpdateManyWithWhereWithoutStudentInput | Prisma.ThesisUpdateManyWithWhereWithoutStudentInput[]
-  deleteMany?: Prisma.ThesisScalarWhereInput | Prisma.ThesisScalarWhereInput[]
+export type ThesisUncheckedUpdateOneWithoutStudentNestedInput = {
+  create?: Prisma.XOR<Prisma.ThesisCreateWithoutStudentInput, Prisma.ThesisUncheckedCreateWithoutStudentInput>
+  connectOrCreate?: Prisma.ThesisCreateOrConnectWithoutStudentInput
+  upsert?: Prisma.ThesisUpsertWithoutStudentInput
+  disconnect?: Prisma.ThesisWhereInput | boolean
+  delete?: Prisma.ThesisWhereInput | boolean
+  connect?: Prisma.ThesisWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ThesisUpdateToOneWithWhereWithoutStudentInput, Prisma.ThesisUpdateWithoutStudentInput>, Prisma.ThesisUncheckedUpdateWithoutStudentInput>
 }
 
 export type ThesisCreateNestedOneWithoutCalendarEntriesInput = {
@@ -598,7 +593,7 @@ export type ThesisCreateWithoutSupervisorInput = {
   endDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  student: Prisma.StudentCreateNestedOneWithoutThesesInput
+  student: Prisma.StudentCreateNestedOneWithoutThesisInput
   calendarEntries?: Prisma.CalendarEntryCreateNestedManyWithoutThesisInput
   chapters?: Prisma.ChapterCreateNestedManyWithoutThesisInput
 }
@@ -687,25 +682,40 @@ export type ThesisCreateOrConnectWithoutStudentInput = {
   create: Prisma.XOR<Prisma.ThesisCreateWithoutStudentInput, Prisma.ThesisUncheckedCreateWithoutStudentInput>
 }
 
-export type ThesisCreateManyStudentInputEnvelope = {
-  data: Prisma.ThesisCreateManyStudentInput | Prisma.ThesisCreateManyStudentInput[]
-  skipDuplicates?: boolean
-}
-
-export type ThesisUpsertWithWhereUniqueWithoutStudentInput = {
-  where: Prisma.ThesisWhereUniqueInput
+export type ThesisUpsertWithoutStudentInput = {
   update: Prisma.XOR<Prisma.ThesisUpdateWithoutStudentInput, Prisma.ThesisUncheckedUpdateWithoutStudentInput>
   create: Prisma.XOR<Prisma.ThesisCreateWithoutStudentInput, Prisma.ThesisUncheckedCreateWithoutStudentInput>
+  where?: Prisma.ThesisWhereInput
 }
 
-export type ThesisUpdateWithWhereUniqueWithoutStudentInput = {
-  where: Prisma.ThesisWhereUniqueInput
+export type ThesisUpdateToOneWithWhereWithoutStudentInput = {
+  where?: Prisma.ThesisWhereInput
   data: Prisma.XOR<Prisma.ThesisUpdateWithoutStudentInput, Prisma.ThesisUncheckedUpdateWithoutStudentInput>
 }
 
-export type ThesisUpdateManyWithWhereWithoutStudentInput = {
-  where: Prisma.ThesisScalarWhereInput
-  data: Prisma.XOR<Prisma.ThesisUpdateManyMutationInput, Prisma.ThesisUncheckedUpdateManyWithoutStudentInput>
+export type ThesisUpdateWithoutStudentInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supervisor?: Prisma.SupervisorUpdateOneRequiredWithoutThesesNestedInput
+  calendarEntries?: Prisma.CalendarEntryUpdateManyWithoutThesisNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutThesisNestedInput
+}
+
+export type ThesisUncheckedUpdateWithoutStudentInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supervisorId?: Prisma.IntFieldUpdateOperationsInput | number
+  calendarEntries?: Prisma.CalendarEntryUncheckedUpdateManyWithoutThesisNestedInput
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisCreateWithoutCalendarEntriesInput = {
@@ -715,7 +725,7 @@ export type ThesisCreateWithoutCalendarEntriesInput = {
   endDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  student: Prisma.StudentCreateNestedOneWithoutThesesInput
+  student: Prisma.StudentCreateNestedOneWithoutThesisInput
   supervisor: Prisma.SupervisorCreateNestedOneWithoutThesesInput
   chapters?: Prisma.ChapterCreateNestedManyWithoutThesisInput
 }
@@ -756,7 +766,7 @@ export type ThesisUpdateWithoutCalendarEntriesInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  student?: Prisma.StudentUpdateOneRequiredWithoutThesesNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutThesisNestedInput
   supervisor?: Prisma.SupervisorUpdateOneRequiredWithoutThesesNestedInput
   chapters?: Prisma.ChapterUpdateManyWithoutThesisNestedInput
 }
@@ -781,7 +791,7 @@ export type ThesisCreateWithoutChaptersInput = {
   endDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  student: Prisma.StudentCreateNestedOneWithoutThesesInput
+  student: Prisma.StudentCreateNestedOneWithoutThesisInput
   supervisor: Prisma.SupervisorCreateNestedOneWithoutThesesInput
   calendarEntries?: Prisma.CalendarEntryCreateNestedManyWithoutThesisInput
 }
@@ -822,7 +832,7 @@ export type ThesisUpdateWithoutChaptersInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  student?: Prisma.StudentUpdateOneRequiredWithoutThesesNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutThesisNestedInput
   supervisor?: Prisma.SupervisorUpdateOneRequiredWithoutThesesNestedInput
   calendarEntries?: Prisma.CalendarEntryUpdateManyWithoutThesisNestedInput
 }
@@ -858,7 +868,7 @@ export type ThesisUpdateWithoutSupervisorInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  student?: Prisma.StudentUpdateOneRequiredWithoutThesesNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutThesisNestedInput
   calendarEntries?: Prisma.CalendarEntryUpdateManyWithoutThesisNestedInput
   chapters?: Prisma.ChapterUpdateManyWithoutThesisNestedInput
 }
@@ -885,53 +895,6 @@ export type ThesisUncheckedUpdateManyWithoutSupervisorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
-}
-
-export type ThesisCreateManyStudentInput = {
-  id?: number
-  title: string
-  description: string
-  startDate: Date | string
-  endDate: Date | string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  supervisorId: number
-}
-
-export type ThesisUpdateWithoutStudentInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  supervisor?: Prisma.SupervisorUpdateOneRequiredWithoutThesesNestedInput
-  calendarEntries?: Prisma.CalendarEntryUpdateManyWithoutThesisNestedInput
-  chapters?: Prisma.ChapterUpdateManyWithoutThesisNestedInput
-}
-
-export type ThesisUncheckedUpdateWithoutStudentInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  supervisorId?: Prisma.IntFieldUpdateOperationsInput | number
-  calendarEntries?: Prisma.CalendarEntryUncheckedUpdateManyWithoutThesisNestedInput
-  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutThesisNestedInput
-}
-
-export type ThesisUncheckedUpdateManyWithoutStudentInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  supervisorId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
