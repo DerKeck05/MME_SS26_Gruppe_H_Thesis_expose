@@ -32,7 +32,8 @@ function CalendarPreview() {
                         title: entry.title,
                         start: new Date(entry.startDate),
                         end: new Date(entry.endDate),
-                        type: "normal"
+                        allDay: entry.allDay,
+                        type: entry.allDay? "allDay" : "normal"
                     })
                 );
                 if (deadline) {
@@ -65,6 +66,7 @@ function CalendarPreview() {
                     endAccessor="end"
                     view="week"
                     style={{height: 440}}
+                    allDayAccessor={"allDay"}
 
                     eventPropGetter={(e) => {
                         switch (e.type) {
@@ -72,7 +74,10 @@ function CalendarPreview() {
                                 return {
                                     className: "deadline",
                                 };
-
+                            case "allDay":
+                                return {
+                                    className: "allDay",
+                                };
                             default:
                                 return {};
                         }

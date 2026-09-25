@@ -7,6 +7,7 @@ export interface CalendarEntry {
     description: string | null;
     startDate: string;
     endDate: string;
+    allDay: boolean;
     thesisId: number;
 }
 
@@ -44,6 +45,7 @@ export async function addCalendarEntry(
         description: string | null;
         startDate: string;
         endDate: string;
+        allDay: boolean;
     }
 ): Promise<CalendarEntry> {
     const response = await fetch(
@@ -71,6 +73,7 @@ export async function updateCalendarEntry(entryId: number, entry: {
     description: string | null;
     startDate: string;
     endDate: string;
+    allDay: boolean;
 }) {
     const response = await fetch(
         `${API_URL}/api/calendar/${entryId}`,

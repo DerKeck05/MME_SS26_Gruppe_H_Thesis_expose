@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { fromZonedTime } from "date-fns-tz";
+import {z} from "zod";
+import {fromZonedTime} from "date-fns-tz";
 
 const berlinTimeToDate = (value: string): Date => {
     return fromZonedTime(value, "Europe/Berlin");
@@ -10,7 +10,9 @@ export const createCalendarEntrySchema = z.object({
     description: z.string().optional(),
 
     startDate: z.string().transform(berlinTimeToDate),
-    endDate: z.string().transform(berlinTimeToDate)
+    endDate: z.string().transform(berlinTimeToDate),
+
+    allDay: z.boolean()
 
 }).refine(
     data => data.endDate >= data.startDate,
@@ -25,7 +27,9 @@ export const updateCalendarEntrySchema = z.object({
     description: z.string().optional(),
 
     startDate: z.string().transform(berlinTimeToDate).optional(),
-    endDate: z.string().transform(berlinTimeToDate).optional()
+    endDate: z.string().transform(berlinTimeToDate).optional(),
+
+    allDay: z.boolean().optional(),
 
 }).refine(
     data =>

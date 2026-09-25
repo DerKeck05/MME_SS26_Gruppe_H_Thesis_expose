@@ -33,7 +33,7 @@ router.post("/thesis/:id", async (req, res) => {
         return;
     }
 
-    const { title, description, startDate, endDate } = result.data;
+    const { title, description, startDate, endDate, allDay } = result.data;
 
 
     const event = await calendarRepo.createCalendarEntry(
@@ -41,6 +41,7 @@ router.post("/thesis/:id", async (req, res) => {
         startDate,
         endDate,
         thesisId,
+        allDay,
         description
     );
 
