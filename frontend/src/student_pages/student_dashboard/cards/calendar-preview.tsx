@@ -11,7 +11,6 @@ import {
     getCalendarEntries
 } from "../../../apis/calendar-api.ts";
 import {useStudent} from "../../route_handling/student-provider.tsx";
-import {getThesisDeadline} from "../../../utils/thesis-utils.ts";
 
 const localizer = momentLocalizer(moment);
 
@@ -19,7 +18,7 @@ function CalendarPreview() {
     const [events, setEvents] = useState<CalendarEvent[]>([]);
     const navigate = useNavigate();
 
-    const thesisId = useStudent().thesisId;
+    const {thesisId, deadline} = useStudent();
 
     useEffect(() => {
         async function loadEvents() {
@@ -36,10 +35,9 @@ function CalendarPreview() {
                         type: "normal"
                     })
                 );
-
-                const deadline = await getThesisDeadline(thesisId);
-
-                calendarEvents.push(deadline);
+                if (deadline) {
+                    calendarEvents.push(deadline);
+                }
 
                 setEvents(calendarEvents);
             } catch (error) {

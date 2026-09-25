@@ -15,10 +15,9 @@ import {
     updateCalendarEntry
 } from "../../apis/calendar-api.ts";
 import {useStudent} from "../route_handling/student-provider.tsx";
-import {getThesisDeadline} from "../../utils/thesis-utils.ts";
 import Loading from "../../globals/loading.tsx";
 
-export function calcLeftDays(deadline: CalendarEvent):string {
+export function calcLeftDays(deadline: CalendarEvent): string {
     const deadlineDate = deadline.end.getTime();
     const currentDate = Date.now();
 
@@ -28,7 +27,7 @@ export function calcLeftDays(deadline: CalendarEvent):string {
 }
 
 function CalendarPage() {
-    const {thesisId} = useStudent();
+    const {thesisId, deadline} = useStudent();
 
     const [entries, setEntries] = useState<CalendarEntry[]>([]);
     const [events, setEvents] = useState<CalendarEvent[]>([]);
@@ -58,12 +57,12 @@ function CalendarPage() {
                 type: "normal",
             }));
 
-            const dl = await getThesisDeadline(thesisId);
-
-            calendarEvents.push(dl);
+            if (deadline) {
+                calendarEvents.push(deadline);
+                setDaysLeft(calcLeftDays(deadline));
+            }
 
             setEvents(calendarEvents);
-            setDaysLeft(calcLeftDays(dl));
             setIsLoading(false);
         } catch (error) {
             console.error(
@@ -170,7 +169,8 @@ function CalendarPage() {
     return (
         <div className="calendar-page-main">
 
-            <div className="flex flex-col justify-center items-center gap-4 bg-(--tertiary) text-(--secondary) p-2 rounded-(--border-radius) mb-(--spacing-medium)">
+            <div
+                className="flex flex-col justify-center items-center gap-4 bg-(--tertiary) text-(--secondary) p-2 rounded-(--border-radius) mb-(--spacing-medium)">
                 <p className={" text-2xl"}>
                     Tage bis zur Abgabe:
                 </p>
