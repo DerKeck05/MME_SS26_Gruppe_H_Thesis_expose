@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import "./prof_startpage.css";
 type Student = {
     id: number;
     name: string;
@@ -144,11 +144,11 @@ function ProfStartpage() {
     }
 
     return (
-        <main>
+        <main className="prof-page">
             {thesisModal}
-            <div>
+            <div className="prof-table-glass">
                 <h1>Professor Dashboard</h1>
-                <table>
+                <table className="prof-student-table">
                     <thead>
                         <tr>
                             <th>Name</th>
