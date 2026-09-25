@@ -1,15 +1,21 @@
+import "./student_waiting.css";
+
 function StudentWaiting() {
     return (
-        <main>
-            <h1>Noch keine Thesis zugeordnet</h1>
+        <main className="student-waiting-page">
+            <div className="student-waiting-glass">
 
-            <p>
-                Dein Professor hat für dich noch keine Thesis angelegt.
-            </p>
+                <h1>Noch keine Thesis zugeordnet</h1>
 
-            <p>
-                Sobald deine Thesis erstellt wurde, wird dein Dashboard freigeschaltet.
-            </p>
+                <p>
+                    Dein Professor hat für dich noch keine Thesis angelegt.
+                </p>
+
+                <p>
+                    Sobald deine Thesis erstellt wurde, wird dein Dashboard freigeschaltet.
+                </p>
+
+            </div>
         </main>
     );
 }

@@ -99,6 +99,7 @@ function RegisterProfessorPage() {
 
 
         try {
+            const [chair] = useState("nicht verwendet");
 
             /* Professor über unsere API registrieren */
             const data = await registerProfessor(
@@ -185,18 +186,6 @@ function RegisterProfessorPage() {
                         setPassword(event.target.value)
                     }
                 />
-
-
-                {/* Lehrstuhl */}
-                <label>Lehrstuhl:</label>
-
-                <input
-                    type="text"
-                    value={chair}
-                    onChange={(event) =>
-                        setChair(event.target.value)
-                    }
-                />
                 <label>Hochschule:</label>
 
                 <select
@@ -216,17 +205,25 @@ function RegisterProfessorPage() {
                 </select>
                 <label>Kurse:</label>
 
-                {courses.map((course) => (
-                    <label key={course.id}>
-                        <input
-                            type="checkbox"
-                            checked={selectedCourseIds.includes(course.id)}
-                            onChange={() => toggleCourse(course.id)}
-                        />
-                        {course.name}
-                    </label>
-                ))}
+                <details className="course-dropdown">
+                    <summary>
+                        Kurse auswählen ({selectedCourseIds.length} ausgewählt)
+                    </summary>
 
+                    <div className="course-dropdown-content">
+                        {courses.map((course) => (
+                            <label key={course.id} className="course-option">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedCourseIds.includes(course.id)}
+                                    onChange={() => toggleCourse(course.id)}
+                                />
+
+                                {course.name}
+                            </label>
+                        ))}
+                    </div>
+                </details>
 
                 {/* Registrierung */}
                 <button onClick={RegisterFunction}>
