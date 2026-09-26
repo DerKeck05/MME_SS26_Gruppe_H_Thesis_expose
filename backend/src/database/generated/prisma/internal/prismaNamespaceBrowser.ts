@@ -129,6 +129,7 @@ export const CalendarEntryScalarFieldEnum = {
   description: 'description',
   startDate: 'startDate',
   endDate: 'endDate',
+  allDay: 'allDay',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   thesisId: 'thesisId'

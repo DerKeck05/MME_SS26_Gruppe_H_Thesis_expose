@@ -4,7 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export async function getChapters(thesisId: number): Promise<Chapter[]> {
     const response = await fetch(
-        `${API_URL}chapter/thesis/${thesisId}`
+        `${API_URL}/api/chapter/thesis/${thesisId}`
     );
 
     if(!response.ok) {
@@ -18,7 +18,7 @@ export async function getChapters(thesisId: number): Promise<Chapter[]> {
 
 export async function addChapter(thesisId: number, chapter: ChapterInput): Promise<Chapter> {
     const response = await fetch(
-        `${API_URL}chapter/thesis/${thesisId}`,
+        `${API_URL}/api/chapter/thesis/${thesisId}`,
         {
             method: "POST",
             headers: {
@@ -39,7 +39,7 @@ export async function addChapter(thesisId: number, chapter: ChapterInput): Promi
 
 export async function updateChapter(chapterId: number, chapter: ChapterInput): Promise<Chapter> {
     const response = await fetch(
-        `${API_URL}chapter/${chapterId}`,
+        `${API_URL}/api/chapter/${chapterId}`,
         {
             method: "PUT",
             body: JSON.stringify(chapter),
@@ -60,7 +60,7 @@ export async function updateChapter(chapterId: number, chapter: ChapterInput): P
 
 export async function deleteChapter(chapterId: number): Promise<void> {
     const response = await fetch(
-        `${API_URL}chapter/${chapterId}`,
+        `${API_URL}/api/chapter/${chapterId}`,
         {
             method: "DELETE",
         }

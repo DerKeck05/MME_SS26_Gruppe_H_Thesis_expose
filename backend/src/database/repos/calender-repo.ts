@@ -5,7 +5,8 @@ export async function createCalendarEntry(
     startDate: Date,
     endDate: Date,
     thesisId: number,
-    description?: string
+    allDay: boolean,
+    description?: string,
 ) {
     console.log(`Created Calendar Entry with Title: ${title}`);
 
@@ -15,7 +16,8 @@ export async function createCalendarEntry(
             description: description ?? "",
             startDate: startDate,
             endDate: endDate,
-            thesisId: thesisId
+            thesisId: thesisId,
+            allDay: allDay,
         }
     });
 }
@@ -41,6 +43,7 @@ interface UpdateCalendarEntryData {
     description?: string | undefined;
     startDate?: Date | undefined;
     endDate?: Date | undefined;
+    allDay?: boolean | undefined;
 }
 
 export async function updateCalendarEntry(
@@ -65,6 +68,9 @@ export async function updateCalendarEntry(
             }),
             ...(data.endDate !== undefined && {
                 endDate: data.endDate
+            }),
+            ...(data.allDay !== undefined && {
+                allDay: data.allDay
             })
         }
     });

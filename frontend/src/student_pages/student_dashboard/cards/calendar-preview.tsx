@@ -1,53 +1,24 @@
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import {Calendar, momentLocalizer} from "react-big-calendar";
 import moment from "moment";
 import "moment/locale/de";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../../calendar_pages/calendar-styling.css";
-import {/* useEffect, */useState } from "react";
-import {type CalendarEvent, dummyEvents} from "../../calendar_pages/calendar-component.tsx";
+import {type CalendarEvent} from "../../calendar_pages/calendar-component.tsx";
 import {useNavigate} from "react-router-dom";
-/*import {
-    type CalendarEntry,
-    getCalendarEntries
-} from "../../apis/calendar-api.ts";
-*/
+
+
 const localizer = momentLocalizer(moment);
 
-function CalendarPreview(/*{ thesisId }: { thesisId: number }*/) {
-    const [events/*, setEvents*/] = useState<CalendarEvent[]>(dummyEvents);
+interface CalendarPreviewProps {
+    events: CalendarEvent[];
+}
+
+function CalendarPreview({events}: CalendarPreviewProps) {
     const navigate = useNavigate();
-
-    /*
-    useEffect(() => {
-        async function loadEvents() {
-            try {
-                const entries: CalendarEntry[] =
-                    await getCalendarEntries(thesisId);
-
-                const calendarEvents: CalendarEvent[] = entries.map(
-                    (entry) => ({
-                        id: entry.id,
-                        title: entry.title,
-                        start: new Date(entry.startDate),
-                        end: new Date(entry.endDate)
-                    })
-                );
-
-                setEvents(calendarEvents);
-            } catch (error) {
-                console.error(
-                    "Fehler beim Laden der Kalendereinträge:",
-                    error
-                );
-            }
-        }
-
-        void loadEvents();
-    }, [thesisId]);*/
 
     return (
         <div className="calendar-preview" onClick={() => {
-            navigate("/calendar");
+            navigate("/student/calendar");
         }}>
             <h2 className="calendar-header">Kalender</h2>
 
@@ -58,7 +29,8 @@ function CalendarPreview(/*{ thesisId }: { thesisId: number }*/) {
                     startAccessor="start"
                     endAccessor="end"
                     view="week"
-                    style={{ height: 440}}
+                    style={{height: 400}}
+                    allDayAccessor={"allDay"}
 
                     eventPropGetter={(e) => {
                         switch (e.type) {
@@ -66,14 +38,14 @@ function CalendarPreview(/*{ thesisId }: { thesisId: number }*/) {
                                 return {
                                     className: "deadline",
                                 };
-
+                            case "allDay":
+                                return {
+                                    className: "allDay",
+                                };
                             default:
                                 return {};
                         }
                     }}
-
-                    min={new Date(1970, 0, 1, 8, 0)}
-                    max={new Date(1970, 0, 1, 20, 0)}
 
                     toolbar={false}
                     selectable={false}

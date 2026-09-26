@@ -17,7 +17,7 @@ body {
 
 /* HEADER */
 
-.student-dashboard-header {
+.app-bar {
     background-color: var(--white);
     padding: 1rem;
     color: var(--dark-blue);
@@ -27,7 +27,7 @@ body {
     align-items: center;
 }
 
-.student-dashboard-header h1 {
+.app-bar h1 {
     color: var(--dark-blue);
     margin: 0;
     font-weight: 700;
@@ -104,7 +104,7 @@ body {
 .calendar-preview {
     background-color: var(--white);
     flex: 1;
-    height: 500px;
+    height: 450px;
     border-radius: var(--border-radius);
     flex-direction: column;
     align-content: start;
@@ -144,7 +144,7 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    height: 12rem;
+    height: auto;
 }
 
 #time-card h3 {
@@ -157,7 +157,7 @@ body {
 
 .card-content {
     color: var(--secondary);
-    font-size: 50px;
+    font-size: 60px;
     font-weight: 600;
     text-align: center;
     margin: auto 0 0;

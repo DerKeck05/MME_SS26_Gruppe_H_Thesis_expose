@@ -7,11 +7,12 @@ type Student = {
     email: string;
     course: string;
     supervisorId: number | null;
-    theses: {
+    thesis: {
         id: number;
         title: string;
+        startDate: string;
         endDate: string;
-    }[];
+    } | null;
 };
 
 function ProfStartpage() {
@@ -50,10 +51,10 @@ function ProfStartpage() {
     }
 
     function thesisButton(student: Student) {
-        if (student.theses && student.theses.length > 0) {
+        if (student.thesis != null) {
             return (
-                <button onClick={() => navigate("/professor/thesis/" + student.theses[0].id)}>
-                    {student.theses[0].title}
+                <button onClick={() => navigate("/professor/thesis/" + student.thesis!.id)}>
+                    {student.thesis.title}
                 </button>
             );
         } else {
@@ -64,6 +65,7 @@ function ProfStartpage() {
             );
         }
     }
+
     async function createThesis() {
         console.log("BUTTON GEKLICKT");
         console.log("Student:", selectedStudent);

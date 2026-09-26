@@ -32,10 +32,6 @@ function RegisterProfessorPage() {
     const [password, setPassword] = useState("");
 
 
-    /* Speichert den eingegebenen Lehrstuhl */
-    const [chair, setChair] = useState("");
-
-
     /* Speichert eine mögliche Fehlermeldung */
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -85,7 +81,6 @@ function RegisterProfessorPage() {
             name == "" ||
             email == "" ||
             password == "" ||
-            chair == "" ||
             universityId == ""
         ) {
 
@@ -99,14 +94,13 @@ function RegisterProfessorPage() {
 
 
         try {
-            const [chair] = useState("nicht verwendet");
 
             /* Professor über unsere API registrieren */
             const data = await registerProfessor(
                 name,
                 email,
                 password,
-                chair,
+                "nicht verwendet",
                 Number(universityId),
                 selectedCourseIds
             );

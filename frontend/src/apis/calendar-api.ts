@@ -7,6 +7,7 @@ export interface CalendarEntry {
     description: string | null;
     startDate: string;
     endDate: string;
+    allDay: boolean;
     thesisId: number;
 }
 
@@ -14,7 +15,7 @@ export async function getCalendarEntries(
     thesisId: number
 ): Promise<CalendarEntry[]> {
     const response = await fetch(
-        `${API_URL}calendar/thesis/${thesisId}`
+        `${API_URL}/api/calendar/thesis/${thesisId}`
     );
 
     if (!response.ok) {
@@ -44,10 +45,11 @@ export async function addCalendarEntry(
         description: string | null;
         startDate: string;
         endDate: string;
+        allDay: boolean;
     }
 ): Promise<CalendarEntry> {
     const response = await fetch(
-        `${API_URL}calendar/thesis/${thesisId}`,
+        `${API_URL}/api/calendar/thesis/${thesisId}`,
         {
             method: "POST",
             headers: {
@@ -71,11 +73,15 @@ export async function updateCalendarEntry(entryId: number, entry: {
     description: string | null;
     startDate: string;
     endDate: string;
+    allDay: boolean;
 }) {
     const response = await fetch(
-        `${API_URL}calendar/${entryId}`,
+        `${API_URL}/api/calendar/${entryId}`,
         {
             method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
             body: JSON.stringify(entry),
         }
     );
@@ -94,7 +100,7 @@ export async function deleteCalendarEntry(
     entryId: number
 ): Promise<void> {
     const response = await fetch(
-        `${API_URL}calendar/${entryId}`,
+        `${API_URL}/api/calendar/${entryId}`,
         {
             method: "DELETE",
         }

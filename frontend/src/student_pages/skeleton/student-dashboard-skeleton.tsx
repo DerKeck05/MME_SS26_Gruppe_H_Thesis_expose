@@ -22,7 +22,7 @@ function StudentDashboardSkeleton() {
     return (
         <div className="student-dashboard">
 
-            <header className="student-dashboard-header">
+            <header className="app-bar" id={"student-dashboard-header"}>
                 <div className={"logo"}></div>
                 <h1>{pageTitle}</h1>
                 <div className={"profile-button"}>

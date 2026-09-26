@@ -30,21 +30,21 @@ function ThesisDetail() {
             </div>
         );
     }
-    return (
-        <div className="dashboard-content">
-            <h2>{thesis.title}</h2>
+   return (
+    <div className="dashboard-content">
+        <h2>{thesis.title}</h2>
 
-            <CalendarPreview />
+        <CalendarPreview events={[]} />
 
-            <div className="card-row">
-                <div className="placeholder">
-                    <p>Fortschritt</p>
-                </div>
-
-                <TimeCard />
+        <div className="card-row">
+            <div className="placeholder">
+                <p>Fortschritt</p>
             </div>
+
+            <TimeCard />
         </div>
-    );
+    </div>
+);
 }
 
 export default ThesisDetail;
