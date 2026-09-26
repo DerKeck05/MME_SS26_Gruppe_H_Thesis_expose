@@ -1,6 +1,10 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import OutlineItem from "./outline-item.tsx";
-import {type Chapter, getChapterNumbers, isChapterVisible} from "../../utils/outline-utils.ts";
+import {
+    type Chapter,
+    getChapterNumbers,
+    isChapterVisible
+} from "../../utils/outline-utils.ts";
 
 export interface UIChapter {
     id: number;
@@ -13,16 +17,43 @@ export interface UIChapter {
 
 interface OutlineComponentProps {
     chapters: Chapter[];
+
     onEditChapter: (chapter: Chapter) => void;
+    onDeleteChapter: (chapter: Chapter) => void;
     onCommentClick: (chapter: Chapter) => void;
+
+    onAddChild: (chapter: Chapter) => void;
+    onAddBefore: (chapter: Chapter) => void;
+    onAddAfter: (chapter: Chapter) => void;
 }
 
-function OutlineComponent({chapters, onEditChapter, onCommentClick}: OutlineComponentProps) {
+function OutlineComponent({
+                              chapters,
+                              onEditChapter,
+                              onDeleteChapter,
+                              onCommentClick,
+                              onAddChild,
+                              onAddBefore,
+                              onAddAfter
+                          }: OutlineComponentProps) {
+
     const [expandedChapters, setExpandedChapters] = useState<Set<number>>(
-        new Set(chapters.filter(chapter =>
-            chapters.some(child => child.parentId === chapter.id)
-        ).map(chapter => chapter.id))
+        new Set()
     );
+
+    const [openMenuId, setOpenMenuId] = useState<number | null>(null);
+
+    useEffect(() => {
+        const parentChapterIds = chapters
+            .filter(chapter =>
+                chapters.some(
+                    child => child.parentId === chapter.id
+                )
+            )
+            .map(chapter => chapter.id);
+
+        setExpandedChapters(new Set(parentChapterIds));
+    }, [chapters]);
 
     function toggleChapter(chapterId: number) {
         setExpandedChapters(current => {
@@ -46,8 +77,11 @@ function OutlineComponent({chapters, onEditChapter, onCommentClick}: OutlineComp
                 {numeric: true}
             );
         })
-        .map((chapter) => {
-            const number = getChapterNumbers(chapter, chapters);
+        .map(chapter => {
+            const number = getChapterNumbers(
+                chapter,
+                chapters
+            );
 
             return {
                 id: chapter.id,
@@ -63,7 +97,7 @@ function OutlineComponent({chapters, onEditChapter, onCommentClick}: OutlineComp
 
     return (
         <div className="outline-component flex flex-col gap-2 mt-(--spacing-small)">
-            {uiChapters.map((chapter) => {
+            {uiChapters.map(chapter => {
                 const originalChapter = chapters.find(
                     item => item.id === chapter.id
                 );
@@ -85,9 +119,48 @@ function OutlineComponent({chapters, onEditChapter, onCommentClick}: OutlineComp
                         key={chapter.id}
                         chapter={chapter}
                         isExpanded={expandedChapters.has(chapter.id)}
-                        onToggle={() => toggleChapter(chapter.id)}
-                        onEdit={() => onEditChapter(originalChapter)}
-                        onCommentClick={()=> onCommentClick(originalChapter)}
+
+                        isMenuOpen={openMenuId === chapter.id}
+
+                        onMenuToggle={() => {
+                            setOpenMenuId(current =>
+                                current === chapter.id
+                                    ? null
+                                    : chapter.id
+                            );
+                        }}
+
+                        onMenuClose={() => {
+                            setOpenMenuId(null);
+                        }}
+
+                        onToggle={() =>
+                            toggleChapter(chapter.id)
+                        }
+
+                        onEdit={() =>
+                            onEditChapter(originalChapter)
+                        }
+
+                        onDelete={() =>
+                            onDeleteChapter(originalChapter)
+                        }
+
+                        onCommentClick={() =>
+                            onCommentClick(originalChapter)
+                        }
+
+                        onAddChild={() =>
+                            onAddChild(originalChapter)
+                        }
+
+                        onAddBefore={() =>
+                            onAddBefore(originalChapter)
+                        }
+
+                        onAddAfter={() =>
+                            onAddAfter(originalChapter)
+                        }
                     />
                 );
             })}

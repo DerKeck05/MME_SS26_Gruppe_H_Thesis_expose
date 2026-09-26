@@ -5,33 +5,22 @@ import {MAX_CHAPTER_TITLE_LENGTH} from "../../outline_pages/outline-page.tsx";
 
 interface EditChapterModalProps {
     onCancel: () => void;
-    onSubmit: (title: string, chapterNumber: string) => void;
+    onSubmit: (title: string) => void;
     onDelete: () => void;
     chapter: Chapter;
-    initialChapterNumber: string;
 }
 
 function EditChapterModal({
                               onCancel,
                               onSubmit,
                               onDelete,
-                              chapter,
-                              initialChapterNumber
+                              chapter
                           }: EditChapterModalProps) {
     const [chapterTitle, setChapterTitle] = useState(chapter.title);
-    const [chapterNumber, setChapterNumber] = useState(initialChapterNumber);
-
-    const chapterNumberRegex = /^\d+(?:\.\d+){0,3}$/;
-
-    const isNumberValid = chapterNumberRegex.test(chapterNumber);
 
     const isTitleValid =
         chapterTitle.trim() !== "" &&
-        chapterTitle.trim().length <= 40;
-
-    const isFormValid =
-        isTitleValid &&
-        isNumberValid;
+        chapterTitle.trim().length <= MAX_CHAPTER_TITLE_LENGTH;
 
     return (
         <div
@@ -70,7 +59,7 @@ function EditChapterModal({
                 >
                     <input
                         type="text"
-                        placeholder="Neues Kapitel"
+                        placeholder="Kapitelname"
                         value={chapterTitle}
                         maxLength={MAX_CHAPTER_TITLE_LENGTH}
                         onChange={(event) =>
@@ -78,29 +67,9 @@ function EditChapterModal({
                         }
                     />
 
-                    <div className="chapter-number-field">
-                        <label htmlFor="chapter-number-input">
-                            Kapitel-Nummer:
-                        </label>
-
-                        <input
-                            id="chapter-number-input"
-                            type="text"
-                            value={chapterNumber}
-                            onChange={(event) =>
-                                setChapterNumber(event.target.value)
-                            }
-                        />
-                    </div>
-
                     <p className="ui-error-notice">
-                        {chapterNumber.length > 0 && !isNumberValid
-                            ? "Kapitelnummer muss das Format X, X.X, X.X.X oder X.X.X.X haben."
-                            : "\u00A0"
-                        }
-
                         {!isTitleValid && chapterTitle.length > 0
-                            ? "Titel erforderlich und darf 40 Zeichen nicht überschreiten."
+                            ? `Titel erforderlich und darf ${MAX_CHAPTER_TITLE_LENGTH} Zeichen nicht überschreiten.`
                             : "\u00A0"
                         }
                     </p>
@@ -109,13 +78,8 @@ function EditChapterModal({
                 <button
                     className="squared-button modal-submit-button"
                     type="button"
-                    disabled={!isFormValid}
-                    onClick={() =>
-                        onSubmit(
-                            chapterTitle.trim(),
-                            chapterNumber
-                        )
-                    }
+                    disabled={!isTitleValid}
+                    onClick={() => onSubmit(chapterTitle.trim())}
                 >
                     <Check/>
                 </button>
