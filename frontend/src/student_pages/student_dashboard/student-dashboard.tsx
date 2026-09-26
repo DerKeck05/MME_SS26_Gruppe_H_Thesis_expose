@@ -61,8 +61,8 @@ function StudentDashboard() {
     return (
         <div className="dashboard-content">
             <CalendarPreview events={events}/>
-            <div className={"card-row"}>
-                <div className={"placeholder"}><UpNextCard upNextEvents={upNextEvents}/></div>
+            <div className={"card-row flex flex-row justify-evenly gap-(--spacing-large) mt-(--spacing-large) min-h-[30vh]"}>
+                <UpNextCard upNextEvents={upNextEvents}/>
                 <TimeCard/>
             </div>
         </div>

@@ -120,20 +120,6 @@ body {
 
 /* time card */
 
-.card-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    gap: var(--spacing-large);
-    margin-top: var(--spacing-large);
-}
-
-.placeholder {
-    flex: 2;
-    background-color: white;
-    border-radius: var(--border-radius);
-}
-
 .card {
     border-radius: var(--border-radius);
     background-color: var(--tertiary);

@@ -12,7 +12,7 @@ export interface UpNextEvents {
 function UpNextCard({upNextEvents}: UpNextProps) {
     return (
         <div
-            className="flex flex-col bg-(--white) border-2 border-(--night-blue) text-(--night-blue) p-4 rounded-(--border-radius)"
+            className="flex flex-2 flex-col bg-(--white) border-2 border-(--night-blue) h-auto text-(--night-blue) p-4 rounded-(--border-radius)"
         >
             {/* Header */}
             <div className="flex items-center justify-between mb-2">

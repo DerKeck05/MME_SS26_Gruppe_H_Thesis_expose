@@ -26,6 +26,8 @@ export function calcLeftDays(deadline: CalendarEvent): string {
     return Math.ceil(difference / (1000 * 60 * 60 * 24)).toString();
 }
 
+export const MAX_ENTRY_TITLE_LENGTH = 50;
+
 function CalendarPage() {
     const {thesisId, deadline} = useStudent();
 
@@ -195,6 +197,7 @@ function CalendarPage() {
 
             <div className="calendar-add-buttons">
                 <button
+                    className={"squared-button"}
                     onClick={() => setShowAddModal(true)}
                     title="Neues Ereignis erstellen"
                 >
