@@ -23,7 +23,7 @@ function AddChapterModal({onSubmit, onCancel}: { onSubmit: (title: string, chapt
 
                 <div className={"modal-body"}>
                     <div className={"add-chapter-modal"}>
-                        <input id={"title-input"} placeholder={"Titel"} value={chapterTitle.trim()}
+                        <input id={"title-input"} placeholder={"Titel"} type={"text"} value={chapterTitle} maxLength={60}
                                onChange={(e) => setChapterTitle(e.target.value)}/>
                         <input id={"chapter-number-input"} placeholder={""} value={chapterNumber}
                                onChange={(e) => setChapterNumber(e.target.value)}/>
@@ -38,7 +38,7 @@ function AddChapterModal({onSubmit, onCancel}: { onSubmit: (title: string, chapt
                 </div>
 
                 <button
-                    className={"modal-submit-button"}
+                    className={"squared-button modal-submit-button"}
                     type={"button"}
                     disabled={!isFormValid}
                     onClick={() => {

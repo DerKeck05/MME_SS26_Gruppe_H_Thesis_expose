@@ -195,6 +195,7 @@ function CalendarPage() {
 
             <div className="calendar-add-buttons">
                 <button
+                    className={"squared-button"}
                     onClick={() => setShowAddModal(true)}
                     title="Neues Ereignis erstellen"
                 >

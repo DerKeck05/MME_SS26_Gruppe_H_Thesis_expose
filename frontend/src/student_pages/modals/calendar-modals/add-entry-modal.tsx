@@ -154,7 +154,7 @@ function AddEntryModal({
                 <div className="spacer"/>
 
                 <button
-                    className="modal-submit-button"
+                    className="squared-button modal-submit-button"
                     type="button"
                     disabled={!isFormValid}
                     onClick={() => void submitEntry()}
