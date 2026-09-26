@@ -3,23 +3,26 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../apis/auth-api.ts";
 import "./design_css/login.css";
 
-
 function LoginPage() {
-
     const navigate = useNavigate();
 
+    /* speichert welche Rolle gerade ausgewählt ist */
     const [role, setRole] = useState("student");
 
+    /* speichert die eingegebene Email */
     const [email, setEmail] = useState("");
 
+    /* speichert das eingegebene Passwort */
     const [password, setPassword] = useState("");
 
+    /* speichert eine mögliche Fehlermeldung */
     const [errorMessage, setErrorMessage] = useState("");
 
 
     async function loginFunction() {
 
-        if (email == "" || password == "") {
+        /* Prüfung ob Email oder Passwort leer ist */
+        if (email === "" || password === "") {
             setErrorMessage("Bitte E-Mail und Passwort eingeben");
             return;
         }
@@ -33,30 +36,19 @@ function LoginPage() {
                 role as "student" | "professor"
             );
 
-
             console.log("Login erfolgreich");
             console.log(data);
 
 
-            if (role == "student") {
-
-                localStorage.setItem(
-                    "studentId",
-                    data.user.id.toString()
-                );
-
+            if (role === "student") {
+                localStorage.setItem("studentId", String(data.user.id));
                 navigate("/student");
             }
 
 
-            if (role == "professor") {
-
-                localStorage.setItem(
-                    "supervisorId",
-                    data.user.id.toString()
-                );
-
-                navigate("/professor");
+            if (role === "professor") {
+                // später:
+                // navigate("/professor");
             }
 
 
@@ -71,11 +63,12 @@ function LoginPage() {
     }
 
 
+    /* CSS-Klasse für den aktiven Rollen-Button */
     const studentButtonClass =
-        role == "student" ? "active-role" : "";
+        role === "student" ? "active-role" : "";
 
     const professorButtonClass =
-        role == "professor" ? "active-role" : "";
+        role === "professor" ? "active-role" : "";
 
 
     return (
@@ -86,6 +79,7 @@ function LoginPage() {
                 <h1>Clevermate</h1>
 
 
+                {/* Rollen-Auswahl */}
                 <div className="role-buttons">
 
                     <button
@@ -106,6 +100,7 @@ function LoginPage() {
                 </div>
 
 
+                {/* E-Mail */}
                 <label>E-Mail:</label>
 
                 <input
@@ -116,6 +111,7 @@ function LoginPage() {
                 />
 
 
+                {/* Passwort */}
                 <label>Passwort:</label>
 
                 <input
@@ -126,11 +122,13 @@ function LoginPage() {
                 />
 
 
+                {/* Login */}
                 <button onClick={loginFunction}>
                     Login
                 </button>
 
 
+                {/* Registrierung */}
                 <button onClick={() => navigate("/register")}>
                     Registrieren
                 </button>
@@ -138,7 +136,8 @@ function LoginPage() {
             </div>
 
 
-            {errorMessage != "" && (
+            {/* Fehlermeldung */}
+            {errorMessage !== "" && (
                 <div className="error-box">
                     {errorMessage}
                 </div>

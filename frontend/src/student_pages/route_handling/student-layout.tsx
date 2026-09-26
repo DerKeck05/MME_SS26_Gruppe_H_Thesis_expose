@@ -13,11 +13,7 @@ function StudentLayout() {
         return <div>Lade...</div>;
     }
 
-    if (studentId == null) {
-        return <div>Student konnte nicht geladen werden.</div>;
-    }
-
-    if (thesisId == null) {
+    if (thesisId === null) {
         return <StudentLandingPage studentId={studentId}/>;
     }
 

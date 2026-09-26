@@ -44,11 +44,6 @@ function CalendarPage() {
     const [daysLeft, setDaysLeft] = useState<string>("--");
 
     async function loadEvents() {
-        if (thesisId == null) {
-            setIsLoading(false);
-            return;
-        }
-
         try {
             const calendarEntries = await getCalendarEntries(thesisId);
 
@@ -69,13 +64,12 @@ function CalendarPage() {
             }
 
             setEvents(calendarEvents);
+            setIsLoading(false);
         } catch (error) {
             console.error(
                 "Fehler beim Laden der Kalendereinträge:",
                 error
             );
-        } finally {
-            setIsLoading(false);
         }
     }
 
@@ -90,10 +84,6 @@ function CalendarPage() {
         endDate: string;
         allDay: boolean;
     }) {
-        if (thesisId == null) {
-            return;
-        }
-
         try {
             await addCalendarEntry(thesisId, entry);
 
@@ -113,21 +103,16 @@ function CalendarPage() {
         description: string | null;
         startDate: string;
         endDate: string;
+        allDay: boolean;
     }) {
-        if (detailEntry == null) {
+        if (!detailEntry) {
             return;
         }
 
         try {
             const updated = await updateCalendarEntry(
                 detailEntry.id,
-                {
-                    title: updatedEntry.title,
-                    description: updatedEntry.description,
-                    startDate: updatedEntry.startDate,
-                    endDate: updatedEntry.endDate,
-                    allDay: detailEntry.allDay
-                }
+                updatedEntry
             );
 
             await loadEvents();
@@ -144,7 +129,7 @@ function CalendarPage() {
     }
 
     async function handleDeleteEntry() {
-        if (detailEntry == null) {
+        if (!detailEntry) {
             return;
         }
 
@@ -165,11 +150,11 @@ function CalendarPage() {
     }
 
     function handleSelectEvent(event: CalendarEvent) {
-        if (event.type == "deadline") {
+        if (event.type === "deadline") {
             return;
         }
 
-        const entry = entries.find(entry => entry.id == event.id);
+        const entry = entries.find(entry => entry.id === event.id);
 
         if (!entry) {
             return;
@@ -181,17 +166,18 @@ function CalendarPage() {
     }
 
     if (isLoading) {
-        return <Loading/>;
+        return (<Loading/>);
     }
 
     return (
         <div className="calendar-page-main">
 
-            <div className="flex flex-col justify-center items-center gap-4 bg-(--tertiary) text-(--secondary) p-2 rounded-(--border-radius) mb-(--spacing-medium)">
-                <p className="text-2xl">
+            <div
+                className="flex flex-col justify-center items-center gap-4 bg-(--tertiary) text-(--secondary) p-2 rounded-(--border-radius) mb-(--spacing-medium)">
+                <p className={" text-2xl"}>
                     Tage bis zur Abgabe:
                 </p>
-                <h3 className="font-semibold text-4xl">
+                <h3 className={" font-semibold text-4xl"}>
                     {daysLeft} Tage
                 </h3>
             </div>

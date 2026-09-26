@@ -76,13 +76,3 @@ export type FeedbackEntry = Prisma.FeedbackEntryModel
  * 
  */
 export type Faq = Prisma.FaqModel
-/**
- * Model University
- * 
- */
-export type University = Prisma.UniversityModel
-/**
- * Model Course
- * 
- */
-export type Course = Prisma.CourseModel

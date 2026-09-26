@@ -1,1 +1,0 @@
-ALTER TABLE "CalendarEntry" ADD COLUMN "allDay" BOOLEAN NOT NULL DEFAULT false;
