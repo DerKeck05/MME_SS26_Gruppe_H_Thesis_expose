@@ -104,8 +104,8 @@ function EntryDetailModal({
                     </div>
 
                     {entry.description && (
-                        <div className="detail-description">
-                            <p>
+                        <div className="detail-description overflow-y-auto whitespace-normal wrap-break-word">
+                            <p className="min-w-0">
                                 {entry.description}
                             </p>
                         </div>
@@ -116,7 +116,7 @@ function EntryDetailModal({
                 <div className="spacer"/>
 
                 <button
-                    className="modal-submit-button"
+                    className="squared-button modal-submit-button"
                     id="entry-delete-button"
                     type="button"
                     onClick={() => void onDelete()}

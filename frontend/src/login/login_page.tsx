@@ -42,6 +42,7 @@ function LoginPage() {
 
             if (role === "student") {
                 localStorage.setItem("studentId", String(data.user.id));
+                console.log("USER ID:", String(data.user.id));
                 navigate("/student");
             }
 

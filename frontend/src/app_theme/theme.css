@@ -35,7 +35,7 @@
     --color-background-grey: #e8e8e8;
 }
 
-button {
+.squared-button {
     background-color: var(--tertiary);
     display: flex;
     justify-content: center;
@@ -44,6 +44,11 @@ button {
     color: var(--secondary);
 }
 
+.squared-button:hover {
+    background-color: var(--dark-blue);
+}
+
 button:hover {
     background-color: var(--dark-blue);
+    color: var(--white);
 }

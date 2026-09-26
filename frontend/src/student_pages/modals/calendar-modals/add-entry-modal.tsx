@@ -1,5 +1,6 @@
 import {useState} from "react";
 import CloseModalButton from "../../../globals/close-modal-button.tsx";
+import {MAX_ENTRY_TITLE_LENGTH} from "../../calendar_pages/calendar-page.tsx";
 
 interface AddEntry {
     title: string;
@@ -28,7 +29,7 @@ function AddEntryModal({
 
     const isFormValid =
         entryTitle.trim() !== "" &&
-        entryTitle.trim().length <= 50 &&
+        entryTitle.trim().length <= MAX_ENTRY_TITLE_LENGTH &&
         (
             allDay
                 ? date !== ""
@@ -104,6 +105,7 @@ function AddEntryModal({
                     <input
                         type="text"
                         placeholder="Neues Ereignis"
+                        maxLength={MAX_ENTRY_TITLE_LENGTH}
                         value={entryTitle}
                         onChange={(e) => setEntryTitle(e.target.value)}
                     />
@@ -111,6 +113,7 @@ function AddEntryModal({
                     <input
                         type="text"
                         placeholder="Beschreibung"
+                        maxLength={500}
                         value={entryDescription}
                         onChange={(e) => setEntryDescription(e.target.value)}
                     />
@@ -154,7 +157,7 @@ function AddEntryModal({
                 <div className="spacer"/>
 
                 <button
-                    className="modal-submit-button"
+                    className="squared-button modal-submit-button"
                     type="button"
                     disabled={!isFormValid}
                     onClick={() => void submitEntry()}
