@@ -9,6 +9,8 @@ import {PanelRightClose, Plus} from "lucide-react";
 import {useStudent} from "../route_handling/student-provider.tsx";
 import CommentItem, {type UIComment} from "./comments/comment-item.tsx";
 
+export const MAX_CHAPTER_TITLE_LENGTH = 60;
+
 function OutlinePage() {
     const [chapters, setChapters] = useState<Chapter[]>([]);
     const [showAddModal, setShowAddModal] = useState(false);

@@ -26,6 +26,8 @@ export function calcLeftDays(deadline: CalendarEvent): string {
     return Math.ceil(difference / (1000 * 60 * 60 * 24)).toString();
 }
 
+export const MAX_ENTRY_TITLE_LENGTH = 50;
+
 function CalendarPage() {
     const {thesisId, deadline} = useStudent();
 

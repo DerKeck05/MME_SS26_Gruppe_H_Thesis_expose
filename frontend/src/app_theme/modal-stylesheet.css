@@ -130,12 +130,13 @@ label {
 .detail-description {
     background-color: var(--background-grey);
     width: 98%;
-    height: 4rem;
+    height: 8rem;
     margin: var(--spacing-small);
     padding: var(--spacing-medium);
     border-radius: var(--border-radius);
-    align-items: start;
-    display:flex;
+    align-items: flex-start;
+    display: flex;
+    box-sizing: border-box;
 }
 
 #detail-modal {
@@ -152,6 +153,10 @@ label {
     border: none;
     cursor: pointer;
     border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Edit Chapter Modal */
@@ -202,4 +207,9 @@ label {
 .ui-error-notice {
     color: darkred;
 
+}
+
+.modal button {
+    background-color: var(--tertiary);
+    color: var(--secondary);
 }

@@ -1,6 +1,7 @@
 import {Check, Trash, X} from "lucide-react";
 import {useState} from "react";
 import type {Chapter} from "../../../utils/outline-utils.ts";
+import {MAX_CHAPTER_TITLE_LENGTH} from "../../outline_pages/outline-page.tsx";
 
 interface EditChapterModalProps {
     onCancel: () => void;
@@ -71,6 +72,7 @@ function EditChapterModal({
                         type="text"
                         placeholder="Neues Kapitel"
                         value={chapterTitle}
+                        maxLength={MAX_CHAPTER_TITLE_LENGTH}
                         onChange={(event) =>
                             setChapterTitle(event.target.value)
                         }
