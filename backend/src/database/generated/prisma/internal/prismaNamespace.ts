@@ -403,9 +403,7 @@ export const ModelName = {
   CalendarEntry: 'CalendarEntry',
   Chapter: 'Chapter',
   FeedbackEntry: 'FeedbackEntry',
-  Faq: 'Faq',
-  University: 'University',
-  Course: 'Course'
+  Faq: 'Faq'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -421,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "supervisor" | "student" | "thesis" | "calendarEntry" | "chapter" | "feedbackEntry" | "faq" | "university" | "course"
+    modelProps: "supervisor" | "student" | "thesis" | "calendarEntry" | "chapter" | "feedbackEntry" | "faq"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -943,154 +941,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    University: {
-      payload: Prisma.$UniversityPayload<ExtArgs>
-      fields: Prisma.UniversityFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.UniversityFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UniversityPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.UniversityFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UniversityPayload>
-        }
-        findFirst: {
-          args: Prisma.UniversityFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UniversityPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.UniversityFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UniversityPayload>
-        }
-        findMany: {
-          args: Prisma.UniversityFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UniversityPayload>[]
-        }
-        create: {
-          args: Prisma.UniversityCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UniversityPayload>
-        }
-        createMany: {
-          args: Prisma.UniversityCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.UniversityCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UniversityPayload>[]
-        }
-        delete: {
-          args: Prisma.UniversityDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UniversityPayload>
-        }
-        update: {
-          args: Prisma.UniversityUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UniversityPayload>
-        }
-        deleteMany: {
-          args: Prisma.UniversityDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.UniversityUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.UniversityUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UniversityPayload>[]
-        }
-        upsert: {
-          args: Prisma.UniversityUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UniversityPayload>
-        }
-        aggregate: {
-          args: Prisma.UniversityAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateUniversity>
-        }
-        groupBy: {
-          args: Prisma.UniversityGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.UniversityGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.UniversityCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.UniversityCountAggregateOutputType> | number
-        }
-      }
-    }
-    Course: {
-      payload: Prisma.$CoursePayload<ExtArgs>
-      fields: Prisma.CourseFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.CourseFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.CourseFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>
-        }
-        findFirst: {
-          args: Prisma.CourseFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.CourseFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>
-        }
-        findMany: {
-          args: Prisma.CourseFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>[]
-        }
-        create: {
-          args: Prisma.CourseCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>
-        }
-        createMany: {
-          args: Prisma.CourseCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.CourseCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>[]
-        }
-        delete: {
-          args: Prisma.CourseDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>
-        }
-        update: {
-          args: Prisma.CourseUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>
-        }
-        deleteMany: {
-          args: Prisma.CourseDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.CourseUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.CourseUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>[]
-        }
-        upsert: {
-          args: Prisma.CourseUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>
-        }
-        aggregate: {
-          args: Prisma.CourseAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateCourse>
-        }
-        groupBy: {
-          args: Prisma.CourseGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CourseGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.CourseCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CourseCountAggregateOutputType> | number
-        }
-      }
-    }
   }
 } & {
   other: {
@@ -1137,8 +987,7 @@ export const SupervisorScalarFieldEnum = {
   passwordHash: 'passwordHash',
   chair: 'chair',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  universityId: 'universityId'
+  updatedAt: 'updatedAt'
 } as const
 
 export type SupervisorScalarFieldEnum = (typeof SupervisorScalarFieldEnum)[keyof typeof SupervisorScalarFieldEnum]
@@ -1152,9 +1001,7 @@ export const StudentScalarFieldEnum = {
   course: 'course',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  universityId: 'universityId',
-  supervisorId: 'supervisorId',
-  courseId: 'courseId'
+  supervisorId: 'supervisorId'
 } as const
 
 export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
@@ -1223,23 +1070,6 @@ export const FaqScalarFieldEnum = {
 } as const
 
 export type FaqScalarFieldEnum = (typeof FaqScalarFieldEnum)[keyof typeof FaqScalarFieldEnum]
-
-
-export const UniversityScalarFieldEnum = {
-  id: 'id',
-  name: 'name'
-} as const
-
-export type UniversityScalarFieldEnum = (typeof UniversityScalarFieldEnum)[keyof typeof UniversityScalarFieldEnum]
-
-
-export const CourseScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  universityId: 'universityId'
-} as const
-
-export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1492,8 +1322,6 @@ export type GlobalOmitConfig = {
   chapter?: Prisma.ChapterOmit
   feedbackEntry?: Prisma.FeedbackEntryOmit
   faq?: Prisma.FaqOmit
-  university?: Prisma.UniversityOmit
-  course?: Prisma.CourseOmit
 }
 
 /* Types for Logging */

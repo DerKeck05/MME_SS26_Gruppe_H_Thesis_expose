@@ -67,10 +67,13 @@ export async function registerStudent(
     name: string,
     email: string,
     password: string,
-    universityId: number,
-    courseId: number,
-    supervisorId: number
+    course: string
 ) {
+    console.log(
+        "Request URL:",
+        `${API_URL}/api/auth/register/student`
+    );
+
     const response = await fetch(
         `${API_URL}/api/auth/register/student`,
         {
@@ -84,14 +87,14 @@ export async function registerStudent(
                 name,
                 email,
                 password,
-                universityId,
-                courseId,
-                supervisorId
+                course
             })
         }
     );
 
+
     const data = await response.json();
+
 
     if (!response.ok) {
         throw new Error(
@@ -99,8 +102,10 @@ export async function registerStudent(
         );
     }
 
+
     return data;
 }
+
 
 
 /* PROF REG */
@@ -109,9 +114,7 @@ export async function registerProfessor(
     name: string,
     email: string,
     password: string,
-    chair: string,
-    universityId: number,
-    courseIds: number[]
+    chair: string
 ) {
 
     const response = await fetch(
@@ -127,9 +130,7 @@ export async function registerProfessor(
                 name,
                 email,
                 password,
-                chair,
-                universityId,
-                courseIds
+                chair
             })
         }
     );

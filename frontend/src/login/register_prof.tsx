@@ -1,18 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerProfessor } from "../apis/auth-api.ts";
 import { LOGIN_MESSAGES } from "./login_fails";
 import "./design_css/login.css";
 
-type University = {
-    id: number;
-    name: string;
-};
-type Course = {
-    id: number;
-    name: string;
-    universityId: number;
-};
+
 function RegisterProfessorPage() {
 
     /* Wird benutzt, um nach erfolgreicher Registrierung
@@ -32,56 +24,22 @@ function RegisterProfessorPage() {
     const [password, setPassword] = useState("");
 
 
+    /* Speichert den eingegebenen Lehrstuhl */
+    const [chair, setChair] = useState("");
+
+
     /* Speichert eine mögliche Fehlermeldung */
     const [errorMessage, setErrorMessage] = useState("");
 
-    const [universities, setUniversities] = useState<University[]>([]);
-    const [universityId, setUniversityId] = useState("");
-    const [courses, setCourses] = useState<Course[]>([]);
-    const [selectedCourseIds, setSelectedCourseIds] = useState<number[]>([]);
 
-    useEffect(() => {
-        if (universityId === "") {
-            setCourses([]);
-            return;
-        }
-
-        fetch("http://localhost:3000/api/universities/" + universityId + "/courses")
-            .then((response) => response.json())
-            .then((data) => {
-                setCourses(data);
-            });
-    }, [universityId]);
-
-    useEffect(() => {
-        fetch("http://localhost:3000/api/universities")
-            .then((response) => response.json())
-            .then((data) => {
-                setUniversities(data);
-            });
-    },
-        []);
-
-    function toggleCourse(courseId: number) {
-        if (selectedCourseIds.includes(courseId)) {
-            setSelectedCourseIds(
-                selectedCourseIds.filter((id) => id != courseId)
-            );
-        } else {
-            setSelectedCourseIds([
-                ...selectedCourseIds,
-                courseId
-            ]);
-        }
-    }
     async function RegisterFunction() {
 
         /* Prüft zuerst, ob irgendein Feld leer ist */
         if (
-            name == "" ||
-            email == "" ||
-            password == "" ||
-            universityId == ""
+            name === "" ||
+            email === "" ||
+            password === "" ||
+            chair === ""
         ) {
 
             /* Fehlermeldung anzeigen */
@@ -100,9 +58,7 @@ function RegisterProfessorPage() {
                 name,
                 email,
                 password,
-                "nicht verwendet",
-                Number(universityId),
-                selectedCourseIds
+                chair
             );
 
 
@@ -180,44 +136,19 @@ function RegisterProfessorPage() {
                         setPassword(event.target.value)
                     }
                 />
-                <label>Hochschule:</label>
 
-                <select
-                    value={universityId}
-                    onChange={(event) => setUniversityId(event.target.value)}
-                >
-                    <option value="">Hochschule auswählen</option>
 
-                    {universities.map((university) => (
-                        <option
-                            key={university.id}
-                            value={university.id}
-                        >
-                            {university.name}
-                        </option>
-                    ))}
-                </select>
-                <label>Kurse:</label>
+                {/* Lehrstuhl */}
+                <label>Lehrstuhl:</label>
 
-                <details className="course-dropdown">
-                    <summary>
-                        Kurse auswählen ({selectedCourseIds.length} ausgewählt)
-                    </summary>
+                <input
+                    type="text"
+                    value={chair}
+                    onChange={(event) =>
+                        setChair(event.target.value)
+                    }
+                />
 
-                    <div className="course-dropdown-content">
-                        {courses.map((course) => (
-                            <label key={course.id} className="course-option">
-                                <input
-                                    type="checkbox"
-                                    checked={selectedCourseIds.includes(course.id)}
-                                    onChange={() => toggleCourse(course.id)}
-                                />
-
-                                {course.name}
-                            </label>
-                        ))}
-                    </div>
-                </details>
 
                 {/* Registrierung */}
                 <button onClick={RegisterFunction}>
