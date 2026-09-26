@@ -57,7 +57,9 @@ export const ModelName = {
   CalendarEntry: 'CalendarEntry',
   Chapter: 'Chapter',
   FeedbackEntry: 'FeedbackEntry',
-  Faq: 'Faq'
+  Faq: 'Faq',
+  University: 'University',
+  Course: 'Course'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -83,7 +85,8 @@ export const SupervisorScalarFieldEnum = {
   passwordHash: 'passwordHash',
   chair: 'chair',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  universityId: 'universityId'
 } as const
 
 export type SupervisorScalarFieldEnum = (typeof SupervisorScalarFieldEnum)[keyof typeof SupervisorScalarFieldEnum]
@@ -97,7 +100,9 @@ export const StudentScalarFieldEnum = {
   course: 'course',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  supervisorId: 'supervisorId'
+  universityId: 'universityId',
+  supervisorId: 'supervisorId',
+  courseId: 'courseId'
 } as const
 
 export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
@@ -166,6 +171,23 @@ export const FaqScalarFieldEnum = {
 } as const
 
 export type FaqScalarFieldEnum = (typeof FaqScalarFieldEnum)[keyof typeof FaqScalarFieldEnum]
+
+
+export const UniversityScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type UniversityScalarFieldEnum = (typeof UniversityScalarFieldEnum)[keyof typeof UniversityScalarFieldEnum]
+
+
+export const CourseScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  universityId: 'universityId'
+} as const
+
+export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
 
 
 export const SortOrder = {

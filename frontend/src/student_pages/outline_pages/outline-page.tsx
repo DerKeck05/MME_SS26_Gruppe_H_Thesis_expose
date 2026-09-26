@@ -26,6 +26,10 @@ function OutlinePage() {
 
     useEffect(() => {
         async function loadChapters() {
+            if (thesisId == null) {
+                return;
+            }
+
             try {
                 const loadedChapters = await getChapters(thesisId);
                 setChapters(loadedChapters);
@@ -35,12 +39,16 @@ function OutlinePage() {
         }
 
         void loadChapters();
-    }, []);
+    }, [thesisId]);
 
     async function handleAddChapter(
         title: string,
         chapterNumber: string
     ): Promise<boolean> {
+        if (thesisId == null) {
+            return false;
+        }
+
         const data = getParentIdAndPosition(chapterNumber, chapters);
 
         if (!data) {
@@ -130,7 +138,9 @@ function OutlinePage() {
                 <OutlineComponent
                     chapters={chapters}
                     onEditChapter={setEditChapter}
-                    onCommentClick={() => {setShowCommentSidebar(!showCommentSidebar)}}
+                    onCommentClick={() => {
+                        setShowCommentSidebar(!showCommentSidebar);
+                    }}
                 />
 
                 {showAddModal && (

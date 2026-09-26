@@ -1,17 +1,18 @@
-import {createSupervisor} from "../repos/supervisor-repo.js";
-import {createThesis} from "../repos/thesis-repo.js";
+import { createSupervisor } from "../repos/supervisor-repo.js";
+import { createThesis } from "../repos/thesis-repo.js";
 
 async function main() {
     console.log("Dummy data script started");
 
     try {
         console.log("Creating supervisor...");
-
         const supervisor = await createSupervisor(
             "Prof. Dr. Max Mustermann",
             "max.mustermann@uni-regensburg.de",
             "dummy-password",
-            "Lehrstuhl für Medieninformatik"
+            "Lehrstuhl für Medieninformatik",
+            1,
+            [1]
         );
 
         console.log("Supervisor created:");

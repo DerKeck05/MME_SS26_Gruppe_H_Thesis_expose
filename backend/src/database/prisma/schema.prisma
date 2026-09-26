@@ -16,17 +16,20 @@ datasource db {
 
 // Supervisor Model
 model Supervisor {
-  id           Int      @id @default(autoincrement())
+  id           Int         @id @default(autoincrement())
   name         String
-  email        String   @unique
+  email        String      @unique
   passwordHash String
   chair        String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  universityId Int?
+  university   University? @relation(fields: [universityId], references: [id])
 
-  // Relations, 1:N for students & Thesis and 1:1 for FAQ
+  // Relations
   students Student[]
   theses   Thesis[]
+  courses  Course[]
   faq      Faq?
 }
 
@@ -40,12 +43,20 @@ model Student {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+  // Foreign Key to University
+  universityId Int?
+  university   University? @relation(fields: [universityId], references: [id])
+
   // Foreign Key to Supervisor
   supervisorId Int?
   supervisor   Supervisor? @relation(fields: [supervisorId], references: [id])
 
-  // Relations, 1:N for Thesis
+  // 1:1 Relation to Thesis
   thesis Thesis?
+
+  // Foreign Key to Course
+  courseId       Int?
+  courseRelation Course? @relation(fields: [courseId], references: [id])
 }
 
 // Thesis Model
@@ -58,14 +69,15 @@ model Thesis {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  // Foreign Keys to Student and Supervisor
-  studentId Int @unique
-  student   Student  @relation(fields: [studentId], references: [id])
+  // Foreign Key to Student
+  studentId Int     @unique
+  student   Student @relation(fields: [studentId], references: [id])
 
+  // Foreign Key to Supervisor
   supervisorId Int
   supervisor   Supervisor @relation(fields: [supervisorId], references: [id])
 
-  // Relations, 1:N for calenderEntries and chapters
+  // Relations
   calendarEntries CalendarEntry[]
   chapters        Chapter[]
 }
@@ -77,7 +89,7 @@ model CalendarEntry {
   description String?
   startDate   DateTime
   endDate     DateTime
-  allDay      Boolean @default(false)
+  allDay      Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -104,7 +116,7 @@ model Chapter {
   thesisId Int
   thesis   Thesis @relation(fields: [thesisId], references: [id])
 
-  // Relations, 1:N for feedbackEntries
+  // Relations
   feedbackEntries FeedbackEntry[]
 }
 
@@ -130,4 +142,30 @@ model Faq {
   // Foreign Key to Supervisor
   supervisorId Int        @unique
   supervisor   Supervisor @relation(fields: [supervisorId], references: [id])
+}
+
+// University Model
+model University {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  supervisors Supervisor[]
+  students    Student[]
+  courses     Course[]
+}
+
+// Course Model
+model Course {
+  id           Int    @id @default(autoincrement())
+  name         String
+  universityId Int
+
+  // Foreign Key to University
+  university University @relation(fields: [universityId], references: [id])
+
+  // Relations
+  supervisors Supervisor[]
+  students    Student[]
+
+  @@unique([name, universityId])
 }

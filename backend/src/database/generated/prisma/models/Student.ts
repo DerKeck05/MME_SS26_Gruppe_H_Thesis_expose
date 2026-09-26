@@ -28,12 +28,16 @@ export type AggregateStudent = {
 
 export type StudentAvgAggregateOutputType = {
   id: number | null
+  universityId: number | null
   supervisorId: number | null
+  courseId: number | null
 }
 
 export type StudentSumAggregateOutputType = {
   id: number | null
+  universityId: number | null
   supervisorId: number | null
+  courseId: number | null
 }
 
 export type StudentMinAggregateOutputType = {
@@ -44,7 +48,9 @@ export type StudentMinAggregateOutputType = {
   course: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  universityId: number | null
   supervisorId: number | null
+  courseId: number | null
 }
 
 export type StudentMaxAggregateOutputType = {
@@ -55,7 +61,9 @@ export type StudentMaxAggregateOutputType = {
   course: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  universityId: number | null
   supervisorId: number | null
+  courseId: number | null
 }
 
 export type StudentCountAggregateOutputType = {
@@ -66,19 +74,25 @@ export type StudentCountAggregateOutputType = {
   course: number
   createdAt: number
   updatedAt: number
+  universityId: number
   supervisorId: number
+  courseId: number
   _all: number
 }
 
 
 export type StudentAvgAggregateInputType = {
   id?: true
+  universityId?: true
   supervisorId?: true
+  courseId?: true
 }
 
 export type StudentSumAggregateInputType = {
   id?: true
+  universityId?: true
   supervisorId?: true
+  courseId?: true
 }
 
 export type StudentMinAggregateInputType = {
@@ -89,7 +103,9 @@ export type StudentMinAggregateInputType = {
   course?: true
   createdAt?: true
   updatedAt?: true
+  universityId?: true
   supervisorId?: true
+  courseId?: true
 }
 
 export type StudentMaxAggregateInputType = {
@@ -100,7 +116,9 @@ export type StudentMaxAggregateInputType = {
   course?: true
   createdAt?: true
   updatedAt?: true
+  universityId?: true
   supervisorId?: true
+  courseId?: true
 }
 
 export type StudentCountAggregateInputType = {
@@ -111,7 +129,9 @@ export type StudentCountAggregateInputType = {
   course?: true
   createdAt?: true
   updatedAt?: true
+  universityId?: true
   supervisorId?: true
+  courseId?: true
   _all?: true
 }
 
@@ -209,7 +229,9 @@ export type StudentGroupByOutputType = {
   course: string
   createdAt: Date
   updatedAt: Date
+  universityId: number | null
   supervisorId: number | null
+  courseId: number | null
   _count: StudentCountAggregateOutputType | null
   _avg: StudentAvgAggregateOutputType | null
   _sum: StudentSumAggregateOutputType | null
@@ -243,9 +265,13 @@ export type StudentWhereInput = {
   course?: Prisma.StringFilter<"Student"> | string
   createdAt?: Prisma.DateTimeFilter<"Student"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Student"> | Date | string
+  universityId?: Prisma.IntNullableFilter<"Student"> | number | null
   supervisorId?: Prisma.IntNullableFilter<"Student"> | number | null
+  courseId?: Prisma.IntNullableFilter<"Student"> | number | null
+  university?: Prisma.XOR<Prisma.UniversityNullableScalarRelationFilter, Prisma.UniversityWhereInput> | null
   supervisor?: Prisma.XOR<Prisma.SupervisorNullableScalarRelationFilter, Prisma.SupervisorWhereInput> | null
   thesis?: Prisma.XOR<Prisma.ThesisNullableScalarRelationFilter, Prisma.ThesisWhereInput> | null
+  courseRelation?: Prisma.XOR<Prisma.CourseNullableScalarRelationFilter, Prisma.CourseWhereInput> | null
 }
 
 export type StudentOrderByWithRelationInput = {
@@ -256,9 +282,13 @@ export type StudentOrderByWithRelationInput = {
   course?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  universityId?: Prisma.SortOrderInput | Prisma.SortOrder
   supervisorId?: Prisma.SortOrderInput | Prisma.SortOrder
+  courseId?: Prisma.SortOrderInput | Prisma.SortOrder
+  university?: Prisma.UniversityOrderByWithRelationInput
   supervisor?: Prisma.SupervisorOrderByWithRelationInput
   thesis?: Prisma.ThesisOrderByWithRelationInput
+  courseRelation?: Prisma.CourseOrderByWithRelationInput
 }
 
 export type StudentWhereUniqueInput = Prisma.AtLeast<{
@@ -272,9 +302,13 @@ export type StudentWhereUniqueInput = Prisma.AtLeast<{
   course?: Prisma.StringFilter<"Student"> | string
   createdAt?: Prisma.DateTimeFilter<"Student"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Student"> | Date | string
+  universityId?: Prisma.IntNullableFilter<"Student"> | number | null
   supervisorId?: Prisma.IntNullableFilter<"Student"> | number | null
+  courseId?: Prisma.IntNullableFilter<"Student"> | number | null
+  university?: Prisma.XOR<Prisma.UniversityNullableScalarRelationFilter, Prisma.UniversityWhereInput> | null
   supervisor?: Prisma.XOR<Prisma.SupervisorNullableScalarRelationFilter, Prisma.SupervisorWhereInput> | null
   thesis?: Prisma.XOR<Prisma.ThesisNullableScalarRelationFilter, Prisma.ThesisWhereInput> | null
+  courseRelation?: Prisma.XOR<Prisma.CourseNullableScalarRelationFilter, Prisma.CourseWhereInput> | null
 }, "id" | "email">
 
 export type StudentOrderByWithAggregationInput = {
@@ -285,7 +319,9 @@ export type StudentOrderByWithAggregationInput = {
   course?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  universityId?: Prisma.SortOrderInput | Prisma.SortOrder
   supervisorId?: Prisma.SortOrderInput | Prisma.SortOrder
+  courseId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.StudentCountOrderByAggregateInput
   _avg?: Prisma.StudentAvgOrderByAggregateInput
   _max?: Prisma.StudentMaxOrderByAggregateInput
@@ -304,7 +340,9 @@ export type StudentScalarWhereWithAggregatesInput = {
   course?: Prisma.StringWithAggregatesFilter<"Student"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Student"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Student"> | Date | string
+  universityId?: Prisma.IntNullableWithAggregatesFilter<"Student"> | number | null
   supervisorId?: Prisma.IntNullableWithAggregatesFilter<"Student"> | number | null
+  courseId?: Prisma.IntNullableWithAggregatesFilter<"Student"> | number | null
 }
 
 export type StudentCreateInput = {
@@ -314,8 +352,10 @@ export type StudentCreateInput = {
   course: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  university?: Prisma.UniversityCreateNestedOneWithoutStudentsInput
   supervisor?: Prisma.SupervisorCreateNestedOneWithoutStudentsInput
   thesis?: Prisma.ThesisCreateNestedOneWithoutStudentInput
+  courseRelation?: Prisma.CourseCreateNestedOneWithoutStudentsInput
 }
 
 export type StudentUncheckedCreateInput = {
@@ -326,7 +366,9 @@ export type StudentUncheckedCreateInput = {
   course: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  universityId?: number | null
   supervisorId?: number | null
+  courseId?: number | null
   thesis?: Prisma.ThesisUncheckedCreateNestedOneWithoutStudentInput
 }
 
@@ -337,8 +379,10 @@ export type StudentUpdateInput = {
   course?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  university?: Prisma.UniversityUpdateOneWithoutStudentsNestedInput
   supervisor?: Prisma.SupervisorUpdateOneWithoutStudentsNestedInput
   thesis?: Prisma.ThesisUpdateOneWithoutStudentNestedInput
+  courseRelation?: Prisma.CourseUpdateOneWithoutStudentsNestedInput
 }
 
 export type StudentUncheckedUpdateInput = {
@@ -349,7 +393,9 @@ export type StudentUncheckedUpdateInput = {
   course?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   supervisorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  courseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   thesis?: Prisma.ThesisUncheckedUpdateOneWithoutStudentNestedInput
 }
 
@@ -361,7 +407,9 @@ export type StudentCreateManyInput = {
   course: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  universityId?: number | null
   supervisorId?: number | null
+  courseId?: number | null
 }
 
 export type StudentUpdateManyMutationInput = {
@@ -381,7 +429,9 @@ export type StudentUncheckedUpdateManyInput = {
   course?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   supervisorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  courseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type StudentListRelationFilter = {
@@ -402,12 +452,16 @@ export type StudentCountOrderByAggregateInput = {
   course?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  universityId?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
+  courseId?: Prisma.SortOrder
 }
 
 export type StudentAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  universityId?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
+  courseId?: Prisma.SortOrder
 }
 
 export type StudentMaxOrderByAggregateInput = {
@@ -418,7 +472,9 @@ export type StudentMaxOrderByAggregateInput = {
   course?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  universityId?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
+  courseId?: Prisma.SortOrder
 }
 
 export type StudentMinOrderByAggregateInput = {
@@ -429,12 +485,16 @@ export type StudentMinOrderByAggregateInput = {
   course?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  universityId?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
+  courseId?: Prisma.SortOrder
 }
 
 export type StudentSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  universityId?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
+  courseId?: Prisma.SortOrder
 }
 
 export type StudentScalarRelationFilter = {
@@ -484,14 +544,6 @@ export type StudentUncheckedUpdateManyWithoutSupervisorNestedInput = {
   deleteMany?: Prisma.StudentScalarWhereInput | Prisma.StudentScalarWhereInput[]
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type StudentCreateNestedOneWithoutThesisInput = {
   create?: Prisma.XOR<Prisma.StudentCreateWithoutThesisInput, Prisma.StudentUncheckedCreateWithoutThesisInput>
   connectOrCreate?: Prisma.StudentCreateOrConnectWithoutThesisInput
@@ -506,6 +558,90 @@ export type StudentUpdateOneRequiredWithoutThesisNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StudentUpdateToOneWithWhereWithoutThesisInput, Prisma.StudentUpdateWithoutThesisInput>, Prisma.StudentUncheckedUpdateWithoutThesisInput>
 }
 
+export type StudentCreateNestedManyWithoutUniversityInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutUniversityInput, Prisma.StudentUncheckedCreateWithoutUniversityInput> | Prisma.StudentCreateWithoutUniversityInput[] | Prisma.StudentUncheckedCreateWithoutUniversityInput[]
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutUniversityInput | Prisma.StudentCreateOrConnectWithoutUniversityInput[]
+  createMany?: Prisma.StudentCreateManyUniversityInputEnvelope
+  connect?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+}
+
+export type StudentUncheckedCreateNestedManyWithoutUniversityInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutUniversityInput, Prisma.StudentUncheckedCreateWithoutUniversityInput> | Prisma.StudentCreateWithoutUniversityInput[] | Prisma.StudentUncheckedCreateWithoutUniversityInput[]
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutUniversityInput | Prisma.StudentCreateOrConnectWithoutUniversityInput[]
+  createMany?: Prisma.StudentCreateManyUniversityInputEnvelope
+  connect?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+}
+
+export type StudentUpdateManyWithoutUniversityNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutUniversityInput, Prisma.StudentUncheckedCreateWithoutUniversityInput> | Prisma.StudentCreateWithoutUniversityInput[] | Prisma.StudentUncheckedCreateWithoutUniversityInput[]
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutUniversityInput | Prisma.StudentCreateOrConnectWithoutUniversityInput[]
+  upsert?: Prisma.StudentUpsertWithWhereUniqueWithoutUniversityInput | Prisma.StudentUpsertWithWhereUniqueWithoutUniversityInput[]
+  createMany?: Prisma.StudentCreateManyUniversityInputEnvelope
+  set?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  disconnect?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  delete?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  connect?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  update?: Prisma.StudentUpdateWithWhereUniqueWithoutUniversityInput | Prisma.StudentUpdateWithWhereUniqueWithoutUniversityInput[]
+  updateMany?: Prisma.StudentUpdateManyWithWhereWithoutUniversityInput | Prisma.StudentUpdateManyWithWhereWithoutUniversityInput[]
+  deleteMany?: Prisma.StudentScalarWhereInput | Prisma.StudentScalarWhereInput[]
+}
+
+export type StudentUncheckedUpdateManyWithoutUniversityNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutUniversityInput, Prisma.StudentUncheckedCreateWithoutUniversityInput> | Prisma.StudentCreateWithoutUniversityInput[] | Prisma.StudentUncheckedCreateWithoutUniversityInput[]
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutUniversityInput | Prisma.StudentCreateOrConnectWithoutUniversityInput[]
+  upsert?: Prisma.StudentUpsertWithWhereUniqueWithoutUniversityInput | Prisma.StudentUpsertWithWhereUniqueWithoutUniversityInput[]
+  createMany?: Prisma.StudentCreateManyUniversityInputEnvelope
+  set?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  disconnect?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  delete?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  connect?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  update?: Prisma.StudentUpdateWithWhereUniqueWithoutUniversityInput | Prisma.StudentUpdateWithWhereUniqueWithoutUniversityInput[]
+  updateMany?: Prisma.StudentUpdateManyWithWhereWithoutUniversityInput | Prisma.StudentUpdateManyWithWhereWithoutUniversityInput[]
+  deleteMany?: Prisma.StudentScalarWhereInput | Prisma.StudentScalarWhereInput[]
+}
+
+export type StudentCreateNestedManyWithoutCourseRelationInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutCourseRelationInput, Prisma.StudentUncheckedCreateWithoutCourseRelationInput> | Prisma.StudentCreateWithoutCourseRelationInput[] | Prisma.StudentUncheckedCreateWithoutCourseRelationInput[]
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutCourseRelationInput | Prisma.StudentCreateOrConnectWithoutCourseRelationInput[]
+  createMany?: Prisma.StudentCreateManyCourseRelationInputEnvelope
+  connect?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+}
+
+export type StudentUncheckedCreateNestedManyWithoutCourseRelationInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutCourseRelationInput, Prisma.StudentUncheckedCreateWithoutCourseRelationInput> | Prisma.StudentCreateWithoutCourseRelationInput[] | Prisma.StudentUncheckedCreateWithoutCourseRelationInput[]
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutCourseRelationInput | Prisma.StudentCreateOrConnectWithoutCourseRelationInput[]
+  createMany?: Prisma.StudentCreateManyCourseRelationInputEnvelope
+  connect?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+}
+
+export type StudentUpdateManyWithoutCourseRelationNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutCourseRelationInput, Prisma.StudentUncheckedCreateWithoutCourseRelationInput> | Prisma.StudentCreateWithoutCourseRelationInput[] | Prisma.StudentUncheckedCreateWithoutCourseRelationInput[]
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutCourseRelationInput | Prisma.StudentCreateOrConnectWithoutCourseRelationInput[]
+  upsert?: Prisma.StudentUpsertWithWhereUniqueWithoutCourseRelationInput | Prisma.StudentUpsertWithWhereUniqueWithoutCourseRelationInput[]
+  createMany?: Prisma.StudentCreateManyCourseRelationInputEnvelope
+  set?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  disconnect?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  delete?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  connect?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  update?: Prisma.StudentUpdateWithWhereUniqueWithoutCourseRelationInput | Prisma.StudentUpdateWithWhereUniqueWithoutCourseRelationInput[]
+  updateMany?: Prisma.StudentUpdateManyWithWhereWithoutCourseRelationInput | Prisma.StudentUpdateManyWithWhereWithoutCourseRelationInput[]
+  deleteMany?: Prisma.StudentScalarWhereInput | Prisma.StudentScalarWhereInput[]
+}
+
+export type StudentUncheckedUpdateManyWithoutCourseRelationNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutCourseRelationInput, Prisma.StudentUncheckedCreateWithoutCourseRelationInput> | Prisma.StudentCreateWithoutCourseRelationInput[] | Prisma.StudentUncheckedCreateWithoutCourseRelationInput[]
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutCourseRelationInput | Prisma.StudentCreateOrConnectWithoutCourseRelationInput[]
+  upsert?: Prisma.StudentUpsertWithWhereUniqueWithoutCourseRelationInput | Prisma.StudentUpsertWithWhereUniqueWithoutCourseRelationInput[]
+  createMany?: Prisma.StudentCreateManyCourseRelationInputEnvelope
+  set?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  disconnect?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  delete?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  connect?: Prisma.StudentWhereUniqueInput | Prisma.StudentWhereUniqueInput[]
+  update?: Prisma.StudentUpdateWithWhereUniqueWithoutCourseRelationInput | Prisma.StudentUpdateWithWhereUniqueWithoutCourseRelationInput[]
+  updateMany?: Prisma.StudentUpdateManyWithWhereWithoutCourseRelationInput | Prisma.StudentUpdateManyWithWhereWithoutCourseRelationInput[]
+  deleteMany?: Prisma.StudentScalarWhereInput | Prisma.StudentScalarWhereInput[]
+}
+
 export type StudentCreateWithoutSupervisorInput = {
   name: string
   email: string
@@ -513,7 +649,9 @@ export type StudentCreateWithoutSupervisorInput = {
   course: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  university?: Prisma.UniversityCreateNestedOneWithoutStudentsInput
   thesis?: Prisma.ThesisCreateNestedOneWithoutStudentInput
+  courseRelation?: Prisma.CourseCreateNestedOneWithoutStudentsInput
 }
 
 export type StudentUncheckedCreateWithoutSupervisorInput = {
@@ -524,6 +662,8 @@ export type StudentUncheckedCreateWithoutSupervisorInput = {
   course: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  universityId?: number | null
+  courseId?: number | null
   thesis?: Prisma.ThesisUncheckedCreateNestedOneWithoutStudentInput
 }
 
@@ -564,7 +704,9 @@ export type StudentScalarWhereInput = {
   course?: Prisma.StringFilter<"Student"> | string
   createdAt?: Prisma.DateTimeFilter<"Student"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Student"> | Date | string
+  universityId?: Prisma.IntNullableFilter<"Student"> | number | null
   supervisorId?: Prisma.IntNullableFilter<"Student"> | number | null
+  courseId?: Prisma.IntNullableFilter<"Student"> | number | null
 }
 
 export type StudentCreateWithoutThesisInput = {
@@ -574,7 +716,9 @@ export type StudentCreateWithoutThesisInput = {
   course: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  university?: Prisma.UniversityCreateNestedOneWithoutStudentsInput
   supervisor?: Prisma.SupervisorCreateNestedOneWithoutStudentsInput
+  courseRelation?: Prisma.CourseCreateNestedOneWithoutStudentsInput
 }
 
 export type StudentUncheckedCreateWithoutThesisInput = {
@@ -585,7 +729,9 @@ export type StudentUncheckedCreateWithoutThesisInput = {
   course: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  universityId?: number | null
   supervisorId?: number | null
+  courseId?: number | null
 }
 
 export type StudentCreateOrConnectWithoutThesisInput = {
@@ -611,7 +757,9 @@ export type StudentUpdateWithoutThesisInput = {
   course?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  university?: Prisma.UniversityUpdateOneWithoutStudentsNestedInput
   supervisor?: Prisma.SupervisorUpdateOneWithoutStudentsNestedInput
+  courseRelation?: Prisma.CourseUpdateOneWithoutStudentsNestedInput
 }
 
 export type StudentUncheckedUpdateWithoutThesisInput = {
@@ -622,7 +770,111 @@ export type StudentUncheckedUpdateWithoutThesisInput = {
   course?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   supervisorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  courseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type StudentCreateWithoutUniversityInput = {
+  name: string
+  email: string
+  passwordHash: string
+  course: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supervisor?: Prisma.SupervisorCreateNestedOneWithoutStudentsInput
+  thesis?: Prisma.ThesisCreateNestedOneWithoutStudentInput
+  courseRelation?: Prisma.CourseCreateNestedOneWithoutStudentsInput
+}
+
+export type StudentUncheckedCreateWithoutUniversityInput = {
+  id?: number
+  name: string
+  email: string
+  passwordHash: string
+  course: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supervisorId?: number | null
+  courseId?: number | null
+  thesis?: Prisma.ThesisUncheckedCreateNestedOneWithoutStudentInput
+}
+
+export type StudentCreateOrConnectWithoutUniversityInput = {
+  where: Prisma.StudentWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudentCreateWithoutUniversityInput, Prisma.StudentUncheckedCreateWithoutUniversityInput>
+}
+
+export type StudentCreateManyUniversityInputEnvelope = {
+  data: Prisma.StudentCreateManyUniversityInput | Prisma.StudentCreateManyUniversityInput[]
+  skipDuplicates?: boolean
+}
+
+export type StudentUpsertWithWhereUniqueWithoutUniversityInput = {
+  where: Prisma.StudentWhereUniqueInput
+  update: Prisma.XOR<Prisma.StudentUpdateWithoutUniversityInput, Prisma.StudentUncheckedUpdateWithoutUniversityInput>
+  create: Prisma.XOR<Prisma.StudentCreateWithoutUniversityInput, Prisma.StudentUncheckedCreateWithoutUniversityInput>
+}
+
+export type StudentUpdateWithWhereUniqueWithoutUniversityInput = {
+  where: Prisma.StudentWhereUniqueInput
+  data: Prisma.XOR<Prisma.StudentUpdateWithoutUniversityInput, Prisma.StudentUncheckedUpdateWithoutUniversityInput>
+}
+
+export type StudentUpdateManyWithWhereWithoutUniversityInput = {
+  where: Prisma.StudentScalarWhereInput
+  data: Prisma.XOR<Prisma.StudentUpdateManyMutationInput, Prisma.StudentUncheckedUpdateManyWithoutUniversityInput>
+}
+
+export type StudentCreateWithoutCourseRelationInput = {
+  name: string
+  email: string
+  passwordHash: string
+  course: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  university?: Prisma.UniversityCreateNestedOneWithoutStudentsInput
+  supervisor?: Prisma.SupervisorCreateNestedOneWithoutStudentsInput
+  thesis?: Prisma.ThesisCreateNestedOneWithoutStudentInput
+}
+
+export type StudentUncheckedCreateWithoutCourseRelationInput = {
+  id?: number
+  name: string
+  email: string
+  passwordHash: string
+  course: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  universityId?: number | null
+  supervisorId?: number | null
+  thesis?: Prisma.ThesisUncheckedCreateNestedOneWithoutStudentInput
+}
+
+export type StudentCreateOrConnectWithoutCourseRelationInput = {
+  where: Prisma.StudentWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudentCreateWithoutCourseRelationInput, Prisma.StudentUncheckedCreateWithoutCourseRelationInput>
+}
+
+export type StudentCreateManyCourseRelationInputEnvelope = {
+  data: Prisma.StudentCreateManyCourseRelationInput | Prisma.StudentCreateManyCourseRelationInput[]
+  skipDuplicates?: boolean
+}
+
+export type StudentUpsertWithWhereUniqueWithoutCourseRelationInput = {
+  where: Prisma.StudentWhereUniqueInput
+  update: Prisma.XOR<Prisma.StudentUpdateWithoutCourseRelationInput, Prisma.StudentUncheckedUpdateWithoutCourseRelationInput>
+  create: Prisma.XOR<Prisma.StudentCreateWithoutCourseRelationInput, Prisma.StudentUncheckedCreateWithoutCourseRelationInput>
+}
+
+export type StudentUpdateWithWhereUniqueWithoutCourseRelationInput = {
+  where: Prisma.StudentWhereUniqueInput
+  data: Prisma.XOR<Prisma.StudentUpdateWithoutCourseRelationInput, Prisma.StudentUncheckedUpdateWithoutCourseRelationInput>
+}
+
+export type StudentUpdateManyWithWhereWithoutCourseRelationInput = {
+  where: Prisma.StudentScalarWhereInput
+  data: Prisma.XOR<Prisma.StudentUpdateManyMutationInput, Prisma.StudentUncheckedUpdateManyWithoutCourseRelationInput>
 }
 
 export type StudentCreateManySupervisorInput = {
@@ -633,6 +885,8 @@ export type StudentCreateManySupervisorInput = {
   course: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  universityId?: number | null
+  courseId?: number | null
 }
 
 export type StudentUpdateWithoutSupervisorInput = {
@@ -642,7 +896,9 @@ export type StudentUpdateWithoutSupervisorInput = {
   course?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  university?: Prisma.UniversityUpdateOneWithoutStudentsNestedInput
   thesis?: Prisma.ThesisUpdateOneWithoutStudentNestedInput
+  courseRelation?: Prisma.CourseUpdateOneWithoutStudentsNestedInput
 }
 
 export type StudentUncheckedUpdateWithoutSupervisorInput = {
@@ -653,6 +909,8 @@ export type StudentUncheckedUpdateWithoutSupervisorInput = {
   course?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  courseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   thesis?: Prisma.ThesisUncheckedUpdateOneWithoutStudentNestedInput
 }
 
@@ -664,6 +922,106 @@ export type StudentUncheckedUpdateManyWithoutSupervisorInput = {
   course?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  courseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type StudentCreateManyUniversityInput = {
+  id?: number
+  name: string
+  email: string
+  passwordHash: string
+  course: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supervisorId?: number | null
+  courseId?: number | null
+}
+
+export type StudentUpdateWithoutUniversityInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  course?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supervisor?: Prisma.SupervisorUpdateOneWithoutStudentsNestedInput
+  thesis?: Prisma.ThesisUpdateOneWithoutStudentNestedInput
+  courseRelation?: Prisma.CourseUpdateOneWithoutStudentsNestedInput
+}
+
+export type StudentUncheckedUpdateWithoutUniversityInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  course?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supervisorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  courseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thesis?: Prisma.ThesisUncheckedUpdateOneWithoutStudentNestedInput
+}
+
+export type StudentUncheckedUpdateManyWithoutUniversityInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  course?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supervisorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  courseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type StudentCreateManyCourseRelationInput = {
+  id?: number
+  name: string
+  email: string
+  passwordHash: string
+  course: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  universityId?: number | null
+  supervisorId?: number | null
+}
+
+export type StudentUpdateWithoutCourseRelationInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  course?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  university?: Prisma.UniversityUpdateOneWithoutStudentsNestedInput
+  supervisor?: Prisma.SupervisorUpdateOneWithoutStudentsNestedInput
+  thesis?: Prisma.ThesisUpdateOneWithoutStudentNestedInput
+}
+
+export type StudentUncheckedUpdateWithoutCourseRelationInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  course?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supervisorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thesis?: Prisma.ThesisUncheckedUpdateOneWithoutStudentNestedInput
+}
+
+export type StudentUncheckedUpdateManyWithoutCourseRelationInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  course?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supervisorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
@@ -676,9 +1034,13 @@ export type StudentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   course?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  universityId?: boolean
   supervisorId?: boolean
+  courseId?: boolean
+  university?: boolean | Prisma.Student$universityArgs<ExtArgs>
   supervisor?: boolean | Prisma.Student$supervisorArgs<ExtArgs>
   thesis?: boolean | Prisma.Student$thesisArgs<ExtArgs>
+  courseRelation?: boolean | Prisma.Student$courseRelationArgs<ExtArgs>
 }, ExtArgs["result"]["student"]>
 
 export type StudentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -689,8 +1051,12 @@ export type StudentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   course?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  universityId?: boolean
   supervisorId?: boolean
+  courseId?: boolean
+  university?: boolean | Prisma.Student$universityArgs<ExtArgs>
   supervisor?: boolean | Prisma.Student$supervisorArgs<ExtArgs>
+  courseRelation?: boolean | Prisma.Student$courseRelationArgs<ExtArgs>
 }, ExtArgs["result"]["student"]>
 
 export type StudentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -701,8 +1067,12 @@ export type StudentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   course?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  universityId?: boolean
   supervisorId?: boolean
+  courseId?: boolean
+  university?: boolean | Prisma.Student$universityArgs<ExtArgs>
   supervisor?: boolean | Prisma.Student$supervisorArgs<ExtArgs>
+  courseRelation?: boolean | Prisma.Student$courseRelationArgs<ExtArgs>
 }, ExtArgs["result"]["student"]>
 
 export type StudentSelectScalar = {
@@ -713,26 +1083,36 @@ export type StudentSelectScalar = {
   course?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  universityId?: boolean
   supervisorId?: boolean
+  courseId?: boolean
 }
 
-export type StudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "course" | "createdAt" | "updatedAt" | "supervisorId", ExtArgs["result"]["student"]>
+export type StudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "course" | "createdAt" | "updatedAt" | "universityId" | "supervisorId" | "courseId", ExtArgs["result"]["student"]>
 export type StudentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  university?: boolean | Prisma.Student$universityArgs<ExtArgs>
   supervisor?: boolean | Prisma.Student$supervisorArgs<ExtArgs>
   thesis?: boolean | Prisma.Student$thesisArgs<ExtArgs>
+  courseRelation?: boolean | Prisma.Student$courseRelationArgs<ExtArgs>
 }
 export type StudentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  university?: boolean | Prisma.Student$universityArgs<ExtArgs>
   supervisor?: boolean | Prisma.Student$supervisorArgs<ExtArgs>
+  courseRelation?: boolean | Prisma.Student$courseRelationArgs<ExtArgs>
 }
 export type StudentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  university?: boolean | Prisma.Student$universityArgs<ExtArgs>
   supervisor?: boolean | Prisma.Student$supervisorArgs<ExtArgs>
+  courseRelation?: boolean | Prisma.Student$courseRelationArgs<ExtArgs>
 }
 
 export type $StudentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Student"
   objects: {
+    university: Prisma.$UniversityPayload<ExtArgs> | null
     supervisor: Prisma.$SupervisorPayload<ExtArgs> | null
     thesis: Prisma.$ThesisPayload<ExtArgs> | null
+    courseRelation: Prisma.$CoursePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -742,7 +1122,9 @@ export type $StudentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     course: string
     createdAt: Date
     updatedAt: Date
+    universityId: number | null
     supervisorId: number | null
+    courseId: number | null
   }, ExtArgs["result"]["student"]>
   composites: {}
 }
@@ -1137,8 +1519,10 @@ readonly fields: StudentFieldRefs;
  */
 export interface Prisma__StudentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  university<T extends Prisma.Student$universityArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$universityArgs<ExtArgs>>): Prisma.Prisma__UniversityClient<runtime.Types.Result.GetResult<Prisma.$UniversityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   supervisor<T extends Prisma.Student$supervisorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$supervisorArgs<ExtArgs>>): Prisma.Prisma__SupervisorClient<runtime.Types.Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   thesis<T extends Prisma.Student$thesisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$thesisArgs<ExtArgs>>): Prisma.Prisma__ThesisClient<runtime.Types.Result.GetResult<Prisma.$ThesisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  courseRelation<T extends Prisma.Student$courseRelationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$courseRelationArgs<ExtArgs>>): Prisma.Prisma__CourseClient<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1175,7 +1559,9 @@ export interface StudentFieldRefs {
   readonly course: Prisma.FieldRef<"Student", 'String'>
   readonly createdAt: Prisma.FieldRef<"Student", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Student", 'DateTime'>
+  readonly universityId: Prisma.FieldRef<"Student", 'Int'>
   readonly supervisorId: Prisma.FieldRef<"Student", 'Int'>
+  readonly courseId: Prisma.FieldRef<"Student", 'Int'>
 }
     
 
@@ -1577,6 +1963,25 @@ export type StudentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Student.university
+ */
+export type Student$universityArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the University
+   */
+  select?: Prisma.UniversitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the University
+   */
+  omit?: Prisma.UniversityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UniversityInclude<ExtArgs> | null
+  where?: Prisma.UniversityWhereInput
+}
+
+/**
  * Student.supervisor
  */
 export type Student$supervisorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1612,6 +2017,25 @@ export type Student$thesisArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   include?: Prisma.ThesisInclude<ExtArgs> | null
   where?: Prisma.ThesisWhereInput
+}
+
+/**
+ * Student.courseRelation
+ */
+export type Student$courseRelationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Course
+   */
+  select?: Prisma.CourseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Course
+   */
+  omit?: Prisma.CourseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CourseInclude<ExtArgs> | null
+  where?: Prisma.CourseWhereInput
 }
 
 /**

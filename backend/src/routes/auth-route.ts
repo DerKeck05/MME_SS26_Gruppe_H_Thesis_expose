@@ -145,7 +145,9 @@ router.post("/register/student", async (req, res) => {
         name,
         email,
         password,
-        course
+        universityId,
+        courseId,
+        supervisorId
     } = req.body;
 
 
@@ -169,7 +171,9 @@ router.post("/register/student", async (req, res) => {
         name,
         email,
         passwordHash,
-        course
+        universityId,
+        courseId,
+        supervisorId
     );
 
 
@@ -186,14 +190,17 @@ router.post("/register/student", async (req, res) => {
    ========================= */
 
 router.post("/register/professor", async (req, res) => {
-
+    console.log("PROF REGISTER BODY:", req.body);
     /* Daten vom Frontend auslesen */
     const {
         name,
         email,
         password,
-        chair
+        chair,
+        universityId,
+        courseIds
     } = req.body;
+    console.log("UNIVERSITY ID:", universityId);
 
 
     /* Prüfen ob Email bereits existiert */
@@ -216,7 +223,9 @@ router.post("/register/professor", async (req, res) => {
         name,
         email,
         passwordHash,
-        chair
+        chair,
+        universityId,
+        courseIds
     );
 
 

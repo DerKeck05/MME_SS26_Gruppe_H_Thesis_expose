@@ -1,6 +1,6 @@
 import {Calendar, momentLocalizer, type View} from "react-big-calendar";
 import moment from "moment";
-import "moment/locale/de";
+declare module "moment/locale/de";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./calendar-styling.css";
 import {useState} from "react";

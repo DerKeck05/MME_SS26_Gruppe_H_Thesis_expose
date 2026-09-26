@@ -24,14 +24,23 @@ function StudentProvider() {
             try {
                 const storedStudiId = localStorage.getItem("studentId");
 
-                if(!storedStudiId) return;
+                if (!storedStudiId) {
+                    return;
+                }
 
                 const id = Number(storedStudiId);
                 const student = await getStudent(id);
-                const dl = await getThesisDeadline(student.thesis?.id ?? null);
+
+                const currentThesisId = student.thesis?.id ?? null;
+
+                let dl: CalendarEvent | null = null;
+
+                if (currentThesisId != null) {
+                    dl = await getThesisDeadline(currentThesisId);
+                }
 
                 setStudentId(student.id);
-                setThesisId(student.thesis?.id ?? null);
+                setThesisId(currentThesisId);
                 setDeadline(dl);
 
                 console.log(student);
