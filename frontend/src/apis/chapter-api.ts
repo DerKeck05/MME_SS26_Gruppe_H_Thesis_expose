@@ -1,4 +1,4 @@
-import type {Chapter, ChapterInput} from "../utils/outline-utils.ts";
+import type {Chapter, ChapterInput, ChapterUpdateInput} from "../utils/outline-utils.ts";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -37,7 +37,10 @@ export async function addChapter(thesisId: number, chapter: ChapterInput): Promi
     return response.json();
 }
 
-export async function updateChapter(chapterId: number, chapter: ChapterInput): Promise<Chapter> {
+export async function updateChapter(
+    chapterId: number,
+    chapter: ChapterUpdateInput
+): Promise<Chapter> {
     const response = await fetch(
         `${API_URL}/api/chapter/${chapterId}`,
         {
@@ -49,11 +52,13 @@ export async function updateChapter(chapterId: number, chapter: ChapterInput): P
         }
     );
 
-    if(!response.ok) {
-        throw new Error("Kapitel konnte nicht aktualisiert werden");
-    } else {
-        console.log("Received API response");
+    if (!response.ok) {
+        throw new Error(
+            "Kapitel konnte nicht aktualisiert werden."
+        );
     }
+
+    console.log("Received API response");
 
     return response.json();
 }

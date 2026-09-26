@@ -20,10 +20,33 @@ export async function createChapter(
     thesisId: number,
     data: CreateChapterData
 ) {
+    const chapters = await chapterRepo.getChaptersByThesisId(thesisId);
+
+    const siblings = chapters.filter(
+        chapter =>
+            chapter.parentId === data.parentId
+    );
+
+    const position = Math.max(
+        0,
+        Math.min(data.position, siblings.length)
+    );
+
+    const siblingsToShift = siblings.filter(
+        chapter =>
+            chapter.position >= position
+    );
+
+    for (const sibling of siblingsToShift) {
+        await chapterRepo.updateChapter(sibling.id, {
+            position: sibling.position + 1
+        });
+    }
+
     return chapterRepo.createChapter({
         title: data.title,
         parentId: data.parentId,
-        position: data.position,
+        position,
         thesisId
     });
 }
