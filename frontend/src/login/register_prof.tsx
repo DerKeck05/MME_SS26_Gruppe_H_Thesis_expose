@@ -1,5 +1,7 @@
 import {
     useEffect,
+    useMemo,
+    useRef,
     useState
 } from "react";
 
@@ -16,40 +18,31 @@ import {
 } from "./login_fails";
 
 import "./design_css/login.css";
+import "./design_css/register-prof.css";
 
 
 const API_URL =
     import.meta.env.VITE_API_URL;
 
 
-
 type University = {
-
     id: number;
-
     name: string;
 };
 
 
 type Chair = {
-
     id: number;
-
     name: string;
-
     universityId: number;
 };
 
 
 type Course = {
-
     id: number;
-
     name: string;
-
     universityId: number;
 };
-
 
 
 function RegisterProfessorPage() {
@@ -110,16 +103,28 @@ function RegisterProfessorPage() {
     ] = useState("");
 
 
+    const [
+        isCourseDropdownOpen,
+        setIsCourseDropdownOpen
+    ] = useState(false);
 
-    /* =========================
-       HOCHSCHULEN LADEN
-       ========================= */
 
+    const courseDropdownRef =
+        useRef<HTMLDivElement | null>(null);
+
+
+
+    /*
+     * Hochschulen laden
+     */
     useEffect(() => {
 
         async function loadUniversities() {
 
             try {
+
+                setErrorMessage("");
+
 
                 const response =
                     await fetch(
@@ -144,6 +149,9 @@ function RegisterProfessorPage() {
 
             } catch (error) {
 
+                console.error(error);
+
+
                 setErrorMessage(
                     "Hochschulen konnten nicht geladen werden"
                 );
@@ -157,19 +165,13 @@ function RegisterProfessorPage() {
 
 
 
-    /* =========================
-       LEHRSTÜHLE LADEN
-       ========================= */
-
+    /*
+     * Lehrstühle laden
+     */
     useEffect(() => {
 
         async function loadChairs() {
 
-            /*
-             * Alte Auswahl zurücksetzen,
-             * wenn eine andere Hochschule
-             * gewählt wird.
-             */
             setChairs([]);
 
             setChairId("");
@@ -177,6 +179,8 @@ function RegisterProfessorPage() {
             setCourses([]);
 
             setSelectedCourseIds([]);
+
+            setIsCourseDropdownOpen(false);
 
 
             if (universityId == "") {
@@ -187,11 +191,12 @@ function RegisterProfessorPage() {
 
             try {
 
+                setErrorMessage("");
+
+
                 const response =
                     await fetch(
-
                         `${API_URL}/api/universities/${universityId}/chairs`
-
                     );
 
 
@@ -212,6 +217,9 @@ function RegisterProfessorPage() {
 
             } catch (error) {
 
+                console.error(error);
+
+
                 setErrorMessage(
                     "Lehrstühle konnten nicht geladen werden"
                 );
@@ -225,10 +233,9 @@ function RegisterProfessorPage() {
 
 
 
-    /* =========================
-       STUDIENGÄNGE LADEN
-       ========================= */
-
+    /*
+     * Studiengänge laden
+     */
     useEffect(() => {
 
         async function loadCourses() {
@@ -236,6 +243,8 @@ function RegisterProfessorPage() {
             setCourses([]);
 
             setSelectedCourseIds([]);
+
+            setIsCourseDropdownOpen(false);
 
 
             if (
@@ -249,11 +258,17 @@ function RegisterProfessorPage() {
 
             try {
 
+                setErrorMessage("");
+
+
+                /*
+                 * WICHTIG:
+                 * Hochschule + Lehrstuhl müssen
+                 * beide in der URL stehen.
+                 */
                 const response =
                     await fetch(
-
                         `${API_URL}/api/universities/${universityId}/chairs/${chairId}/courses`
-
                     );
 
 
@@ -274,6 +289,9 @@ function RegisterProfessorPage() {
 
             } catch (error) {
 
+                console.error(error);
+
+
                 setErrorMessage(
                     "Studiengänge konnten nicht geladen werden"
                 );
@@ -290,9 +308,45 @@ function RegisterProfessorPage() {
 
 
 
-    /* =========================
-       STUDIENGANG AUSWÄHLEN
-       ========================= */
+    /*
+     * Dropdown schließen,
+     * wenn außerhalb geklickt wird
+     */
+    useEffect(() => {
+
+        function handleOutsideClick(
+            event: MouseEvent
+        ) {
+
+            if (
+                courseDropdownRef.current &&
+                !courseDropdownRef.current.contains(
+                    event.target as Node
+                )
+            ) {
+
+                setIsCourseDropdownOpen(false);
+            }
+        }
+
+
+        document.addEventListener(
+            "mousedown",
+            handleOutsideClick
+        );
+
+
+        return () => {
+
+            document.removeEventListener(
+                "mousedown",
+                handleOutsideClick
+            );
+        };
+
+    }, []);
+
+
 
     function toggleCourse(
         courseId: number
@@ -312,80 +366,96 @@ function RegisterProfessorPage() {
                 )
             );
 
-        } else {
 
-            setSelectedCourseIds([
-
-                ...selectedCourseIds,
-
-                courseId
-            ]);
+            return;
         }
+
+
+        setSelectedCourseIds([
+
+            ...selectedCourseIds,
+
+            courseId
+        ]);
     }
 
 
 
-    /* =========================
-       TEXT IM DROPDOWN
-       ========================= */
+    const selectedCourseText =
+        useMemo(() => {
 
-    function getSelectedCourseText() {
+            if (
+                selectedCourseIds.length == 0
+            ) {
 
-        if (
-            selectedCourseIds.length == 0
-        ) {
-
-            return "Studiengänge auswählen";
-        }
-
-
-        if (
-            selectedCourseIds.length == 1
-        ) {
-
-            const selectedCourse =
-                courses.find(
-                    (course) =>
-                        course.id ==
-                        selectedCourseIds[0]
-                );
-
-
-            if (selectedCourse) {
-
-                return selectedCourse.name;
+                return "Studiengänge auswählen";
             }
-        }
 
 
-        return (
-            `${selectedCourseIds.length} Studiengänge ausgewählt`
-        );
-    }
+            const selectedNames =
+                courses
+                    .filter(
+                        (course) =>
+                            selectedCourseIds.includes(
+                                course.id
+                            )
+                    )
+                    .map(
+                        (course) =>
+                            course.name
+                    );
+
+
+            if (
+                selectedNames.length == 1
+            ) {
+
+                return selectedNames[0];
+            }
+
+
+            if (
+                selectedNames.length == 2
+            ) {
+
+                return selectedNames.join(", ");
+            }
+
+
+            return (
+                `${selectedNames.length} Studiengänge ausgewählt`
+            );
+
+        }, [
+            courses,
+            selectedCourseIds
+        ]);
 
 
 
-    /* =========================
-       REGISTRIEREN
-       ========================= */
+    async function registerFunction(
+        event: React.FormEvent<HTMLFormElement>
+    ) {
 
-    async function RegisterFunction() {
+        event.preventDefault();
+
 
         setErrorMessage("");
 
 
         if (
-            name == "" ||
-            email == "" ||
-            password == "" ||
+            name.trim() == "" ||
+            email.trim() == "" ||
+            password.trim() == "" ||
             universityId == "" ||
             chairId == "" ||
             selectedCourseIds.length == 0
         ) {
 
             setErrorMessage(
-                "Bitte alle Felder ausfüllen und mindestens einen Studiengang auswählen"
+                "Bitte alle Felder ausfüllen"
             );
+
 
             return;
         }
@@ -396,9 +466,9 @@ function RegisterProfessorPage() {
             const data =
                 await registerProfessor(
 
-                    name,
+                    name.trim(),
 
-                    email,
+                    email.trim(),
 
                     password,
 
@@ -423,6 +493,9 @@ function RegisterProfessorPage() {
 
         } catch (error) {
 
+            console.error(error);
+
+
             if (
                 error instanceof Error
             ) {
@@ -442,19 +515,36 @@ function RegisterProfessorPage() {
 
 
 
+    function toggleCourseDropdown() {
+
+        if (
+            courses.length == 0
+        ) {
+
+            return;
+        }
+
+
+        setIsCourseDropdownOpen(
+            !isCourseDropdownOpen
+        );
+    }
+
+
+
     return (
 
         <div className="auth-page">
 
 
-            <div className="login-glass">
+            <form
+                className="login-glass register-prof-glass"
+                onSubmit={registerFunction}
+            >
 
 
                 <h2
-                    className="
-                        register-title
-                        professor-title
-                    "
+                    className="register-title professor-title"
                 >
 
                     Registrieren als Professor
@@ -463,329 +553,246 @@ function RegisterProfessorPage() {
 
 
 
-                <label>
-                    Name:
-                </label>
+                <div className="auth-field-group">
+
+                    <label>
+                        Name:
+                    </label>
 
 
-                <input
-
-                    type="text"
-
-                    value={name}
-
-                    onChange={(event) =>
-                        setName(
-                            event.target.value
-                        )
-                    }
-
-                />
-
-
-
-                <label>
-                    E-Mail:
-                </label>
-
-
-                <input
-
-                    type="email"
-
-                    value={email}
-
-                    onChange={(event) =>
-                        setEmail(
-                            event.target.value
-                        )
-                    }
-
-                />
-
-
-
-                <label>
-                    Passwort:
-                </label>
-
-
-                <input
-
-                    type="password"
-
-                    value={password}
-
-                    onChange={(event) =>
-                        setPassword(
-                            event.target.value
-                        )
-                    }
-
-                />
-
-
-
-                <label>
-                    Hochschule:
-                </label>
-
-
-                <select
-
-                    value={universityId}
-
-                    onChange={(event) =>
-                        setUniversityId(
-                            event.target.value
-                        )
-                    }
-
-                >
-
-                    <option value="">
-                        Hochschule auswählen
-                    </option>
-
-
-                    {
-                        universities.map(
-                            (university) => (
-
-                                <option
-
-                                    key={
-                                        university.id
-                                    }
-
-                                    value={
-                                        university.id
-                                    }
-
-                                >
-
-                                    {
-                                        university.name
-                                    }
-
-                                </option>
-
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(event) =>
+                            setName(
+                                event.target.value
                             )
-                        )
-                    }
+                        }
+                    />
 
-                </select>
-
-
-
-                {
-                    universityId != "" && (
-
-                        <>
-
-                            <label>
-                                Lehrstuhl / Professur:
-                            </label>
+                </div>
 
 
-                            <select
 
-                                value={chairId}
+                <div className="auth-field-group">
 
-                                onChange={(event) =>
-                                    setChairId(
-                                        event.target.value
-                                    )
-                                }
+                    <label>
+                        E-Mail:
+                    </label>
 
+
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(event) =>
+                            setEmail(
+                                event.target.value
+                            )
+                        }
+                    />
+
+                </div>
+
+
+
+                <div className="auth-field-group">
+
+                    <label>
+                        Passwort:
+                    </label>
+
+
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(event) =>
+                            setPassword(
+                                event.target.value
+                            )
+                        }
+                    />
+
+                </div>
+
+
+
+                <div className="auth-field-group">
+
+                    <label>
+                        Hochschule:
+                    </label>
+
+
+                    <select
+                        className="styled-auth-select"
+                        value={universityId}
+                        onChange={(event) =>
+                            setUniversityId(
+                                event.target.value
+                            )
+                        }
+                    >
+
+                        <option value="">
+                            Hochschule auswählen
+                        </option>
+
+
+                        {
+                            universities.map(
+                                (university) => (
+
+                                    <option
+                                        key={university.id}
+                                        value={university.id}
+                                    >
+
+                                        {university.name}
+
+                                    </option>
+                                )
+                            )
+                        }
+
+                    </select>
+
+                </div>
+
+
+
+                <div className="auth-field-group">
+
+                    <label>
+                        Lehrstuhl / Professur:
+                    </label>
+
+
+                    <select
+                        className="styled-auth-select"
+                        value={chairId}
+                        onChange={(event) =>
+                            setChairId(
+                                event.target.value
+                            )
+                        }
+                        disabled={
+                            universityId == ""
+                        }
+                    >
+
+                        <option value="">
+                            Lehrstuhl auswählen
+                        </option>
+
+
+                        {
+                            chairs.map(
+                                (chair) => (
+
+                                    <option
+                                        key={chair.id}
+                                        value={chair.id}
+                                    >
+
+                                        {chair.name}
+
+                                    </option>
+                                )
+                            )
+                        }
+
+                    </select>
+
+                </div>
+
+
+
+                <div className="auth-field-group">
+
+                    <label>
+                        Studiengänge:
+                    </label>
+
+
+                    <div
+                        className="custom-multi-select"
+                        ref={courseDropdownRef}
+                    >
+
+
+                        <button
+                            type="button"
+                            className="multi-select-trigger"
+                            onClick={
+                                toggleCourseDropdown
+                            }
+                            disabled={
+                                chairId == ""
+                            }
+                        >
+
+                            <span
+                                className="multi-select-trigger-text"
                             >
 
-                                <option value="">
-                                    Lehrstuhl auswählen
-                                </option>
-
-
                                 {
-                                    chairs.map(
-                                        (chair) => (
-
-                                            <option
-
-                                                key={
-                                                    chair.id
-                                                }
-
-                                                value={
-                                                    chair.id
-                                                }
-
-                                            >
-
-                                                {
-                                                    chair.name
-                                                }
-
-                                            </option>
-
-                                        )
-                                    )
+                                    chairId == ""
+                                        ? "Zuerst Lehrstuhl auswählen"
+                                        : selectedCourseText
                                 }
 
-                            </select>
-
-                        </>
-                    )
-                }
+                            </span>
 
 
+                            <span
+                                className="multi-select-arrow"
+                            >
 
-                {
-                    chairId != "" && (
+                                ▼
 
-                        <>
+                            </span>
 
-                            <label>
-                                Studiengänge:
-                            </label>
-
-
-                            <details>
+                        </button>
 
 
-                                <summary
 
-                                    style={{
-
-                                        background:
-                                            "rgba(255, 255, 255, 0.75)",
-
-                                        borderRadius:
-                                            "12px",
-
-                                        padding:
-                                            "14px",
-
-                                        cursor:
-                                            "pointer",
-
-                                        marginBottom:
-                                            "8px"
-                                    }}
-
-                                >
-
-                                    {
-                                        getSelectedCourseText()
-                                    }
-
-                                </summary>
-
-
+                        {
+                            isCourseDropdownOpen &&
+                            courses.length > 0 && (
 
                                 <div
-
-                                    style={{
-
-                                        maxHeight:
-                                            "170px",
-
-                                        overflowY:
-                                            "auto",
-
-                                        background:
-                                            "rgba(255, 255, 255, 0.9)",
-
-                                        borderRadius:
-                                            "12px",
-
-                                        padding:
-                                            "10px"
-                                    }}
-
+                                    className="multi-select-dropdown"
                                 >
-
-
-                                    {
-                                        courses.length == 0 && (
-
-                                            <p>
-
-                                                Keine Studiengänge
-                                                für diesen Lehrstuhl
-                                                vorhanden
-
-                                            </p>
-                                        )
-                                    }
-
 
                                     {
                                         courses.map(
                                             (course) => (
 
                                                 <label
-
-                                                    key={
-                                                        course.id
-                                                    }
-
-                                                    style={{
-
-                                                        display:
-                                                            "flex",
-
-                                                        alignItems:
-                                                            "center",
-
-                                                        gap:
-                                                            "10px",
-
-                                                        padding:
-                                                            "8px",
-
-                                                        cursor:
-                                                            "pointer"
-                                                    }}
-
+                                                    key={course.id}
+                                                    className="multi-select-option"
                                                 >
 
-
                                                     <input
-
                                                         type="checkbox"
-
                                                         checked={
                                                             selectedCourseIds.includes(
                                                                 course.id
                                                             )
                                                         }
-
                                                         onChange={() =>
                                                             toggleCourse(
                                                                 course.id
                                                             )
                                                         }
-
-                                                        style={{
-
-                                                            width:
-                                                                "auto",
-
-                                                            margin:
-                                                                "0"
-                                                        }}
-
                                                     />
 
 
                                                     <span>
 
-                                                        {
-                                                            course.name
-                                                        }
+                                                        {course.name}
 
                                                     </span>
-
 
                                                 </label>
 
@@ -793,30 +800,40 @@ function RegisterProfessorPage() {
                                         )
                                     }
 
+                                </div>
+                            )
+                        }
+
+
+
+                        {
+                            chairId != "" &&
+                            courses.length == 0 && (
+
+                                <div
+                                    className="multi-select-empty"
+                                >
+
+                                    Keine Studiengänge vorhanden
 
                                 </div>
+                            )
+                        }
+
+                    </div>
+
+                </div>
 
 
-                            </details>
 
-                        </>
-                    )
-                }
-
-
-
-                <button
-                    onClick={
-                        RegisterFunction
-                    }
-                >
+                <button type="submit">
 
                     Registrieren
 
                 </button>
 
 
-            </div>
+            </form>
 
 
 
@@ -825,9 +842,7 @@ function RegisterProfessorPage() {
 
                     <div className="error-box">
 
-                        {
-                            errorMessage
-                        }
+                        {errorMessage}
 
                     </div>
                 )
