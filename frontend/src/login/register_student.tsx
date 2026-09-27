@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { registerStudent } from "../apis/auth-api.ts";
 import { LOGIN_MESSAGES } from "./login_fails";
 import "./design_css/login.css";
+import ErrorMessage from "../globals/error-message.tsx";
 
 
 function RegisterStudentPage() {
@@ -163,9 +164,7 @@ function RegisterStudentPage() {
 
             {/* Fehlermeldung */}
             {errorMessage !== "" && (
-                <div className="error-box">
-                    {errorMessage}
-                </div>
+                <ErrorMessage message={errorMessage} />
             )}
 
         </div>

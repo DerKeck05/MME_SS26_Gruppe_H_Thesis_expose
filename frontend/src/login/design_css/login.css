@@ -183,7 +183,7 @@
     /* Innenabstand*/
     padding: 20px 30px;
     /* Runde Ecken der Box */
-    border-radius: 15px;
+    border-radius: var(--border-radius);
     /* Macht die Schrift fett */
     font-weight: bold;
     /* Sorgt dafür, dass die Box über anderen Elementen liegt */

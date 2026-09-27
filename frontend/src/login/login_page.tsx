@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../apis/auth-api.ts";
 import "./design_css/login.css";
+import ErrorMessage from "../globals/error-message.tsx";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -139,9 +140,7 @@ function LoginPage() {
 
             {/* Fehlermeldung */}
             {errorMessage !== "" && (
-                <div className="error-box">
-                    {errorMessage}
-                </div>
+                <ErrorMessage message={errorMessage} />
             )}
 
         </div>
