@@ -1,7 +1,10 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL =
+    import.meta.env.VITE_API_URL;
 
 
-/* LOGIN */
+/* =========================
+   LOGIN
+   ========================= */
 
 export interface LoginData {
     email: string;
@@ -46,12 +49,15 @@ export async function login(
     );
 
 
-    const data = await response.json();
+    const data =
+        await response.json();
 
 
     if (!response.ok) {
+
         throw new Error(
-            data.message || "Login fehlgeschlagen"
+            data.message ||
+            "Login fehlgeschlagen"
         );
     }
 
@@ -61,7 +67,9 @@ export async function login(
 
 
 
-/* STUDENT REG */
+/* =========================
+   STUDENT REGISTRIERUNG
+   ========================= */
 
 export async function registerStudent(
     name: string,
@@ -89,12 +97,15 @@ export async function registerStudent(
     );
 
 
-    const data = await response.json();
+    const data =
+        await response.json();
 
 
     if (!response.ok) {
+
         throw new Error(
-            data.message || "Registrierung fehlgeschlagen"
+            data.message ||
+            "Registrierung fehlgeschlagen"
         );
     }
 
@@ -104,14 +115,16 @@ export async function registerStudent(
 
 
 
-/* PROFESSOR REG */
+/* =========================
+   PROFESSOR REGISTRIERUNG
+   ========================= */
 
 export async function registerProfessor(
     name: string,
     email: string,
     password: string,
-    chair: string,
     universityId: number,
+    chairId: number,
     courseIds: number[]
 ) {
 
@@ -128,20 +141,22 @@ export async function registerProfessor(
                 name,
                 email,
                 password,
-                chair,
                 universityId,
+                chairId,
                 courseIds
             })
         }
     );
 
 
-    const data = await response.json();
+    const data =
+        await response.json();
 
 
     if (!response.ok) {
         throw new Error(
-            data.message || "Registrierung fehlgeschlagen"
+            data.message ||
+            "Registrierung fehlgeschlagen"
         );
     }
 
