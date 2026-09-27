@@ -36,12 +36,13 @@
 }
 
 .squared-button {
-    background-color: var(--tertiary);
+    background-color: var(--night-blue);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    color: var(--secondary);
+    color: var(--white);
+    border: 2px solid var(--dark-blue);
 }
 
 .squared-button:hover {

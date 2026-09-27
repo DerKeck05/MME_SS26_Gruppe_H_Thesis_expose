@@ -5,12 +5,14 @@ import type {CalendarEvent} from "../calendar_pages/calendar-component.tsx";
 import {useStudent} from "../route_handling/student-provider.tsx";
 import {type CalendarEntry, getCalendarEntries} from "../../apis/calendar-api.ts";
 import UpNextCard, {type UpNextEvents} from "./cards/up-next-card.tsx";
+import {useError} from "../../globals/error-provider.tsx";
 
 function StudentDashboard() {
     const [events, setEvents] = useState<CalendarEvent[]>([]);
     const [upNextEvents, setUpNextEvents] = useState<UpNextEvents[]>([]);
 
     const {thesisId, deadline} = useStudent();
+    const {showError} = useError();
 
     useEffect(() => {
         async function loadEvents() {
@@ -51,6 +53,10 @@ function StudentDashboard() {
                     "Fehler beim Laden der Kalendereinträge:",
                     error
                 );
+
+                showError(error instanceof Error
+                    ? error.message
+                    : "Fehler beim Laden der Kalendereinträge!")
             }
         }
 

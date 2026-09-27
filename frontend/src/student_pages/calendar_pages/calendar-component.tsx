@@ -58,7 +58,10 @@ function CalendarComponent({
                             };
                         } else if (event.type === "allDay") {
                             return {
-                                className: "allDay",
+                                style: {
+                                    backgroundColor: "var(--secondary)",
+                                    color: "var(--dark-blue)",
+                                },
                             };
                         }
 

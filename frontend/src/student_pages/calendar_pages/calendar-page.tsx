@@ -16,6 +16,7 @@ import {
 } from "../../apis/calendar-api.ts";
 import {useStudent} from "../route_handling/student-provider.tsx";
 import Loading from "../../globals/loading.tsx";
+import {useError} from "../../globals/error-provider.tsx";
 
 export function calcLeftDays(deadline: CalendarEvent): string {
     const deadlineDate = deadline.end.getTime();
@@ -45,6 +46,8 @@ function CalendarPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [daysLeft, setDaysLeft] = useState<string>("--");
 
+    const {showError} = useError();
+
     async function loadEvents() {
         try {
             const calendarEntries = await getCalendarEntries(thesisId);
@@ -72,6 +75,10 @@ function CalendarPage() {
                 "Fehler beim Laden der Kalendereinträge:",
                 error
             );
+
+            showError(error instanceof Error
+                ? error.message
+                : "Fehler beim Laden der Kalendereinträge!");
         }
     }
 
@@ -97,6 +104,10 @@ function CalendarPage() {
                 "Fehler beim Erstellen des Kalendereintrags:",
                 error
             );
+
+            showError(error instanceof Error
+                ? error.message
+                : "Fehler beim Erstellen des Kalendereintrags!")
         }
     }
 
@@ -127,6 +138,10 @@ function CalendarPage() {
                 "Fehler beim Aktualisieren des Kalendereintrags:",
                 error
             );
+
+            showError(error instanceof Error
+                ? error.message
+                : "Fehler beim Aktualisieren des Kalendereintrags:");
         }
     }
 
@@ -148,6 +163,10 @@ function CalendarPage() {
                 "Fehler beim Löschen des Kalendereintrags:",
                 error
             );
+
+            showError(error instanceof Error
+                ? error.message
+                : "Fehler beim Löschen des Kalendereintrags:");
         }
     }
 
