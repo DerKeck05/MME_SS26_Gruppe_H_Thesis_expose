@@ -2,26 +2,43 @@ const API_URL =
     import.meta.env.VITE_API_URL;
 
 
+
 /* =========================
    LOGIN
    ========================= */
 
 export interface LoginData {
+
     email: string;
+
     password: string;
-    role: "student" | "professor";
+
+    role:
+        "student" |
+        "professor";
 }
+
 
 export interface LoginUser {
+
     id: number;
+
     name: string;
+
     email: string;
 }
 
+
 export interface LoginResponse {
+
     message: string;
-    role: "student" | "professor";
-    user: LoginUser;
+
+    role:
+        "student" |
+        "professor";
+
+    user:
+        LoginUser;
 }
 
 
@@ -31,22 +48,33 @@ export async function login(
     role: "student" | "professor"
 ): Promise<LoginResponse> {
 
-    const response = await fetch(
-        `${API_URL}/api/auth/login`,
-        {
-            method: "POST",
+    const response =
+        await fetch(
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+            `${API_URL}/api/auth/login`,
 
-            body: JSON.stringify({
-                email,
-                password,
-                role
-            })
-        }
-    );
+            {
+
+                method:
+                    "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify({
+
+                        email,
+
+                        password,
+
+                        role
+                    })
+            }
+        );
 
 
     const data =
@@ -56,6 +84,7 @@ export async function login(
     if (!response.ok) {
 
         throw new Error(
+
             data.message ||
             "Login fehlgeschlagen"
         );
@@ -75,26 +104,44 @@ export async function registerStudent(
     name: string,
     email: string,
     password: string,
-    course: string
+    universityId: number,
+    courseId: number,
+    supervisorId: number
 ) {
 
-    const response = await fetch(
-        `${API_URL}/api/auth/register/student`,
-        {
-            method: "POST",
+    const response =
+        await fetch(
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+            `${API_URL}/api/auth/register/student`,
 
-            body: JSON.stringify({
-                name,
-                email,
-                password,
-                course
-            })
-        }
-    );
+            {
+
+                method:
+                    "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify({
+
+                        name,
+
+                        email,
+
+                        password,
+
+                        universityId,
+
+                        courseId,
+
+                        supervisorId
+                    })
+            }
+        );
 
 
     const data =
@@ -104,6 +151,7 @@ export async function registerStudent(
     if (!response.ok) {
 
         throw new Error(
+
             data.message ||
             "Registrierung fehlgeschlagen"
         );
@@ -128,25 +176,39 @@ export async function registerProfessor(
     courseIds: number[]
 ) {
 
-    const response = await fetch(
-        `${API_URL}/api/auth/register/professor`,
-        {
-            method: "POST",
+    const response =
+        await fetch(
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+            `${API_URL}/api/auth/register/professor`,
 
-            body: JSON.stringify({
-                name,
-                email,
-                password,
-                universityId,
-                chairId,
-                courseIds
-            })
-        }
-    );
+            {
+
+                method:
+                    "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify({
+
+                        name,
+
+                        email,
+
+                        password,
+
+                        universityId,
+
+                        chairId,
+
+                        courseIds
+                    })
+            }
+        );
 
 
     const data =

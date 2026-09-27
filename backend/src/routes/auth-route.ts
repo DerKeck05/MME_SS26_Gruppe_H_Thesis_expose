@@ -19,125 +19,147 @@ import {
 const router = Router();
 
 
+
 /* =========================
    LOGIN
    ========================= */
 
-router.post("/login", async (req, res) => {
+router.post(
+    "/login",
+    async (req, res) => {
 
-    const {
-        email,
-        password,
-        role
-    } = req.body;
-
-
-    /* =========================
-       STUDENT LOGIN
-       ========================= */
-
-    if (role == "student") {
-
-        const student =
-            await getStudentByEmail(email);
+        const {
+            email,
+            password,
+            role
+        } = req.body;
 
 
-        if (!student) {
+        /*
+         * STUDENT LOGIN
+         */
+        if (role == "student") {
 
-            return res.status(401).json({
-                message: "E-Mail oder Passwort falsch"
-            });
-        }
-
-
-        const passwordCorrect =
-            await verifyPassword(
-                password,
-                student.passwordHash
-            );
+            const student =
+                await getStudentByEmail(
+                    email
+                );
 
 
-        if (!passwordCorrect) {
+            if (!student) {
 
-            return res.status(401).json({
-                message: "E-Mail oder Passwort falsch"
-            });
-        }
-
-
-        return res.json({
-
-            message: "Login erfolgreich",
-
-            role: "student",
-
-            user: {
-
-                id: student.id,
-
-                name: student.name,
-
-                email: student.email
+                return res.status(401).json({
+                    message:
+                        "E-Mail oder Passwort falsch"
+                });
             }
+
+
+            const passwordCorrect =
+                await verifyPassword(
+                    password,
+                    student.passwordHash
+                );
+
+
+            if (!passwordCorrect) {
+
+                return res.status(401).json({
+                    message:
+                        "E-Mail oder Passwort falsch"
+                });
+            }
+
+
+            return res.json({
+
+                message:
+                    "Login erfolgreich",
+
+                role:
+                    "student",
+
+                user: {
+
+                    id:
+                        student.id,
+
+                    name:
+                        student.name,
+
+                    email:
+                        student.email
+                }
+            });
+        }
+
+
+
+        /*
+         * PROFESSOR LOGIN
+         */
+        if (role == "professor") {
+
+            const supervisor =
+                await getSupervisorByEmail(
+                    email
+                );
+
+
+            if (!supervisor) {
+
+                return res.status(401).json({
+                    message:
+                        "E-Mail oder Passwort falsch"
+                });
+            }
+
+
+            const passwordCorrect =
+                await verifyPassword(
+                    password,
+                    supervisor.passwordHash
+                );
+
+
+            if (!passwordCorrect) {
+
+                return res.status(401).json({
+                    message:
+                        "E-Mail oder Passwort falsch"
+                });
+            }
+
+
+            return res.json({
+
+                message:
+                    "Login erfolgreich",
+
+                role:
+                    "professor",
+
+                user: {
+
+                    id:
+                        supervisor.id,
+
+                    name:
+                        supervisor.name,
+
+                    email:
+                        supervisor.email
+                }
+            });
+        }
+
+
+        return res.status(400).json({
+            message:
+                "Ungültige Rolle"
         });
     }
-
-
-    /* =========================
-       PROFESSOR LOGIN
-       ========================= */
-
-    if (role == "professor") {
-
-        const supervisor =
-            await getSupervisorByEmail(email);
-
-
-        if (!supervisor) {
-
-            return res.status(401).json({
-                message: "E-Mail oder Passwort falsch"
-            });
-        }
-
-
-        const passwordCorrect =
-            await verifyPassword(
-                password,
-                supervisor.passwordHash
-            );
-
-
-        if (!passwordCorrect) {
-
-            return res.status(401).json({
-                message: "E-Mail oder Passwort falsch"
-            });
-        }
-
-
-        return res.json({
-
-            message: "Login erfolgreich",
-
-            role: "professor",
-
-            user: {
-
-                id: supervisor.id,
-
-                name: supervisor.name,
-
-                email: supervisor.email
-            }
-        });
-    }
-
-
-    return res.status(400).json({
-        message: "Ungültige Rolle"
-    });
-});
+);
 
 
 
@@ -153,37 +175,114 @@ router.post(
             name,
             email,
             password,
-            course
+            universityId,
+            courseId,
+            supervisorId
         } = req.body;
 
 
+        if (
+            !name ||
+            !email ||
+            !password ||
+            !universityId ||
+            !courseId ||
+            !supervisorId
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "Bitte alle Felder ausfüllen"
+            });
+        }
+
+
+        const universityIdNumber =
+            Number(universityId);
+
+
+        const courseIdNumber =
+            Number(courseId);
+
+
+        const supervisorIdNumber =
+            Number(supervisorId);
+
+
+        if (
+            !Number.isInteger(
+                universityIdNumber
+            ) ||
+            !Number.isInteger(
+                courseIdNumber
+            ) ||
+            !Number.isInteger(
+                supervisorIdNumber
+            )
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "Ungültige Auswahl"
+            });
+        }
+
+
         const existingStudent =
-            await getStudentByEmail(email);
+            await getStudentByEmail(
+                email
+            );
 
 
         if (existingStudent) {
 
             return res.status(400).json({
-                message: "E-Mail ist bereits registriert"
+                message:
+                    "E-Mail ist bereits registriert"
             });
         }
 
 
         const passwordHash =
-            await hashPassword(password);
+            await hashPassword(
+                password
+            );
 
 
-        await createStudent(
-            name,
-            email,
-            passwordHash,
-            course
-        );
+        try {
+
+            await createStudent(
+                name,
+                email,
+                passwordHash,
+                universityIdNumber,
+                courseIdNumber,
+                supervisorIdNumber
+            );
 
 
-        return res.json({
-            message: "Student erfolgreich registriert"
-        });
+            return res.json({
+                message:
+                    "Student erfolgreich registriert"
+            });
+
+
+        } catch (error) {
+
+            if (error instanceof Error) {
+
+                return res.status(400).json({
+                    message:
+                        error.message
+                });
+            }
+
+
+            return res.status(500).json({
+                message:
+                    "Registrierung fehlgeschlagen"
+            });
+        }
     }
 );
 
@@ -207,9 +306,6 @@ router.post(
         } = req.body;
 
 
-        /*
-         * Grundlegende Prüfung
-         */
         if (
             !name ||
             !email ||
@@ -221,7 +317,8 @@ router.post(
         ) {
 
             return res.status(400).json({
-                message: "Bitte alle Felder ausfüllen"
+                message:
+                    "Bitte alle Felder ausfüllen"
             });
         }
 
@@ -229,8 +326,10 @@ router.post(
         const universityIdNumber =
             Number(universityId);
 
+
         const chairIdNumber =
             Number(chairId);
+
 
         const courseIdNumbers =
             courseIds.map(
@@ -238,37 +337,45 @@ router.post(
             );
 
 
-        /*
-         * Prüfen, ob gültige IDs geschickt wurden
-         */
         if (
-            !Number.isInteger(universityIdNumber) ||
-            !Number.isInteger(chairIdNumber) ||
+            !Number.isInteger(
+                universityIdNumber
+            ) ||
+            !Number.isInteger(
+                chairIdNumber
+            ) ||
             courseIdNumbers.some(
-                (id) => !Number.isInteger(id)
+                (id) =>
+                    !Number.isInteger(id)
             )
         ) {
 
             return res.status(400).json({
-                message: "Ungültige Auswahl"
+                message:
+                    "Ungültige Auswahl"
             });
         }
 
 
         const existingProfessor =
-            await getSupervisorByEmail(email);
+            await getSupervisorByEmail(
+                email
+            );
 
 
         if (existingProfessor) {
 
             return res.status(400).json({
-                message: "E-Mail ist bereits registriert"
+                message:
+                    "E-Mail ist bereits registriert"
             });
         }
 
 
         const passwordHash =
-            await hashPassword(password);
+            await hashPassword(
+                password
+            );
 
 
         try {
@@ -284,7 +391,8 @@ router.post(
 
 
             return res.json({
-                message: "Professor erfolgreich registriert"
+                message:
+                    "Professor erfolgreich registriert"
             });
 
 
@@ -293,13 +401,15 @@ router.post(
             if (error instanceof Error) {
 
                 return res.status(400).json({
-                    message: error.message
+                    message:
+                        error.message
                 });
             }
 
 
             return res.status(500).json({
-                message: "Registrierung fehlgeschlagen"
+                message:
+                    "Registrierung fehlgeschlagen"
             });
         }
     }
