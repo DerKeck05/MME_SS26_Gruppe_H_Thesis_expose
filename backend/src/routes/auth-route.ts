@@ -1,18 +1,15 @@
-import { Router } from "express";
+import {Router} from "express";
 
-/* Funktionen zum Passwort verschlüsseln und prüfen */
 import {
     verifyPassword,
     hashPassword
 } from "../utils/password.js";
 
-/* Funktionen für Studenten aus der Datenbank */
 import {
     getStudentByEmail,
     createStudent
 } from "../database/repos/student-repo.js";
 
-/* Funktionen für Professoren aus der Datenbank */
 import {
     getSupervisorByEmail,
     createSupervisor
@@ -28,21 +25,21 @@ const router = Router();
 
 router.post("/login", async (req, res) => {
 
-    /* Daten die vom Frontend kommen */
-    const { email, password, role } = req.body;
+    const {
+        email,
+        password,
+        role
+    } = req.body;
 
 
     /* =========================
        STUDENT LOGIN
        ========================= */
 
-    if (role === "student") {
+    if (role == "student") {
 
-        /* Student mit der Email in der Datenbank suchen */
         const student = await getStudentByEmail(email);
 
-
-        /* Wenn kein Student gefunden wurde */
         if (!student) {
             return res.status(401).json({
                 message: "E-Mail oder Passwort falsch"
@@ -50,14 +47,12 @@ router.post("/login", async (req, res) => {
         }
 
 
-        /* Eingegebenes Passwort mit dem gespeicherten Hash vergleichen */
         const passwordCorrect = await verifyPassword(
             password,
             student.passwordHash
         );
 
 
-        /* Wenn Passwort falsch ist */
         if (!passwordCorrect) {
             return res.status(401).json({
                 message: "E-Mail oder Passwort falsch"
@@ -65,7 +60,6 @@ router.post("/login", async (req, res) => {
         }
 
 
-        /* Login erfolgreich */
         return res.json({
             message: "Login erfolgreich",
             role: "student",
@@ -83,13 +77,10 @@ router.post("/login", async (req, res) => {
        PROFESSOR LOGIN
        ========================= */
 
-    if (role === "professor") {
+    if (role == "professor") {
 
-        /* Professor über seine Email suchen */
         const supervisor = await getSupervisorByEmail(email);
 
-
-        /* Wenn kein Professor gefunden wurde */
         if (!supervisor) {
             return res.status(401).json({
                 message: "E-Mail oder Passwort falsch"
@@ -97,14 +88,12 @@ router.post("/login", async (req, res) => {
         }
 
 
-        /* Passwort prüfen */
         const passwordCorrect = await verifyPassword(
             password,
             supervisor.passwordHash
         );
 
 
-        /* Passwort stimmt nicht */
         if (!passwordCorrect) {
             return res.status(401).json({
                 message: "E-Mail oder Passwort falsch"
@@ -112,7 +101,6 @@ router.post("/login", async (req, res) => {
         }
 
 
-        /* Login erfolgreich */
         return res.json({
             message: "Login erfolgreich",
             role: "professor",
@@ -126,12 +114,10 @@ router.post("/login", async (req, res) => {
     }
 
 
-    /* Ungültige Rolle */
     return res.status(400).json({
         message: "Ungültige Rolle"
     });
 });
-
 
 
 /* =========================
@@ -140,7 +126,6 @@ router.post("/login", async (req, res) => {
 
 router.post("/register/student", async (req, res) => {
 
-    /* Daten vom Frontend auslesen */
     const {
         name,
         email,
@@ -149,7 +134,6 @@ router.post("/register/student", async (req, res) => {
     } = req.body;
 
 
-    /* Prüfen ob Email bereits existiert */
     const existingStudent = await getStudentByEmail(email);
 
 
@@ -160,11 +144,9 @@ router.post("/register/student", async (req, res) => {
     }
 
 
-    /* Passwort hashen */
     const passwordHash = await hashPassword(password);
 
 
-    /* Studenten erstellen */
     await createStudent(
         name,
         email,
@@ -173,12 +155,10 @@ router.post("/register/student", async (req, res) => {
     );
 
 
-    /* Erfolg zurückgeben */
     return res.json({
         message: "Student erfolgreich registriert"
     });
 });
-
 
 
 /* =========================
@@ -187,17 +167,33 @@ router.post("/register/student", async (req, res) => {
 
 router.post("/register/professor", async (req, res) => {
 
-    /* Daten vom Frontend auslesen */
     const {
         name,
         email,
         password,
-        chair
+        chair,
+        universityId,
+        courseIds
     } = req.body;
 
 
-    /* Prüfen ob Email bereits existiert */
-    const existingProfessor = await getSupervisorByEmail(email);
+    if (
+        !name ||
+        !email ||
+        !password ||
+        !chair ||
+        !universityId ||
+        !Array.isArray(courseIds) ||
+        courseIds.length == 0
+    ) {
+        return res.status(400).json({
+            message: "Bitte alle Felder ausfüllen"
+        });
+    }
+
+
+    const existingProfessor =
+        await getSupervisorByEmail(email);
 
 
     if (existingProfessor) {
@@ -207,20 +203,19 @@ router.post("/register/professor", async (req, res) => {
     }
 
 
-    /* Passwort hashen */
     const passwordHash = await hashPassword(password);
 
 
-    /* Professor erstellen */
     await createSupervisor(
         name,
         email,
         passwordHash,
-        chair
+        chair,
+        Number(universityId),
+        courseIds.map((id) => Number(id))
     );
 
 
-    /* Erfolg zurückgeben */
     return res.json({
         message: "Professor erfolgreich registriert"
     });

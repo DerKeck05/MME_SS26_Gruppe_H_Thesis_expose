@@ -10,6 +10,7 @@ import authRoutes from "./routes/auth-route.js";
 import chapterRoute from "./routes/chapter-route.js";
 import studentRoute from "./routes/student-route.js";
 import thesisRoute from "./routes/thesis-route.js";
+import universityRoute from "./routes/university-route.js";
 
 
 /* Express Anwendung erstellen */
@@ -47,11 +48,14 @@ app.use("/api/chapter", chapterRoute);
 /* Student */
 app.use("/api/student", studentRoute);
 
-/* Professor Dashboard benutzt diesen Pfad */
+/* Professor Dashboard */
 app.use("/api/students", studentRoute);
 
 /* Thesis */
 app.use("/api/thesis", thesisRoute);
+
+/* Hochschulen, Studiengänge und Professoren */
+app.use("/api/universities", universityRoute);
 
 
 /* =========================
