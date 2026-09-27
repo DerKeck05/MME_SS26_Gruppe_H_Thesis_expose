@@ -77,3 +77,33 @@ export async function deleteChapter(chapterId: number): Promise<void> {
 
     console.log("Chapter deleted");
 }
+
+export async function exportPdf(thesisId: number): Promise<void> {
+    const response = await fetch(
+        `${API_URL}/api/chapter/thesis/${thesisId}/pdf`,
+        {
+            method: "GET",
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("PDF konnte nicht erstellt werden.");
+    }
+
+    const blob = await response.blob();
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "gliederung.pdf";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+    console.log("PDF erstellt!");
+}

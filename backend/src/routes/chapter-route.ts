@@ -4,6 +4,7 @@ import {
     createChapterSchema,
     updateChapterSchema
 } from "../utils/chapter-schema.js";
+import {createOutlinePdf} from "../services/pdf-service.js";
 
 const router = Router();
 
@@ -109,6 +110,29 @@ router.delete("/:id", async (req, res) => {
     console.log("Router deleted Chapter");
 
     res.status(204).send();
+});
+
+router.get("/thesis/:thesisId/pdf", async (req, res) => {
+    const thesisId = Number(req.params.thesisId);
+
+    if (Number.isNaN(thesisId)) {
+        res.status(400).json({
+            error: "Invalid thesis ID"
+        });
+        return;
+    }
+
+    const pdf = createOutlinePdf();
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="gliederung.pdf"'
+    );
+
+    pdf.pipe(res);
+
+    pdf.end();
 });
 
 export default router;
