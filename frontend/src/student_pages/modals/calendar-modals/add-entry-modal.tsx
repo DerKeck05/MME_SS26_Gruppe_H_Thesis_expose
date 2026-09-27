@@ -1,6 +1,10 @@
 import {useState} from "react";
 import CloseModalButton from "../../../globals/close-modal-button.tsx";
 import {MAX_ENTRY_TITLE_LENGTH} from "../../calendar_pages/calendar-page.tsx";
+import {DatePickerInput, DateTimePicker} from "@mantine/dates";
+import "dayjs/locale/de";
+import dayjs from "dayjs";
+import {datePresets, dateTimePresets} from "./date-presets.ts";
 
 interface AddEntry {
     title: string;
@@ -22,9 +26,9 @@ function AddEntryModal({
 
     const [entryTitle, setEntryTitle] = useState("");
     const [entryDescription, setEntryDescription] = useState("");
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-    const [date, setDate] = useState("");
+    const [startDate, setStartDate] = useState<string | null>(null);
+    const [endDate, setEndDate] = useState<string | null>(null);
+    const [date, setDate] = useState<string | null>(null);
     const [allDay, setAllDay] = useState(false);
 
     const isFormValid =
@@ -32,11 +36,19 @@ function AddEntryModal({
         entryTitle.trim().length <= MAX_ENTRY_TITLE_LENGTH &&
         (
             allDay
-                ? date !== ""
-                : startDate !== "" &&
-                endDate !== "" &&
+                ? date !== "" && date !== null
+                : startDate !== "" && startDate !== null &&
+                endDate !== "" && endDate !== null &&
                 new Date(endDate) > new Date(startDate)
         );
+
+    function handleAllDayChange(enabled: boolean) {
+        setAllDay(enabled);
+
+        setDate(null);
+        setStartDate(null);
+        setEndDate(null);
+    }
 
     async function submitEntry() {
         if (!entryTitle.trim()) {
@@ -50,13 +62,16 @@ function AddEntryModal({
                 return;
             }
 
-            const start = new Date(`${date}T12:00:00Z`);
+            const start = new Date(`${date}T00:00:00Z`);
+            const end = new Date(`${date}T00:00:00Z`);
+
+            end.setUTCDate(end.getUTCDate() + 1);
 
             await onSubmit({
                 title: entryTitle,
                 description: entryDescription,
                 startDate: start.toISOString(),
-                endDate: start.toISOString(),
+                endDate: end.toISOString(),
                 allDay: true
             });
 
@@ -118,38 +133,131 @@ function AddEntryModal({
                         onChange={(e) => setEntryDescription(e.target.value)}
                     />
 
-                    <div className={"flex flex-row gap-2"}>
-                        <input type={"checkbox"} id={"allDay"} checked={allDay}
-                               onChange={(e) => setAllDay(e.target.checked)}/>
-                        <label className={"flex-1"} htmlFor="allDay">
+                    <div className="flex min-h-10.5 flex-row items-center gap-(--spacing-small)">
+                        <input
+                            type="checkbox"
+                            id="allDay"
+                            checked={allDay}
+                            onChange={(e) => handleAllDayChange(e.target.checked)}
+                            className="m-0 h-5 w-5 min-h-5 cursor-pointer accent-(--tertiary)"
+                        />
+
+                        <label className="cursor-default text-[18px] font-semibold text-(--dark-blue)">
                             Ganztägig
                         </label>
                     </div>
 
                     {allDay ? (
-                        <input
-                            type="date"
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
-                        />
+                        <>
+                            <DatePickerInput
+                                label="Datum"
+                                placeholder="Datum auswählen"
+                                locale="de"
+                                value={date}
+                                onChange={setDate}
+                                clearable
+                                valueFormat="DD.MM.YYYY"
+                                firstDayOfWeek={1}
+                                withWeekNumbers
+                                hideOutsideDates
+                                withNativeLevelSelect
+                                minDate={dayjs().format("YYYY-MM-DD")}
+
+                                presets={datePresets}
+
+                                popoverProps={{
+                                    zIndex: 1100
+                                }}
+                            />
+                            {/* <input
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                    /> */}
+                        </>
                     ) : (<div className="date-row">
-                        <label>
+                        {/* <label>
                             Start:
                             <input
                                 type="datetime-local"
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
                             />
-                        </label>
+                        </label>*/}
 
-                        <label>
+                        <DateTimePicker
+                            label="Start"
+                            placeholder="Datum und Uhrzeit auswählen"
+                            locale="de"
+                            value={startDate}
+                            onChange={setStartDate}
+
+                            clearable
+
+                            valueFormat="DD.MM.YYYY HH:mm"
+
+                            firstDayOfWeek={1}
+                            withWeekNumbers
+                            hideOutsideDates
+                            withNativeLevelSelect
+
+                            minDate={dayjs().format("YYYY-MM-DD")}
+
+                            presets={dateTimePresets}
+
+                            timePickerProps={{
+                                format: "24h",
+                                withDropdown: true,
+                                minutesStep: 5
+                            }}
+
+                            popoverProps={{
+                                zIndex: 1100
+                            }}
+                        />
+
+                        <DateTimePicker
+                            label="Ende"
+                            placeholder="Datum und Uhrzeit auswählen"
+                            locale="de"
+                            value={endDate}
+                            onChange={setEndDate}
+
+                            clearable
+
+                            valueFormat="DD.MM.YYYY HH:mm"
+
+                            firstDayOfWeek={1}
+                            withWeekNumbers
+                            hideOutsideDates
+                            withNativeLevelSelect
+
+                            minDate={startDate
+                                ? startDate.split(" ")[0]
+                                : dayjs().format("YYYY-MM-DD")
+                            }
+
+                            presets={dateTimePresets}
+
+                            timePickerProps={{
+                                format: "24h",
+                                withDropdown: true,
+                                minutesStep: 5
+                            }}
+
+                            popoverProps={{
+                                zIndex: 1100
+                            }}
+                        />
+
+                        {/*<label>
                             Ende:
                             <input
                                 type="datetime-local"
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
                             />
-                        </label>
+                        </label>*/}
                     </div>)}
 
                 </div>
