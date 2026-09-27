@@ -59,6 +59,7 @@ export const ModelName = {
   FeedbackEntry: 'FeedbackEntry',
   Faq: 'Faq',
   University: 'University',
+  Chair: 'Chair',
   Course: 'Course'
 } as const
 
@@ -86,7 +87,8 @@ export const SupervisorScalarFieldEnum = {
   chair: 'chair',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  universityId: 'universityId'
+  universityId: 'universityId',
+  chairId: 'chairId'
 } as const
 
 export type SupervisorScalarFieldEnum = (typeof SupervisorScalarFieldEnum)[keyof typeof SupervisorScalarFieldEnum]
@@ -179,6 +181,15 @@ export const UniversityScalarFieldEnum = {
 } as const
 
 export type UniversityScalarFieldEnum = (typeof UniversityScalarFieldEnum)[keyof typeof UniversityScalarFieldEnum]
+
+
+export const ChairScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  universityId: 'universityId'
+} as const
+
+export type ChairScalarFieldEnum = (typeof ChairScalarFieldEnum)[keyof typeof ChairScalarFieldEnum]
 
 
 export const CourseScalarFieldEnum = {

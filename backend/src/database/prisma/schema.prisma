@@ -8,16 +8,22 @@ datasource db {
 }
 
 model Supervisor {
-  id           Int      @id @default(autoincrement())
+  id           Int    @id @default(autoincrement())
   name         String
-  email        String   @unique
+  email        String @unique
   passwordHash String
-  chair        String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+
+  // Bleibt vorerst für bestehenden Code erhalten
+  chair String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   universityId Int?
   university   University? @relation(fields: [universityId], references: [id])
+
+  chairId       Int?
+  chairRelation Chair? @relation(fields: [chairId], references: [id])
 
   students Student[]
   theses   Thesis[]
@@ -26,13 +32,16 @@ model Supervisor {
 }
 
 model Student {
-  id           Int      @id @default(autoincrement())
+  id           Int    @id @default(autoincrement())
   name         String
-  email        String   @unique
+  email        String @unique
   passwordHash String
-  course       String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+
+  // Bleibt vorerst für bestehenden Code erhalten
+  course String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   universityId Int?
   university   University? @relation(fields: [universityId], references: [id])
@@ -125,6 +134,19 @@ model University {
   supervisors Supervisor[]
   students    Student[]
   courses     Course[]
+  chairs      Chair[]
+}
+
+model Chair {
+  id           Int    @id @default(autoincrement())
+  name         String
+  universityId Int
+
+  university University @relation(fields: [universityId], references: [id])
+
+  supervisors Supervisor[]
+
+  @@unique([name, universityId])
 }
 
 model Course {

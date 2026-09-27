@@ -195,6 +195,7 @@ export type UniversityWhereInput = {
   supervisors?: Prisma.SupervisorListRelationFilter
   students?: Prisma.StudentListRelationFilter
   courses?: Prisma.CourseListRelationFilter
+  chairs?: Prisma.ChairListRelationFilter
 }
 
 export type UniversityOrderByWithRelationInput = {
@@ -203,6 +204,7 @@ export type UniversityOrderByWithRelationInput = {
   supervisors?: Prisma.SupervisorOrderByRelationAggregateInput
   students?: Prisma.StudentOrderByRelationAggregateInput
   courses?: Prisma.CourseOrderByRelationAggregateInput
+  chairs?: Prisma.ChairOrderByRelationAggregateInput
 }
 
 export type UniversityWhereUniqueInput = Prisma.AtLeast<{
@@ -214,6 +216,7 @@ export type UniversityWhereUniqueInput = Prisma.AtLeast<{
   supervisors?: Prisma.SupervisorListRelationFilter
   students?: Prisma.StudentListRelationFilter
   courses?: Prisma.CourseListRelationFilter
+  chairs?: Prisma.ChairListRelationFilter
 }, "id" | "name">
 
 export type UniversityOrderByWithAggregationInput = {
@@ -239,6 +242,7 @@ export type UniversityCreateInput = {
   supervisors?: Prisma.SupervisorCreateNestedManyWithoutUniversityInput
   students?: Prisma.StudentCreateNestedManyWithoutUniversityInput
   courses?: Prisma.CourseCreateNestedManyWithoutUniversityInput
+  chairs?: Prisma.ChairCreateNestedManyWithoutUniversityInput
 }
 
 export type UniversityUncheckedCreateInput = {
@@ -247,6 +251,7 @@ export type UniversityUncheckedCreateInput = {
   supervisors?: Prisma.SupervisorUncheckedCreateNestedManyWithoutUniversityInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutUniversityInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUniversityInput
+  chairs?: Prisma.ChairUncheckedCreateNestedManyWithoutUniversityInput
 }
 
 export type UniversityUpdateInput = {
@@ -254,6 +259,7 @@ export type UniversityUpdateInput = {
   supervisors?: Prisma.SupervisorUpdateManyWithoutUniversityNestedInput
   students?: Prisma.StudentUpdateManyWithoutUniversityNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUniversityNestedInput
+  chairs?: Prisma.ChairUpdateManyWithoutUniversityNestedInput
 }
 
 export type UniversityUncheckedUpdateInput = {
@@ -262,6 +268,7 @@ export type UniversityUncheckedUpdateInput = {
   supervisors?: Prisma.SupervisorUncheckedUpdateManyWithoutUniversityNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutUniversityNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUniversityNestedInput
+  chairs?: Prisma.ChairUncheckedUpdateManyWithoutUniversityNestedInput
 }
 
 export type UniversityCreateManyInput = {
@@ -343,6 +350,20 @@ export type UniversityUpdateOneWithoutStudentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UniversityUpdateToOneWithWhereWithoutStudentsInput, Prisma.UniversityUpdateWithoutStudentsInput>, Prisma.UniversityUncheckedUpdateWithoutStudentsInput>
 }
 
+export type UniversityCreateNestedOneWithoutChairsInput = {
+  create?: Prisma.XOR<Prisma.UniversityCreateWithoutChairsInput, Prisma.UniversityUncheckedCreateWithoutChairsInput>
+  connectOrCreate?: Prisma.UniversityCreateOrConnectWithoutChairsInput
+  connect?: Prisma.UniversityWhereUniqueInput
+}
+
+export type UniversityUpdateOneRequiredWithoutChairsNestedInput = {
+  create?: Prisma.XOR<Prisma.UniversityCreateWithoutChairsInput, Prisma.UniversityUncheckedCreateWithoutChairsInput>
+  connectOrCreate?: Prisma.UniversityCreateOrConnectWithoutChairsInput
+  upsert?: Prisma.UniversityUpsertWithoutChairsInput
+  connect?: Prisma.UniversityWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UniversityUpdateToOneWithWhereWithoutChairsInput, Prisma.UniversityUpdateWithoutChairsInput>, Prisma.UniversityUncheckedUpdateWithoutChairsInput>
+}
+
 export type UniversityCreateNestedOneWithoutCoursesInput = {
   create?: Prisma.XOR<Prisma.UniversityCreateWithoutCoursesInput, Prisma.UniversityUncheckedCreateWithoutCoursesInput>
   connectOrCreate?: Prisma.UniversityCreateOrConnectWithoutCoursesInput
@@ -361,6 +382,7 @@ export type UniversityCreateWithoutSupervisorsInput = {
   name: string
   students?: Prisma.StudentCreateNestedManyWithoutUniversityInput
   courses?: Prisma.CourseCreateNestedManyWithoutUniversityInput
+  chairs?: Prisma.ChairCreateNestedManyWithoutUniversityInput
 }
 
 export type UniversityUncheckedCreateWithoutSupervisorsInput = {
@@ -368,6 +390,7 @@ export type UniversityUncheckedCreateWithoutSupervisorsInput = {
   name: string
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutUniversityInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUniversityInput
+  chairs?: Prisma.ChairUncheckedCreateNestedManyWithoutUniversityInput
 }
 
 export type UniversityCreateOrConnectWithoutSupervisorsInput = {
@@ -390,6 +413,7 @@ export type UniversityUpdateWithoutSupervisorsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   students?: Prisma.StudentUpdateManyWithoutUniversityNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUniversityNestedInput
+  chairs?: Prisma.ChairUpdateManyWithoutUniversityNestedInput
 }
 
 export type UniversityUncheckedUpdateWithoutSupervisorsInput = {
@@ -397,12 +421,14 @@ export type UniversityUncheckedUpdateWithoutSupervisorsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   students?: Prisma.StudentUncheckedUpdateManyWithoutUniversityNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUniversityNestedInput
+  chairs?: Prisma.ChairUncheckedUpdateManyWithoutUniversityNestedInput
 }
 
 export type UniversityCreateWithoutStudentsInput = {
   name: string
   supervisors?: Prisma.SupervisorCreateNestedManyWithoutUniversityInput
   courses?: Prisma.CourseCreateNestedManyWithoutUniversityInput
+  chairs?: Prisma.ChairCreateNestedManyWithoutUniversityInput
 }
 
 export type UniversityUncheckedCreateWithoutStudentsInput = {
@@ -410,6 +436,7 @@ export type UniversityUncheckedCreateWithoutStudentsInput = {
   name: string
   supervisors?: Prisma.SupervisorUncheckedCreateNestedManyWithoutUniversityInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUniversityInput
+  chairs?: Prisma.ChairUncheckedCreateNestedManyWithoutUniversityInput
 }
 
 export type UniversityCreateOrConnectWithoutStudentsInput = {
@@ -432,6 +459,7 @@ export type UniversityUpdateWithoutStudentsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   supervisors?: Prisma.SupervisorUpdateManyWithoutUniversityNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUniversityNestedInput
+  chairs?: Prisma.ChairUpdateManyWithoutUniversityNestedInput
 }
 
 export type UniversityUncheckedUpdateWithoutStudentsInput = {
@@ -439,12 +467,60 @@ export type UniversityUncheckedUpdateWithoutStudentsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   supervisors?: Prisma.SupervisorUncheckedUpdateManyWithoutUniversityNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUniversityNestedInput
+  chairs?: Prisma.ChairUncheckedUpdateManyWithoutUniversityNestedInput
+}
+
+export type UniversityCreateWithoutChairsInput = {
+  name: string
+  supervisors?: Prisma.SupervisorCreateNestedManyWithoutUniversityInput
+  students?: Prisma.StudentCreateNestedManyWithoutUniversityInput
+  courses?: Prisma.CourseCreateNestedManyWithoutUniversityInput
+}
+
+export type UniversityUncheckedCreateWithoutChairsInput = {
+  id?: number
+  name: string
+  supervisors?: Prisma.SupervisorUncheckedCreateNestedManyWithoutUniversityInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutUniversityInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUniversityInput
+}
+
+export type UniversityCreateOrConnectWithoutChairsInput = {
+  where: Prisma.UniversityWhereUniqueInput
+  create: Prisma.XOR<Prisma.UniversityCreateWithoutChairsInput, Prisma.UniversityUncheckedCreateWithoutChairsInput>
+}
+
+export type UniversityUpsertWithoutChairsInput = {
+  update: Prisma.XOR<Prisma.UniversityUpdateWithoutChairsInput, Prisma.UniversityUncheckedUpdateWithoutChairsInput>
+  create: Prisma.XOR<Prisma.UniversityCreateWithoutChairsInput, Prisma.UniversityUncheckedCreateWithoutChairsInput>
+  where?: Prisma.UniversityWhereInput
+}
+
+export type UniversityUpdateToOneWithWhereWithoutChairsInput = {
+  where?: Prisma.UniversityWhereInput
+  data: Prisma.XOR<Prisma.UniversityUpdateWithoutChairsInput, Prisma.UniversityUncheckedUpdateWithoutChairsInput>
+}
+
+export type UniversityUpdateWithoutChairsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  supervisors?: Prisma.SupervisorUpdateManyWithoutUniversityNestedInput
+  students?: Prisma.StudentUpdateManyWithoutUniversityNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutUniversityNestedInput
+}
+
+export type UniversityUncheckedUpdateWithoutChairsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  supervisors?: Prisma.SupervisorUncheckedUpdateManyWithoutUniversityNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutUniversityNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutUniversityNestedInput
 }
 
 export type UniversityCreateWithoutCoursesInput = {
   name: string
   supervisors?: Prisma.SupervisorCreateNestedManyWithoutUniversityInput
   students?: Prisma.StudentCreateNestedManyWithoutUniversityInput
+  chairs?: Prisma.ChairCreateNestedManyWithoutUniversityInput
 }
 
 export type UniversityUncheckedCreateWithoutCoursesInput = {
@@ -452,6 +528,7 @@ export type UniversityUncheckedCreateWithoutCoursesInput = {
   name: string
   supervisors?: Prisma.SupervisorUncheckedCreateNestedManyWithoutUniversityInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutUniversityInput
+  chairs?: Prisma.ChairUncheckedCreateNestedManyWithoutUniversityInput
 }
 
 export type UniversityCreateOrConnectWithoutCoursesInput = {
@@ -474,6 +551,7 @@ export type UniversityUpdateWithoutCoursesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   supervisors?: Prisma.SupervisorUpdateManyWithoutUniversityNestedInput
   students?: Prisma.StudentUpdateManyWithoutUniversityNestedInput
+  chairs?: Prisma.ChairUpdateManyWithoutUniversityNestedInput
 }
 
 export type UniversityUncheckedUpdateWithoutCoursesInput = {
@@ -481,6 +559,7 @@ export type UniversityUncheckedUpdateWithoutCoursesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   supervisors?: Prisma.SupervisorUncheckedUpdateManyWithoutUniversityNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutUniversityNestedInput
+  chairs?: Prisma.ChairUncheckedUpdateManyWithoutUniversityNestedInput
 }
 
 
@@ -492,12 +571,14 @@ export type UniversityCountOutputType = {
   supervisors: number
   students: number
   courses: number
+  chairs: number
 }
 
 export type UniversityCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   supervisors?: boolean | UniversityCountOutputTypeCountSupervisorsArgs
   students?: boolean | UniversityCountOutputTypeCountStudentsArgs
   courses?: boolean | UniversityCountOutputTypeCountCoursesArgs
+  chairs?: boolean | UniversityCountOutputTypeCountChairsArgs
 }
 
 /**
@@ -531,6 +612,13 @@ export type UniversityCountOutputTypeCountCoursesArgs<ExtArgs extends runtime.Ty
   where?: Prisma.CourseWhereInput
 }
 
+/**
+ * UniversityCountOutputType without action
+ */
+export type UniversityCountOutputTypeCountChairsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChairWhereInput
+}
+
 
 export type UniversitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -538,6 +626,7 @@ export type UniversitySelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   supervisors?: boolean | Prisma.University$supervisorsArgs<ExtArgs>
   students?: boolean | Prisma.University$studentsArgs<ExtArgs>
   courses?: boolean | Prisma.University$coursesArgs<ExtArgs>
+  chairs?: boolean | Prisma.University$chairsArgs<ExtArgs>
   _count?: boolean | Prisma.UniversityCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["university"]>
 
@@ -561,6 +650,7 @@ export type UniversityInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   supervisors?: boolean | Prisma.University$supervisorsArgs<ExtArgs>
   students?: boolean | Prisma.University$studentsArgs<ExtArgs>
   courses?: boolean | Prisma.University$coursesArgs<ExtArgs>
+  chairs?: boolean | Prisma.University$chairsArgs<ExtArgs>
   _count?: boolean | Prisma.UniversityCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UniversityIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -572,6 +662,7 @@ export type $UniversityPayload<ExtArgs extends runtime.Types.Extensions.Internal
     supervisors: Prisma.$SupervisorPayload<ExtArgs>[]
     students: Prisma.$StudentPayload<ExtArgs>[]
     courses: Prisma.$CoursePayload<ExtArgs>[]
+    chairs: Prisma.$ChairPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -973,6 +1064,7 @@ export interface Prisma__UniversityClient<T, Null = never, ExtArgs extends runti
   supervisors<T extends Prisma.University$supervisorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.University$supervisorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   students<T extends Prisma.University$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.University$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   courses<T extends Prisma.University$coursesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.University$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chairs<T extends Prisma.University$chairsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.University$chairsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChairPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1466,6 +1558,30 @@ export type University$coursesArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.CourseScalarFieldEnum | Prisma.CourseScalarFieldEnum[]
+}
+
+/**
+ * University.chairs
+ */
+export type University$chairsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Chair
+   */
+  select?: Prisma.ChairSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Chair
+   */
+  omit?: Prisma.ChairOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChairInclude<ExtArgs> | null
+  where?: Prisma.ChairWhereInput
+  orderBy?: Prisma.ChairOrderByWithRelationInput | Prisma.ChairOrderByWithRelationInput[]
+  cursor?: Prisma.ChairWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChairScalarFieldEnum | Prisma.ChairScalarFieldEnum[]
 }
 
 /**

@@ -405,6 +405,7 @@ export const ModelName = {
   FeedbackEntry: 'FeedbackEntry',
   Faq: 'Faq',
   University: 'University',
+  Chair: 'Chair',
   Course: 'Course'
 } as const
 
@@ -421,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "supervisor" | "student" | "thesis" | "calendarEntry" | "chapter" | "feedbackEntry" | "faq" | "university" | "course"
+    modelProps: "supervisor" | "student" | "thesis" | "calendarEntry" | "chapter" | "feedbackEntry" | "faq" | "university" | "chair" | "course"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1017,6 +1018,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Chair: {
+      payload: Prisma.$ChairPayload<ExtArgs>
+      fields: Prisma.ChairFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChairFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChairPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChairFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChairPayload>
+        }
+        findFirst: {
+          args: Prisma.ChairFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChairPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChairFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChairPayload>
+        }
+        findMany: {
+          args: Prisma.ChairFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChairPayload>[]
+        }
+        create: {
+          args: Prisma.ChairCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChairPayload>
+        }
+        createMany: {
+          args: Prisma.ChairCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ChairCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChairPayload>[]
+        }
+        delete: {
+          args: Prisma.ChairDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChairPayload>
+        }
+        update: {
+          args: Prisma.ChairUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChairPayload>
+        }
+        deleteMany: {
+          args: Prisma.ChairDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChairUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ChairUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChairPayload>[]
+        }
+        upsert: {
+          args: Prisma.ChairUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChairPayload>
+        }
+        aggregate: {
+          args: Prisma.ChairAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChair>
+        }
+        groupBy: {
+          args: Prisma.ChairGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChairGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChairCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChairCountAggregateOutputType> | number
+        }
+      }
+    }
     Course: {
       payload: Prisma.$CoursePayload<ExtArgs>
       fields: Prisma.CourseFieldRefs
@@ -1138,7 +1213,8 @@ export const SupervisorScalarFieldEnum = {
   chair: 'chair',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  universityId: 'universityId'
+  universityId: 'universityId',
+  chairId: 'chairId'
 } as const
 
 export type SupervisorScalarFieldEnum = (typeof SupervisorScalarFieldEnum)[keyof typeof SupervisorScalarFieldEnum]
@@ -1231,6 +1307,15 @@ export const UniversityScalarFieldEnum = {
 } as const
 
 export type UniversityScalarFieldEnum = (typeof UniversityScalarFieldEnum)[keyof typeof UniversityScalarFieldEnum]
+
+
+export const ChairScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  universityId: 'universityId'
+} as const
+
+export type ChairScalarFieldEnum = (typeof ChairScalarFieldEnum)[keyof typeof ChairScalarFieldEnum]
 
 
 export const CourseScalarFieldEnum = {
@@ -1493,6 +1578,7 @@ export type GlobalOmitConfig = {
   feedbackEntry?: Prisma.FeedbackEntryOmit
   faq?: Prisma.FaqOmit
   university?: Prisma.UniversityOmit
+  chair?: Prisma.ChairOmit
   course?: Prisma.CourseOmit
 }
 

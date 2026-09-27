@@ -82,6 +82,11 @@ export type Faq = Prisma.FaqModel
  */
 export type University = Prisma.UniversityModel
 /**
+ * Model Chair
+ * 
+ */
+export type Chair = Prisma.ChairModel
+/**
  * Model Course
  * 
  */

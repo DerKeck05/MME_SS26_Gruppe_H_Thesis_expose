@@ -29,11 +29,13 @@ export type AggregateSupervisor = {
 export type SupervisorAvgAggregateOutputType = {
   id: number | null
   universityId: number | null
+  chairId: number | null
 }
 
 export type SupervisorSumAggregateOutputType = {
   id: number | null
   universityId: number | null
+  chairId: number | null
 }
 
 export type SupervisorMinAggregateOutputType = {
@@ -45,6 +47,7 @@ export type SupervisorMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   universityId: number | null
+  chairId: number | null
 }
 
 export type SupervisorMaxAggregateOutputType = {
@@ -56,6 +59,7 @@ export type SupervisorMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   universityId: number | null
+  chairId: number | null
 }
 
 export type SupervisorCountAggregateOutputType = {
@@ -67,6 +71,7 @@ export type SupervisorCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   universityId: number
+  chairId: number
   _all: number
 }
 
@@ -74,11 +79,13 @@ export type SupervisorCountAggregateOutputType = {
 export type SupervisorAvgAggregateInputType = {
   id?: true
   universityId?: true
+  chairId?: true
 }
 
 export type SupervisorSumAggregateInputType = {
   id?: true
   universityId?: true
+  chairId?: true
 }
 
 export type SupervisorMinAggregateInputType = {
@@ -90,6 +97,7 @@ export type SupervisorMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   universityId?: true
+  chairId?: true
 }
 
 export type SupervisorMaxAggregateInputType = {
@@ -101,6 +109,7 @@ export type SupervisorMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   universityId?: true
+  chairId?: true
 }
 
 export type SupervisorCountAggregateInputType = {
@@ -112,6 +121,7 @@ export type SupervisorCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   universityId?: true
+  chairId?: true
   _all?: true
 }
 
@@ -210,6 +220,7 @@ export type SupervisorGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   universityId: number | null
+  chairId: number | null
   _count: SupervisorCountAggregateOutputType | null
   _avg: SupervisorAvgAggregateOutputType | null
   _sum: SupervisorSumAggregateOutputType | null
@@ -244,7 +255,9 @@ export type SupervisorWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Supervisor"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Supervisor"> | Date | string
   universityId?: Prisma.IntNullableFilter<"Supervisor"> | number | null
+  chairId?: Prisma.IntNullableFilter<"Supervisor"> | number | null
   university?: Prisma.XOR<Prisma.UniversityNullableScalarRelationFilter, Prisma.UniversityWhereInput> | null
+  chairRelation?: Prisma.XOR<Prisma.ChairNullableScalarRelationFilter, Prisma.ChairWhereInput> | null
   students?: Prisma.StudentListRelationFilter
   theses?: Prisma.ThesisListRelationFilter
   courses?: Prisma.CourseListRelationFilter
@@ -260,7 +273,9 @@ export type SupervisorOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   universityId?: Prisma.SortOrderInput | Prisma.SortOrder
+  chairId?: Prisma.SortOrderInput | Prisma.SortOrder
   university?: Prisma.UniversityOrderByWithRelationInput
+  chairRelation?: Prisma.ChairOrderByWithRelationInput
   students?: Prisma.StudentOrderByRelationAggregateInput
   theses?: Prisma.ThesisOrderByRelationAggregateInput
   courses?: Prisma.CourseOrderByRelationAggregateInput
@@ -279,7 +294,9 @@ export type SupervisorWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Supervisor"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Supervisor"> | Date | string
   universityId?: Prisma.IntNullableFilter<"Supervisor"> | number | null
+  chairId?: Prisma.IntNullableFilter<"Supervisor"> | number | null
   university?: Prisma.XOR<Prisma.UniversityNullableScalarRelationFilter, Prisma.UniversityWhereInput> | null
+  chairRelation?: Prisma.XOR<Prisma.ChairNullableScalarRelationFilter, Prisma.ChairWhereInput> | null
   students?: Prisma.StudentListRelationFilter
   theses?: Prisma.ThesisListRelationFilter
   courses?: Prisma.CourseListRelationFilter
@@ -295,6 +312,7 @@ export type SupervisorOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   universityId?: Prisma.SortOrderInput | Prisma.SortOrder
+  chairId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SupervisorCountOrderByAggregateInput
   _avg?: Prisma.SupervisorAvgOrderByAggregateInput
   _max?: Prisma.SupervisorMaxOrderByAggregateInput
@@ -314,6 +332,7 @@ export type SupervisorScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Supervisor"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Supervisor"> | Date | string
   universityId?: Prisma.IntNullableWithAggregatesFilter<"Supervisor"> | number | null
+  chairId?: Prisma.IntNullableWithAggregatesFilter<"Supervisor"> | number | null
 }
 
 export type SupervisorCreateInput = {
@@ -324,6 +343,7 @@ export type SupervisorCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   university?: Prisma.UniversityCreateNestedOneWithoutSupervisorsInput
+  chairRelation?: Prisma.ChairCreateNestedOneWithoutSupervisorsInput
   students?: Prisma.StudentCreateNestedManyWithoutSupervisorInput
   theses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
   courses?: Prisma.CourseCreateNestedManyWithoutSupervisorsInput
@@ -339,6 +359,7 @@ export type SupervisorUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   universityId?: number | null
+  chairId?: number | null
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSupervisorInput
   theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutSupervisorsInput
@@ -353,6 +374,7 @@ export type SupervisorUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   university?: Prisma.UniversityUpdateOneWithoutSupervisorsNestedInput
+  chairRelation?: Prisma.ChairUpdateOneWithoutSupervisorsNestedInput
   students?: Prisma.StudentUpdateManyWithoutSupervisorNestedInput
   theses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
   courses?: Prisma.CourseUpdateManyWithoutSupervisorsNestedInput
@@ -368,6 +390,7 @@ export type SupervisorUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  chairId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   students?: Prisma.StudentUncheckedUpdateManyWithoutSupervisorNestedInput
   theses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutSupervisorsNestedInput
@@ -383,6 +406,7 @@ export type SupervisorCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   universityId?: number | null
+  chairId?: number | null
 }
 
 export type SupervisorUpdateManyMutationInput = {
@@ -403,6 +427,7 @@ export type SupervisorUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  chairId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type SupervisorCountOrderByAggregateInput = {
@@ -414,11 +439,13 @@ export type SupervisorCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   universityId?: Prisma.SortOrder
+  chairId?: Prisma.SortOrder
 }
 
 export type SupervisorAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   universityId?: Prisma.SortOrder
+  chairId?: Prisma.SortOrder
 }
 
 export type SupervisorMaxOrderByAggregateInput = {
@@ -430,6 +457,7 @@ export type SupervisorMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   universityId?: Prisma.SortOrder
+  chairId?: Prisma.SortOrder
 }
 
 export type SupervisorMinOrderByAggregateInput = {
@@ -441,11 +469,13 @@ export type SupervisorMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   universityId?: Prisma.SortOrder
+  chairId?: Prisma.SortOrder
 }
 
 export type SupervisorSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   universityId?: Prisma.SortOrder
+  chairId?: Prisma.SortOrder
 }
 
 export type SupervisorNullableScalarRelationFilter = {
@@ -578,6 +608,48 @@ export type SupervisorUncheckedUpdateManyWithoutUniversityNestedInput = {
   deleteMany?: Prisma.SupervisorScalarWhereInput | Prisma.SupervisorScalarWhereInput[]
 }
 
+export type SupervisorCreateNestedManyWithoutChairRelationInput = {
+  create?: Prisma.XOR<Prisma.SupervisorCreateWithoutChairRelationInput, Prisma.SupervisorUncheckedCreateWithoutChairRelationInput> | Prisma.SupervisorCreateWithoutChairRelationInput[] | Prisma.SupervisorUncheckedCreateWithoutChairRelationInput[]
+  connectOrCreate?: Prisma.SupervisorCreateOrConnectWithoutChairRelationInput | Prisma.SupervisorCreateOrConnectWithoutChairRelationInput[]
+  createMany?: Prisma.SupervisorCreateManyChairRelationInputEnvelope
+  connect?: Prisma.SupervisorWhereUniqueInput | Prisma.SupervisorWhereUniqueInput[]
+}
+
+export type SupervisorUncheckedCreateNestedManyWithoutChairRelationInput = {
+  create?: Prisma.XOR<Prisma.SupervisorCreateWithoutChairRelationInput, Prisma.SupervisorUncheckedCreateWithoutChairRelationInput> | Prisma.SupervisorCreateWithoutChairRelationInput[] | Prisma.SupervisorUncheckedCreateWithoutChairRelationInput[]
+  connectOrCreate?: Prisma.SupervisorCreateOrConnectWithoutChairRelationInput | Prisma.SupervisorCreateOrConnectWithoutChairRelationInput[]
+  createMany?: Prisma.SupervisorCreateManyChairRelationInputEnvelope
+  connect?: Prisma.SupervisorWhereUniqueInput | Prisma.SupervisorWhereUniqueInput[]
+}
+
+export type SupervisorUpdateManyWithoutChairRelationNestedInput = {
+  create?: Prisma.XOR<Prisma.SupervisorCreateWithoutChairRelationInput, Prisma.SupervisorUncheckedCreateWithoutChairRelationInput> | Prisma.SupervisorCreateWithoutChairRelationInput[] | Prisma.SupervisorUncheckedCreateWithoutChairRelationInput[]
+  connectOrCreate?: Prisma.SupervisorCreateOrConnectWithoutChairRelationInput | Prisma.SupervisorCreateOrConnectWithoutChairRelationInput[]
+  upsert?: Prisma.SupervisorUpsertWithWhereUniqueWithoutChairRelationInput | Prisma.SupervisorUpsertWithWhereUniqueWithoutChairRelationInput[]
+  createMany?: Prisma.SupervisorCreateManyChairRelationInputEnvelope
+  set?: Prisma.SupervisorWhereUniqueInput | Prisma.SupervisorWhereUniqueInput[]
+  disconnect?: Prisma.SupervisorWhereUniqueInput | Prisma.SupervisorWhereUniqueInput[]
+  delete?: Prisma.SupervisorWhereUniqueInput | Prisma.SupervisorWhereUniqueInput[]
+  connect?: Prisma.SupervisorWhereUniqueInput | Prisma.SupervisorWhereUniqueInput[]
+  update?: Prisma.SupervisorUpdateWithWhereUniqueWithoutChairRelationInput | Prisma.SupervisorUpdateWithWhereUniqueWithoutChairRelationInput[]
+  updateMany?: Prisma.SupervisorUpdateManyWithWhereWithoutChairRelationInput | Prisma.SupervisorUpdateManyWithWhereWithoutChairRelationInput[]
+  deleteMany?: Prisma.SupervisorScalarWhereInput | Prisma.SupervisorScalarWhereInput[]
+}
+
+export type SupervisorUncheckedUpdateManyWithoutChairRelationNestedInput = {
+  create?: Prisma.XOR<Prisma.SupervisorCreateWithoutChairRelationInput, Prisma.SupervisorUncheckedCreateWithoutChairRelationInput> | Prisma.SupervisorCreateWithoutChairRelationInput[] | Prisma.SupervisorUncheckedCreateWithoutChairRelationInput[]
+  connectOrCreate?: Prisma.SupervisorCreateOrConnectWithoutChairRelationInput | Prisma.SupervisorCreateOrConnectWithoutChairRelationInput[]
+  upsert?: Prisma.SupervisorUpsertWithWhereUniqueWithoutChairRelationInput | Prisma.SupervisorUpsertWithWhereUniqueWithoutChairRelationInput[]
+  createMany?: Prisma.SupervisorCreateManyChairRelationInputEnvelope
+  set?: Prisma.SupervisorWhereUniqueInput | Prisma.SupervisorWhereUniqueInput[]
+  disconnect?: Prisma.SupervisorWhereUniqueInput | Prisma.SupervisorWhereUniqueInput[]
+  delete?: Prisma.SupervisorWhereUniqueInput | Prisma.SupervisorWhereUniqueInput[]
+  connect?: Prisma.SupervisorWhereUniqueInput | Prisma.SupervisorWhereUniqueInput[]
+  update?: Prisma.SupervisorUpdateWithWhereUniqueWithoutChairRelationInput | Prisma.SupervisorUpdateWithWhereUniqueWithoutChairRelationInput[]
+  updateMany?: Prisma.SupervisorUpdateManyWithWhereWithoutChairRelationInput | Prisma.SupervisorUpdateManyWithWhereWithoutChairRelationInput[]
+  deleteMany?: Prisma.SupervisorScalarWhereInput | Prisma.SupervisorScalarWhereInput[]
+}
+
 export type SupervisorCreateNestedManyWithoutCoursesInput = {
   create?: Prisma.XOR<Prisma.SupervisorCreateWithoutCoursesInput, Prisma.SupervisorUncheckedCreateWithoutCoursesInput> | Prisma.SupervisorCreateWithoutCoursesInput[] | Prisma.SupervisorUncheckedCreateWithoutCoursesInput[]
   connectOrCreate?: Prisma.SupervisorCreateOrConnectWithoutCoursesInput | Prisma.SupervisorCreateOrConnectWithoutCoursesInput[]
@@ -624,6 +696,7 @@ export type SupervisorCreateWithoutStudentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   university?: Prisma.UniversityCreateNestedOneWithoutSupervisorsInput
+  chairRelation?: Prisma.ChairCreateNestedOneWithoutSupervisorsInput
   theses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
   courses?: Prisma.CourseCreateNestedManyWithoutSupervisorsInput
   faq?: Prisma.FaqCreateNestedOneWithoutSupervisorInput
@@ -638,6 +711,7 @@ export type SupervisorUncheckedCreateWithoutStudentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   universityId?: number | null
+  chairId?: number | null
   theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutSupervisorsInput
   faq?: Prisma.FaqUncheckedCreateNestedOneWithoutSupervisorInput
@@ -667,6 +741,7 @@ export type SupervisorUpdateWithoutStudentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   university?: Prisma.UniversityUpdateOneWithoutSupervisorsNestedInput
+  chairRelation?: Prisma.ChairUpdateOneWithoutSupervisorsNestedInput
   theses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
   courses?: Prisma.CourseUpdateManyWithoutSupervisorsNestedInput
   faq?: Prisma.FaqUpdateOneWithoutSupervisorNestedInput
@@ -681,6 +756,7 @@ export type SupervisorUncheckedUpdateWithoutStudentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  chairId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   theses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutSupervisorsNestedInput
   faq?: Prisma.FaqUncheckedUpdateOneWithoutSupervisorNestedInput
@@ -694,6 +770,7 @@ export type SupervisorCreateWithoutThesesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   university?: Prisma.UniversityCreateNestedOneWithoutSupervisorsInput
+  chairRelation?: Prisma.ChairCreateNestedOneWithoutSupervisorsInput
   students?: Prisma.StudentCreateNestedManyWithoutSupervisorInput
   courses?: Prisma.CourseCreateNestedManyWithoutSupervisorsInput
   faq?: Prisma.FaqCreateNestedOneWithoutSupervisorInput
@@ -708,6 +785,7 @@ export type SupervisorUncheckedCreateWithoutThesesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   universityId?: number | null
+  chairId?: number | null
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSupervisorInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutSupervisorsInput
   faq?: Prisma.FaqUncheckedCreateNestedOneWithoutSupervisorInput
@@ -737,6 +815,7 @@ export type SupervisorUpdateWithoutThesesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   university?: Prisma.UniversityUpdateOneWithoutSupervisorsNestedInput
+  chairRelation?: Prisma.ChairUpdateOneWithoutSupervisorsNestedInput
   students?: Prisma.StudentUpdateManyWithoutSupervisorNestedInput
   courses?: Prisma.CourseUpdateManyWithoutSupervisorsNestedInput
   faq?: Prisma.FaqUpdateOneWithoutSupervisorNestedInput
@@ -751,6 +830,7 @@ export type SupervisorUncheckedUpdateWithoutThesesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  chairId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   students?: Prisma.StudentUncheckedUpdateManyWithoutSupervisorNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutSupervisorsNestedInput
   faq?: Prisma.FaqUncheckedUpdateOneWithoutSupervisorNestedInput
@@ -764,6 +844,7 @@ export type SupervisorCreateWithoutFaqInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   university?: Prisma.UniversityCreateNestedOneWithoutSupervisorsInput
+  chairRelation?: Prisma.ChairCreateNestedOneWithoutSupervisorsInput
   students?: Prisma.StudentCreateNestedManyWithoutSupervisorInput
   theses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
   courses?: Prisma.CourseCreateNestedManyWithoutSupervisorsInput
@@ -778,6 +859,7 @@ export type SupervisorUncheckedCreateWithoutFaqInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   universityId?: number | null
+  chairId?: number | null
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSupervisorInput
   theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutSupervisorsInput
@@ -807,6 +889,7 @@ export type SupervisorUpdateWithoutFaqInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   university?: Prisma.UniversityUpdateOneWithoutSupervisorsNestedInput
+  chairRelation?: Prisma.ChairUpdateOneWithoutSupervisorsNestedInput
   students?: Prisma.StudentUpdateManyWithoutSupervisorNestedInput
   theses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
   courses?: Prisma.CourseUpdateManyWithoutSupervisorsNestedInput
@@ -821,6 +904,7 @@ export type SupervisorUncheckedUpdateWithoutFaqInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  chairId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   students?: Prisma.StudentUncheckedUpdateManyWithoutSupervisorNestedInput
   theses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutSupervisorsNestedInput
@@ -833,6 +917,7 @@ export type SupervisorCreateWithoutUniversityInput = {
   chair: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  chairRelation?: Prisma.ChairCreateNestedOneWithoutSupervisorsInput
   students?: Prisma.StudentCreateNestedManyWithoutSupervisorInput
   theses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
   courses?: Prisma.CourseCreateNestedManyWithoutSupervisorsInput
@@ -847,6 +932,7 @@ export type SupervisorUncheckedCreateWithoutUniversityInput = {
   chair: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  chairId?: number | null
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSupervisorInput
   theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutSupervisorsInput
@@ -891,6 +977,62 @@ export type SupervisorScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Supervisor"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Supervisor"> | Date | string
   universityId?: Prisma.IntNullableFilter<"Supervisor"> | number | null
+  chairId?: Prisma.IntNullableFilter<"Supervisor"> | number | null
+}
+
+export type SupervisorCreateWithoutChairRelationInput = {
+  name: string
+  email: string
+  passwordHash: string
+  chair: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  university?: Prisma.UniversityCreateNestedOneWithoutSupervisorsInput
+  students?: Prisma.StudentCreateNestedManyWithoutSupervisorInput
+  theses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
+  courses?: Prisma.CourseCreateNestedManyWithoutSupervisorsInput
+  faq?: Prisma.FaqCreateNestedOneWithoutSupervisorInput
+}
+
+export type SupervisorUncheckedCreateWithoutChairRelationInput = {
+  id?: number
+  name: string
+  email: string
+  passwordHash: string
+  chair: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  universityId?: number | null
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutSupervisorInput
+  theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutSupervisorsInput
+  faq?: Prisma.FaqUncheckedCreateNestedOneWithoutSupervisorInput
+}
+
+export type SupervisorCreateOrConnectWithoutChairRelationInput = {
+  where: Prisma.SupervisorWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupervisorCreateWithoutChairRelationInput, Prisma.SupervisorUncheckedCreateWithoutChairRelationInput>
+}
+
+export type SupervisorCreateManyChairRelationInputEnvelope = {
+  data: Prisma.SupervisorCreateManyChairRelationInput | Prisma.SupervisorCreateManyChairRelationInput[]
+  skipDuplicates?: boolean
+}
+
+export type SupervisorUpsertWithWhereUniqueWithoutChairRelationInput = {
+  where: Prisma.SupervisorWhereUniqueInput
+  update: Prisma.XOR<Prisma.SupervisorUpdateWithoutChairRelationInput, Prisma.SupervisorUncheckedUpdateWithoutChairRelationInput>
+  create: Prisma.XOR<Prisma.SupervisorCreateWithoutChairRelationInput, Prisma.SupervisorUncheckedCreateWithoutChairRelationInput>
+}
+
+export type SupervisorUpdateWithWhereUniqueWithoutChairRelationInput = {
+  where: Prisma.SupervisorWhereUniqueInput
+  data: Prisma.XOR<Prisma.SupervisorUpdateWithoutChairRelationInput, Prisma.SupervisorUncheckedUpdateWithoutChairRelationInput>
+}
+
+export type SupervisorUpdateManyWithWhereWithoutChairRelationInput = {
+  where: Prisma.SupervisorScalarWhereInput
+  data: Prisma.XOR<Prisma.SupervisorUpdateManyMutationInput, Prisma.SupervisorUncheckedUpdateManyWithoutChairRelationInput>
 }
 
 export type SupervisorCreateWithoutCoursesInput = {
@@ -901,6 +1043,7 @@ export type SupervisorCreateWithoutCoursesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   university?: Prisma.UniversityCreateNestedOneWithoutSupervisorsInput
+  chairRelation?: Prisma.ChairCreateNestedOneWithoutSupervisorsInput
   students?: Prisma.StudentCreateNestedManyWithoutSupervisorInput
   theses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
   faq?: Prisma.FaqCreateNestedOneWithoutSupervisorInput
@@ -915,6 +1058,7 @@ export type SupervisorUncheckedCreateWithoutCoursesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   universityId?: number | null
+  chairId?: number | null
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSupervisorInput
   theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
   faq?: Prisma.FaqUncheckedCreateNestedOneWithoutSupervisorInput
@@ -949,6 +1093,7 @@ export type SupervisorCreateManyUniversityInput = {
   chair: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  chairId?: number | null
 }
 
 export type SupervisorUpdateWithoutUniversityInput = {
@@ -958,6 +1103,7 @@ export type SupervisorUpdateWithoutUniversityInput = {
   chair?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chairRelation?: Prisma.ChairUpdateOneWithoutSupervisorsNestedInput
   students?: Prisma.StudentUpdateManyWithoutSupervisorNestedInput
   theses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
   courses?: Prisma.CourseUpdateManyWithoutSupervisorsNestedInput
@@ -972,6 +1118,7 @@ export type SupervisorUncheckedUpdateWithoutUniversityInput = {
   chair?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chairId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   students?: Prisma.StudentUncheckedUpdateManyWithoutSupervisorNestedInput
   theses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutSupervisorsNestedInput
@@ -986,6 +1133,58 @@ export type SupervisorUncheckedUpdateManyWithoutUniversityInput = {
   chair?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chairId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type SupervisorCreateManyChairRelationInput = {
+  id?: number
+  name: string
+  email: string
+  passwordHash: string
+  chair: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  universityId?: number | null
+}
+
+export type SupervisorUpdateWithoutChairRelationInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  chair?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  university?: Prisma.UniversityUpdateOneWithoutSupervisorsNestedInput
+  students?: Prisma.StudentUpdateManyWithoutSupervisorNestedInput
+  theses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutSupervisorsNestedInput
+  faq?: Prisma.FaqUpdateOneWithoutSupervisorNestedInput
+}
+
+export type SupervisorUncheckedUpdateWithoutChairRelationInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  chair?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  students?: Prisma.StudentUncheckedUpdateManyWithoutSupervisorNestedInput
+  theses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutSupervisorsNestedInput
+  faq?: Prisma.FaqUncheckedUpdateOneWithoutSupervisorNestedInput
+}
+
+export type SupervisorUncheckedUpdateManyWithoutChairRelationInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  chair?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type SupervisorUpdateWithoutCoursesInput = {
@@ -996,6 +1195,7 @@ export type SupervisorUpdateWithoutCoursesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   university?: Prisma.UniversityUpdateOneWithoutSupervisorsNestedInput
+  chairRelation?: Prisma.ChairUpdateOneWithoutSupervisorsNestedInput
   students?: Prisma.StudentUpdateManyWithoutSupervisorNestedInput
   theses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
   faq?: Prisma.FaqUpdateOneWithoutSupervisorNestedInput
@@ -1010,6 +1210,7 @@ export type SupervisorUncheckedUpdateWithoutCoursesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  chairId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   students?: Prisma.StudentUncheckedUpdateManyWithoutSupervisorNestedInput
   theses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
   faq?: Prisma.FaqUncheckedUpdateOneWithoutSupervisorNestedInput
@@ -1024,6 +1225,7 @@ export type SupervisorUncheckedUpdateManyWithoutCoursesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   universityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  chairId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
@@ -1084,7 +1286,9 @@ export type SupervisorSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   createdAt?: boolean
   updatedAt?: boolean
   universityId?: boolean
+  chairId?: boolean
   university?: boolean | Prisma.Supervisor$universityArgs<ExtArgs>
+  chairRelation?: boolean | Prisma.Supervisor$chairRelationArgs<ExtArgs>
   students?: boolean | Prisma.Supervisor$studentsArgs<ExtArgs>
   theses?: boolean | Prisma.Supervisor$thesesArgs<ExtArgs>
   courses?: boolean | Prisma.Supervisor$coursesArgs<ExtArgs>
@@ -1101,7 +1305,9 @@ export type SupervisorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   universityId?: boolean
+  chairId?: boolean
   university?: boolean | Prisma.Supervisor$universityArgs<ExtArgs>
+  chairRelation?: boolean | Prisma.Supervisor$chairRelationArgs<ExtArgs>
 }, ExtArgs["result"]["supervisor"]>
 
 export type SupervisorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1113,7 +1319,9 @@ export type SupervisorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   universityId?: boolean
+  chairId?: boolean
   university?: boolean | Prisma.Supervisor$universityArgs<ExtArgs>
+  chairRelation?: boolean | Prisma.Supervisor$chairRelationArgs<ExtArgs>
 }, ExtArgs["result"]["supervisor"]>
 
 export type SupervisorSelectScalar = {
@@ -1125,11 +1333,13 @@ export type SupervisorSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   universityId?: boolean
+  chairId?: boolean
 }
 
-export type SupervisorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "chair" | "createdAt" | "updatedAt" | "universityId", ExtArgs["result"]["supervisor"]>
+export type SupervisorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "chair" | "createdAt" | "updatedAt" | "universityId" | "chairId", ExtArgs["result"]["supervisor"]>
 export type SupervisorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   university?: boolean | Prisma.Supervisor$universityArgs<ExtArgs>
+  chairRelation?: boolean | Prisma.Supervisor$chairRelationArgs<ExtArgs>
   students?: boolean | Prisma.Supervisor$studentsArgs<ExtArgs>
   theses?: boolean | Prisma.Supervisor$thesesArgs<ExtArgs>
   courses?: boolean | Prisma.Supervisor$coursesArgs<ExtArgs>
@@ -1138,15 +1348,18 @@ export type SupervisorInclude<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 export type SupervisorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   university?: boolean | Prisma.Supervisor$universityArgs<ExtArgs>
+  chairRelation?: boolean | Prisma.Supervisor$chairRelationArgs<ExtArgs>
 }
 export type SupervisorIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   university?: boolean | Prisma.Supervisor$universityArgs<ExtArgs>
+  chairRelation?: boolean | Prisma.Supervisor$chairRelationArgs<ExtArgs>
 }
 
 export type $SupervisorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Supervisor"
   objects: {
     university: Prisma.$UniversityPayload<ExtArgs> | null
+    chairRelation: Prisma.$ChairPayload<ExtArgs> | null
     students: Prisma.$StudentPayload<ExtArgs>[]
     theses: Prisma.$ThesisPayload<ExtArgs>[]
     courses: Prisma.$CoursePayload<ExtArgs>[]
@@ -1161,6 +1374,7 @@ export type $SupervisorPayload<ExtArgs extends runtime.Types.Extensions.Internal
     createdAt: Date
     updatedAt: Date
     universityId: number | null
+    chairId: number | null
   }, ExtArgs["result"]["supervisor"]>
   composites: {}
 }
@@ -1556,6 +1770,7 @@ readonly fields: SupervisorFieldRefs;
 export interface Prisma__SupervisorClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   university<T extends Prisma.Supervisor$universityArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Supervisor$universityArgs<ExtArgs>>): Prisma.Prisma__UniversityClient<runtime.Types.Result.GetResult<Prisma.$UniversityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  chairRelation<T extends Prisma.Supervisor$chairRelationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Supervisor$chairRelationArgs<ExtArgs>>): Prisma.Prisma__ChairClient<runtime.Types.Result.GetResult<Prisma.$ChairPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   students<T extends Prisma.Supervisor$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Supervisor$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   theses<T extends Prisma.Supervisor$thesesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Supervisor$thesesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ThesisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   courses<T extends Prisma.Supervisor$coursesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Supervisor$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1597,6 +1812,7 @@ export interface SupervisorFieldRefs {
   readonly createdAt: Prisma.FieldRef<"Supervisor", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Supervisor", 'DateTime'>
   readonly universityId: Prisma.FieldRef<"Supervisor", 'Int'>
+  readonly chairId: Prisma.FieldRef<"Supervisor", 'Int'>
 }
     
 
@@ -2014,6 +2230,25 @@ export type Supervisor$universityArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   include?: Prisma.UniversityInclude<ExtArgs> | null
   where?: Prisma.UniversityWhereInput
+}
+
+/**
+ * Supervisor.chairRelation
+ */
+export type Supervisor$chairRelationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Chair
+   */
+  select?: Prisma.ChairSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Chair
+   */
+  omit?: Prisma.ChairOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChairInclude<ExtArgs> | null
+  where?: Prisma.ChairWhereInput
 }
 
 /**
