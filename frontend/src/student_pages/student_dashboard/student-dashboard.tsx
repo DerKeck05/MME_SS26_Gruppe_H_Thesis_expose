@@ -16,6 +16,10 @@ function StudentDashboard() {
 
     useEffect(() => {
         async function loadEvents() {
+            if (thesisId == null) {
+                return;
+            }
+
             try {
                 const entries: CalendarEntry[] =
                     await getCalendarEntries(thesisId);
@@ -30,19 +34,24 @@ function StudentDashboard() {
                         type: entry.allDay ? "allDay" : "normal"
                     })
                 );
+
                 if (deadline) {
                     calendarEvents.push(deadline);
                 }
 
-                const uNEvents: UpNextEvents[] = calendarEvents.filter(event => event.start >= new Date())
+                const uNEvents: UpNextEvents[] = calendarEvents
+                    .filter(event => event.start >= new Date())
                     .sort((a, b) => a.start.getTime() - b.start.getTime())
-                    .slice(0, 3).map(
+                    .slice(0, 3)
+                    .map(
                         (event) => ({
                             title: event.title,
-                            date: event.allDay ? event.start.toLocaleDateString("de-DE") : `${event.start.toLocaleDateString("de-DE")} ${event.start.toLocaleTimeString("de-DE", {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                            })}`,
+                            date: event.allDay
+                                ? event.start.toLocaleDateString("de-DE")
+                                : `${event.start.toLocaleDateString("de-DE")} ${event.start.toLocaleTimeString("de-DE", {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                })}`,
                         })
                     );
 
@@ -54,15 +63,16 @@ function StudentDashboard() {
                     error
                 );
 
-                showError(error instanceof Error
-                    ? error.message
-                    : "Fehler beim Laden der Kalendereinträge!")
+                showError(
+                    error instanceof Error
+                        ? error.message
+                        : "Fehler beim Laden der Kalendereinträge!"
+                );
             }
         }
 
         void loadEvents();
-    }, [thesisId]);
-
+    }, [thesisId, deadline, showError]);
 
     return (
         <div className="dashboard-content">
