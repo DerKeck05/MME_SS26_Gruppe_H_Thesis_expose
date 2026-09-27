@@ -1,50 +1,133 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { registerProfessor } from "../apis/auth-api.ts";
-import { LOGIN_MESSAGES } from "./login_fails";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {registerProfessor} from "../apis/auth-api.ts";
+import {LOGIN_MESSAGES} from "./login_fails";
 import "./design_css/login.css";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+
+type University = {
+    id: number;
+    name: string;
+};
+
+
+type Course = {
+    id: number;
+    name: string;
+    universityId: number;
+};
 
 
 function RegisterProfessorPage() {
 
-    /* Wird benutzt, um nach erfolgreicher Registrierung
-       auf eine andere Seite zu wechseln */
     const navigate = useNavigate();
 
 
-    /* Speichert den eingegebenen Namen */
     const [name, setName] = useState("");
 
-
-    /* Speichert die eingegebene E-Mail */
     const [email, setEmail] = useState("");
 
-
-    /* Speichert das eingegebene Passwort */
     const [password, setPassword] = useState("");
 
-
-    /* Speichert den eingegebenen Lehrstuhl */
     const [chair, setChair] = useState("");
 
 
-    /* Speichert eine mögliche Fehlermeldung */
-    const [errorMessage, setErrorMessage] = useState("");
+    const [universities, setUniversities] =
+        useState<University[]>([]);
+
+    const [universityId, setUniversityId] =
+        useState("");
+
+    const [courses, setCourses] =
+        useState<Course[]>([]);
+
+    const [selectedCourseIds, setSelectedCourseIds] =
+        useState<number[]>([]);
+
+
+    const [errorMessage, setErrorMessage] =
+        useState("");
+
+
+    /* Hochschulen beim Laden der Seite holen */
+    useEffect(() => {
+
+        fetch(`${API_URL}/api/universities`)
+            .then((response) => response.json())
+            .then((data) => {
+                setUniversities(data);
+            })
+            .catch(() => {
+                setErrorMessage(
+                    "Hochschulen konnten nicht geladen werden"
+                );
+            });
+
+    }, []);
+
+
+    /* Studiengänge laden, sobald Hochschule gewählt wurde */
+    useEffect(() => {
+
+        if (universityId == "") {
+            setCourses([]);
+            setSelectedCourseIds([]);
+            return;
+        }
+
+
+        fetch(
+            `${API_URL}/api/universities/${universityId}/courses`
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                setCourses(data);
+                setSelectedCourseIds([]);
+            })
+            .catch(() => {
+                setErrorMessage(
+                    "Studiengänge konnten nicht geladen werden"
+                );
+            });
+
+    }, [universityId]);
+
+
+    function toggleCourse(courseId: number) {
+
+        if (selectedCourseIds.includes(courseId)) {
+
+            setSelectedCourseIds(
+                selectedCourseIds.filter(
+                    (id) => id != courseId
+                )
+            );
+
+        } else {
+
+            setSelectedCourseIds([
+                ...selectedCourseIds,
+                courseId
+            ]);
+        }
+    }
 
 
     async function RegisterFunction() {
 
-        /* Prüft zuerst, ob irgendein Feld leer ist */
         if (
-            name === "" ||
-            email === "" ||
-            password === "" ||
-            chair === ""
+            name == "" ||
+            email == "" ||
+            password == "" ||
+            chair == "" ||
+            universityId == "" ||
+            selectedCourseIds.length == 0
         ) {
 
-            /* Fehlermeldung anzeigen */
             setErrorMessage(
-                "Bitte alle Felder ausfüllen"
+                "Bitte alle Felder ausfüllen und mindestens einen Studiengang auswählen"
             );
 
             return;
@@ -53,31 +136,33 @@ function RegisterProfessorPage() {
 
         try {
 
-            /* Professor über unsere API registrieren */
             const data = await registerProfessor(
                 name,
                 email,
                 password,
-                chair
+                chair,
+                Number(universityId),
+                selectedCourseIds
             );
 
 
-            /* Erfolg in der Konsole ausgeben */
-            console.log(LOGIN_MESSAGES.REGISTER_SUCCESS);
+            console.log(
+                LOGIN_MESSAGES.REGISTER_SUCCESS
+            );
+
             console.log(data);
 
 
-            /* Nach erfolgreicher Registrierung
-               zurück zum Login */
             navigate("/");
 
 
         } catch (error) {
 
-            /* Fehlermeldung aus der API anzeigen */
             if (error instanceof Error) {
 
-                setErrorMessage(error.message);
+                setErrorMessage(
+                    error.message
+                );
 
             } else {
 
@@ -92,17 +177,13 @@ function RegisterProfessorPage() {
     return (
         <div className="auth-page">
 
-            {/* Unser Liquid-Glass-Container */}
             <div className="login-glass">
 
-
-                {/* Überschrift der Professor-Registrierung */}
                 <h2 className="register-title professor-title">
                     Registrieren als Professor
                 </h2>
 
 
-                {/* Name */}
                 <label>Name:</label>
 
                 <input
@@ -114,7 +195,6 @@ function RegisterProfessorPage() {
                 />
 
 
-                {/* E-Mail */}
                 <label>E-Mail:</label>
 
                 <input
@@ -126,7 +206,6 @@ function RegisterProfessorPage() {
                 />
 
 
-                {/* Passwort */}
                 <label>Passwort:</label>
 
                 <input
@@ -138,7 +217,6 @@ function RegisterProfessorPage() {
                 />
 
 
-                {/* Lehrstuhl */}
                 <label>Lehrstuhl:</label>
 
                 <input
@@ -150,7 +228,77 @@ function RegisterProfessorPage() {
                 />
 
 
-                {/* Registrierung */}
+                <label>Hochschule:</label>
+
+                <select
+                    value={universityId}
+                    onChange={(event) =>
+                        setUniversityId(
+                            event.target.value
+                        )
+                    }
+                >
+                    <option value="">
+                        Hochschule auswählen
+                    </option>
+
+                    {universities.map(
+                        (university) => (
+                            <option
+                                key={university.id}
+                                value={university.id}
+                            >
+                                {university.name}
+                            </option>
+                        )
+                    )}
+
+                </select>
+
+
+                <label>Studiengänge:</label>
+
+                <details className="course-dropdown">
+
+                    <summary>
+                        Studiengänge auswählen (
+                        {selectedCourseIds.length} ausgewählt)
+                    </summary>
+
+
+                    <div className="course-dropdown-content">
+
+                        {courses.map((course) => (
+
+                            <label
+                                key={course.id}
+                                className="course-option"
+                            >
+
+                                <input
+                                    type="checkbox"
+                                    checked={
+                                        selectedCourseIds.includes(
+                                            course.id
+                                        )
+                                    }
+                                    onChange={() =>
+                                        toggleCourse(
+                                            course.id
+                                        )
+                                    }
+                                />
+
+                                {course.name}
+
+                            </label>
+                        ))}
+
+                    </div>
+
+                </details>
+
+
                 <button onClick={RegisterFunction}>
                     Registrieren
                 </button>
@@ -158,8 +306,7 @@ function RegisterProfessorPage() {
             </div>
 
 
-            {/* Fehlermeldung */}
-            {errorMessage !== "" && (
+            {errorMessage != "" && (
                 <div className="error-box">
                     {errorMessage}
                 </div>
@@ -170,5 +317,4 @@ function RegisterProfessorPage() {
 }
 
 
-/* Dadurch können wir die Seite in App.tsx importieren */
 export default RegisterProfessorPage;
