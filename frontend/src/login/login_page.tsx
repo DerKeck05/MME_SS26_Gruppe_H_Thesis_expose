@@ -48,8 +48,17 @@ function LoginPage() {
 
 
             if (role === "professor") {
-                // später:
-                // navigate("/professor");
+                localStorage.setItem(
+                    "supervisorId",
+                    String(data.user.id)
+                );
+
+                console.log(
+                    "PROFESSOR ID:",
+                    String(data.user.id)
+                );
+
+                navigate("/professor");
             }
 
 

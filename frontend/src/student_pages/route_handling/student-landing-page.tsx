@@ -3,6 +3,7 @@ import {getStudent, updateStudent as updateStudentAPI} from "../../apis/student-
 import Loading from "../../globals/loading.tsx";
 import EditStudentModal from "../modals/student-modals/edit-student-modal.tsx";
 import {useError} from "../../globals/error-provider.tsx";
+import "../student_waiting.css";
 
 export interface UIStudent {
     name: string;
@@ -20,23 +21,34 @@ function StudentLandingPage({studentId}: { studentId: number }) {
     useEffect(() => {
         async function loadStudent() {
             try {
-                const student = await getStudent(studentId);
 
-                if (!student) return;
+                const studentData = await getStudent(studentId);
+
+                if (!studentData) {
+                    return;
+                }
 
                 setStudent({
-                    name: student.name,
-                    email: student.email,
-                    course: student.course,
+                    name: studentData.name,
+                    email: studentData.email,
+                    course: studentData.course
                 });
 
                 setShowEditModal(false);
-            } catch (e) {
-                console.error("Student konnte nicht geladen werden", e);
 
-                showError(e instanceof Error
-                    ? e.message
-                    : "Student konnte nicht geladen werden!")
+            } catch (error) {
+
+                console.error(
+                    "Student konnte nicht geladen werden",
+                    error
+                );
+
+                if (error instanceof Error) {
+                    showError(error.message);
+                } else {
+                    showError("Student konnte nicht geladen werden!");
+                }
+
             } finally {
                 setIsLoading(false);
             }
@@ -52,100 +64,145 @@ function StudentLandingPage({studentId}: { studentId: number }) {
                 id: studentId,
                 name: data.name,
                 email: data.email,
-                course: data.course,
+                course: data.course
             });
 
             setStudent({
                 name: updatedStudent.name,
                 email: updatedStudent.email,
-                course: updatedStudent.course,
+                course: updatedStudent.course
             });
-
             setShowEditModal(false);
 
-            console.log("Student geupdated:", updatedStudent);
-        } catch (e) {
-            console.error(
-                "Student konnte nicht aktualisiert werden:",
-                e
+            console.log(
+                "Student geupdated:",
+                updatedStudent
             );
 
-            showError(e instanceof Error
-                ? e.message
-                : "Student konnte nicht aktualisiert werden!")
+        } catch (error) {
+
+            console.error(
+                "Student konnte nicht aktualisiert werden:",
+                error
+            );
+
+            if (error instanceof Error) {
+                showError(error.message);
+            } else {
+                showError("Student konnte nicht aktualisiert werden!");
+            }
         }
     }
-
     if (isLoading) {
         return <Loading/>;
     }
-
     if (!student) {
-        return <div>Student konnte nicht geladen werden.</div>;
+        return (
+            <main className="student-waiting-page">
+
+                <div className="student-waiting-glass">
+
+                    <h1>
+                        Student konnte nicht geladen werden
+                    </h1>
+
+                </div>
+
+            </main>
+        );
     }
 
     return (
-        <div className="bg-(--background-grey) flex flex-col min-h-screen">
-            <header className="app-bar">
-                <div className="logo"></div>
-                <h1>{student.name}</h1>
-            </header>
+        <main className="student-waiting-page">
 
-            <div className="landing-page-body flex-1 flex justify-center p-(--spacing-large)">
-                <div
-                    className="
-                        w-fit
-                        max-w-[80%]
-                        h-120
-                        rounded-(--border-radius)
-                        bg-white
-                        flex
-                        flex-col
-                        items-center
-                        justify-evenly
-                        p-(--spacing-medium)
-                    "
-                >
-                    <h2 className="text-(--dark-blue)">
-                        Dir wurde noch keine Abschlussarbeit zugewiesen!
-                    </h2>
+            <div className="student-waiting-glass">
 
-                    <h3 className="text-(--dark-blue)">
-                        Sobald dies geschehen ist, bekommst du vollen Zugriff.
-                    </h3>
+                <h1>
+                    Noch keine Thesis zugeordnet
+                </h1>
 
-                    <div className={"flex flex-col items-center gap-2"}>
-                        <div
-                            className="grid grid-cols-[auto_1fr] gap-x-8 gap-y-2 border-2 border-(--dark-blue) p-(--spacing-large) rounded-(--border-radius)">
-                            <span className="font-semibold">Name:</span>
-                            <span className="text-center">{student.name}</span>
 
-                            <span className="font-semibold">Email:</span>
-                            <span className="text-center">{student.email}</span>
+                <p>
+                    Dein Professor hat für dich noch keine Thesis angelegt.
+                </p>
 
-                            <span className="font-semibold">Kurs:</span>
-                            <span className="text-center">{student.course}</span>
-                        </div>
 
-                        <button
-                            className={"bg-(--night-blue)! text-(--white)! p-(--spacing-small) rounded-(--border-radius)"}
-                            onClick={() => {
-                                setShowEditModal(true);
-                            }}
-                        >
-                            Daten Bearbeiten
-                        </button>
+                <p>
+                    Sobald deine Thesis erstellt wurde,
+                    wird dein Dashboard automatisch freigeschaltet.
+                </p>
+
+
+                <div className="student-waiting-info">
+
+                    <div className="student-waiting-info-row">
+
+                        <span>
+                            Name
+                        </span>
+
+                        <strong>
+                            {student.name}
+                        </strong>
+
                     </div>
+
+
+                    <div className="student-waiting-info-row">
+
+                        <span>
+                            E-Mail
+                        </span>
+
+                        <strong>
+                            {student.email}
+                        </strong>
+
+                    </div>
+
+
+                    <div className="student-waiting-info-row">
+
+                        <span>
+                            Studiengang
+                        </span>
+
+                        <strong>
+                            {student.course}
+                        </strong>
+
+                    </div>
+
                 </div>
+
+
+                <button
+                    className="student-waiting-edit-button"
+                    onClick={() => {
+                        setShowEditModal(true);
+                    }}
+                >
+                    Daten bearbeiten
+                </button>
+
             </div>
 
             {showEditModal && (
-                <EditStudentModal onCancel={() => {
-                    setShowEditModal(false);
-                }} onSubmit={handleUpdateStudent}
-                student={student}/>
+
+                <EditStudentModal
+
+                    onCancel={() => {
+                        setShowEditModal(false);
+                    }}
+
+                    onSubmit={handleUpdateStudent}
+
+                    student={student}
+                />
+
             )}
-        </div>
+
+        </main>
     );
 }
 

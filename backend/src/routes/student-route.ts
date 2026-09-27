@@ -1,41 +1,69 @@
 import express from "express";
-import {getStudentById, updateStudent} from "../database/repos/student-repo.js";
+
+import {
+    getStudentById,
+    getStudentsBySupervisorId,
+    updateStudent
+} from "../database/repos/student-repo.js";
 
 const router = express.Router();
 
 
+/* Studenten eines Professors laden */
+router.get("/supervisor/:id", async (req, res) => {
+    try {
+        const supervisorId = Number(req.params.id);
+
+        if (isNaN(supervisorId)) {
+            return res.status(400).json({
+                message: "Ungültige Professor-ID"
+            });
+        }
+
+        const students =
+            await getStudentsBySupervisorId(supervisorId);
+
+        return res.status(200).json(students);
+
+    } catch (error) {
+        console.error(
+            "Studenten konnten nicht geladen werden:",
+            error
+        );
+
+        return res.status(500).json({
+            message: "Studenten konnten nicht geladen werden"
+        });
+    }
+});
+
+
 /* Student anhand der ID laden */
 router.get("/:studentId", async (req, res) => {
-
     try {
-
         const studentId = Number(req.params.studentId);
 
-        /* Prüfen, ob ID eine gültige Zahl ist */
         if (isNaN(studentId)) {
             return res.status(400).json({
                 message: "Ungültige Student-ID"
             });
         }
 
-
         const student = await getStudentById(studentId);
 
-
-        /* Student existiert nicht */
         if (!student) {
             return res.status(404).json({
                 message: "Student nicht gefunden"
             });
         }
 
-
-        /* Student zurückgeben */
         return res.status(200).json(student);
 
     } catch (error) {
-
-        console.error("Fehler beim Laden des Studenten:", error);
+        console.error(
+            "Fehler beim Laden des Studenten:",
+            error
+        );
 
         return res.status(500).json({
             message: "Student konnte nicht geladen werden"
@@ -43,6 +71,8 @@ router.get("/:studentId", async (req, res) => {
     }
 });
 
+
+/* Student bearbeiten */
 router.put("/:studentId", async (req, res) => {
     try {
         const studentId = Number(req.params.studentId);

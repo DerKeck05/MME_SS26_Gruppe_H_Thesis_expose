@@ -47,8 +47,12 @@ app.use("/api/chapter", chapterRoute);
 /* Student */
 app.use("/api/student", studentRoute);
 
+/* Professor Dashboard benutzt diesen Pfad */
+app.use("/api/students", studentRoute);
+
 /* Thesis */
-app.use("/api/thesis", thesisRoute)
+app.use("/api/thesis", thesisRoute);
+
 
 /* =========================
    SERVER STARTEN

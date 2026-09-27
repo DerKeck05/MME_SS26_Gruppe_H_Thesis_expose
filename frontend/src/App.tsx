@@ -9,8 +9,13 @@ import LoginPage from "./login/login_page.tsx";
 import RegisterPage from "./login/register_page.tsx";
 import RegisterStudentPage from "./login/register_student.tsx";
 import RegisterProfessorPage from "./login/register_prof.tsx";
+
 import StudentProvider from "./student_pages/route_handling/student-provider.tsx";
 import StudentLayout from "./student_pages/route_handling/student-layout.tsx";
+
+import ProfStartpage from "./prof_pages/prof_starpage.tsx";
+import ProfDashboardSkeleton from "./prof_pages/prof_dashboard_skeleton.tsx";
+import ThesisDetail from "./prof_pages/thesis_detail.tsx";
 
 
 function App() {
@@ -18,12 +23,44 @@ function App() {
         <Routes>
 
             {/* Login */}
-            <Route path="/" element={<LoginPage/>}/>
+            <Route
+                path="/"
+                element={<LoginPage/>}
+            />
+
 
             {/* Registrierung */}
-            <Route path="/register" element={<RegisterPage/>}/>
-            <Route path="/register/student" element={<RegisterStudentPage/>}/>
-            <Route path="/register/professor" element={<RegisterProfessorPage/>}/>
+            <Route
+                path="/register"
+                element={<RegisterPage/>}
+            />
+
+            <Route
+                path="/register/student"
+                element={<RegisterStudentPage/>}
+            />
+
+            <Route
+                path="/register/professor"
+                element={<RegisterProfessorPage/>}
+            />
+
+
+            {/* Professor Bereich */}
+            <Route
+                path="/professor"
+                element={<ProfStartpage/>}
+            />
+
+            <Route
+                path="/professor/thesis/:id"
+                element={<ProfDashboardSkeleton/>}
+            >
+                <Route
+                    index
+                    element={<ThesisDetail/>}
+                />
+            </Route>
 
 
             {/* Student Bereich */}
@@ -33,17 +70,32 @@ function App() {
                 errorElement={<ErrorPage/>}
             >
                 <Route element={<StudentLayout/>}>
-                    {/* Standardseite für /student */}
-                    <Route index element={<StudentDashboard/>}/>
 
-                    <Route path="homepage" element={<StudentDashboard/>}/>
+                    <Route
+                        index
+                        element={<StudentDashboard/>}
+                    />
 
-                    <Route path="outline" element={<OutlinePage/>}/>
+                    <Route
+                        path="homepage"
+                        element={<StudentDashboard/>}
+                    />
 
-                    <Route path="calendar" element={<CalendarPage/>}/>
+                    <Route
+                        path="outline"
+                        element={<OutlinePage/>}
+                    />
 
-                    {/* Unbekannte Route */}
-                    <Route path="*" element={<ErrorPage/>}/>
+                    <Route
+                        path="calendar"
+                        element={<CalendarPage/>}
+                    />
+
+                    <Route
+                        path="*"
+                        element={<ErrorPage/>}
+                    />
+
                 </Route>
             </Route>
 
