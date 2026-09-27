@@ -7,7 +7,7 @@ async function main() {
 
 
     /*
-     * Universität Regensburg
+     * Universität
      */
     const university = await prisma.university.upsert({
         where: {
@@ -29,139 +29,35 @@ async function main() {
 
 
     /*
-     * Alte Entwicklungsnamen auf die
-     * offiziellen Bezeichnungen bringen
-     */
-
-    const oldMedieninformatik =
-        await prisma.course.findFirst({
-            where: {
-                universityId: university.id,
-                name: "Medieninformatik"
-            }
-        });
-
-
-    const newMedieninformatik =
-        await prisma.course.findFirst({
-            where: {
-                universityId: university.id,
-                name: "Medieninformatik B.A."
-            }
-        });
-
-
-    if (
-        oldMedieninformatik &&
-        !newMedieninformatik
-    ) {
-
-        await prisma.course.update({
-            where: {
-                id: oldMedieninformatik.id
-            },
-
-            data: {
-                name: "Medieninformatik B.A."
-            }
-        });
-    }
-
-
-    const oldMedienwissenschaft =
-        await prisma.course.findFirst({
-            where: {
-                universityId: university.id,
-                name: "Medienwissenschaft"
-            }
-        });
-
-
-    const newMedienwissenschaft =
-        await prisma.course.findFirst({
-            where: {
-                universityId: university.id,
-                name: "Medienwissenschaft B.A."
-            }
-        });
-
-
-    if (
-        oldMedienwissenschaft &&
-        !newMedienwissenschaft
-    ) {
-
-        await prisma.course.update({
-            where: {
-                id: oldMedienwissenschaft.id
-            },
-
-            data: {
-                name: "Medienwissenschaft B.A."
-            }
-        });
-    }
-
-
-    /*
      * Lehrstühle / Professuren
-     *
-     * Quelle:
-     * Universität Regensburg
-     * Fakultät für Informatik und Data Science
      */
-
     const chairs = [
 
         "Algorithmen und Komplexitätstheorie",
-
-        "Data Engineering",
-
-        "Datensicherheit und Kryptographie",
-
-        "Programmierung und Software Engineering",
-
-        "Technische Informatik",
-
-        "Theoretische Informatik",
-
-        "Computational Statistics",
-
-        "Maschinelles Lernen",
-
-        "Information Science",
-
-        "Computational Human-Centered AI",
-
-        "Medieninformatik",
-
-        "Mensch-Maschine-Interaktion",
-
         "Algorithmische Bioinformatik",
-
         "Bildverarbeitung",
-
+        "Computational Human-Centered AI",
         "Computational Immunology",
-
-        "Statistische Bioinformatik",
-
-        "Wirtschaftsinformatik 1",
-
-        "Wirtschaftsinformatik 2",
-
-        "Wirtschaftsinformatik 3",
-
-        "Wirtschaftsinformatik 4",
-
-        "Prozessbasierte Informationssysteme",
-
+        "Computational Statistics",
+        "Data Engineering",
+        "Datensicherheit und Kryptographie",
+        "Information Science",
         "Internet Business und Digitale Soziale Medien",
-
         "Künstliche Intelligenz in der IT-Sicherheit",
-
+        "Maschinelles Lernen",
         "Maschinelles Lernen insb. Uncertainty Quantification",
-
-        "Nachvollziehbare Künstliche Intelligenz in der Betrieblichen Wertschöpfung"
+        "Medieninformatik",
+        "Mensch-Maschine-Interaktion",
+        "Nachvollziehbare Künstliche Intelligenz in der Betrieblichen Wertschöpfung",
+        "Programmierung und Software Engineering",
+        "Prozessbasierte Informationssysteme",
+        "Statistische Bioinformatik",
+        "Technische Informatik",
+        "Theoretische Informatik",
+        "Wirtschaftsinformatik 1",
+        "Wirtschaftsinformatik 2",
+        "Wirtschaftsinformatik 3",
+        "Wirtschaftsinformatik 4"
     ];
 
 
@@ -188,14 +84,12 @@ async function main() {
 
     /*
      * Studiengänge
-     *
-     * Zunächst die informatiknahen Studiengänge
-     * der Universität Regensburg.
      */
-
     const courses = [
 
-        "Informatik B.Sc.",
+        "Allgemeine und Vergleichende Medienwissenschaft M.A.",
+
+        "Computational Science M.Sc.",
 
         "Computer Science M.Sc.",
 
@@ -203,39 +97,31 @@ async function main() {
 
         "Data Science M.Sc.",
 
-        "Informationswissenschaft B.A.",
-
-        "Medieninformatik B.A.",
-
-        "Media Informatics M.Sc.",
-
-        "Digital Humanities M.A.",
-
-        "Human-Centred AI M.Sc.",
-
-        "Wirtschaftsinformatik B.Sc.",
-
-        "Wirtschaftsinformatik M.Sc.",
-
         "Digital Business B.Sc.",
 
         "Digital Business M.Sc.",
 
+        "Digital Humanities M.A.",
+
         "Digital Law LL.B.",
+
+        "Human-Centred AI M.Sc.",
+
+        "Informatik B.Sc.",
+
+        "Informationswissenschaft B.A.",
 
         "Legal Tech LL.M.",
 
-        "Computational Science M.Sc.",
+        "Media Informatics M.Sc.",
 
-        /*
-         * Zusätzlich Medienwissenschaft,
-         * weil sie bereits in unserem
-         * bisherigen Testbestand enthalten war.
-         */
+        "Medieninformatik B.A.",
 
         "Medienwissenschaft B.A.",
 
-        "Allgemeine und Vergleichende Medienwissenschaft M.A."
+        "Wirtschaftsinformatik B.Sc.",
+
+        "Wirtschaftsinformatik M.Sc."
     ];
 
 
@@ -261,25 +147,246 @@ async function main() {
 
 
     /*
+     * Zuordnung:
+     * Lehrstuhl -> Studiengänge
+     *
+     * Diese Liste können wir später
+     * Stück für Stück erweitern.
+     */
+    const chairCourseMappings: Record<string, string[]> = {
+
+        "Medieninformatik": [
+            "Medieninformatik B.A.",
+            "Media Informatics M.Sc."
+        ],
+
+
+        "Mensch-Maschine-Interaktion": [
+            "Medieninformatik B.A.",
+            "Media Informatics M.Sc.",
+            "Human-Centred AI M.Sc."
+        ],
+
+
+        "Information Science": [
+            "Informationswissenschaft B.A.",
+            "Human-Centred AI M.Sc."
+        ],
+
+
+        "Computational Human-Centered AI": [
+            "Human-Centred AI M.Sc."
+        ],
+
+
+        "Maschinelles Lernen insb. Uncertainty Quantification": [
+            "Informatik B.Sc.",
+            "Computer Science M.Sc.",
+            "Data Science B.Sc.",
+            "Data Science M.Sc.",
+            "Wirtschaftsinformatik B.Sc.",
+            "Wirtschaftsinformatik M.Sc.",
+            "Digital Business B.Sc.",
+            "Digital Business M.Sc."
+        ],
+
+
+        "Wirtschaftsinformatik 1": [
+            "Wirtschaftsinformatik B.Sc.",
+            "Wirtschaftsinformatik M.Sc.",
+            "Digital Business B.Sc.",
+            "Digital Business M.Sc."
+        ],
+
+
+        "Wirtschaftsinformatik 2": [
+            "Wirtschaftsinformatik B.Sc.",
+            "Wirtschaftsinformatik M.Sc.",
+            "Digital Business B.Sc.",
+            "Digital Business M.Sc."
+        ],
+
+
+        "Wirtschaftsinformatik 3": [
+            "Wirtschaftsinformatik B.Sc.",
+            "Wirtschaftsinformatik M.Sc.",
+            "Digital Business B.Sc.",
+            "Digital Business M.Sc."
+        ],
+
+
+        "Wirtschaftsinformatik 4": [
+            "Wirtschaftsinformatik B.Sc.",
+            "Wirtschaftsinformatik M.Sc.",
+            "Digital Business B.Sc.",
+            "Digital Business M.Sc."
+        ],
+
+
+        "Internet Business und Digitale Soziale Medien": [
+            "Wirtschaftsinformatik B.Sc.",
+            "Wirtschaftsinformatik M.Sc.",
+            "Digital Business B.Sc.",
+            "Digital Business M.Sc."
+        ],
+
+
+        "Prozessbasierte Informationssysteme": [
+            "Wirtschaftsinformatik B.Sc.",
+            "Wirtschaftsinformatik M.Sc.",
+            "Digital Business B.Sc.",
+            "Digital Business M.Sc."
+        ],
+
+
+        "Algorithmen und Komplexitätstheorie": [
+            "Informatik B.Sc.",
+            "Computer Science M.Sc."
+        ],
+
+
+        "Data Engineering": [
+            "Informatik B.Sc.",
+            "Computer Science M.Sc.",
+            "Data Science B.Sc.",
+            "Data Science M.Sc."
+        ],
+
+
+        "Datensicherheit und Kryptographie": [
+            "Informatik B.Sc.",
+            "Computer Science M.Sc."
+        ],
+
+
+        "Programmierung und Software Engineering": [
+            "Informatik B.Sc.",
+            "Computer Science M.Sc."
+        ],
+
+
+        "Technische Informatik": [
+            "Informatik B.Sc.",
+            "Computer Science M.Sc."
+        ],
+
+
+        "Theoretische Informatik": [
+            "Informatik B.Sc.",
+            "Computer Science M.Sc."
+        ],
+
+
+        "Maschinelles Lernen": [
+            "Informatik B.Sc.",
+            "Computer Science M.Sc.",
+            "Data Science B.Sc.",
+            "Data Science M.Sc.",
+            "Human-Centred AI M.Sc."
+        ],
+
+
+        "Computational Statistics": [
+            "Data Science B.Sc.",
+            "Data Science M.Sc."
+        ]
+    };
+
+
+    /*
+     * Verbindungen speichern
+     */
+    for (
+        const [chairName, courseNames]
+        of Object.entries(chairCourseMappings)
+    ) {
+
+        const chair = await prisma.chair.findUnique({
+
+            where: {
+                name_universityId: {
+                    name: chairName,
+                    universityId: university.id
+                }
+            }
+        });
+
+
+        if (!chair) {
+
+            console.log(
+                "Lehrstuhl nicht gefunden:",
+                chairName
+            );
+
+            continue;
+        }
+
+
+        const matchingCourses =
+            await prisma.course.findMany({
+
+                where: {
+                    universityId: university.id,
+
+                    name: {
+                        in: courseNames
+                    }
+                }
+            });
+
+
+        await prisma.chair.update({
+
+            where: {
+                id: chair.id
+            },
+
+            data: {
+
+                courses: {
+
+                    /*
+                     * set statt connect:
+                     *
+                     * Dadurch entspricht die DB nach
+                     * jedem Lauf exakt dieser Liste.
+                     */
+                    set: matchingCourses.map(
+                        (course) => ({
+                            id: course.id
+                        })
+                    )
+                }
+            }
+        });
+
+
+        console.log(
+            chairName,
+            "->",
+            matchingCourses.length,
+            "Studiengänge"
+        );
+    }
+
+
+    /*
      * Kontrolle
      */
-
     const savedChairs =
         await prisma.chair.findMany({
+
             where: {
                 universityId: university.id
             },
 
-            orderBy: {
-                name: "asc"
-            }
-        });
-
-
-    const savedCourses =
-        await prisma.course.findMany({
-            where: {
-                universityId: university.id
+            include: {
+                courses: {
+                    orderBy: {
+                        name: "asc"
+                    }
+                }
             },
 
             orderBy: {
@@ -289,18 +396,36 @@ async function main() {
 
 
     console.log("");
-    console.log(
-        "Lehrstühle / Professuren:",
-        savedChairs.length
-    );
+    console.log("Zuordnungen:");
+    console.log("");
 
-    console.log(
-        "Studiengänge:",
-        savedCourses.length
-    );
+
+    for (const chair of savedChairs) {
+
+        if (chair.courses.length == 0) {
+            continue;
+        }
+
+
+        console.log(
+            chair.name
+        );
+
+
+        for (const course of chair.courses) {
+
+            console.log(
+                "   ->",
+                course.name
+            );
+        }
+    }
+
 
     console.log("");
-    console.log("Stammdaten erfolgreich geladen.");
+    console.log(
+        "Stammdaten erfolgreich geladen."
+    );
 }
 
 
