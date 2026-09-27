@@ -207,6 +207,7 @@ export type CourseWhereInput = {
   university?: Prisma.XOR<Prisma.UniversityScalarRelationFilter, Prisma.UniversityWhereInput>
   supervisors?: Prisma.SupervisorListRelationFilter
   students?: Prisma.StudentListRelationFilter
+  chairs?: Prisma.ChairListRelationFilter
 }
 
 export type CourseOrderByWithRelationInput = {
@@ -216,6 +217,7 @@ export type CourseOrderByWithRelationInput = {
   university?: Prisma.UniversityOrderByWithRelationInput
   supervisors?: Prisma.SupervisorOrderByRelationAggregateInput
   students?: Prisma.StudentOrderByRelationAggregateInput
+  chairs?: Prisma.ChairOrderByRelationAggregateInput
 }
 
 export type CourseWhereUniqueInput = Prisma.AtLeast<{
@@ -229,6 +231,7 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
   university?: Prisma.XOR<Prisma.UniversityScalarRelationFilter, Prisma.UniversityWhereInput>
   supervisors?: Prisma.SupervisorListRelationFilter
   students?: Prisma.StudentListRelationFilter
+  chairs?: Prisma.ChairListRelationFilter
 }, "id" | "name_universityId">
 
 export type CourseOrderByWithAggregationInput = {
@@ -256,6 +259,7 @@ export type CourseCreateInput = {
   university: Prisma.UniversityCreateNestedOneWithoutCoursesInput
   supervisors?: Prisma.SupervisorCreateNestedManyWithoutCoursesInput
   students?: Prisma.StudentCreateNestedManyWithoutCourseRelationInput
+  chairs?: Prisma.ChairCreateNestedManyWithoutCoursesInput
 }
 
 export type CourseUncheckedCreateInput = {
@@ -264,6 +268,7 @@ export type CourseUncheckedCreateInput = {
   universityId: number
   supervisors?: Prisma.SupervisorUncheckedCreateNestedManyWithoutCoursesInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutCourseRelationInput
+  chairs?: Prisma.ChairUncheckedCreateNestedManyWithoutCoursesInput
 }
 
 export type CourseUpdateInput = {
@@ -271,6 +276,7 @@ export type CourseUpdateInput = {
   university?: Prisma.UniversityUpdateOneRequiredWithoutCoursesNestedInput
   supervisors?: Prisma.SupervisorUpdateManyWithoutCoursesNestedInput
   students?: Prisma.StudentUpdateManyWithoutCourseRelationNestedInput
+  chairs?: Prisma.ChairUpdateManyWithoutCoursesNestedInput
 }
 
 export type CourseUncheckedUpdateInput = {
@@ -279,6 +285,7 @@ export type CourseUncheckedUpdateInput = {
   universityId?: Prisma.IntFieldUpdateOperationsInput | number
   supervisors?: Prisma.SupervisorUncheckedUpdateManyWithoutCoursesNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutCourseRelationNestedInput
+  chairs?: Prisma.ChairUncheckedUpdateManyWithoutCoursesNestedInput
 }
 
 export type CourseCreateManyInput = {
@@ -441,10 +448,49 @@ export type CourseUncheckedUpdateManyWithoutUniversityNestedInput = {
   deleteMany?: Prisma.CourseScalarWhereInput | Prisma.CourseScalarWhereInput[]
 }
 
+export type CourseCreateNestedManyWithoutChairsInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutChairsInput, Prisma.CourseUncheckedCreateWithoutChairsInput> | Prisma.CourseCreateWithoutChairsInput[] | Prisma.CourseUncheckedCreateWithoutChairsInput[]
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutChairsInput | Prisma.CourseCreateOrConnectWithoutChairsInput[]
+  connect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
+}
+
+export type CourseUncheckedCreateNestedManyWithoutChairsInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutChairsInput, Prisma.CourseUncheckedCreateWithoutChairsInput> | Prisma.CourseCreateWithoutChairsInput[] | Prisma.CourseUncheckedCreateWithoutChairsInput[]
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutChairsInput | Prisma.CourseCreateOrConnectWithoutChairsInput[]
+  connect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
+}
+
+export type CourseUpdateManyWithoutChairsNestedInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutChairsInput, Prisma.CourseUncheckedCreateWithoutChairsInput> | Prisma.CourseCreateWithoutChairsInput[] | Prisma.CourseUncheckedCreateWithoutChairsInput[]
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutChairsInput | Prisma.CourseCreateOrConnectWithoutChairsInput[]
+  upsert?: Prisma.CourseUpsertWithWhereUniqueWithoutChairsInput | Prisma.CourseUpsertWithWhereUniqueWithoutChairsInput[]
+  set?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
+  disconnect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
+  delete?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
+  connect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
+  update?: Prisma.CourseUpdateWithWhereUniqueWithoutChairsInput | Prisma.CourseUpdateWithWhereUniqueWithoutChairsInput[]
+  updateMany?: Prisma.CourseUpdateManyWithWhereWithoutChairsInput | Prisma.CourseUpdateManyWithWhereWithoutChairsInput[]
+  deleteMany?: Prisma.CourseScalarWhereInput | Prisma.CourseScalarWhereInput[]
+}
+
+export type CourseUncheckedUpdateManyWithoutChairsNestedInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutChairsInput, Prisma.CourseUncheckedCreateWithoutChairsInput> | Prisma.CourseCreateWithoutChairsInput[] | Prisma.CourseUncheckedCreateWithoutChairsInput[]
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutChairsInput | Prisma.CourseCreateOrConnectWithoutChairsInput[]
+  upsert?: Prisma.CourseUpsertWithWhereUniqueWithoutChairsInput | Prisma.CourseUpsertWithWhereUniqueWithoutChairsInput[]
+  set?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
+  disconnect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
+  delete?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
+  connect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
+  update?: Prisma.CourseUpdateWithWhereUniqueWithoutChairsInput | Prisma.CourseUpdateWithWhereUniqueWithoutChairsInput[]
+  updateMany?: Prisma.CourseUpdateManyWithWhereWithoutChairsInput | Prisma.CourseUpdateManyWithWhereWithoutChairsInput[]
+  deleteMany?: Prisma.CourseScalarWhereInput | Prisma.CourseScalarWhereInput[]
+}
+
 export type CourseCreateWithoutSupervisorsInput = {
   name: string
   university: Prisma.UniversityCreateNestedOneWithoutCoursesInput
   students?: Prisma.StudentCreateNestedManyWithoutCourseRelationInput
+  chairs?: Prisma.ChairCreateNestedManyWithoutCoursesInput
 }
 
 export type CourseUncheckedCreateWithoutSupervisorsInput = {
@@ -452,6 +498,7 @@ export type CourseUncheckedCreateWithoutSupervisorsInput = {
   name: string
   universityId: number
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutCourseRelationInput
+  chairs?: Prisma.ChairUncheckedCreateNestedManyWithoutCoursesInput
 }
 
 export type CourseCreateOrConnectWithoutSupervisorsInput = {
@@ -488,6 +535,7 @@ export type CourseCreateWithoutStudentsInput = {
   name: string
   university: Prisma.UniversityCreateNestedOneWithoutCoursesInput
   supervisors?: Prisma.SupervisorCreateNestedManyWithoutCoursesInput
+  chairs?: Prisma.ChairCreateNestedManyWithoutCoursesInput
 }
 
 export type CourseUncheckedCreateWithoutStudentsInput = {
@@ -495,6 +543,7 @@ export type CourseUncheckedCreateWithoutStudentsInput = {
   name: string
   universityId: number
   supervisors?: Prisma.SupervisorUncheckedCreateNestedManyWithoutCoursesInput
+  chairs?: Prisma.ChairUncheckedCreateNestedManyWithoutCoursesInput
 }
 
 export type CourseCreateOrConnectWithoutStudentsInput = {
@@ -517,6 +566,7 @@ export type CourseUpdateWithoutStudentsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   university?: Prisma.UniversityUpdateOneRequiredWithoutCoursesNestedInput
   supervisors?: Prisma.SupervisorUpdateManyWithoutCoursesNestedInput
+  chairs?: Prisma.ChairUpdateManyWithoutCoursesNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutStudentsInput = {
@@ -524,12 +574,14 @@ export type CourseUncheckedUpdateWithoutStudentsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   universityId?: Prisma.IntFieldUpdateOperationsInput | number
   supervisors?: Prisma.SupervisorUncheckedUpdateManyWithoutCoursesNestedInput
+  chairs?: Prisma.ChairUncheckedUpdateManyWithoutCoursesNestedInput
 }
 
 export type CourseCreateWithoutUniversityInput = {
   name: string
   supervisors?: Prisma.SupervisorCreateNestedManyWithoutCoursesInput
   students?: Prisma.StudentCreateNestedManyWithoutCourseRelationInput
+  chairs?: Prisma.ChairCreateNestedManyWithoutCoursesInput
 }
 
 export type CourseUncheckedCreateWithoutUniversityInput = {
@@ -537,6 +589,7 @@ export type CourseUncheckedCreateWithoutUniversityInput = {
   name: string
   supervisors?: Prisma.SupervisorUncheckedCreateNestedManyWithoutCoursesInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutCourseRelationInput
+  chairs?: Prisma.ChairUncheckedCreateNestedManyWithoutCoursesInput
 }
 
 export type CourseCreateOrConnectWithoutUniversityInput = {
@@ -565,10 +618,47 @@ export type CourseUpdateManyWithWhereWithoutUniversityInput = {
   data: Prisma.XOR<Prisma.CourseUpdateManyMutationInput, Prisma.CourseUncheckedUpdateManyWithoutUniversityInput>
 }
 
+export type CourseCreateWithoutChairsInput = {
+  name: string
+  university: Prisma.UniversityCreateNestedOneWithoutCoursesInput
+  supervisors?: Prisma.SupervisorCreateNestedManyWithoutCoursesInput
+  students?: Prisma.StudentCreateNestedManyWithoutCourseRelationInput
+}
+
+export type CourseUncheckedCreateWithoutChairsInput = {
+  id?: number
+  name: string
+  universityId: number
+  supervisors?: Prisma.SupervisorUncheckedCreateNestedManyWithoutCoursesInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutCourseRelationInput
+}
+
+export type CourseCreateOrConnectWithoutChairsInput = {
+  where: Prisma.CourseWhereUniqueInput
+  create: Prisma.XOR<Prisma.CourseCreateWithoutChairsInput, Prisma.CourseUncheckedCreateWithoutChairsInput>
+}
+
+export type CourseUpsertWithWhereUniqueWithoutChairsInput = {
+  where: Prisma.CourseWhereUniqueInput
+  update: Prisma.XOR<Prisma.CourseUpdateWithoutChairsInput, Prisma.CourseUncheckedUpdateWithoutChairsInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutChairsInput, Prisma.CourseUncheckedCreateWithoutChairsInput>
+}
+
+export type CourseUpdateWithWhereUniqueWithoutChairsInput = {
+  where: Prisma.CourseWhereUniqueInput
+  data: Prisma.XOR<Prisma.CourseUpdateWithoutChairsInput, Prisma.CourseUncheckedUpdateWithoutChairsInput>
+}
+
+export type CourseUpdateManyWithWhereWithoutChairsInput = {
+  where: Prisma.CourseScalarWhereInput
+  data: Prisma.XOR<Prisma.CourseUpdateManyMutationInput, Prisma.CourseUncheckedUpdateManyWithoutChairsInput>
+}
+
 export type CourseUpdateWithoutSupervisorsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   university?: Prisma.UniversityUpdateOneRequiredWithoutCoursesNestedInput
   students?: Prisma.StudentUpdateManyWithoutCourseRelationNestedInput
+  chairs?: Prisma.ChairUpdateManyWithoutCoursesNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutSupervisorsInput = {
@@ -576,6 +666,7 @@ export type CourseUncheckedUpdateWithoutSupervisorsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   universityId?: Prisma.IntFieldUpdateOperationsInput | number
   students?: Prisma.StudentUncheckedUpdateManyWithoutCourseRelationNestedInput
+  chairs?: Prisma.ChairUncheckedUpdateManyWithoutCoursesNestedInput
 }
 
 export type CourseUncheckedUpdateManyWithoutSupervisorsInput = {
@@ -593,6 +684,7 @@ export type CourseUpdateWithoutUniversityInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   supervisors?: Prisma.SupervisorUpdateManyWithoutCoursesNestedInput
   students?: Prisma.StudentUpdateManyWithoutCourseRelationNestedInput
+  chairs?: Prisma.ChairUpdateManyWithoutCoursesNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutUniversityInput = {
@@ -600,11 +692,33 @@ export type CourseUncheckedUpdateWithoutUniversityInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   supervisors?: Prisma.SupervisorUncheckedUpdateManyWithoutCoursesNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutCourseRelationNestedInput
+  chairs?: Prisma.ChairUncheckedUpdateManyWithoutCoursesNestedInput
 }
 
 export type CourseUncheckedUpdateManyWithoutUniversityInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type CourseUpdateWithoutChairsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  university?: Prisma.UniversityUpdateOneRequiredWithoutCoursesNestedInput
+  supervisors?: Prisma.SupervisorUpdateManyWithoutCoursesNestedInput
+  students?: Prisma.StudentUpdateManyWithoutCourseRelationNestedInput
+}
+
+export type CourseUncheckedUpdateWithoutChairsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  universityId?: Prisma.IntFieldUpdateOperationsInput | number
+  supervisors?: Prisma.SupervisorUncheckedUpdateManyWithoutCoursesNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutCourseRelationNestedInput
+}
+
+export type CourseUncheckedUpdateManyWithoutChairsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  universityId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -615,11 +729,13 @@ export type CourseUncheckedUpdateManyWithoutUniversityInput = {
 export type CourseCountOutputType = {
   supervisors: number
   students: number
+  chairs: number
 }
 
 export type CourseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   supervisors?: boolean | CourseCountOutputTypeCountSupervisorsArgs
   students?: boolean | CourseCountOutputTypeCountStudentsArgs
+  chairs?: boolean | CourseCountOutputTypeCountChairsArgs
 }
 
 /**
@@ -646,6 +762,13 @@ export type CourseCountOutputTypeCountStudentsArgs<ExtArgs extends runtime.Types
   where?: Prisma.StudentWhereInput
 }
 
+/**
+ * CourseCountOutputType without action
+ */
+export type CourseCountOutputTypeCountChairsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChairWhereInput
+}
+
 
 export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -654,6 +777,7 @@ export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   university?: boolean | Prisma.UniversityDefaultArgs<ExtArgs>
   supervisors?: boolean | Prisma.Course$supervisorsArgs<ExtArgs>
   students?: boolean | Prisma.Course$studentsArgs<ExtArgs>
+  chairs?: boolean | Prisma.Course$chairsArgs<ExtArgs>
   _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["course"]>
 
@@ -682,6 +806,7 @@ export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   university?: boolean | Prisma.UniversityDefaultArgs<ExtArgs>
   supervisors?: boolean | Prisma.Course$supervisorsArgs<ExtArgs>
   students?: boolean | Prisma.Course$studentsArgs<ExtArgs>
+  chairs?: boolean | Prisma.Course$chairsArgs<ExtArgs>
   _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CourseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -697,6 +822,7 @@ export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     university: Prisma.$UniversityPayload<ExtArgs>
     supervisors: Prisma.$SupervisorPayload<ExtArgs>[]
     students: Prisma.$StudentPayload<ExtArgs>[]
+    chairs: Prisma.$ChairPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1099,6 +1225,7 @@ export interface Prisma__CourseClient<T, Null = never, ExtArgs extends runtime.T
   university<T extends Prisma.UniversityDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UniversityDefaultArgs<ExtArgs>>): Prisma.Prisma__UniversityClient<runtime.Types.Result.GetResult<Prisma.$UniversityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   supervisors<T extends Prisma.Course$supervisorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$supervisorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   students<T extends Prisma.Course$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chairs<T extends Prisma.Course$chairsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$chairsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChairPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1577,6 +1704,30 @@ export type Course$studentsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.StudentScalarFieldEnum | Prisma.StudentScalarFieldEnum[]
+}
+
+/**
+ * Course.chairs
+ */
+export type Course$chairsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Chair
+   */
+  select?: Prisma.ChairSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Chair
+   */
+  omit?: Prisma.ChairOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChairInclude<ExtArgs> | null
+  where?: Prisma.ChairWhereInput
+  orderBy?: Prisma.ChairOrderByWithRelationInput | Prisma.ChairOrderByWithRelationInput[]
+  cursor?: Prisma.ChairWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChairScalarFieldEnum | Prisma.ChairScalarFieldEnum[]
 }
 
 /**

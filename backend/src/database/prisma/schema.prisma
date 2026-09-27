@@ -146,6 +146,9 @@ model Chair {
 
   supervisors Supervisor[]
 
+  // Studiengänge, die diesem Lehrstuhl zugeordnet sind
+  courses Course[]
+
   @@unique([name, universityId])
 }
 
@@ -158,6 +161,9 @@ model Course {
 
   supervisors Supervisor[]
   students    Student[]
+
+  // Lehrstühle, denen dieser Studiengang zugeordnet ist
+  chairs Chair[]
 
   @@unique([name, universityId])
 }
