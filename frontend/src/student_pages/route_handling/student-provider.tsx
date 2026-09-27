@@ -4,6 +4,7 @@ import {Outlet} from "react-router-dom";
 import type {CalendarEvent} from "../calendar_pages/calendar-component.tsx";
 import {getThesisDeadline} from "../../utils/thesis-utils.ts";
 import Loading from "../../globals/loading.tsx";
+import {useError} from "../../globals/error-provider.tsx";
 
 type StudentContextType = {
     studentId: number | null;
@@ -21,6 +22,8 @@ function StudentProvider() {
     const [supervisorId, setSupervisorId] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [deadline, setDeadline] = useState<CalendarEvent | null>(null);
+
+    const {showError} = useError();
 
     useEffect(() => {
         async function loadStudent() {
@@ -46,6 +49,10 @@ function StudentProvider() {
                 console.log(student);
             } catch (e) {
                 console.error("Student konnte nicht geladen werden.", e);
+
+                showError(e instanceof Error
+                    ? e.message
+                    : "Student konnte nicht geladen werden!");
             } finally {
                 setIsLoading(false);
             }

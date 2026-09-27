@@ -13,9 +13,9 @@ function StudentDashboardSkeleton() {
 
     if(location.pathname === "/") {
         pageTitle = "Student Dashboard";
-    } else if (location.pathname === "/calendar") {
+    } else if (location.pathname === "/student/calendar") {
         pageTitle = "Kalender";
-    } else if (location.pathname === "/outline") {
+    } else if (location.pathname === "/student/outline") {
         pageTitle = "Gliederung"
     }
 

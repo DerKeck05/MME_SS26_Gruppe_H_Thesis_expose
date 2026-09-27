@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {getStudent, updateStudent as updateStudentAPI} from "../../apis/student-api.ts";
 import Loading from "../../globals/loading.tsx";
 import EditStudentModal from "../modals/student-modals/edit-student-modal.tsx";
+import {useError} from "../../globals/error-provider.tsx";
 
 export interface UIStudent {
     name: string;
@@ -13,6 +14,8 @@ function StudentLandingPage({studentId}: { studentId: number }) {
     const [student, setStudent] = useState<UIStudent | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [showEditModal, setShowEditModal] = useState(false);
+
+    const {showError} = useError();
 
     useEffect(() => {
         async function loadStudent() {
@@ -30,6 +33,10 @@ function StudentLandingPage({studentId}: { studentId: number }) {
                 setShowEditModal(false);
             } catch (e) {
                 console.error("Student konnte nicht geladen werden", e);
+
+                showError(e instanceof Error
+                    ? e.message
+                    : "Student konnte nicht geladen werden!")
             } finally {
                 setIsLoading(false);
             }
@@ -62,6 +69,10 @@ function StudentLandingPage({studentId}: { studentId: number }) {
                 "Student konnte nicht aktualisiert werden:",
                 e
             );
+
+            showError(e instanceof Error
+                ? e.message
+                : "Student konnte nicht aktualisiert werden!")
         }
     }
 

@@ -21,6 +21,7 @@ import {useStudent} from "../route_handling/student-provider.tsx";
 import CommentItem, {
     type UIComment
 } from "./comments/comment-item.tsx";
+import {useError} from "../../globals/error-provider.tsx";
 
 
 export const MAX_CHAPTER_TITLE_LENGTH = 60;
@@ -38,6 +39,7 @@ function OutlinePage() {
     const [showCommentSidebar, setShowCommentSidebar] = useState(false);
 
     const {thesisId} = useStudent();
+    const {showError} = useError();
 
     function loadDummyComments(): UIComment[] {
         return [
@@ -106,6 +108,10 @@ function OutlinePage() {
                     "Kapitel konnten nicht geladen werden:",
                     error
                 );
+
+                showError(error instanceof Error
+                    ? error.message
+                    : "Kapitel konnten nicht geladen werden!")
             }
         }
 
@@ -191,6 +197,10 @@ function OutlinePage() {
                 error
             );
 
+            showError(error instanceof Error
+                ? error.message
+                : "Kapitel konnte nicht erstellt werden!");
+
             return false;
         }
     }
@@ -222,6 +232,10 @@ function OutlinePage() {
                 "Kapitel konnte nicht aktualisiert werden:",
                 error
             );
+
+            showError(error instanceof Error
+                ? error.message
+                : "Kapitel konnte nicht aktualisiert werden!");
         }
     }
 
@@ -246,6 +260,10 @@ function OutlinePage() {
                 "Kapitel konnte nicht gelöscht werden:",
                 error
             );
+
+            showError(error instanceof Error
+                ? error.message
+                : "Kapitel konnte nicht gelöscht werden!")
         }
     }
 
