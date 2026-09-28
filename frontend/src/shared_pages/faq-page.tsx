@@ -1,19 +1,21 @@
 import { useState } from "react";
-function FaqPage() {
 
-    const faqs = [
+function FaqPage() {
+    const [faqs, setFaqs] = useState([
         {
             id: 1,
-            question: " wqdwdqwdq",
-            answer: " wdfwdqw"
+            question: "wqdwdqwdq",
+            answer: "wdfwdqw"
         },
         {
             id: 2,
-            question: " wdfqdwfqwdwqddw",
-            answer: " werwf."
+            question: "wdfqdwfqwdwqddw",
+            answer: "werwf."
         }
-    ];
+    ]);
+
     const [selectedFaqIds, setSelectedFaqIds] = useState<number[]>([]);
+    const [isAddOpen, setIsAddOpen] = useState(false);
     function toggleFaqSelection(id: number) {
         if (selectedFaqIds.includes(id)) {
             setSelectedFaqIds(
@@ -26,14 +28,35 @@ function FaqPage() {
             ]);
         }
     }
+    function deleteSelectedFaqs() {
+        const remainingFaqs = faqs.filter(
+            (faq) => !selectedFaqIds.includes(faq.id)
+        );
+
+        setFaqs(remainingFaqs);
+        setSelectedFaqIds([]);
+    }
     return (
         <div>
             <h1> FAQ Bereich</h1>
             <div>
                 <button type="button">einstellung</button>
-                <button type="button">add</button>
-                <button type="button">minus</button>
+                <button type="button" onClick={() => setIsAddOpen(true)}
+                >add</button>
+                <button type="button" onClick={deleteSelectedFaqs}> minus </button>
             </div>
+            {isAddOpen && (
+                <div>
+                    <h2>FAQ hinzufügen</h2>
+
+                    <button
+                        type="button"
+                        onClick={() => setIsAddOpen(false)}
+                    >
+                        schließen
+                    </button>
+                </div>
+            )}
             <div>
                 {faqs.map((faq) => (
                     <div key={faq.id}>

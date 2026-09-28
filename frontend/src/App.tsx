@@ -1,4 +1,4 @@
-import {Routes, Route} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import OutlinePage from "./student_pages/outline_pages/outline-page.tsx";
 import StudentDashboard from "./student_pages/student_dashboard/student-dashboard.tsx";
@@ -16,6 +16,7 @@ import StudentLayout from "./student_pages/route_handling/student-layout.tsx";
 import ProfStartpage from "./prof_pages/prof_starpage.tsx";
 import ProfDashboardSkeleton from "./prof_pages/prof_dashboard_skeleton.tsx";
 import ThesisDetail from "./prof_pages/thesis_detail.tsx";
+import FaqPage from "./shared_pages/faq-page.tsx";
 
 
 function App() {
@@ -25,40 +26,44 @@ function App() {
             {/* Login */}
             <Route
                 path="/"
-                element={<LoginPage/>}
+                element={<LoginPage />}
             />
 
 
             {/* Registrierung */}
             <Route
                 path="/register"
-                element={<RegisterPage/>}
+                element={<RegisterPage />}
             />
 
             <Route
                 path="/register/student"
-                element={<RegisterStudentPage/>}
+                element={<RegisterStudentPage />}
             />
 
             <Route
                 path="/register/professor"
-                element={<RegisterProfessorPage/>}
+                element={<RegisterProfessorPage />}
+            />
+            <Route
+                path="/faq"
+                element={<FaqPage />}
             />
 
 
             {/* Professor Bereich */}
             <Route
                 path="/professor"
-                element={<ProfStartpage/>}
+                element={<ProfStartpage />}
             />
 
             <Route
                 path="/professor/thesis/:id"
-                element={<ProfDashboardSkeleton/>}
+                element={<ProfDashboardSkeleton />}
             >
                 <Route
                     index
-                    element={<ThesisDetail/>}
+                    element={<ThesisDetail />}
                 />
             </Route>
 
@@ -66,34 +71,34 @@ function App() {
             {/* Student Bereich */}
             <Route
                 path="/student"
-                element={<StudentProvider/>}
-                errorElement={<ErrorPage/>}
+                element={<StudentProvider />}
+                errorElement={<ErrorPage />}
             >
-                <Route element={<StudentLayout/>}>
+                <Route element={<StudentLayout />}>
 
                     <Route
                         index
-                        element={<StudentDashboard/>}
+                        element={<StudentDashboard />}
                     />
 
                     <Route
                         path="homepage"
-                        element={<StudentDashboard/>}
+                        element={<StudentDashboard />}
                     />
 
                     <Route
                         path="outline"
-                        element={<OutlinePage/>}
+                        element={<OutlinePage />}
                     />
 
                     <Route
                         path="calendar"
-                        element={<CalendarPage/>}
+                        element={<CalendarPage />}
                     />
 
                     <Route
                         path="*"
-                        element={<ErrorPage/>}
+                        element={<ErrorPage />}
                     />
 
                 </Route>
