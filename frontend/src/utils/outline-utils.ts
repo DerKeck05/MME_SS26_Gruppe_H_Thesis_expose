@@ -32,17 +32,21 @@ export function getChapterNumbers(
     let current: Chapter | undefined = chapter;
 
     while (current) {
+        const currentChapter: Chapter = current;
+
         const siblings = chapters
-            .filter(c => c.parentId === current.parentId)
+            .filter(c => c.parentId === currentChapter.parentId)
             .sort((a, b) => a.position - b.position);
 
-        const index = siblings.findIndex(c => c.id === current.id);
+        const index = siblings.findIndex(
+            c => c.id === currentChapter.id
+        );
 
         parts.unshift(index + 1);
 
-        current = current.parentId === null
+        current = currentChapter.parentId === null
             ? undefined
-            : chapters.find(c => c.id === current!.parentId);
+            : chapters.find(c => c.id === currentChapter.parentId);
     }
 
     return parts.join(".");

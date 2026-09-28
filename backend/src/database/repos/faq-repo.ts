@@ -22,10 +22,14 @@ export async function getFaqsBySupervisorId(supervisorId: number) {
 }
 
 export async function updateFaq(faqId: number, content?: string) {
+    const data: {content?: string} = {};
+
+    if (content != undefined) {
+        data.content = content;
+    }
+
     return prisma.faq.update({
         where: { id: faqId },
-        data: {
-            content
-        }
+        data
     });
 }

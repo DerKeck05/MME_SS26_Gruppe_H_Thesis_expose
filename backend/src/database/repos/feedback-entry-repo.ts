@@ -22,11 +22,15 @@ export async function getFeedbackEntryById(feedbackEntryId: number) {
 }
 
 export async function updateFeedbackEntry(feedbackEntryId: number, content?: string) {
+    const data: {content?: string} = {};
+
+    if (content != undefined) {
+        data.content = content;
+    }
+
     return await prisma.feedbackEntry.update({
         where: { id: feedbackEntryId },
-        data: {
-            content
-        }
+        data
     })
 }
 
