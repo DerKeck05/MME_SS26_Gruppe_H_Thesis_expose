@@ -122,7 +122,7 @@ router.get("/thesis/:thesisId/pdf", async (req, res) => {
         return;
     }
 
-    const pdf = createOutlinePdf();
+    const pdf = await createOutlinePdf(thesisId);
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
