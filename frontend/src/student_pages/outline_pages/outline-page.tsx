@@ -99,6 +99,10 @@ function OutlinePage() {
 
     useEffect(() => {
         async function loadChapters() {
+            if (thesisId === null) {
+                return;
+            }
+
             try {
                 const loadedChapters = await getChapters(thesisId);
 
@@ -123,6 +127,11 @@ function OutlinePage() {
     ): Promise<boolean> {
 
         if (!addChapterContext) {
+            return false;
+        }
+
+        if (thesisId === null) {
+            showError("Keine Thesis zugeordnet.");
             return false;
         }
 

@@ -1,18 +1,15 @@
-import { Router } from "express";
+import {Router} from "express";
 
-/* Funktionen zum Passwort verschlüsseln und prüfen */
 import {
     verifyPassword,
     hashPassword
 } from "../utils/password.js";
 
-/* Funktionen für Studenten aus der Datenbank */
 import {
     getStudentByEmail,
     createStudent
 } from "../database/repos/student-repo.js";
 
-/* Funktionen für Professoren aus der Datenbank */
 import {
     getSupervisorByEmail,
     createSupervisor
@@ -22,115 +19,147 @@ import {
 const router = Router();
 
 
+
 /* =========================
    LOGIN
    ========================= */
 
-router.post("/login", async (req, res) => {
+router.post(
+    "/login",
+    async (req, res) => {
 
-    /* Daten die vom Frontend kommen */
-    const { email, password, role } = req.body;
-
-
-    /* =========================
-       STUDENT LOGIN
-       ========================= */
-
-    if (role === "student") {
-
-        /* Student mit der Email in der Datenbank suchen */
-        const student = await getStudentByEmail(email);
-
-
-        /* Wenn kein Student gefunden wurde */
-        if (!student) {
-            return res.status(401).json({
-                message: "E-Mail oder Passwort falsch"
-            });
-        }
-
-
-        /* Eingegebenes Passwort mit dem gespeicherten Hash vergleichen */
-        const passwordCorrect = await verifyPassword(
+        const {
+            email,
             password,
-            student.passwordHash
-        );
+            role
+        } = req.body;
 
 
-        /* Wenn Passwort falsch ist */
-        if (!passwordCorrect) {
-            return res.status(401).json({
-                message: "E-Mail oder Passwort falsch"
+        /*
+         * STUDENT LOGIN
+         */
+        if (role == "student") {
+
+            const student =
+                await getStudentByEmail(
+                    email
+                );
+
+
+            if (!student) {
+
+                return res.status(401).json({
+                    message:
+                        "E-Mail oder Passwort falsch"
+                });
+            }
+
+
+            const passwordCorrect =
+                await verifyPassword(
+                    password,
+                    student.passwordHash
+                );
+
+
+            if (!passwordCorrect) {
+
+                return res.status(401).json({
+                    message:
+                        "E-Mail oder Passwort falsch"
+                });
+            }
+
+
+            return res.json({
+
+                message:
+                    "Login erfolgreich",
+
+                role:
+                    "student",
+
+                user: {
+
+                    id:
+                        student.id,
+
+                    name:
+                        student.name,
+
+                    email:
+                        student.email
+                }
             });
         }
 
 
-        /* Login erfolgreich */
-        return res.json({
-            message: "Login erfolgreich",
-            role: "student",
 
-            user: {
-                id: student.id,
-                name: student.name,
-                email: student.email
+        /*
+         * PROFESSOR LOGIN
+         */
+        if (role == "professor") {
+
+            const supervisor =
+                await getSupervisorByEmail(
+                    email
+                );
+
+
+            if (!supervisor) {
+
+                return res.status(401).json({
+                    message:
+                        "E-Mail oder Passwort falsch"
+                });
             }
+
+
+            const passwordCorrect =
+                await verifyPassword(
+                    password,
+                    supervisor.passwordHash
+                );
+
+
+            if (!passwordCorrect) {
+
+                return res.status(401).json({
+                    message:
+                        "E-Mail oder Passwort falsch"
+                });
+            }
+
+
+            return res.json({
+
+                message:
+                    "Login erfolgreich",
+
+                role:
+                    "professor",
+
+                user: {
+
+                    id:
+                        supervisor.id,
+
+                    name:
+                        supervisor.name,
+
+                    email:
+                        supervisor.email
+                }
+            });
+        }
+
+
+        return res.status(400).json({
+            message:
+                "Ungültige Rolle"
         });
     }
-
-
-    /* =========================
-       PROFESSOR LOGIN
-       ========================= */
-
-    if (role === "professor") {
-
-        /* Professor über seine Email suchen */
-        const supervisor = await getSupervisorByEmail(email);
-
-
-        /* Wenn kein Professor gefunden wurde */
-        if (!supervisor) {
-            return res.status(401).json({
-                message: "E-Mail oder Passwort falsch"
-            });
-        }
-
-
-        /* Passwort prüfen */
-        const passwordCorrect = await verifyPassword(
-            password,
-            supervisor.passwordHash
-        );
-
-
-        /* Passwort stimmt nicht */
-        if (!passwordCorrect) {
-            return res.status(401).json({
-                message: "E-Mail oder Passwort falsch"
-            });
-        }
-
-
-        /* Login erfolgreich */
-        return res.json({
-            message: "Login erfolgreich",
-            role: "professor",
-
-            user: {
-                id: supervisor.id,
-                name: supervisor.name,
-                email: supervisor.email
-            }
-        });
-    }
-
-
-    /* Ungültige Rolle */
-    return res.status(400).json({
-        message: "Ungültige Rolle"
-    });
-});
+);
 
 
 
@@ -138,46 +167,124 @@ router.post("/login", async (req, res) => {
    STUDENT REGISTRIERUNG
    ========================= */
 
-router.post("/register/student", async (req, res) => {
+router.post(
+    "/register/student",
+    async (req, res) => {
 
-    /* Daten vom Frontend auslesen */
-    const {
-        name,
-        email,
-        password,
-        course
-    } = req.body;
+        const {
+            name,
+            email,
+            password,
+            universityId,
+            courseId,
+            supervisorId
+        } = req.body;
 
 
-    /* Prüfen ob Email bereits existiert */
-    const existingStudent = await getStudentByEmail(email);
+        if (
+            !name ||
+            !email ||
+            !password ||
+            !universityId ||
+            !courseId ||
+            !supervisorId
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "Bitte alle Felder ausfüllen"
+            });
+        }
 
 
-    if (existingStudent) {
-        return res.status(400).json({
-            message: "E-Mail ist bereits registriert"
-        });
+        const universityIdNumber =
+            Number(universityId);
+
+
+        const courseIdNumber =
+            Number(courseId);
+
+
+        const supervisorIdNumber =
+            Number(supervisorId);
+
+
+        if (
+            !Number.isInteger(
+                universityIdNumber
+            ) ||
+            !Number.isInteger(
+                courseIdNumber
+            ) ||
+            !Number.isInteger(
+                supervisorIdNumber
+            )
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "Ungültige Auswahl"
+            });
+        }
+
+
+        const existingStudent =
+            await getStudentByEmail(
+                email
+            );
+
+
+        if (existingStudent) {
+
+            return res.status(400).json({
+                message:
+                    "E-Mail ist bereits registriert"
+            });
+        }
+
+
+        const passwordHash =
+            await hashPassword(
+                password
+            );
+
+
+        try {
+
+            await createStudent(
+                name,
+                email,
+                passwordHash,
+                universityIdNumber,
+                courseIdNumber,
+                supervisorIdNumber
+            );
+
+
+            return res.json({
+                message:
+                    "Student erfolgreich registriert"
+            });
+
+
+        } catch (error) {
+
+            if (error instanceof Error) {
+
+                return res.status(400).json({
+                    message:
+                        error.message
+                });
+            }
+
+
+            return res.status(500).json({
+                message:
+                    "Registrierung fehlgeschlagen"
+            });
+        }
     }
-
-
-    /* Passwort hashen */
-    const passwordHash = await hashPassword(password);
-
-
-    /* Studenten erstellen */
-    await createStudent(
-        name,
-        email,
-        passwordHash,
-        course
-    );
-
-
-    /* Erfolg zurückgeben */
-    return res.json({
-        message: "Student erfolgreich registriert"
-    });
-});
+);
 
 
 
@@ -185,46 +292,128 @@ router.post("/register/student", async (req, res) => {
    PROFESSOR REGISTRIERUNG
    ========================= */
 
-router.post("/register/professor", async (req, res) => {
+router.post(
+    "/register/professor",
+    async (req, res) => {
 
-    /* Daten vom Frontend auslesen */
-    const {
-        name,
-        email,
-        password,
-        chair
-    } = req.body;
+        const {
+            name,
+            email,
+            password,
+            universityId,
+            chairId,
+            courseIds
+        } = req.body;
 
 
-    /* Prüfen ob Email bereits existiert */
-    const existingProfessor = await getSupervisorByEmail(email);
+        if (
+            !name ||
+            !email ||
+            !password ||
+            !universityId ||
+            !chairId ||
+            !Array.isArray(courseIds) ||
+            courseIds.length == 0
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "Bitte alle Felder ausfüllen"
+            });
+        }
 
 
-    if (existingProfessor) {
-        return res.status(400).json({
-            message: "E-Mail ist bereits registriert"
-        });
+        const universityIdNumber =
+            Number(universityId);
+
+
+        const chairIdNumber =
+            Number(chairId);
+
+
+        const courseIdNumbers =
+            courseIds.map(
+                (id) => Number(id)
+            );
+
+
+        if (
+            !Number.isInteger(
+                universityIdNumber
+            ) ||
+            !Number.isInteger(
+                chairIdNumber
+            ) ||
+            courseIdNumbers.some(
+                (id) =>
+                    !Number.isInteger(id)
+            )
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "Ungültige Auswahl"
+            });
+        }
+
+
+        const existingProfessor =
+            await getSupervisorByEmail(
+                email
+            );
+
+
+        if (existingProfessor) {
+
+            return res.status(400).json({
+                message:
+                    "E-Mail ist bereits registriert"
+            });
+        }
+
+
+        const passwordHash =
+            await hashPassword(
+                password
+            );
+
+
+        try {
+
+            await createSupervisor(
+                name,
+                email,
+                passwordHash,
+                universityIdNumber,
+                chairIdNumber,
+                courseIdNumbers
+            );
+
+
+            return res.json({
+                message:
+                    "Professor erfolgreich registriert"
+            });
+
+
+        } catch (error) {
+
+            if (error instanceof Error) {
+
+                return res.status(400).json({
+                    message:
+                        error.message
+                });
+            }
+
+
+            return res.status(500).json({
+                message:
+                    "Registrierung fehlgeschlagen"
+            });
+        }
     }
-
-
-    /* Passwort hashen */
-    const passwordHash = await hashPassword(password);
-
-
-    /* Professor erstellen */
-    await createSupervisor(
-        name,
-        email,
-        passwordHash,
-        chair
-    );
-
-
-    /* Erfolg zurückgeben */
-    return res.json({
-        message: "Professor erfolgreich registriert"
-    });
-});
+);
 
 
 export default router;

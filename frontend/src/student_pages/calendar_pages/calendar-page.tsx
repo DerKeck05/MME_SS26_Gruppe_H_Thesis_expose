@@ -49,6 +49,11 @@ function CalendarPage() {
     const {showError} = useError();
 
     async function loadEvents() {
+        if (thesisId === null) {
+            setIsLoading(false);
+            return;
+        }
+
         try {
             const calendarEntries = await getCalendarEntries(thesisId);
 
@@ -93,6 +98,11 @@ function CalendarPage() {
         endDate: string;
         allDay: boolean;
     }) {
+        if (thesisId === null) {
+            showError("Keine Thesis zugeordnet.");
+            return;
+        }
+
         try {
             await addCalendarEntry(thesisId, entry);
 

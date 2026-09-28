@@ -1,51 +1,367 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { registerStudent } from "../apis/auth-api.ts";
-import { LOGIN_MESSAGES } from "./login_fails";
+import {
+    useEffect,
+    useState
+} from "react";
+
+import {
+    useNavigate
+} from "react-router-dom";
+
+import {
+    registerStudent
+} from "../apis/auth-api.ts";
+
+import {
+    LOGIN_MESSAGES
+} from "./login_fails";
+
 import "./design_css/login.css";
+import "./design_css/register-prof.css";
+
+
+const API_URL =
+    import.meta.env.VITE_API_URL;
+
+
+
+type University = {
+
+    id: number;
+
+    name: string;
+};
+
+
+type Course = {
+
+    id: number;
+
+    name: string;
+
+    universityId: number;
+};
+
+
+type Supervisor = {
+
+    id: number;
+
+    name: string;
+
+    chair: string;
+};
+
 
 
 function RegisterStudentPage() {
 
-    /* Wird benutzt, um nach erfolgreicher Registrierung
-       wieder auf eine andere Seite zu wechseln */
-    const navigate = useNavigate();
+    const navigate =
+        useNavigate();
 
 
-    /* Speichert den eingegebenen Namen */
-    const [name, setName] = useState("");
+    const [
+        name,
+        setName
+    ] = useState("");
 
 
-    /* Speichert die eingegebene E-Mail */
-    const [email, setEmail] = useState("");
+    const [
+        email,
+        setEmail
+    ] = useState("");
 
 
-    /* Speichert das eingegebene Passwort */
-    const [password, setPassword] = useState("");
+    const [
+        password,
+        setPassword
+    ] = useState("");
 
 
-    /* Speichert den eingegebenen Studiengang/Kurs */
-    const [course, setCourse] = useState("");
+    const [
+        universities,
+        setUniversities
+    ] = useState<University[]>([]);
 
 
-    /* Speichert eine mögliche Fehlermeldung */
-    const [errorMessage, setErrorMessage] = useState("");
+    const [
+        universityId,
+        setUniversityId
+    ] = useState("");
 
 
-    async function RegisterFunction() {
+    const [
+        courses,
+        setCourses
+    ] = useState<Course[]>([]);
 
-        /* Prüft zuerst, ob irgendein Feld leer ist */
+
+    const [
+        courseId,
+        setCourseId
+    ] = useState("");
+
+
+    const [
+        supervisors,
+        setSupervisors
+    ] = useState<Supervisor[]>([]);
+
+
+    const [
+        supervisorId,
+        setSupervisorId
+    ] = useState("");
+
+
+    const [
+        errorMessage,
+        setErrorMessage
+    ] = useState("");
+
+
+
+    /* =========================
+       HOCHSCHULEN LADEN
+       ========================= */
+
+    useEffect(() => {
+
+        async function loadUniversities() {
+
+            try {
+
+                setErrorMessage("");
+
+
+                const response =
+                    await fetch(
+
+                        `${API_URL}/api/universities`
+
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Hochschulen konnten nicht geladen werden"
+                    );
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                setUniversities(
+                    data
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+
+
+                setErrorMessage(
+                    "Hochschulen konnten nicht geladen werden"
+                );
+            }
+        }
+
+
+        loadUniversities();
+
+    }, []);
+
+
+
+    /* =========================
+       STUDIENGÄNGE LADEN
+       ========================= */
+
+    useEffect(() => {
+
+        async function loadCourses() {
+
+            setCourses([]);
+
+            setCourseId("");
+
+            setSupervisors([]);
+
+            setSupervisorId("");
+
+
+            if (
+                universityId == ""
+            ) {
+
+                return;
+            }
+
+
+            try {
+
+                setErrorMessage("");
+
+
+                const response =
+                    await fetch(
+
+                        `${API_URL}/api/universities/${universityId}/courses`
+
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Studiengänge konnten nicht geladen werden"
+                    );
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                setCourses(
+                    data
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+
+
+                setErrorMessage(
+                    "Studiengänge konnten nicht geladen werden"
+                );
+            }
+        }
+
+
+        loadCourses();
+
+    }, [
+        universityId
+    ]);
+
+
+
+    /* =========================
+       PROFESSOREN LADEN
+       ========================= */
+
+    useEffect(() => {
+
+        async function loadSupervisors() {
+
+            setSupervisors([]);
+
+            setSupervisorId("");
+
+
+            if (
+                universityId == "" ||
+                courseId == ""
+            ) {
+
+                return;
+            }
+
+
+            try {
+
+                setErrorMessage("");
+
+
+                /*
+                 * Nur Professoren laden,
+                 * die genau diesen Studiengang
+                 * an dieser Hochschule betreuen.
+                 */
+                const response =
+                    await fetch(
+
+                        `${API_URL}/api/universities/${universityId}/courses/${courseId}/supervisors`
+
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Professoren konnten nicht geladen werden"
+                    );
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                setSupervisors(
+                    data
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+
+
+                setErrorMessage(
+                    "Professoren konnten nicht geladen werden"
+                );
+            }
+        }
+
+
+        loadSupervisors();
+
+    }, [
+        universityId,
+        courseId
+    ]);
+
+
+
+    /* =========================
+       REGISTRIERUNG
+       ========================= */
+
+    async function registerFunction(
+        event: React.FormEvent<HTMLFormElement>
+    ) {
+
+        event.preventDefault();
+
+
+        setErrorMessage("");
+
+
         if (
-            name === "" ||
-            email === "" ||
-            password === "" ||
-            course === ""
+            name.trim() == "" ||
+            email.trim() == "" ||
+            password.trim() == "" ||
+            universityId == "" ||
+            courseId == "" ||
+            supervisorId == ""
         ) {
 
-            /* Fehlermeldung anzeigen */
             setErrorMessage(
                 LOGIN_MESSAGES.REGISTER_FIELDS_MISSING
             );
+
 
             return;
         }
@@ -53,34 +369,56 @@ function RegisterStudentPage() {
 
         try {
 
-            /* Student über unsere API registrieren */
-            const data = await registerStudent(
-                name,
-                email,
-                password,
-                course
+            const data =
+                await registerStudent(
+
+                    name.trim(),
+
+                    email.trim(),
+
+                    password,
+
+                    Number(
+                        universityId
+                    ),
+
+                    Number(
+                        courseId
+                    ),
+
+                    Number(
+                        supervisorId
+                    )
+                );
+
+
+            console.log(
+                LOGIN_MESSAGES.REGISTER_SUCCESS
             );
 
 
-            /* Erfolg in der Konsole ausgeben */
-            console.log(LOGIN_MESSAGES.REGISTER_SUCCESS);
-            console.log(data);
+            console.log(
+                data
+            );
 
 
-            /* Nach erfolgreicher Registrierung
-               zurück zum Login */
             navigate("/");
 
 
         } catch (error) {
 
-            /* Fehlermeldung aus der API anzeigen */
-            if (error instanceof Error) {
+            console.error(
+                error
+            );
 
-                setErrorMessage(error.message);
 
-                console.log(error.message);
-                console.log(error.stack);
+            if (
+                error instanceof Error
+            ) {
+
+                setErrorMessage(
+                    error.message
+                );
 
             } else {
 
@@ -92,81 +430,367 @@ function RegisterStudentPage() {
     }
 
 
+
     return (
+
         <div className="auth-page">
 
-            {/* Unser Liquid-Glass-Container */}
-            <div className="login-glass">
+
+            <form
+                className="login-glass register-prof-glass"
+                onSubmit={
+                    registerFunction
+                }
+            >
 
 
-                {/* Überschrift der Student-Registrierung */}
-                <h2 className="register-title">
+                <h2
+                    className="register-title"
+                >
+
                     Registrieren als Student
+
                 </h2>
 
 
-                {/* Eingabe für den Namen */}
-                <label>Name:</label>
 
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(event) =>
-                        setName(event.target.value)
+                <div className="auth-field-group">
+
+                    <label>
+                        Name:
+                    </label>
+
+
+                    <input
+
+                        type="text"
+
+                        value={
+                            name
+                        }
+
+                        onChange={
+                            (event) =>
+                                setName(
+                                    event.target.value
+                                )
+                        }
+
+                    />
+
+                </div>
+
+
+
+                <div className="auth-field-group">
+
+                    <label>
+                        E-Mail:
+                    </label>
+
+
+                    <input
+
+                        type="email"
+
+                        value={
+                            email
+                        }
+
+                        onChange={
+                            (event) =>
+                                setEmail(
+                                    event.target.value
+                                )
+                        }
+
+                    />
+
+                </div>
+
+
+
+                <div className="auth-field-group">
+
+                    <label>
+                        Passwort:
+                    </label>
+
+
+                    <input
+
+                        type="password"
+
+                        value={
+                            password
+                        }
+
+                        onChange={
+                            (event) =>
+                                setPassword(
+                                    event.target.value
+                                )
+                        }
+
+                    />
+
+                </div>
+
+
+
+                <div className="auth-field-group">
+
+                    <label>
+                        Hochschule:
+                    </label>
+
+
+                    <select
+
+                        className="styled-auth-select"
+
+                        value={
+                            universityId
+                        }
+
+                        onChange={
+                            (event) =>
+                                setUniversityId(
+                                    event.target.value
+                                )
+                        }
+
+                    >
+
+
+                        <option value="">
+
+                            Hochschule auswählen
+
+                        </option>
+
+
+                        {
+                            universities.map(
+                                (university) => (
+
+                                    <option
+
+                                        key={
+                                            university.id
+                                        }
+
+                                        value={
+                                            university.id
+                                        }
+
+                                    >
+
+                                        {
+                                            university.name
+                                        }
+
+                                    </option>
+                                )
+                            )
+                        }
+
+
+                    </select>
+
+                </div>
+
+
+
+                <div className="auth-field-group">
+
+                    <label>
+                        Studiengang:
+                    </label>
+
+
+                    <select
+
+                        className="styled-auth-select"
+
+                        value={
+                            courseId
+                        }
+
+                        onChange={
+                            (event) =>
+                                setCourseId(
+                                    event.target.value
+                                )
+                        }
+
+                        disabled={
+                            universityId == ""
+                        }
+
+                    >
+
+
+                        <option value="">
+
+                            Studiengang auswählen
+
+                        </option>
+
+
+                        {
+                            courses.map(
+                                (course) => (
+
+                                    <option
+
+                                        key={
+                                            course.id
+                                        }
+
+                                        value={
+                                            course.id
+                                        }
+
+                                    >
+
+                                        {
+                                            course.name
+                                        }
+
+                                    </option>
+                                )
+                            )
+                        }
+
+
+                    </select>
+
+                </div>
+
+
+
+                <div className="auth-field-group">
+
+                    <label>
+                        Professor:
+                    </label>
+
+
+                    <select
+
+                        className="styled-auth-select"
+
+                        value={
+                            supervisorId
+                        }
+
+                        onChange={
+                            (event) =>
+                                setSupervisorId(
+                                    event.target.value
+                                )
+                        }
+
+                        disabled={
+                            courseId == "" ||
+                            supervisors.length == 0
+                        }
+
+                    >
+
+
+                        <option value="">
+
+                            Professor auswählen
+
+                        </option>
+
+
+                        {
+                            supervisors.map(
+                                (supervisor) => (
+
+                                    <option
+
+                                        key={
+                                            supervisor.id
+                                        }
+
+                                        value={
+                                            supervisor.id
+                                        }
+
+                                    >
+
+                                        {
+                                            supervisor.name
+                                        }
+
+                                        {" – "}
+
+                                        {
+                                            supervisor.chair
+                                        }
+
+                                    </option>
+                                )
+                            )
+                        }
+
+
+                    </select>
+
+
+
+                    {
+                        courseId != "" &&
+                        supervisors.length == 0 && (
+
+                            <div
+                                className="multi-select-empty"
+                            >
+
+                                Für diesen Studiengang
+                                ist noch kein Professor
+                                registriert.
+
+                            </div>
+                        )
                     }
-                />
+
+                </div>
 
 
-                {/* Eingabe für die E-Mail */}
-                <label>E-Mail:</label>
 
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(event) =>
-                        setEmail(event.target.value)
-                    }
-                />
+                <button
+                    type="submit"
+                >
 
-
-                {/* Eingabe für das Passwort */}
-                <label>Passwort:</label>
-
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(event) =>
-                        setPassword(event.target.value)
-                    }
-                />
-
-
-                {/* Eingabe für den Kurs */}
-                <label>Kurs:</label>
-
-                <input
-                    type="text"
-                    value={course}
-                    onChange={(event) =>
-                        setCourse(event.target.value)
-                    }
-                />
-
-
-                {/* Registrierung */}
-                <button onClick={RegisterFunction}>
                     Registrieren
+
                 </button>
 
-            </div>
+
+            </form>
 
 
-            {/* Fehlermeldung */}
-            {errorMessage !== "" && (
-                <div className="error-box">
-                    {errorMessage}
-                </div>
-            )}
+
+            {
+                errorMessage != "" && (
+
+                    <div
+                        className="error-box"
+                    >
+
+                        {
+                            errorMessage
+                        }
+
+                    </div>
+                )
+            }
+
 
         </div>
     );

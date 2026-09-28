@@ -1,24 +1,44 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL =
+    import.meta.env.VITE_API_URL;
 
 
-/* LOGIN */
+
+/* =========================
+   LOGIN
+   ========================= */
 
 export interface LoginData {
+
     email: string;
+
     password: string;
-    role: "student" | "professor";
+
+    role:
+        "student" |
+        "professor";
 }
+
 
 export interface LoginUser {
+
     id: number;
+
     name: string;
+
     email: string;
 }
 
+
 export interface LoginResponse {
+
     message: string;
-    role: "student" | "professor";
-    user: LoginUser;
+
+    role:
+        "student" |
+        "professor";
+
+    user:
+        LoginUser;
 }
 
 
@@ -28,30 +48,45 @@ export async function login(
     role: "student" | "professor"
 ): Promise<LoginResponse> {
 
-    const response = await fetch(
-        `${API_URL}/api/auth/login`,
-        {
-            method: "POST",
+    const response =
+        await fetch(
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+            `${API_URL}/api/auth/login`,
 
-            body: JSON.stringify({
-                email,
-                password,
-                role
-            })
-        }
-    );
+            {
+
+                method:
+                    "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify({
+
+                        email,
+
+                        password,
+
+                        role
+                    })
+            }
+        );
 
 
-    const data = await response.json();
+    const data =
+        await response.json();
 
 
     if (!response.ok) {
+
         throw new Error(
-            data.message || "Login fehlgeschlagen"
+
+            data.message ||
+            "Login fehlgeschlagen"
         );
     }
 
@@ -61,44 +96,64 @@ export async function login(
 
 
 
-/* STUDENT REG */
+/* =========================
+   STUDENT REGISTRIERUNG
+   ========================= */
 
 export async function registerStudent(
     name: string,
     email: string,
     password: string,
-    course: string
+    universityId: number,
+    courseId: number,
+    supervisorId: number
 ) {
-    console.log(
-        "Request URL:",
-        `${API_URL}/api/auth/register/student`
-    );
 
-    const response = await fetch(
-        `${API_URL}/api/auth/register/student`,
-        {
-            method: "POST",
+    const response =
+        await fetch(
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+            `${API_URL}/api/auth/register/student`,
 
-            body: JSON.stringify({
-                name,
-                email,
-                password,
-                course
-            })
-        }
-    );
+            {
+
+                method:
+                    "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify({
+
+                        name,
+
+                        email,
+
+                        password,
+
+                        universityId,
+
+                        courseId,
+
+                        supervisorId
+                    })
+            }
+        );
 
 
-    const data = await response.json();
+    const data =
+        await response.json();
 
 
     if (!response.ok) {
+
         throw new Error(
-            data.message || "Registrierung fehlgeschlagen"
+
+            data.message ||
+            "Registrierung fehlgeschlagen"
         );
     }
 
@@ -108,40 +163,62 @@ export async function registerStudent(
 
 
 
-/* PROF REG */
+/* =========================
+   PROFESSOR REGISTRIERUNG
+   ========================= */
 
 export async function registerProfessor(
     name: string,
     email: string,
     password: string,
-    chair: string
+    universityId: number,
+    chairId: number,
+    courseIds: number[]
 ) {
 
-    const response = await fetch(
-        `${API_URL}/api/auth/register/professor`,
-        {
-            method: "POST",
+    const response =
+        await fetch(
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+            `${API_URL}/api/auth/register/professor`,
 
-            body: JSON.stringify({
-                name,
-                email,
-                password,
-                chair
-            })
-        }
-    );
+            {
+
+                method:
+                    "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify({
+
+                        name,
+
+                        email,
+
+                        password,
+
+                        universityId,
+
+                        chairId,
+
+                        courseIds
+                    })
+            }
+        );
 
 
-    const data = await response.json();
+    const data =
+        await response.json();
 
 
     if (!response.ok) {
         throw new Error(
-            data.message || "Registrierung fehlgeschlagen"
+            data.message ||
+            "Registrierung fehlgeschlagen"
         );
     }
 

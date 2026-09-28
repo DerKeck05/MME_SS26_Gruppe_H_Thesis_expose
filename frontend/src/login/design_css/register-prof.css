@@ -1,0 +1,162 @@
+.register-prof-glass {
+    width: 100%;
+    max-width: 440px;
+}
+
+.auth-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 14px;
+}
+
+.auth-field-group label {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #111111;
+}
+
+.styled-auth-select {
+    width: 100%;
+    min-height: 56px;
+    padding: 0 18px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #111111;
+    font-size: 1.02rem;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.styled-auth-select:focus {
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18);
+}
+
+.styled-auth-select:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.custom-multi-select {
+    width: 100%;
+    position: relative;
+}
+
+.multi-select-trigger {
+    width: 100%;
+    min-height: 56px;
+    padding: 0 18px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #111111;
+    font-size: 1.02rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.multi-select-trigger:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.multi-select-trigger.open {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.multi-select-trigger:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.multi-select-trigger-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+}
+
+.multi-select-arrow {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.multi-select-arrow.rotate {
+    transform: rotate(180deg);
+}
+
+.multi-select-dropdown {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    max-height: 180px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.multi-select-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 6px;
+    font-size: 1rem;
+    color: #111111;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.multi-select-option:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.multi-select-option input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.multi-select-empty {
+    margin-top: 8px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.72);
+    color: #333333;
+    font-size: 0.98rem;
+}
+
+@media (max-width: 600px) {
+    .register-prof-glass {
+        max-width: 92%;
+    }
+
+    .auth-field-group label {
+        font-size: 1rem;
+    }
+
+    .styled-auth-select,
+    .multi-select-trigger {
+        min-height: 52px;
+    }
+}

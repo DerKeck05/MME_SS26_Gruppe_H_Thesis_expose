@@ -9,8 +9,10 @@
     "typescript": "^7.0.2"
   },
   "scripts": {
-    "dev": "tsx backend/src/server.ts",
-    "start": "tsx backend/src/server.ts",
+    "dev": "npm --prefix backend run dev",
+    "start": "npm --prefix backend run start",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
     "contract:emit": "backend/src/database/prisma contract emit"
   },
   "type": "module",
