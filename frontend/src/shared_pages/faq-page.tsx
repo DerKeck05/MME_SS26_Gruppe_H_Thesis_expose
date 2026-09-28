@@ -1,3 +1,4 @@
+import { useState } from "react";
 function FaqPage() {
 
     const faqs = [
@@ -12,6 +13,19 @@ function FaqPage() {
             answer: " werwf."
         }
     ];
+    const [selectedFaqIds, setSelectedFaqIds] = useState<number[]>([]);
+    function toggleFaqSelection(id: number) {
+        if (selectedFaqIds.includes(id)) {
+            setSelectedFaqIds(
+                selectedFaqIds.filter((faqId) => faqId !== id)
+            );
+        } else {
+            setSelectedFaqIds([
+                ...selectedFaqIds,
+                id
+            ]);
+        }
+    }
     return (
         <div>
             <h1> FAQ Bereich</h1>
@@ -23,6 +37,12 @@ function FaqPage() {
             <div>
                 {faqs.map((faq) => (
                     <div key={faq.id}>
+                        <input
+                            type="checkbox"
+                            checked={selectedFaqIds.includes(faq.id)}
+                            onChange={() => toggleFaqSelection(faq.id)}
+                        />
+
                         <h3>{faq.question}</h3>
                         <p>{faq.answer}</p>
                     </div>
