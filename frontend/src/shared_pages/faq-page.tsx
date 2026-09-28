@@ -17,6 +17,7 @@ function FaqPage() {
     const [selectedFaqIds, setSelectedFaqIds] = useState<number[]>([]);
     const [isAddOpen, setIsAddOpen] = useState(false);
     const [newQuestion, setNewQuestion] = useState("");
+    const [newAnswer, setNewAnswer] = useState("");
     function toggleFaqSelection(id: number) {
         if (selectedFaqIds.includes(id)) {
             setSelectedFaqIds(
@@ -50,9 +51,14 @@ function FaqPage() {
                 <div>
                     <h2>FAQ hinzufügen</h2>
                     <input type="text"
-                    placeholder="Frage"
-                    value={newQuestion}
-                    onChange={(event)=>setNewQuestion(event.target.value)}
+                        placeholder="Frage"
+                        value={newQuestion}
+                        onChange={(event) => setNewQuestion(event.target.value)}
+                    />
+                    <textarea
+                        placeholder="Antwort"
+                        value={newAnswer}
+                        onChange={(event) => setNewAnswer(event.target.value)}
                     />
 
                     <button
