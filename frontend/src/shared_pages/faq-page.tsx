@@ -16,6 +16,7 @@ function FaqPage() {
 
     const [selectedFaqIds, setSelectedFaqIds] = useState<number[]>([]);
     const [isAddOpen, setIsAddOpen] = useState(false);
+    const [newQuestion, setNewQuestion] = useState("");
     function toggleFaqSelection(id: number) {
         if (selectedFaqIds.includes(id)) {
             setSelectedFaqIds(
@@ -48,6 +49,11 @@ function FaqPage() {
             {isAddOpen && (
                 <div>
                     <h2>FAQ hinzufügen</h2>
+                    <input type="text"
+                    placeholder="Frage"
+                    value={newQuestion}
+                    onChange={(event)=>setNewQuestion(event.target.value)}
+                    />
 
                     <button
                         type="button"
