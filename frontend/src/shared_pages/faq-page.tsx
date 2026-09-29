@@ -38,6 +38,21 @@ function FaqPage() {
         setFaqs(remainingFaqs);
         setSelectedFaqIds([]);
     }
+
+    function addFaq() { 
+        const newFaq = {
+            id: Date.now(),
+            question: newAnswer
+        };
+
+        setFaqs([
+            ...faqs,
+            newFaq
+        ]);
+        setNewQuestion("");
+        setNewAnswer("");
+        setIsAddOpen(false);
+    }
     return (
         <div>
             <h1> FAQ Bereich</h1>
