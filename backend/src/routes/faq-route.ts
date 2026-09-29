@@ -43,3 +43,4 @@ router.post("/supervisor/:supervisorId", async (req, res) => {
 
     res.status(201).json(faq);
 });
+export default router;

@@ -11,7 +11,7 @@ import chapterRoute from "./routes/chapter-route.js";
 import studentRoute from "./routes/student-route.js";
 import thesisRoute from "./routes/thesis-route.js";
 import universityRoute from "./routes/university-route.js";
-
+import faqRoute from "./routes/faq-route.js";
 
 /* Express Anwendung erstellen */
 const app = express();
@@ -57,6 +57,8 @@ app.use("/api/thesis", thesisRoute);
 /* Hochschulen, Studiengänge und Professoren */
 app.use("/api/universities", universityRoute);
 
+/* FAQ */
+app.use("/api/faq", faqRoute);
 
 /* =========================
    SERVER STARTEN
