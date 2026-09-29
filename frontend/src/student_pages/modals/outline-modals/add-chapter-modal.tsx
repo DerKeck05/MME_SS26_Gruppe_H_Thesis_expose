@@ -77,7 +77,7 @@ function AddChapterModal({
                 </div>
 
                 <div className="modal-body">
-                    <div className="add-chapter-modal">
+                    <div className="add-chapter-modal flex flex-col">
 
                         {getDescription() && (
                             <p className="text-sm">

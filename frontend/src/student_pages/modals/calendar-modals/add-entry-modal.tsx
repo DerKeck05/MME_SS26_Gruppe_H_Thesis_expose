@@ -148,7 +148,6 @@ function AddEntryModal({
                     </div>
 
                     {allDay ? (
-                        <>
                             <DatePickerInput
                                 label="Datum"
                                 placeholder="Datum auswählen"
@@ -169,22 +168,7 @@ function AddEntryModal({
                                     zIndex: 1100
                                 }}
                             />
-                            {/* <input
-                        type="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                    /> */}
-                        </>
                     ) : (<div className="date-row">
-                        {/* <label>
-                            Start:
-                            <input
-                                type="datetime-local"
-                                value={startDate}
-                                onChange={(e) => setStartDate(e.target.value)}
-                            />
-                        </label>*/}
-
                         <DateTimePicker
                             label="Start"
                             placeholder="Datum und Uhrzeit auswählen"
