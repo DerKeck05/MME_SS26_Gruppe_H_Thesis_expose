@@ -1,5 +1,6 @@
 import PDFDocument from "pdfkit";
 import * as chapterService from "./chapter-service.js";
+import {getThesisForPDF} from "../database/repos/chapter-repo.js";
 
 type PdfChapter = {
     title: string;
@@ -49,6 +50,10 @@ export async function createOutlinePdf(thesisId: number) {
     const chapters = await chapterService.getChaptersByThesisId(thesisId);
     const pdfChapters = buildChapterList(chapters);
 
+    const thesis = await getThesisForPDF(thesisId);
+
+    if(thesis === null) throw new Error("Konnte die Thesis nicht laden");
+
     const doc = new PDFDocument({
         size: "A4",
         margin: 50
@@ -56,17 +61,17 @@ export async function createOutlinePdf(thesisId: number) {
 
     doc
         .font("Helvetica-Bold")
-        .fontSize(22)
-        .text("THESIS EXPOSÉ");
+        .fontSize(24)
+        .text(`${thesis.title}`);
 
     doc.moveDown();
 
     doc
         .font("Helvetica")
-        .fontSize(12)
-        .text("Titel: Meine Bachelorarbeit")
-        .text("Name: Max Mustermann")
-        .text("Supervisor: Prof. Dr. Beispiel");
+        .fontSize(14)
+        .text(`Name: ${thesis.student.name}`, {lineGap: 4})
+        .text(`Betreuer: ${thesis.supervisor.name}`, {lineGap: 4})
+        .text("Universität Regensburg", {lineGap: 4});
 
     doc.moveDown();
 
@@ -86,9 +91,14 @@ export async function createOutlinePdf(thesisId: number) {
 
     for (const chapter of pdfChapters) {
         doc
-            .font("Helvetica")
-            .fontSize(12)
-            .text(`${chapter.number} ${chapter.title}`);
+            .font(chapter.level === 0 ? "Helvetica-Bold" : "Helvetica")
+            .fontSize(chapter.level <= 1 ? 18 : 14)
+            .text(
+                `${chapter.number} ${chapter.title}`,
+                {
+                    indent: chapter.level * 20
+                }
+            );
     }
 
     return doc;

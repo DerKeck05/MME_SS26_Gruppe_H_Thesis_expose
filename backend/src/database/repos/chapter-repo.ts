@@ -46,3 +46,16 @@ export async function deleteChapter(chapterId: number) {
         where: {id: chapterId}
     });
 }
+
+export async function getThesisForPDF(thesisId: number) {
+    return prisma.thesis.findUnique({
+        where: {
+            id: thesisId
+        }, include: {
+            student: true,
+            supervisor: true,
+
+            //TODO hier auch noch Uni und Kurs mit einbauen
+        }
+    })
+}
