@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 type FaqPageProps = {
     isProfessor: boolean;
+    supervisorId: number | null;
 };
 
-function FaqPage({ isProfessor }: FaqPageProps) {
+function FaqPage({
+    isProfessor,
+    supervisorId
+}: FaqPageProps) {
+
     const [faqs, setFaqs] = useState<
         { id: number; question: string; answer: string }[]
     >([]);
@@ -16,12 +21,16 @@ function FaqPage({ isProfessor }: FaqPageProps) {
     const [editQuestion, setEditQuestion] = useState("");
     const [editAnswer, setEditAnswer] = useState("");
     useEffect(() => {
-        fetch("http://localhost:3000/api/faq/supervisor/2")
+        if (supervisorId === null) {
+            return;
+        }
+
+        fetch(`http://localhost:3000/api/faq/supervisor/${supervisorId}`)
             .then((response) => response.json())
             .then((data) => {
                 setFaqs(data);
             });
-    }, []);
+    }, [supervisorId]);
 
 
     function toggleFaqSelection(id: number) {
@@ -55,8 +64,11 @@ function FaqPage({ isProfessor }: FaqPageProps) {
     }
 
     async function addFaq() {
+        if (supervisorId === null) {
+            return;
+        }
         const response = await fetch(
-            "http://localhost:3000/api/faq/supervisor/2",
+            `http://localhost:3000/api/faq/supervisor/${supervisorId}`,
             {
                 method: "POST",
                 headers: {
@@ -193,12 +205,13 @@ function FaqPage({ isProfessor }: FaqPageProps) {
             <div>
                 {faqs.map((faq) => (
                     <div key={faq.id}>
-                        <input
-                            type="checkbox"
-                            checked={selectedFaqIds.includes(faq.id)}
-                            onChange={() => toggleFaqSelection(faq.id)}
-                        />
-
+                        {isProfessor && (
+                            <input
+                                type="checkbox"
+                                checked={selectedFaqIds.includes(faq.id)}
+                                onChange={() => toggleFaqSelection(faq.id)}
+                            />
+                        )}
                         <h3>{faq.question}</h3>
                         <p>{faq.answer}</p>
                     </div>

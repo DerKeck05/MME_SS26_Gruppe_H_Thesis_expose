@@ -17,7 +17,34 @@ import ProfStartpage from "./prof_pages/prof_starpage.tsx";
 import ProfDashboardSkeleton from "./prof_pages/prof_dashboard_skeleton.tsx";
 import ThesisDetail from "./prof_pages/thesis_detail.tsx";
 import FaqPage from "./shared_pages/faq-page.tsx";
+import { useStudent } from "./student_pages/route_handling/student-provider.tsx";
 
+
+function ProfessorFaqPage() {
+    const storedSupervisorId = localStorage.getItem("supervisorId");
+
+    const supervisorId = storedSupervisorId
+        ? Number(storedSupervisorId)
+        : null;
+
+    return (
+        <FaqPage
+            isProfessor={true}
+            supervisorId={supervisorId}
+        />
+    );
+}
+
+function StudentFaqPage() {
+    const { supervisorId } = useStudent();
+
+    return (
+        <FaqPage
+            isProfessor={false}
+            supervisorId={supervisorId}
+        />
+    );
+}
 
 function App() {
     return (
@@ -45,10 +72,6 @@ function App() {
                 path="/register/professor"
                 element={<RegisterProfessorPage />}
             />
-            <Route
-                path="/faq"
-                element={<FaqPage isProfessor={true} />}
-            />
 
             {/* Professor Bereich */}
             <Route
@@ -60,6 +83,10 @@ function App() {
                 path="/professor/thesis/:id"
                 element={<ProfDashboardSkeleton />}
             >
+                <Route
+                    index
+                    element={<ProfessorFaqPage />}
+                />
                 <Route
                     index
                     element={<ThesisDetail />}
@@ -93,6 +120,10 @@ function App() {
                     <Route
                         path="calendar"
                         element={<CalendarPage />}
+                    />
+                    <Route
+                        path="faq"
+                        element={<StudentFaqPage />}
                     />
 
                     <Route
