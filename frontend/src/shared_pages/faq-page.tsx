@@ -1,21 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 type FaqPageProps = {
     isProfessor: boolean;
 };
 
 function FaqPage({ isProfessor }: FaqPageProps) {
-    const [faqs, setFaqs] = useState([
-        {
-            id: 1,
-            question: "wqdwdqwdq",
-            answer: "wdfwdqw"
-        },
-        {
-            id: 2,
-            question: "wdfqdwfqwdwqddw",
-            answer: "werwf."
-        }
-    ]);
+    const [faqs, setFaqs] = useState<
+        { id: number; question: string; answer: string }[]
+    >([]);
 
     const [selectedFaqIds, setSelectedFaqIds] = useState<number[]>([]);
     const [isAddOpen, setIsAddOpen] = useState(false);
@@ -24,6 +15,15 @@ function FaqPage({ isProfessor }: FaqPageProps) {
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [editQuestion, setEditQuestion] = useState("");
     const [editAnswer, setEditAnswer] = useState("");
+    useEffect(() => {
+        fetch("http://localhost:3000/api/faq/supervisor/2")
+            .then((response) => response.json())
+            .then((data) => {
+                setFaqs(data);
+            });
+    }, []);
+
+
     function toggleFaqSelection(id: number) {
         if (selectedFaqIds.includes(id)) {
             setSelectedFaqIds(
@@ -36,26 +36,43 @@ function FaqPage({ isProfessor }: FaqPageProps) {
             ]);
         }
     }
-    function deleteSelectedFaqs() {
-        const remainingFaqs = faqs.filter(
-            (faq) => !selectedFaqIds.includes(faq.id)
+    async function deleteSelectedFaqs() {
+        await Promise.all(
+            selectedFaqIds.map((id) =>
+                fetch(`http://localhost:3000/api/faq/${id}`, {
+                    method: "DELETE"
+                })
+            )
         );
 
-        setFaqs(remainingFaqs);
+        setFaqs(
+            faqs.filter(
+                (faq) => !selectedFaqIds.includes(faq.id)
+            )
+        );
+
         setSelectedFaqIds([]);
     }
 
-    function addFaq() {
-        const newFaq = {
-            id: Date.now(),
-            question: newQuestion,
-            answer: newAnswer
-        };
+    async function addFaq() {
+        const response = await fetch(
+            "http://localhost:3000/api/faq/supervisor/2",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    question: newQuestion,
+                    answer: newAnswer
+                })
+            }
+        );
 
-        setFaqs([
-            ...faqs,
-            newFaq
-        ]);
+        const createdFaq = await response.json();
+
+        setFaqs([...faqs, createdFaq]);
+
         setNewQuestion("");
         setNewAnswer("");
         setIsAddOpen(false);
@@ -74,18 +91,31 @@ function FaqPage({ isProfessor }: FaqPageProps) {
             setIsEditOpen(true);
         }
     }
-    function saveEditedFaq() {
-        const updatedFaqs = faqs.map((faq) => {
-            if (faq.id == selectedFaqIds[0]) {
-                return {
-                    ...faq,
+    async function saveEditedFaq() {
+        const id = selectedFaqIds[0];
+
+        const response = await fetch(
+            `http://localhost:3000/api/faq/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
                     question: editQuestion,
                     answer: editAnswer
-                };
+                })
             }
-            return faq;
-        });
-        setFaqs(updatedFaqs);
+        );
+
+        const updatedFaq = await response.json();
+
+        setFaqs(
+            faqs.map((faq) =>
+                faq.id === id ? updatedFaq : faq
+            )
+        );
+
         setSelectedFaqIds([]);
         setIsEditOpen(false);
     }
