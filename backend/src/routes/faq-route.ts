@@ -43,4 +43,38 @@ router.post("/supervisor/:supervisorId", async (req, res) => {
 
     res.status(201).json(faq);
 });
+router.put("/:id", async (req, res) => {
+    const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+        res.status(400).json({
+            error: "Invalid FAQ ID"
+        });
+        return;
+    }
+
+    const { question, answer } = req.body;
+
+    const faq = await faqRepo.updateFaq(
+        id,
+        question,
+        answer
+    );
+
+    res.status(200).json(faq);
+});
+router.delete("/:id", async (req, res) => {
+    const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+        res.status(400).json({
+            error: "Invalid FAQ ID"
+        });
+        return;
+    }
+
+    await faqRepo.deleteFaq(id);
+
+    res.status(204).send();
+});
 export default router;
