@@ -1,6 +1,9 @@
 import { useState } from "react";
+type FaqPageProps = {
+    isProfessor: boolean;
+};
 
-function FaqPage() {
+function FaqPage({ isProfessor }: FaqPageProps) {
     const [faqs, setFaqs] = useState([
         {
             id: 1,
@@ -65,22 +68,55 @@ function FaqPage() {
             (faq) => faq.id == selectedFaqIds[0]
 
         );
-        if (selectedFaq){
+        if (selectedFaq) {
             setEditQuestion(selectedFaq.question);
             setEditAnswer(selectedFaq.answer);
             setIsEditOpen(true);
         }
     }
+    function saveEditedFaq() {
+        const updatedFaqs = faqs.map((faq) => {
+            if (faq.id == selectedFaqIds[0]) {
+                return {
+                    ...faq,
+                    question: editQuestion,
+                    answer: editAnswer
+                };
+            }
+            return faq;
+        });
+        setFaqs(updatedFaqs);
+        setSelectedFaqIds([]);
+        setIsEditOpen(false);
+    }
 
     return (
         <div>
             <h1> FAQ Bereich</h1>
-            <div>
-                <button type="button" onClick={editSelectedFaq}>einstellungen</button>
-                <button type="button" onClick={() => setIsAddOpen(true)}
-                >add</button>
-                <button type="button" onClick={deleteSelectedFaqs}> minus </button>
-            </div>
+            {isProfessor && (
+                <div>
+                    <button
+                        type="button"
+                        onClick={editSelectedFaq}
+                    >
+                        einstellungen
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={() => setIsAddOpen(true)}
+                    >
+                        add
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={deleteSelectedFaqs}
+                    >
+                        minus
+                    </button>
+                </div>
+            )}
             {isAddOpen && (
                 <div>
                     <h2>FAQ hinzufügen</h2>
@@ -108,20 +144,21 @@ function FaqPage() {
             {isEditOpen && (
                 <div>
                     <h2> FAQ bearbeiten </h2>
-                    <input 
-                    type="text"
-                    value={editQuestion}
-                    onChange={(event)=>setEditQuestion(event.target.value)}
+                    <input
+                        type="text"
+                        value={editQuestion}
+                        onChange={(event) => setEditQuestion(event.target.value)}
                     />
                     <textarea
-                    value={editAnswer}
-                    onChange={(event)=>setEditAnswer(event.target.value)}
+                        value={editAnswer}
+                        onChange={(event) => setEditAnswer(event.target.value)}
                     />
-                    <button 
-                    type="button"
-                    onClick={()=> setIsEditOpen(false)}
+                    <button type="button" onClick={saveEditedFaq}>speichern</button>
+                    <button
+                        type="button"
+                        onClick={() => setIsEditOpen(false)}
                     >schließen</button>
-                    </div>
+                </div>
             )}
             <div>
                 {faqs.map((faq) => (

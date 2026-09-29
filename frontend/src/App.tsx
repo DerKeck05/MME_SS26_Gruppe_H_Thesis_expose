@@ -47,9 +47,8 @@ function App() {
             />
             <Route
                 path="/faq"
-                element={<FaqPage />}
+                element={<FaqPage isProfessor={false} />}
             />
-
 
             {/* Professor Bereich */}
             <Route
