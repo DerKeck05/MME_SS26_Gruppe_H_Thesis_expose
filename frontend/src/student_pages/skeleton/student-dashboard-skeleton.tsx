@@ -1,4 +1,4 @@
-import {Outlet,useLocation} from "react-router-dom";
+import {Outlet, useLocation} from "react-router-dom";
 import Sidebar from "./sidebar.tsx";
 import "../student-dashboard-stylesheet.css";
 import "../../app_theme/modal-stylesheet.css";
@@ -108,71 +108,24 @@ function StudentDashboardSkeleton() {
                     className="
                         flex
                         items-center
-                        gap-2
                     "
                 >
 
-                    <div
-                        className="
-                            relative
-                            flex
-                            h-9
-                            w-9
-                            items-center
-                            justify-center
-                            rounded-xl
-                            bg-(--dark-blue)
-                            text-lg
-                            font-bold
-                            text-white
-                        "
-                    >
-                        C
-
-                        <span
-                            className="
-                                absolute
-                                -right-1
-                                -top-1
-                                text-xs
-                                text-(--secondary)
-                            "
-                        >
-                            ✦
+                    <div className="flex items-center">
+                        <span className="text-xl font-bold tracking-[-0.04em] text-(--white)">
+                            clevermate
                         </span>
                     </div>
 
-
-                    <span
-                        className="
-                            text-lg
-                            font-semibold
-                            tracking-tight
-                            text-(--dark-blue)
-                        "
-                    >
-                        Clever
-
-                        <span className="text-(--primary)">
-                            mate
-                        </span>
-                    </span>
                 </div>
+
+
                 {/* AKTUELLER SEITENTITEL */}
 
                 <h1>
                     {pageTitle}
                 </h1>
 
-
-                {/*
-                This element is styled
-                through the dashboard stylesheet.
-                It also helps keep
-                the header layout balanced.
-                */}
-                <div className="profile-button">
-                </div>
 
             </header>
 
@@ -184,12 +137,12 @@ function StudentDashboardSkeleton() {
             */}
             <div className="student-dashboard-body">
 
-                <Sidebar />
+                <Sidebar/>
 
 
                 <main className="student-main-content">
 
-                    <Outlet />
+                    <Outlet/>
 
                 </main>
             </div>
