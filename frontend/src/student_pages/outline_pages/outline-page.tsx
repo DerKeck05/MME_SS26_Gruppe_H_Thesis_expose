@@ -17,6 +17,9 @@ import {
     updateChapter
 } from "../../apis/chapter-api.ts";
 
+import {
+    getFeedbackEntries
+} from "../../apis/feedback-api.ts";
 
 import CommentItem, {
     type UIComment
@@ -31,71 +34,26 @@ type OutlinePageProps = {
 };
 function OutlinePage({thesisId}: OutlinePageProps) {
     const [chapters, setChapters] = useState<Chapter[]>([]);
-    const [editChapter, setEditChapter] = useState<Chapter | null>(null);
+
+    const [editChapter, setEditChapter] =
+        useState<Chapter | null>(null);
 
     const [addChapterContext, setAddChapterContext] = useState<{
         mode: ChapterInsertMode;
         chapter?: Chapter;
     } | null>(null);
 
-    const [showCommentSidebar, setShowCommentSidebar] = useState(false);
+    const [showCommentSidebar, setShowCommentSidebar] =
+        useState(false);
+
+    const [selectedChapter, setSelectedChapter] =
+        useState<Chapter | null>(null);
+
+    const [comments, setComments] =
+        useState<UIComment[]>([]);
+
     const {showError} = useError();
 
-    function loadDummyComments(): UIComment[] {
-        return [
-            {
-                content:
-                    "Die Definition an dieser Stelle passt gut. Vielleicht noch eine Quelle ergänzen, die den Begriff wissenschaftlich einordnet.",
-                createdAt:
-                    new Date("2026-09-24T10:34:00").toLocaleDateString(
-                        "de-DE"
-                    ) +
-                    " " +
-                    new Date("2026-09-24T10:34:00").toLocaleTimeString(
-                        "de-DE",
-                        {
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        }
-                    ),
-                supervisorName: "Prof. Mueller"
-            },
-            {
-                content:
-                    "Der Abschnitt ist grundsätzlich verständlich, allerdings fehlt mir noch etwas die Verbindung zum vorherigen Kapitel. Es wäre hilfreich, kurz zu erklären, warum dieser Aspekt für eure weitere Untersuchung relevant ist.",
-                createdAt:
-                    new Date("2026-09-25T15:47:00").toLocaleDateString(
-                        "de-DE"
-                    ) +
-                    " " +
-                    new Date("2026-09-25T15:47:00").toLocaleTimeString(
-                        "de-DE",
-                        {
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        }
-                    ),
-                supervisorName: "Prof. Mueller"
-            },
-            {
-                content:
-                    "Inhaltlich ist das Kapitel schon sehr ausführlich und deckt die wichtigsten Punkte ab. Ich würde allerdings empfehlen, die einzelnen Argumente noch etwas stärker miteinander zu verknüpfen. Momentan wirken einige Absätze eher wie voneinander unabhängige Informationen. Besonders bei der Überleitung zum nächsten Abschnitt könnte eine kurze Zusammenfassung helfen, damit der rote Faden für den Leser deutlicher wird. Außerdem würde ich an dieser Stelle noch prüfen, ob alle verwendeten Quellen aktuell genug sind und ob sich eventuell noch eine zusätzliche wissenschaftliche Quelle zur Untermauerung der zentralen Aussage finden lässt.",
-                createdAt:
-                    new Date("2026-09-26T09:18:00").toLocaleDateString(
-                        "de-DE"
-                    ) +
-                    " " +
-                    new Date("2026-09-26T09:18:00").toLocaleTimeString(
-                        "de-DE",
-                        {
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        }
-                    ),
-                supervisorName: "Prof. Mueller"
-            }
-        ];
-    }
 
     useEffect(() => {
         async function loadChapters() {
@@ -104,7 +62,9 @@ function OutlinePage({thesisId}: OutlinePageProps) {
             }
 
             try {
-                const loadedChapters = await getChapters(thesisId);
+
+                const loadedChapters =
+                    await getChapters(thesisId);
 
                 setChapters(loadedChapters);
             } catch (error) {
@@ -113,9 +73,11 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                     error
                 );
 
-                showError(error instanceof Error
-                    ? error.message
-                    : "Kapitel konnten nicht geladen werden!")
+                showError(
+                    error instanceof Error
+                        ? error.message
+                        : "Kapitel konnten nicht geladen werden!"
+                );
             }
         }
 
@@ -138,7 +100,8 @@ function OutlinePage({thesisId}: OutlinePageProps) {
         let parentId: number | null = null;
         let position = 0;
 
-        const referenceChapter = addChapterContext.chapter;
+        const referenceChapter =
+            addChapterContext.chapter;
 
 
         // Neues Hauptkapitel
@@ -188,13 +151,18 @@ function OutlinePage({thesisId}: OutlinePageProps) {
 
 
         try {
-            await addChapter(thesisId, {
-                title,
-                parentId,
-                position
-            });
 
-            const updatedChapters = await getChapters(thesisId);
+            await addChapter(
+                thesisId,
+                {
+                    title,
+                    parentId,
+                    position
+                }
+            );
+
+            const updatedChapters =
+                await getChapters(thesisId);
 
             setChapters(updatedChapters);
             setAddChapterContext(null);
@@ -206,26 +174,34 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                 error
             );
 
-            showError(error instanceof Error
-                ? error.message
-                : "Kapitel konnte nicht erstellt werden!");
+            showError(
+                error instanceof Error
+                    ? error.message
+                    : "Kapitel konnte nicht erstellt werden!"
+            );
 
             return false;
         }
     }
 
-    async function handleUpdateChapter(title: string) {
+
+    async function handleUpdateChapter(
+        title: string
+    ) {
+
         if (!editChapter) {
             return;
         }
 
         try {
-            const updatedChapter = await updateChapter(
-                editChapter.id,
-                {
-                    title: title
-                }
-            );
+
+            const updatedChapter =
+                await updateChapter(
+                    editChapter.id,
+                    {
+                        title: title
+                    }
+                );
 
             setChapters(current =>
                 current.map(chapter =>
@@ -242,13 +218,18 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                 error
             );
 
-            showError(error instanceof Error
-                ? error.message
-                : "Kapitel konnte nicht aktualisiert werden!");
+            showError(
+                error instanceof Error
+                    ? error.message
+                    : "Kapitel konnte nicht aktualisiert werden!"
+            );
         }
     }
 
-    async function handleDeleteChapter(chapter: Chapter) {
+    async function handleDeleteChapter(
+        chapter: Chapter
+    ) {
+
         try {
             await deleteChapter(chapter.id);
 
@@ -264,20 +245,88 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                     ? null
                     : current
             );
+
+            if (selectedChapter?.id === chapter.id) {
+                setSelectedChapter(null);
+                setComments([]);
+                setShowCommentSidebar(false);
+            }
         } catch (error) {
             console.error(
                 "Kapitel konnte nicht gelöscht werden:",
                 error
             );
 
-            showError(error instanceof Error
-                ? error.message
-                : "Kapitel konnte nicht gelöscht werden!")
+            showError(
+                error instanceof Error
+                    ? error.message
+                    : "Kapitel konnte nicht gelöscht werden!"
+            );
         }
+    }
+    async function handleCommentClick(
+        chapter: Chapter
+    ) {
+
+        try {
+
+            setSelectedChapter(chapter);
+
+            const feedbackEntries =
+                await getFeedbackEntries(chapter.id);
+
+            const loadedComments: UIComment[] =
+                feedbackEntries.map(entry => ({
+
+                    content: entry.content,
+
+                    createdAt:
+                        new Date(entry.createdAt)
+                            .toLocaleDateString(
+                                "de-DE"
+                            )
+                        +
+                        " "
+                        +
+                        new Date(entry.createdAt)
+                            .toLocaleTimeString(
+                                "de-DE",
+                                {
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                }
+                            ),
+
+                    supervisorName: "Betreuer"
+
+                }));
+
+            setComments(loadedComments);
+
+            setShowCommentSidebar(true);
+
+        } catch (error) {
+
+            console.error(
+                "Kommentare konnten nicht geladen werden:",
+                error
+            );
+
+            showError(
+                error instanceof Error
+                    ? error.message
+                    : "Kommentare konnten nicht geladen werden!"
+            );
+        }
+    }
+    function handleCloseCommentSidebar() {
+        setShowCommentSidebar(false);
+        setSelectedChapter(null);
+        setComments([]);
     }
 
     return (
-        <div className="flex flex-row items-start">
+       <div className="flex flex-row items-start">
             <div
                 className="
                     outline-page
@@ -291,7 +340,15 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                     p-(--spacing-medium)
                 "
             >
-                <div className="outline-page-header flex justify-end">
+
+                <div
+                    className="
+                        outline-page-header
+                        flex
+                        justify-end
+                    "
+                >
+
                     <button
                         className="
                             squared-button
@@ -311,14 +368,16 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                 <OutlineComponent
                     chapters={chapters}
 
-                    onEditChapter={setEditChapter}
+                    onEditChapter={
+                        setEditChapter
+                    }
 
-                    onDeleteChapter={handleDeleteChapter}
+                    onDeleteChapter={
+                        handleDeleteChapter
+                    }
 
-                    onCommentClick={() =>
-                        setShowCommentSidebar(
-                            current => !current
-                        )
+                    onCommentClick={
+                        handleCommentClick
                     }
 
                     onAddChild={(chapter) =>
@@ -345,25 +404,46 @@ function OutlinePage({thesisId}: OutlinePageProps) {
 
                 {addChapterContext && (
                     <AddChapterModal
-                        mode={addChapterContext.mode}
+
+                        mode={
+                            addChapterContext.mode
+                        }
+
                         referenceChapter={
                             addChapterContext.chapter
                         }
                         onCancel={() =>
                             setAddChapterContext(null)
                         }
-                        onSubmit={handleAddChapter}
+
+                        onSubmit={
+                            handleAddChapter
+                        }
+
                     />
                 )}
 
                 {editChapter && (
                     <EditChapterModal
-                        chapter={editChapter}
+
+                        chapter={
+                            editChapter
+                        }
+
                         onCancel={() =>
                             setEditChapter(null)
                         }
-                        onSubmit={handleUpdateChapter}
-                        onDelete={() => handleDeleteChapter(editChapter)}
+
+                        onSubmit={
+                            handleUpdateChapter
+                        }
+
+                        onDelete={() =>
+                            handleDeleteChapter(
+                                editChapter
+                            )
+                        }
+
                     />
                 )}
 
@@ -403,26 +483,65 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                             "
                         >
                             <button
-                                className="rounded-full p-2"
-                                onClick={() =>
-                                    setShowCommentSidebar(false)
+                                className="
+                                    rounded-full
+                                    p-2
+                                "
+                                onClick={
+                                    handleCloseCommentSidebar
                                 }
                             >
                                 <PanelRightClose/>
                             </button>
                         </div>
 
-                        {loadDummyComments().map(
-                            (comment, index) => (
-                                <CommentItem
-                                    key={index}
-                                    content={comment.content}
-                                    createdAt={comment.createdAt}
-                                    supervisorName={
-                                        comment.supervisorName
-                                    }
-                                />
-                            )
+
+                        {selectedChapter && (
+
+                            <h3
+                                className="
+                                    font-semibold
+                                    text-xl
+                                    mb-4
+                                "
+                            >
+                                {selectedChapter.title}
+                            </h3>
+
+                        )}
+
+
+                        {comments.length === 0 ? (
+
+                            <p className="opacity-60">
+                                Noch keine Kommentare vorhanden.
+                            </p>
+
+                        ) : (
+
+                            comments.map(
+                                (comment, index) => (
+
+                                    <CommentItem
+
+                                        key={index}
+
+                                        content={
+                                            comment.content
+                                        }
+
+                                        createdAt={
+                                            comment.createdAt
+                                        }
+
+                                        supervisorName={
+                                            comment.supervisorName
+                                        }
+
+                                    />
+
+                                )
+                           )
                         )}
 
                     </div>
@@ -448,5 +567,4 @@ function OutlinePage({thesisId}: OutlinePageProps) {
         </div>
     );
 }
-
 export default OutlinePage;
