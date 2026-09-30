@@ -2,6 +2,7 @@ import {Link} from "react-router-dom";
 
 import "../student-dashboard-stylesheet.css";
 
+// Builds the Sidebar of the Dashboard with Links to the different pages with some styling
 function Sidebar() {
     return (
         <aside

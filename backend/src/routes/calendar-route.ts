@@ -2,6 +2,13 @@ import { Router } from "express";
 import * as calendarRepo from "../database/repos/calender-repo.js";
 import {createCalendarEntrySchema, updateCalendarEntrySchema} from "../utils/calendar-schema.js";
 
+//
+// Router for passing the Calendar data from the database to the frontend
+// They always receive a route call, checks the id of the route if there's one in their if it's a correct one,
+// than proceed to load the data from the database with the Repo Method and return them as JSON
+// Some of them also have to map some Data into new Datatypes
+//
+
 const router = Router();
 
 router.get("/thesis/:id", async (req, res) => {

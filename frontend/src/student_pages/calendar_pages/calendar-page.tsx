@@ -18,6 +18,7 @@ import {useStudent} from "../route_handling/student-provider.tsx";
 import Loading from "../../globals/loading.tsx";
 import {useError} from "../../globals/error-provider.tsx";
 
+// function that calculates the days remaining until the deadline
 export function calcLeftDays(deadline: CalendarEvent): string {
     const deadlineDate = deadline.end.getTime();
     const currentDate = Date.now();
@@ -27,27 +28,33 @@ export function calcLeftDays(deadline: CalendarEvent): string {
     return Math.ceil(difference / (1000 * 60 * 60 * 24)).toString();
 }
 
+// constant for maximum title length
 export const MAX_ENTRY_TITLE_LENGTH = 50;
 
 function CalendarPage() {
     const {thesisId, deadline} = useStudent();
 
+    // Lists for loading the Entries and for the calendar Events for the Calendar
     const [entries, setEntries] = useState<CalendarEntry[]>([]);
     const [events, setEvents] = useState<CalendarEvent[]>([]);
 
+    // Entry vars
     const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
     const [detailEntry, setDetailEntry] = useState<CalendarEntry | null>(null);
 
+    // Bools for showing the different modals
     const [showAddModal, setShowAddModal] = useState(false);
     const [showDetailModal, setShowDetailModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
 
+    // some more state variables
     const [date, setDate] = useState(new Date());
     const [isLoading, setIsLoading] = useState(true);
     const [daysLeft, setDaysLeft] = useState<string>("--");
 
     const {showError} = useError();
 
+    // loads data on initialization
     async function loadEvents() {
         if (thesisId === null) {
             setIsLoading(false);
@@ -55,10 +62,11 @@ function CalendarPage() {
         }
 
         try {
+            // gets Entries from backend and puts them into the variable
             const calendarEntries = await getCalendarEntries(thesisId);
-
             setEntries(calendarEntries);
 
+            // Maps the Entries into CalendarEvents
             const calendarEvents: CalendarEvent[] = calendarEntries.map(entry => ({
                 id: entry.id,
                 title: entry.title,
@@ -68,11 +76,13 @@ function CalendarPage() {
                 type: entry.allDay ? "allDay" : "normal",
             }));
 
+            // adds the deadline to the events and calculates the remaining days
             if (deadline) {
                 calendarEvents.push(deadline);
                 setDaysLeft(calcLeftDays(deadline));
             }
 
+            // fills the list and shows the Calendarpage instead of the Loading screen
             setEvents(calendarEvents);
             setIsLoading(false);
         } catch (error) {
@@ -91,6 +101,8 @@ function CalendarPage() {
         void loadEvents();
     }, [thesisId]);
 
+    // CRUD -----------------------------------------------------------
+
     async function handleAddEntry(entry: {
         title: string;
         description: string;
@@ -104,10 +116,11 @@ function CalendarPage() {
         }
 
         try {
+            // Adds the new entry and reloads the Event list for UI Update
             await addCalendarEntry(thesisId, entry);
-
             await loadEvents();
 
+            // closes the AddEntry Modal
             setShowAddModal(false);
         } catch (error) {
             console.error(
@@ -133,6 +146,7 @@ function CalendarPage() {
         }
 
         try {
+            // updates an Entry and reloads the calendar
             const updated = await updateCalendarEntry(
                 detailEntry.id,
                 updatedEntry
@@ -140,6 +154,7 @@ function CalendarPage() {
 
             await loadEvents();
 
+            // closes the update Modal and opens the Detail Modal with the updated Event
             setDetailEntry(updated);
             setShowEditModal(false);
             setShowDetailModal(true);
@@ -161,10 +176,12 @@ function CalendarPage() {
         }
 
         try {
+            // deletes the Entry and reloads the events
             await deleteCalendarEntry(detailEntry.id);
 
             await loadEvents();
 
+            // closes the Modal and removes the event from the other variables
             setDetailEntry(null);
             setSelectedEvent(null);
             setShowDetailModal(false);
@@ -180,6 +197,7 @@ function CalendarPage() {
         }
     }
 
+    // gets the Entry that is paired with the event and opens the Detail Modal
     function handleSelectEvent(event: CalendarEvent) {
         if (event.type === "deadline") {
             return;
@@ -196,13 +214,14 @@ function CalendarPage() {
         setShowDetailModal(true);
     }
 
+    // Loading Page on initialization
     if (isLoading) {
         return (<Loading/>);
     }
 
     return (
         <div className="calendar-page-main">
-
+            {/* UI-Widget with remaining days */}
             <div
                 className="flex flex-col justify-center items-center gap-4 bg-(--tertiary) text-(--secondary) p-2 rounded-(--border-radius) mb-(--spacing-medium)">
                 <p className={" text-2xl"}>
@@ -213,6 +232,7 @@ function CalendarPage() {
                 </h3>
             </div>
 
+            {/* Calendar itself */}
             <CalendarComponent
                 events={events}
                 selectedEvent={selectedEvent}
@@ -224,6 +244,7 @@ function CalendarPage() {
                 }}
             />
 
+            {/* Add button for new Entry */}
             <div className="calendar-add-buttons">
                 <button
                     className={"squared-button"}
@@ -234,6 +255,7 @@ function CalendarPage() {
                 </button>
             </div>
 
+            {/* Different Modals that are shown if their booleans are true */}
             {showAddModal && (
                 <AddEntryModal
                     onClose={() => setShowAddModal(false)}

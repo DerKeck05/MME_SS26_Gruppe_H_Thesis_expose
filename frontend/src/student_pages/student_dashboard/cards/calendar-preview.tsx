@@ -6,7 +6,7 @@ import "../../calendar_pages/calendar-styling.css";
 import {type CalendarEvent} from "../../calendar_pages/calendar-component.tsx";
 import {useNavigate} from "react-router-dom";
 
-
+// Date localizer for the Calendar
 const localizer = momentLocalizer(moment);
 
 interface CalendarPreviewProps {
@@ -14,6 +14,7 @@ interface CalendarPreviewProps {
 }
 
 function CalendarPreview({events}: CalendarPreviewProps) {
+    // for the Navigation to the Calendar Page
     const navigate = useNavigate();
 
     return (
@@ -22,6 +23,7 @@ function CalendarPreview({events}: CalendarPreviewProps) {
         }}>
             <h2 className="calendar-header">Kalender</h2>
 
+            {/* Builds the mini Calendar with Week View, without additional functionality and without toolbar */}
             <div className="mini-calendar">
                 <Calendar
                     localizer={localizer}
@@ -32,6 +34,7 @@ function CalendarPreview({events}: CalendarPreviewProps) {
                     style={{height: 400}}
                     allDayAccessor={"allDay"}
 
+                    // returns different css-classes for the Event Types for different styling
                     eventPropGetter={(e) => {
                         switch (e.type) {
                             case "deadline":

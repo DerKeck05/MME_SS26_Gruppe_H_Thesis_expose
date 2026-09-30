@@ -1,4 +1,7 @@
 import { z } from "zod";
+//
+// Verifies the Chapter Data with zod, so that the data has actually the right data type
+//
 
 export const createChapterSchema = z.object({
     title: z.string().min(1, "Title is required"),

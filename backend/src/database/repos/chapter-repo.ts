@@ -1,5 +1,10 @@
 import {prisma} from "../lib/prisma.js";
 
+//
+// Basic CRUD Database Queries for Outline (Chapters)
+// always just returns the result of a Prisma Query which is doing a postgres SQL query inside
+//
+
 interface Chapter {
     title: string;
     parentId: number | null;
@@ -47,6 +52,7 @@ export async function deleteChapter(chapterId: number) {
     });
 }
 
+// Gets the thesis information for the outline PDF export combined with the student and supervisor information
 export async function getThesisForPDF(thesisId: number) {
     return prisma.thesis.findUnique({
         where: {

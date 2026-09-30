@@ -25,6 +25,7 @@ interface OutlineItemProps {
     onAddAfter: () => void;
 }
 
+// Single Chapter Item for UI
 function OutlineItem({
                          chapter,
                          isExpanded,
@@ -54,11 +55,13 @@ function OutlineItem({
                 rounded-(--border-radius)
                 select-none
             "
+            // Indent depening on level of chapter
             style={{
                 marginLeft: `${chapter.level * 32}px`
             }}
             onDoubleClick={onEdit}
         >
+            {/* Displays the Number and title of the chapter */}
             <p className="font-semibold text-xl">
                 {chapter.number}
             </p>
@@ -67,8 +70,9 @@ function OutlineItem({
                 {chapter.title}
             </p>
 
+            {/* Different Buttons for Comments, Shrink Children feature and chapter menu */}
             <div className="flex items-center justify-end gap-2">
-
+                {/* Only gets shown if the chapter has a comment */}
                 {chapter.hasComment && (
                     <button
                         type="button"
@@ -79,6 +83,7 @@ function OutlineItem({
                     </button>
                 )}
 
+                {/* Only gets shown if the chapter has children */}
                 {chapter.isParent && (
                     <button
                         type="button"
@@ -92,6 +97,9 @@ function OutlineItem({
                     </button>
                 )}
 
+                {/* Opens up menu to insert new chapters, open the edit modal or delete the item;
+                    Opening and closing is controlled in parent functions so only one modal at a time can be shown
+                 */}
                 <div className="relative">
                     <button
                         type="button"
@@ -111,6 +119,7 @@ function OutlineItem({
                             onClick={onMenuClose}
                         />
 
+                        {/* Actual Modal that gets shown with the different Options */}
                         <div
                             className="
                                 absolute

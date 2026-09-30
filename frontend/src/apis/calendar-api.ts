@@ -1,3 +1,7 @@
+//
+// Calendar API to fetch the Backend Data for the Calendar Entries
+//
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 
@@ -10,6 +14,10 @@ export interface CalendarEntry {
     allDay: boolean;
     thesisId: number;
 }
+
+// CRUD -------------------------------------------------------------------------
+// Always fetches the data over the input URL, checks if the data is okay or throws an Error and
+// finally returns the response as a JSON (except Delete, theres nothing to return)
 
 export async function getCalendarEntries(
     thesisId: number
@@ -25,17 +33,6 @@ export async function getCalendarEntries(
     }
 
     return response.json();
-}
-
-export function getCalendarEntry(entryId: number, entries: CalendarEntry[]): CalendarEntry {
-    const entry = entries.find((entry) => entry.id === entryId);
-
-    if (!entry) {
-        throw new Error("Eintrag wurde nicht gefunden oder konnte nicht geladen werden");
-
-    }
-
-    return entry;
 }
 
 export async function addCalendarEntry(

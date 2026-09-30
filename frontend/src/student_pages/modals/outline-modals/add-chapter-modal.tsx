@@ -11,6 +11,7 @@ interface AddChapterModalProps {
     referenceChapter?: Chapter;
 }
 
+// Modal for adding a Chapter
 function AddChapterModal({
                              onSubmit,
                              onCancel,
@@ -18,12 +19,15 @@ function AddChapterModal({
                              referenceChapter
                          }: AddChapterModalProps) {
 
+    // Title Variable for the input field
     const [chapterTitle, setChapterTitle] = useState("");
 
+    // checks if the title is not empty and lower than the character max
     const isTitleValid =
         chapterTitle.trim() !== "" &&
         chapterTitle.trim().length <= MAX_CHAPTER_TITLE_LENGTH;
 
+    // Depending on picked adding mode, a title is chosen
     function getModalTitle(): string {
         switch (mode) {
             case "child":
@@ -41,6 +45,7 @@ function AddChapterModal({
         }
     }
 
+    // Depending on mode a Description for the title Input is chosen
     function getDescription(): string {
         if (!referenceChapter) {
             return "";
@@ -70,12 +75,14 @@ function AddChapterModal({
                 className="modal"
                 onClick={(event) => event.stopPropagation()}
             >
+                {/* Header with Close Button and Title */}
                 <div className="modal-header">
                     <h3>{getModalTitle()}</h3>
 
                     <CloseModalButton onClick={onCancel}/>
                 </div>
 
+                {/* Body with the Description and Title input and Error Notice if the Title isn't valid */}
                 <div className="modal-body">
                     <div className="add-chapter-modal flex flex-col">
 
@@ -105,6 +112,7 @@ function AddChapterModal({
                     </p>
                 </div>
 
+                {/* Submit button, that is enabled when the title is a valid one */}
                 <button
                     className="squared-button modal-submit-button"
                     type="button"

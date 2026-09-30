@@ -1,9 +1,14 @@
 import {z} from "zod";
 import {fromZonedTime} from "date-fns-tz";
 
+// returnes a Date in the Berlin Time Zone from a Date-string
 const berlinTimeToDate = (value: string): Date => {
     return fromZonedTime(value, "Europe/Berlin");
 };
+
+//
+// confirms the data with zod, so that data types are correct and also that the dates are in the correct order
+//
 
 export const createCalendarEntrySchema = z.object({
     title: z.string().min(1),

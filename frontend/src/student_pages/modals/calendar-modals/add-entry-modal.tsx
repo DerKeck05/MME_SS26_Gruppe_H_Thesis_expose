@@ -19,11 +19,13 @@ interface AddEntryModalProps {
     onSubmit: (entry: AddEntry) => Promise<void>;
 }
 
+// Modal for adding a new Calendar Entry
 function AddEntryModal({
                            onClose,
                            onSubmit
                        }: AddEntryModalProps) {
 
+    // All the variables for the different input fields
     const [entryTitle, setEntryTitle] = useState("");
     const [entryDescription, setEntryDescription] = useState("");
     const [startDate, setStartDate] = useState<string | null>(null);
@@ -31,6 +33,7 @@ function AddEntryModal({
     const [date, setDate] = useState<string | null>(null);
     const [allDay, setAllDay] = useState(false);
 
+    // checks if the inputs are valid and enables the submit button through that
     const isFormValid =
         entryTitle.trim() !== "" &&
         entryTitle.trim().length <= MAX_ENTRY_TITLE_LENGTH &&
@@ -42,6 +45,7 @@ function AddEntryModal({
                 new Date(endDate) > new Date(startDate)
         );
 
+    // Way to fix weird UI bugs from mantine date inputs
     function handleAllDayChange(enabled: boolean) {
         setAllDay(enabled);
 
@@ -50,12 +54,14 @@ function AddEntryModal({
         setEndDate(null);
     }
 
+    // handles the submits of a new entry and handle different errors and the allDay storage
     async function submitEntry() {
         if (!entryTitle.trim()) {
             console.log("Titel fehlt");
             return;
         }
 
+        // if it's an allDay Entry the start and end date gets set automatically
         if (allDay) {
             if (!date) {
                 console.error("Datum fehlt");
@@ -65,6 +71,7 @@ function AddEntryModal({
             const start = new Date(`${date}T00:00:00Z`);
             const end = new Date(`${date}T00:00:00Z`);
 
+            // end a full day later
             end.setUTCDate(end.getUTCDate() + 1);
 
             await onSubmit({
@@ -78,6 +85,7 @@ function AddEntryModal({
             return;
         }
 
+        // otherwise start and end are saved normally into the database
         if (!startDate || !endDate) {
             console.error("Start- oder Enddatum fehlt");
             return;
@@ -86,6 +94,7 @@ function AddEntryModal({
         const start = new Date(startDate);
         const end = new Date(endDate);
 
+        // controls if the end is actually after the start
         if (end <= start) {
             console.log("Ende muss später als der Start liegen");
             return;
@@ -115,8 +124,8 @@ function AddEntryModal({
                     <CloseModalButton onClick={onClose}/>
                 </div>
 
+                {/* Different Input Fields for the Data */}
                 <div className="modal-body" id="calendar-modal">
-
                     <input
                         type="text"
                         placeholder="Neues Ereignis"
@@ -147,6 +156,7 @@ function AddEntryModal({
                         </label>
                     </div>
 
+                    {/* Shows different date picker from the mantine package, depending on if its allDay or not */}
                     {allDay ? (
                             <DatePickerInput
                                 label="Datum"
@@ -233,21 +243,13 @@ function AddEntryModal({
                                 zIndex: 1100
                             }}
                         />
-
-                        {/*<label>
-                            Ende:
-                            <input
-                                type="datetime-local"
-                                value={endDate}
-                                onChange={(e) => setEndDate(e.target.value)}
-                            />
-                        </label>*/}
                     </div>)}
 
                 </div>
 
                 <div className="spacer"/>
 
+                {/* Submits the Entry if all fields are filled and valid */}
                 <button
                     className="squared-button modal-submit-button"
                     type="button"

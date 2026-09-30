@@ -1,5 +1,6 @@
 import {Calendar} from "lucide-react";
 
+// interfaces for passing the correct data
 interface UpNextProps {
     upNextEvents: UpNextEvents[];
 }
@@ -20,6 +21,7 @@ function UpNextCard({upNextEvents}: UpNextProps) {
                     Als Nächstes
                 </h2>
 
+                {/* Calendar Icon from Lucide Icons */}
                 <Calendar
                     size={26}
                     strokeWidth={2}
@@ -33,10 +35,10 @@ function UpNextCard({upNextEvents}: UpNextProps) {
                         key={`${event.title}-${event.date}`}
                         className="flex items-center gap-3 border-2 border-(--night-blue) p-1 rounded-(--border-radius)"
                     >
-                        {/* Akzent links */}
+                        {/* kleiner Balken am linken rand */}
                         <div className="w-1 h-12 rounded-full bg-(--night-blue) shrink-0 ml-2 mt-1 mb-1"/>
 
-                        {/* Event-Inhalt */}
+                        {/* Daten Inhalt */}
                         <div className="flex flex-col gap-1">
                             <p className="font-semibold text-base">
                                 {event.title}

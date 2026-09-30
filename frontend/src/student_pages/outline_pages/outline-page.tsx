@@ -23,11 +23,12 @@ import CommentItem, {
 } from "./comments/comment-item.tsx";
 import {useError} from "../../globals/error-provider.tsx";
 
-
+// Constant for the max input of character into the title input field
 export const MAX_CHAPTER_TITLE_LENGTH = 60;
 
-
+// Main Page of the Outline feature which loads, handles and passes all the data of the feature
 function OutlinePage() {
+    // List of the chapters and a variable for the chapter that is currently edited
     const [chapters, setChapters] = useState<Chapter[]>([]);
     const [editChapter, setEditChapter] = useState<Chapter | null>(null);
 
@@ -36,6 +37,7 @@ function OutlinePage() {
         chapter?: Chapter;
     } | null>(null);
 
+    // bool to show the comment section
     const [showCommentSidebar, setShowCommentSidebar] = useState(false);
 
     const {thesisId} = useStudent();
@@ -97,6 +99,7 @@ function OutlinePage() {
         ];
     }
 
+    // loads the chapters on initialization
     useEffect(() => {
         async function loadChapters() {
             if (thesisId === null) {
@@ -104,6 +107,7 @@ function OutlinePage() {
             }
 
             try {
+                // loads chapter and puts them into the variable
                 const loadedChapters = await getChapters(thesisId);
 
                 setChapters(loadedChapters);
@@ -120,12 +124,16 @@ function OutlinePage() {
         }
 
         void loadChapters();
+
+        // function always reloads if thesisId is changed
     }, [thesisId]);
+
+    // CRUD METHODS ----------------------------------------------------
 
     async function handleAddChapter(
         title: string
     ): Promise<boolean> {
-
+        // checks if variables has data
         if (!addChapterContext) {
             return false;
         }
@@ -141,7 +149,7 @@ function OutlinePage() {
         const referenceChapter = addChapterContext.chapter;
 
 
-        // Neues Hauptkapitel
+        // Adds a new root chapter without parent
         if (addChapterContext.mode === "root") {
             const rootChapters = chapters.filter(
                 chapter => chapter.parentId === null
@@ -152,7 +160,8 @@ function OutlinePage() {
         }
 
 
-        // Neues Unterkapitel
+        // Adds new child-chapter, adds the chapter into the database and takes the clicked reference Chapter
+        // as Parent
         if (
             referenceChapter &&
             addChapterContext.mode === "child"
@@ -167,7 +176,7 @@ function OutlinePage() {
         }
 
 
-        // Kapitel davor
+        // Just takes the position data from the clicked reference chapter as the own position data
         if (
             referenceChapter &&
             addChapterContext.mode === "before"
@@ -177,7 +186,7 @@ function OutlinePage() {
         }
 
 
-        // Kapitel danach
+        // takes the parentId from the reference chapter but takes the position after it
         if (
             referenceChapter &&
             addChapterContext.mode === "after"
@@ -188,12 +197,14 @@ function OutlinePage() {
 
 
         try {
+            // adds the chapter with the stored information into the database
             await addChapter(thesisId, {
                 title,
                 parentId,
                 position
             });
 
+            // chapters will be freshly loaded and newly set so UI is up to date
             const updatedChapters = await getChapters(thesisId);
 
             setChapters(updatedChapters);
@@ -215,11 +226,13 @@ function OutlinePage() {
     }
 
     async function handleUpdateChapter(title: string) {
+        // checks if there's actually a picked chapter to edit
         if (!editChapter) {
             return;
         }
 
         try {
+            // updates the database with the new title
             const updatedChapter = await updateChapter(
                 editChapter.id,
                 {
@@ -227,6 +240,7 @@ function OutlinePage() {
                 }
             );
 
+            // updates the UI list
             setChapters(current =>
                 current.map(chapter =>
                     chapter.id === updatedChapter.id
@@ -250,8 +264,10 @@ function OutlinePage() {
 
     async function handleDeleteChapter(chapter: Chapter) {
         try {
+            // deletes chapter from database
             await deleteChapter(chapter.id);
 
+            // updates the List for the UI
             setChapters(current =>
                 current.filter(
                     currentChapter =>
@@ -259,6 +275,7 @@ function OutlinePage() {
                 )
             );
 
+            // if the chapter still exists, its gonna be picked for the Edit Modal again
             setEditChapter(current =>
                 current?.id === chapter.id
                     ? null
@@ -272,15 +289,20 @@ function OutlinePage() {
 
             showError(error instanceof Error
                 ? error.message
-                : "Kapitel konnte nicht gelöscht werden!")
+                : "Kapitel konnte nicht gelöscht werden!");
         }
     }
 
+    // exports the PDF with Error handling
     async function handleExportPdf() {
         try {
             await exportPdf(thesisId);
         } catch (error) {
             console.error(error);
+
+            showError(error instanceof Error
+                ? error.message
+                : "PDF konnte nicht geladen werden!");
         }
     }
 
@@ -299,7 +321,9 @@ function OutlinePage() {
                     p-(--spacing-medium)
                 "
             >
-                <div className="outline-page-header flex justify-end">
+                {/* Header with the two buttons for adding a new chapter and exporting the outline */}
+                <div className="outline-page-header flex justify-end gap-2">
+                    {/* Add new Chapter Button */}
                     <button
                         className="
                             squared-button
@@ -316,6 +340,7 @@ function OutlinePage() {
                         <Plus/>
                     </button>
 
+                    {/* Export PDF Button */}
                     <button
                         className={"squared-button w-20 h-10 rounded-(--border-radius)"}
                         onClick={handleExportPdf}
@@ -323,6 +348,8 @@ function OutlinePage() {
                         <FileText/>
                     </button>
                 </div>
+
+                {/* Actual Outline with the correct display that gets all the data passed down  */}
                 <OutlineComponent
                     chapters={chapters}
 
@@ -384,6 +411,7 @@ function OutlinePage() {
 
             </div>
 
+            {/* Shows the Comment section of a chapter */}
             {showCommentSidebar && (
                 <div
                     className="
@@ -410,6 +438,7 @@ function OutlinePage() {
                             pt-(--spacing-medium)
                         "
                     >
+                        {/* Header with close Sidebar button */}
                         <div
                             className="
                                 flex
@@ -427,6 +456,7 @@ function OutlinePage() {
                             </button>
                         </div>
 
+                        {/* Displays the Comments into single Comment Item in a list */}
                         {loadDummyComments().map(
                             (comment, index) => (
                                 <CommentItem
@@ -442,6 +472,7 @@ function OutlinePage() {
 
                     </div>
 
+                    {/* Scroll end with transparent transition */}
                     <div
                         className="
                             pointer-events-none
