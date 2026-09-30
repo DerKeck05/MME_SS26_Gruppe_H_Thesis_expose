@@ -1,0 +1,283 @@
+.faq-page {
+    width: 100%;
+    min-height: 70vh;
+
+    padding: 30px;
+
+    color: var(--text-primary);
+}
+
+
+.faq-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 25px;
+}
+
+
+.faq-header h1 {
+    margin: 0;
+
+    font-size: 32px;
+
+    color: var(--text-primary);
+}
+
+
+.faq-header p {
+    margin-top: 6px;
+
+    margin-bottom: 0;
+
+    color: var(--text-secondary);
+}
+
+
+.faq-toolbar {
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+
+.faq-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+
+.faq-item {
+    display: flex;
+
+    gap: 15px;
+
+    padding: 20px;
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
+
+
+.faq-item:hover {
+    background:
+        var(--glass-background-hover);
+
+    transform:
+        translateY(-2px);
+}
+
+
+.faq-selection {
+    display: flex;
+
+    align-items: flex-start;
+
+    padding-top: 5px;
+}
+
+
+.faq-selection input {
+    width: 18px;
+
+    height: 18px;
+
+    cursor: pointer;
+}
+
+
+.faq-content {
+    flex: 1;
+}
+
+
+.faq-content h2 {
+    margin-top: 0;
+
+    margin-bottom: 10px;
+
+    font-size: 20px;
+
+    color: var(--text-primary);
+}
+
+
+.faq-content p {
+    margin: 0;
+
+    line-height: 1.6;
+
+    color: var(--text-secondary);
+}
+
+
+.faq-empty {
+    padding: 30px;
+
+    text-align: center;
+
+    color: var(--text-secondary);
+}
+
+
+.faq-button {
+    padding:
+        10px 16px;
+
+    border:
+        1px solid
+        var(--glass-border);
+
+    border-radius:
+        var(--border-radius-small);
+
+    background:
+        var(--glass-background);
+
+    color:
+        var(--text-primary);
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s;
+}
+
+
+.faq-button:hover {
+    background:
+        var(--glass-background-hover);
+}
+
+
+.faq-button-primary {
+    background:
+        rgba(59, 130, 246, 0.35);
+}
+
+
+.faq-button-primary:hover {
+    background:
+        rgba(59, 130, 246, 0.5);
+}
+
+
+.faq-button-delete {
+    background:
+        rgba(180, 40, 40, 0.25);
+}
+
+
+.faq-button-delete:hover {
+    background:
+        rgba(180, 40, 40, 0.4);
+}
+
+
+.faq-modal-background {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background:
+        rgba(0, 0, 0, 0.65);
+
+    z-index: 1000;
+}
+
+
+.faq-modal {
+    width: 500px;
+
+    max-width:
+        calc(100% - 40px);
+
+    padding: 30px;
+}
+
+
+.faq-modal h2 {
+    margin-top: 0;
+
+    margin-bottom: 20px;
+}
+
+
+.faq-modal label {
+    display: block;
+
+    margin-top: 15px;
+
+    margin-bottom: 7px;
+
+    color:
+        var(--text-secondary);
+}
+
+
+.faq-modal input,
+.faq-modal textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 12px;
+
+    border:
+        1px solid
+        var(--glass-border);
+
+    border-radius:
+        var(--border-radius-small);
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    color:
+        var(--text-primary);
+
+    outline: none;
+}
+
+
+.faq-modal input:focus,
+.faq-modal textarea:focus {
+    border-color:
+        rgba(100, 160, 255, 0.7);
+}
+
+
+.faq-modal textarea {
+    resize: vertical;
+}
+
+
+.faq-modal-buttons {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 25px;
+}

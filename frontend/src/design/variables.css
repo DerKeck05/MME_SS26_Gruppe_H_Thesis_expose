@@ -1,0 +1,17 @@
+:root {
+    --background-dark: #0f1724;
+
+    --glass-background: rgba(255, 255, 255, 0.08);
+
+    --glass-background-hover: rgba(255, 255, 255, 0.18);
+
+    --glass-border: rgba(255, 255, 255, 0.12);
+
+    --text-primary: #ffffff;
+
+    --text-secondary: rgba(255, 255, 255, 0.7);
+
+    --border-radius-large: 24px;
+
+    --border-radius-medium: 16px;
+}
