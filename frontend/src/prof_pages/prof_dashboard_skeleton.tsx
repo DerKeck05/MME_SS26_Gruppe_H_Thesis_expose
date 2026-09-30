@@ -65,7 +65,7 @@ function ProfDashboardSkeleton() {
                 <button
                     type="button"
                     className="prof-back-button"
-                    onClick={() => navigate(-1)}
+                    onClick={() => navigate("/professor")}
                 >
                     Zurück
                 </button>
