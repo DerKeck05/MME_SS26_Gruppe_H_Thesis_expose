@@ -42,7 +42,6 @@ function OutlinePage({
     thesisId,
     isProfessor
 }: OutlinePageProps) {
-    console.log("PROFESSOR:", isProfessor);
 
     const [chapters, setChapters] =
         useState<Chapter[]>([]);
@@ -84,7 +83,9 @@ function OutlinePage({
                 const loadedChapters =
                     await getChapters(thesisId);
 
-                setChapters(loadedChapters);
+                setChapters(
+                    loadedChapters
+                );
 
             } catch (error) {
 
@@ -95,7 +96,9 @@ function OutlinePage({
 
                 if (error instanceof Error) {
 
-                    showError(error.message);
+                    showError(
+                        error.message
+                    );
 
                 } else {
 
@@ -140,7 +143,7 @@ function OutlinePage({
             addChapterContext.chapter;
 
 
-        // Hauptkapitel hinzufügen
+        // Neues Hauptkapitel
         if (
             addChapterContext.mode === "root"
         ) {
@@ -159,7 +162,7 @@ function OutlinePage({
         }
 
 
-        // Unterkapitel hinzufügen
+        // Neues Unterkapitel
         if (
             referenceChapter &&
             addChapterContext.mode === "child"
@@ -181,7 +184,7 @@ function OutlinePage({
         }
 
 
-        // Kapitel davor hinzufügen
+        // Kapitel davor
         if (
             referenceChapter &&
             addChapterContext.mode === "before"
@@ -195,7 +198,7 @@ function OutlinePage({
         }
 
 
-        // Kapitel danach hinzufügen
+        // Kapitel danach
         if (
             referenceChapter &&
             addChapterContext.mode === "after"
@@ -222,7 +225,9 @@ function OutlinePage({
 
 
             const updatedChapters =
-                await getChapters(thesisId);
+                await getChapters(
+                    thesisId
+                );
 
 
             setChapters(
@@ -247,7 +252,9 @@ function OutlinePage({
 
             if (error instanceof Error) {
 
-                showError(error.message);
+                showError(
+                    error.message
+                );
 
             } else {
 
@@ -324,7 +331,9 @@ function OutlinePage({
 
             if (error instanceof Error) {
 
-                showError(error.message);
+                showError(
+                    error.message
+                );
 
             } else {
 
@@ -376,7 +385,9 @@ function OutlinePage({
                         null
                     );
 
-                    setComments([]);
+                    setComments(
+                        []
+                    );
 
                     setShowCommentSidebar(
                         false
@@ -394,7 +405,9 @@ function OutlinePage({
 
             if (error instanceof Error) {
 
-                showError(error.message);
+                showError(
+                    error.message
+                );
 
             } else {
 
@@ -450,6 +463,7 @@ function OutlinePage({
 
 
                 loadedComments.push({
+
                     content:
                         feedback.content,
 
@@ -458,6 +472,7 @@ function OutlinePage({
 
                     supervisorName:
                         "Betreuer"
+
                 });
             }
 
@@ -472,7 +487,9 @@ function OutlinePage({
             );
 
 
-            setNewComment("");
+            setNewComment(
+                ""
+            );
 
 
             setShowCommentSidebar(
@@ -489,7 +506,9 @@ function OutlinePage({
 
             if (error instanceof Error) {
 
-                showError(error.message);
+                showError(
+                    error.message
+                );
 
             } else {
 
@@ -503,8 +522,8 @@ function OutlinePage({
 
     async function handleAddFeedback() {
 
-        // Nur Professoren dürfen
-        // einen Kommentar hinzufügen
+        // Studenten dürfen keine
+        // Kommentare hinzufügen
         if (!isProfessor) {
             return;
         }
@@ -564,6 +583,7 @@ function OutlinePage({
 
                 supervisorName:
                     "Betreuer"
+
             };
 
 
@@ -578,7 +598,9 @@ function OutlinePage({
             );
 
 
-            setNewComment("");
+            setNewComment(
+                ""
+            );
 
         } catch (error) {
 
@@ -590,7 +612,9 @@ function OutlinePage({
 
             if (error instanceof Error) {
 
-                showError(error.message);
+                showError(
+                    error.message
+                );
 
             } else {
 
@@ -612,9 +636,13 @@ function OutlinePage({
             null
         );
 
-        setComments([]);
+        setComments(
+            []
+        );
 
-        setNewComment("");
+        setNewComment(
+            ""
+        );
     }
 
 
@@ -631,6 +659,7 @@ function OutlinePage({
                     Noch keine Kommentare vorhanden.
 
                 </p>
+
             );
         }
 
@@ -663,6 +692,8 @@ function OutlinePage({
 
     function showCommentInput() {
 
+        // Student darf Kommentare
+        // nur lesen
         if (!isProfessor) {
             return null;
         }
@@ -720,7 +751,6 @@ function OutlinePage({
 
 
                 <button
-
                     type="button"
 
                     onClick={
@@ -770,6 +800,7 @@ function OutlinePage({
                 "
             >
 
+
                 <div
                     className="
                         outline-page-header
@@ -778,26 +809,30 @@ function OutlinePage({
                     "
                 >
 
-                    <button
-                        className="
-                            squared-button
-                            w-20
-                            h-10
-                            rounded-(--border-radius)
-                        "
+                    {!isProfessor && (
 
-                        onClick={() => {
+                        <button
+                            className="
+                                squared-button
+                                w-20
+                                h-10
+                                rounded-(--border-radius)
+                            "
 
-                            setAddChapterContext({
-                                mode: "root"
-                            });
+                            onClick={() => {
 
-                        }}
-                    >
+                                setAddChapterContext({
+                                    mode: "root"
+                                });
 
-                        <Plus/>
+                            }}
+                        >
 
-                    </button>
+                            <Plus/>
+
+                        </button>
+
+                    )}
 
                 </div>
 
@@ -947,6 +982,7 @@ function OutlinePage({
                         "
                     >
 
+
                         <div
                             className="
                                 flex
@@ -956,7 +992,6 @@ function OutlinePage({
                         >
 
                             <button
-
                                 className="
                                     rounded-full
                                     p-2
@@ -997,6 +1032,7 @@ function OutlinePage({
 
 
                         {showCommentInput()}
+
 
                     </div>
 

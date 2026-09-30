@@ -14,18 +14,25 @@ interface OutlineItemProps {
     isProfessor: boolean;
 
     isExpanded: boolean;
+
     isMenuOpen: boolean;
 
     onToggle: () => void;
+
     onCommentClick: () => void;
+
     onEdit: () => void;
+
     onDelete: () => void;
 
     onMenuToggle: () => void;
+
     onMenuClose: () => void;
 
     onAddChild: () => void;
+
     onAddBefore: () => void;
+
     onAddAfter: () => void;
 }
 
@@ -65,8 +72,6 @@ function OutlineItem({
             style={{
                 marginLeft: `${chapter.level * 32}px`
             }}
-
-            onDoubleClick={onEdit}
         >
 
             <p className="font-semibold text-xl">
@@ -81,18 +86,29 @@ function OutlineItem({
 
             <div className="flex items-center justify-end gap-2">
 
+
                 {chapter.isParent && (
 
                     <button
                         type="button"
-                        className="flex h-8 w-8 items-center justify-center rounded-full"
+                        className="
+                            flex
+                            h-8
+                            w-8
+                            items-center
+                            justify-center
+                            rounded-full
+                        "
                         onClick={onToggle}
                     >
 
-                        {isExpanded
-                            ? <ChevronUp/>
-                            : <ChevronDown/>
-                        }
+                        {isExpanded && (
+                            <ChevronUp/>
+                        )}
+
+                        {!isExpanded && (
+                            <ChevronDown/>
+                        )}
 
                     </button>
 
@@ -103,19 +119,25 @@ function OutlineItem({
 
                     <button
                         type="button"
-
-                        className="flex h-8 w-8 items-center justify-center rounded-full"
-
+                        className="
+                            flex
+                            h-8
+                            w-8
+                            items-center
+                            justify-center
+                            rounded-full
+                        "
                         onClick={(event) => {
 
                             event.stopPropagation();
 
                             onMenuToggle();
-                        }}
 
-                        aria-label="Kapitelaktionen"
+                        }}
                     >
+
                         <MoreVertical/>
+
                     </button>
 
 
@@ -124,7 +146,11 @@ function OutlineItem({
                         <>
 
                             <div
-                                className="fixed inset-0 z-40"
+                                className="
+                                    fixed
+                                    inset-0
+                                    z-40
+                                "
                                 onClick={onMenuClose}
                             />
 
@@ -143,117 +169,191 @@ function OutlineItem({
                                     shadow-lg
                                     overflow-hidden
                                 "
+                                onClick={(event) => {
 
-                                onClick={(event) =>
-                                    event.stopPropagation()
-                                }
+                                    event.stopPropagation();
+
+                                }}
                             >
 
-                                <button
-                                    type="button"
 
-                                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                {isProfessor && (
 
-                                    onClick={() => {
+                                    <button
+                                        type="button"
+                                        className="
+                                            w-full
+                                            text-left
+                                            px-4
+                                            py-2
+                                            hover:bg-gray-100
+                                        "
+                                        onClick={() => {
 
-                                        onMenuClose();
+                                            onMenuClose();
 
-                                        onAddChild();
-                                    }}
-                                >
-                                    Unterkapitel hinzufügen
-                                </button>
+                                            onCommentClick();
 
+                                        }}
+                                    >
 
-                                <button
-                                    type="button"
+                                        Kommentare anzeigen
 
-                                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                    </button>
 
-                                    onClick={() => {
-
-                                        onMenuClose();
-
-                                        onAddBefore();
-                                    }}
-                                >
-                                    Kapitel davor einfügen
-                                </button>
+                                )}
 
 
-                                <button
-                                    type="button"
+                                {!isProfessor && (
 
-                                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                    <>
 
-                                    onClick={() => {
+                                        <button
+                                            type="button"
+                                            className="
+                                                w-full
+                                                text-left
+                                                px-4
+                                                py-2
+                                                hover:bg-gray-100
+                                            "
+                                            onClick={() => {
 
-                                        onMenuClose();
+                                                onMenuClose();
 
-                                        onAddAfter();
-                                    }}
-                                >
-                                    Kapitel danach einfügen
-                                </button>
+                                                onAddChild();
 
+                                            }}
+                                        >
 
-                                <div className="h-px bg-gray-200"/>
+                                            Unterkapitel hinzufügen
 
-
-                                <button
-                                    type="button"
-
-                                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
-
-                                    onClick={() => {
-
-                                        onMenuClose();
-
-                                        onCommentClick();
-                                    }}
-                                >
-
-                                    {isProfessor
-                                        ? "Kommentar hinzufügen"
-                                        : "Kommentare anzeigen"
-                                    }
-
-                                </button>
+                                        </button>
 
 
-                                <div className="h-px bg-gray-200"/>
+                                        <button
+                                            type="button"
+                                            className="
+                                                w-full
+                                                text-left
+                                                px-4
+                                                py-2
+                                                hover:bg-gray-100
+                                            "
+                                            onClick={() => {
+
+                                                onMenuClose();
+
+                                                onAddBefore();
+
+                                            }}
+                                        >
+
+                                            Kapitel davor einfügen
+
+                                        </button>
 
 
-                                <button
-                                    type="button"
+                                        <button
+                                            type="button"
+                                            className="
+                                                w-full
+                                                text-left
+                                                px-4
+                                                py-2
+                                                hover:bg-gray-100
+                                            "
+                                            onClick={() => {
 
-                                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                                onMenuClose();
 
-                                    onClick={() => {
+                                                onAddAfter();
 
-                                        onMenuClose();
+                                            }}
+                                        >
 
-                                        onEdit();
-                                    }}
-                                >
-                                    Kapitel bearbeiten
-                                </button>
+                                            Kapitel danach einfügen
+
+                                        </button>
 
 
-                                <button
-                                    type="button"
+                                        <div className="h-px bg-gray-200"/>
 
-                                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
 
-                                    onClick={() => {
+                                        <button
+                                            type="button"
+                                            className="
+                                                w-full
+                                                text-left
+                                                px-4
+                                                py-2
+                                                hover:bg-gray-100
+                                            "
+                                            onClick={() => {
 
-                                        onMenuClose();
+                                                onMenuClose();
 
-                                        onDelete();
-                                    }}
-                                >
-                                    Kapitel löschen
-                                </button>
+                                                onEdit();
+
+                                            }}
+                                        >
+
+                                            Kapitel bearbeiten
+
+                                        </button>
+
+
+                                        <button
+                                            type="button"
+                                            className="
+                                                w-full
+                                                text-left
+                                                px-4
+                                                py-2
+                                                hover:bg-gray-100
+                                            "
+                                            onClick={() => {
+
+                                                onMenuClose();
+
+                                                onDelete();
+
+                                            }}
+                                        >
+
+                                            Kapitel löschen
+
+                                        </button>
+
+
+                                        <div className="h-px bg-gray-200"/>
+
+
+                                        <button
+                                            type="button"
+                                            className="
+                                                w-full
+                                                text-left
+                                                px-4
+                                                py-2
+                                                hover:bg-gray-100
+                                            "
+                                            onClick={() => {
+
+                                                onMenuClose();
+
+                                                onCommentClick();
+
+                                            }}
+                                        >
+
+                                            Kommentare anzeigen
+
+                                        </button>
+
+                                    </>
+
+                                )}
 
                             </div>
 
