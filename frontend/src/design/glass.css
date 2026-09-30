@@ -1,42 +1,26 @@
 .glass-panel {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 24px;
+    background: var(--glass-background);
+
+    border: 1px solid var(--glass-border);
+
+    border-radius: var(--border-radius-large);
 
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
 
-    box-shadow:
-        0 8px 30px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--glass-shadow);
 }
 
 
 .glass-card {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--glass-background);
 
-    border-radius: 18px;
+    border: 1px solid var(--glass-border);
 
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-}
+    border-radius: var(--border-radius-medium);
 
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 
-.glass-button {
-    background: rgba(255, 255, 255, 0.1);
-
-    border: 1px solid rgba(255, 255, 255, 0.15);
-
-    border-radius: 12px;
-
-    color: white;
-
-    padding: 10px 16px;
-
-    cursor: pointer;
-}
-
-
-.glass-button:hover {
-    background: rgba(255, 255, 255, 0.18);
+    box-shadow: var(--glass-shadow);
 }
