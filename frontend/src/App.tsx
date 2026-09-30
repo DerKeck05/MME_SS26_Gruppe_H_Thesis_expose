@@ -85,11 +85,11 @@ function App() {
             >
                 <Route
                     index
-                    element={<ProfessorFaqPage />}
+                    element={<ThesisDetail />}
                 />
                 <Route
-                    index
-                    element={<ThesisDetail />}
+                    path="faq"
+                    element={<ProfessorFaqPage />}
                 />
             </Route>
 
