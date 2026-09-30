@@ -58,7 +58,7 @@ Alle Features lassen sich einfach austesten, in dem man einfach immer den Anweis
 Einzig, dass man Kapitel in der Gliederung auch durch Doppelklick bearbeiten kann, ist nicht direkt intuitiv, ansonsten wurde darauf geachtet, dass das UI sehr intuitiv bedienbar ist.   
 Außerdem gibt es hier ein aufgezeichnetes Showcase:
 
-> URL zu Screencast:
+> URL zu Screencast: https://youtu.be/T0r4DKWTkRA
 
 ---
 ## Dokumentation Zuständigkeiten
@@ -110,4 +110,3 @@ Außerdem gibt es hier ein aufgezeichnetes Showcase:
 
 Datenbank ist eine Postgres SQL Datenbank, die über Prisma verwaltet wird. Das ganze Projekt läuft in Docker Containern, die alle gleichzeitig mit Docker compose gestartet werden können.  
 Das Backend nutzt node.js und Express.js, das Frontend React mit Vite.
-Es wurde zum Debbugen KI (ChatGPT, Claude) benutzt. Es wurde nie Code verwendet ohne bezug oder ohne Kennzeichnung. 
