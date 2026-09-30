@@ -29,9 +29,9 @@ type ThesisDashboardProps = {
 
 
 function ThesisDashboard({
-    thesisId,
-    deadline
-}: ThesisDashboardProps) {
+                             thesisId,
+                             deadline
+                         }: ThesisDashboardProps) {
 
     const [events, setEvents] =
         useState<CalendarEvent[]>([]);
@@ -103,7 +103,7 @@ function ThesisDashboard({
                             (event) => ({
 
                                 title:
-                                    event.title,
+                                event.title,
 
                                 date:
                                     event.allDay
@@ -166,7 +166,7 @@ function ThesisDashboard({
         }
 
 
-        loadEvents();
+        void loadEvents();
 
     }, [
         thesisId,

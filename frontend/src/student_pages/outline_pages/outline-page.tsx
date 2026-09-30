@@ -723,7 +723,6 @@ function OutlinePage({
                         p-3
                         resize-none
                         text-black
-                        placeholder:text-gray-500
                     "
                 />
 

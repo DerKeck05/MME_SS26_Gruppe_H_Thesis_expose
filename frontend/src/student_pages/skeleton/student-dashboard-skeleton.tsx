@@ -46,7 +46,19 @@ function StudentDashboardSkeleton() {
 
             <header className="app-bar glass-panel">
 
-                <div className="logo">
+                <div className="flex items-center gap-2">
+                    <div
+                        className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-(--dark-blue) text-lg font-bold text-white">
+                        C
+
+                        <span className="absolute -right-1 -top-1 text-xs text-(--secondary)">
+                            ✦
+                        </span>
+                    </div>
+
+                    <span className="text-lg font-semibold tracking-tight text-(--dark-blue)">
+                        Clever<span className="text-(--primary)">mate</span>
+                    </span>
                 </div>
 
 
@@ -72,6 +84,6 @@ function StudentDashboardSkeleton() {
 
         </div>
     );
-} 
+}
 
 export default StudentDashboardSkeleton;
