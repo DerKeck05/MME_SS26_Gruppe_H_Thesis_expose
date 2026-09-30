@@ -51,29 +51,32 @@ function StudentFaqPage() {
     );
 }
 
-
 function StudentOutlinePage() {
-    const { thesisId } = useStudent();
+
+    const {thesisId} = useStudent();
 
     return (
         <OutlinePage
             thesisId={thesisId}
+            isProfessor={false}
         />
     );
 }
 
-
 function ProfessorOutlinePage() {
-    const { id } = useParams();
 
-    const thesisId =
-        id
-            ? Number(id)
-            : null;
+    const {id} = useParams();
+
+    let thesisId: number | null = null;
+
+    if (id) {
+        thesisId = Number(id);
+    }
 
     return (
         <OutlinePage
             thesisId={thesisId}
+            isProfessor={true}
         />
     );
 }

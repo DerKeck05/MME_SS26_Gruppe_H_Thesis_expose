@@ -18,30 +18,43 @@ import {
 } from "../../apis/chapter-api.ts";
 
 import {
+    addFeedbackEntry,
     getFeedbackEntries
 } from "../../apis/feedback-api.ts";
 
 import CommentItem, {
     type UIComment
 } from "./comments/comment-item.tsx";
+
 import {useError} from "../../globals/error-provider.tsx";
 
 
 export const MAX_CHAPTER_TITLE_LENGTH = 60;
 
+
 type OutlinePageProps = {
     thesisId: number | null;
+    isProfessor: boolean;
 };
-function OutlinePage({thesisId}: OutlinePageProps) {
-    const [chapters, setChapters] = useState<Chapter[]>([]);
+
+
+function OutlinePage({
+    thesisId,
+    isProfessor
+}: OutlinePageProps) {
+    console.log("PROFESSOR:", isProfessor);
+
+    const [chapters, setChapters] =
+        useState<Chapter[]>([]);
 
     const [editChapter, setEditChapter] =
         useState<Chapter | null>(null);
 
-    const [addChapterContext, setAddChapterContext] = useState<{
-        mode: ChapterInsertMode;
-        chapter?: Chapter;
-    } | null>(null);
+    const [addChapterContext, setAddChapterContext] =
+        useState<{
+            mode: ChapterInsertMode;
+            chapter?: Chapter;
+        } | null>(null);
 
     const [showCommentSidebar, setShowCommentSidebar] =
         useState(false);
@@ -52,11 +65,16 @@ function OutlinePage({thesisId}: OutlinePageProps) {
     const [comments, setComments] =
         useState<UIComment[]>([]);
 
+    const [newComment, setNewComment] =
+        useState("");
+
     const {showError} = useError();
 
 
     useEffect(() => {
+
         async function loadChapters() {
+
             if (thesisId === null) {
                 return;
             }
@@ -67,22 +85,32 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                     await getChapters(thesisId);
 
                 setChapters(loadedChapters);
+
             } catch (error) {
+
                 console.error(
                     "Kapitel konnten nicht geladen werden:",
                     error
                 );
 
-                showError(
-                    error instanceof Error
-                        ? error.message
-                        : "Kapitel konnten nicht geladen werden!"
-                );
+                if (error instanceof Error) {
+
+                    showError(error.message);
+
+                } else {
+
+                    showError(
+                        "Kapitel konnten nicht geladen werden!"
+                    );
+                }
             }
         }
 
-        void loadChapters();
+
+        loadChapters();
+
     }, [thesisId]);
+
 
     async function handleAddChapter(
         title: string
@@ -92,61 +120,92 @@ function OutlinePage({thesisId}: OutlinePageProps) {
             return false;
         }
 
+
         if (thesisId === null) {
-            showError("Keine Thesis zugeordnet.");
+
+            showError(
+                "Keine Thesis zugeordnet."
+            );
+
             return false;
         }
 
+
         let parentId: number | null = null;
+
         let position = 0;
+
 
         const referenceChapter =
             addChapterContext.chapter;
 
 
-        // Neues Hauptkapitel
-        if (addChapterContext.mode === "root") {
-            const rootChapters = chapters.filter(
-                chapter => chapter.parentId === null
-            );
+        // Hauptkapitel hinzufügen
+        if (
+            addChapterContext.mode === "root"
+        ) {
+
+            const rootChapters =
+                chapters.filter(
+                    chapter =>
+                        chapter.parentId === null
+                );
+
 
             parentId = null;
-            position = rootChapters.length;
+
+            position =
+                rootChapters.length;
         }
 
 
-        // Neues Unterkapitel
+        // Unterkapitel hinzufügen
         if (
             referenceChapter &&
             addChapterContext.mode === "child"
         ) {
-            const children = chapters.filter(
-                chapter =>
-                    chapter.parentId === referenceChapter.id
-            );
 
-            parentId = referenceChapter.id;
-            position = children.length;
+            const children =
+                chapters.filter(
+                    chapter =>
+                        chapter.parentId ===
+                        referenceChapter.id
+                );
+
+
+            parentId =
+                referenceChapter.id;
+
+            position =
+                children.length;
         }
 
 
-        // Kapitel davor
+        // Kapitel davor hinzufügen
         if (
             referenceChapter &&
             addChapterContext.mode === "before"
         ) {
-            parentId = referenceChapter.parentId;
-            position = referenceChapter.position;
+
+            parentId =
+                referenceChapter.parentId;
+
+            position =
+                referenceChapter.position;
         }
 
 
-        // Kapitel danach
+        // Kapitel danach hinzufügen
         if (
             referenceChapter &&
             addChapterContext.mode === "after"
         ) {
-            parentId = referenceChapter.parentId;
-            position = referenceChapter.position + 1;
+
+            parentId =
+                referenceChapter.parentId;
+
+            position =
+                referenceChapter.position + 1;
         }
 
 
@@ -155,30 +214,48 @@ function OutlinePage({thesisId}: OutlinePageProps) {
             await addChapter(
                 thesisId,
                 {
-                    title,
-                    parentId,
-                    position
+                    title: title,
+                    parentId: parentId,
+                    position: position
                 }
             );
+
 
             const updatedChapters =
                 await getChapters(thesisId);
 
-            setChapters(updatedChapters);
-            setAddChapterContext(null);
+
+            setChapters(
+                updatedChapters
+            );
+
+
+            setAddChapterContext(
+                null
+            );
+
 
             return true;
+
         } catch (error) {
+
             console.error(
                 "Kapitel konnte nicht erstellt werden:",
                 error
             );
 
-            showError(
-                error instanceof Error
-                    ? error.message
-                    : "Kapitel konnte nicht erstellt werden!"
-            );
+
+            if (error instanceof Error) {
+
+                showError(error.message);
+
+            } else {
+
+                showError(
+                    "Kapitel konnte nicht erstellt werden!"
+                );
+            }
+
 
             return false;
         }
@@ -193,6 +270,7 @@ function OutlinePage({thesisId}: OutlinePageProps) {
             return;
         }
 
+
         try {
 
             const updatedChapter =
@@ -203,107 +281,203 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                     }
                 );
 
-            setChapters(current =>
-                current.map(chapter =>
-                    chapter.id === updatedChapter.id
-                        ? updatedChapter
-                        : chapter
-                )
+
+            const updatedChapters: Chapter[] = [];
+
+
+            for (const chapter of chapters) {
+
+                if (
+                    chapter.id ===
+                    updatedChapter.id
+                ) {
+
+                    updatedChapters.push(
+                        updatedChapter
+                    );
+
+                } else {
+
+                    updatedChapters.push(
+                        chapter
+                    );
+                }
+            }
+
+
+            setChapters(
+                updatedChapters
             );
 
-            setEditChapter(null);
+
+            setEditChapter(
+                null
+            );
+
         } catch (error) {
+
             console.error(
                 "Kapitel konnte nicht aktualisiert werden:",
                 error
             );
 
-            showError(
-                error instanceof Error
-                    ? error.message
-                    : "Kapitel konnte nicht aktualisiert werden!"
-            );
+
+            if (error instanceof Error) {
+
+                showError(error.message);
+
+            } else {
+
+                showError(
+                    "Kapitel konnte nicht aktualisiert werden!"
+                );
+            }
         }
     }
+
 
     async function handleDeleteChapter(
         chapter: Chapter
     ) {
 
         try {
-            await deleteChapter(chapter.id);
 
-            setChapters(current =>
-                current.filter(
+            await deleteChapter(
+                chapter.id
+            );
+
+
+            const updatedChapters =
+                chapters.filter(
                     currentChapter =>
-                        currentChapter.id !== chapter.id
-                )
+                        currentChapter.id !==
+                        chapter.id
+                );
+
+
+            setChapters(
+                updatedChapters
             );
 
-            setEditChapter(current =>
-                current?.id === chapter.id
-                    ? null
-                    : current
+
+            setEditChapter(
+                null
             );
 
-            if (selectedChapter?.id === chapter.id) {
-                setSelectedChapter(null);
-                setComments([]);
-                setShowCommentSidebar(false);
+
+            if (selectedChapter) {
+
+                if (
+                    selectedChapter.id ===
+                    chapter.id
+                ) {
+
+                    setSelectedChapter(
+                        null
+                    );
+
+                    setComments([]);
+
+                    setShowCommentSidebar(
+                        false
+                    );
+                }
             }
+
         } catch (error) {
+
             console.error(
                 "Kapitel konnte nicht gelöscht werden:",
                 error
             );
 
-            showError(
-                error instanceof Error
-                    ? error.message
-                    : "Kapitel konnte nicht gelöscht werden!"
-            );
+
+            if (error instanceof Error) {
+
+                showError(error.message);
+
+            } else {
+
+                showError(
+                    "Kapitel konnte nicht gelöscht werden!"
+                );
+            }
         }
     }
+
+
     async function handleCommentClick(
         chapter: Chapter
     ) {
 
         try {
 
-            setSelectedChapter(chapter);
-
             const feedbackEntries =
-                await getFeedbackEntries(chapter.id);
+                await getFeedbackEntries(
+                    chapter.id
+                );
 
-            const loadedComments: UIComment[] =
-                feedbackEntries.map(entry => ({
 
-                    content: entry.content,
+            const loadedComments:
+                UIComment[] = [];
+
+
+            for (
+                const feedback
+                of feedbackEntries
+            ) {
+
+                const date =
+                    new Date(
+                        feedback.createdAt
+                    );
+
+
+                const formattedDate =
+                    date.toLocaleDateString(
+                        "de-DE"
+                    )
+                    +
+                    " "
+                    +
+                    date.toLocaleTimeString(
+                        "de-DE",
+                        {
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        }
+                    );
+
+
+                loadedComments.push({
+                    content:
+                        feedback.content,
 
                     createdAt:
-                        new Date(entry.createdAt)
-                            .toLocaleDateString(
-                                "de-DE"
-                            )
-                        +
-                        " "
-                        +
-                        new Date(entry.createdAt)
-                            .toLocaleTimeString(
-                                "de-DE",
-                                {
-                                    hour: "2-digit",
-                                    minute: "2-digit"
-                                }
-                            ),
+                        formattedDate,
 
-                    supervisorName: "Betreuer"
+                    supervisorName:
+                        "Betreuer"
+                });
+            }
 
-                }));
 
-            setComments(loadedComments);
+            setSelectedChapter(
+                chapter
+            );
 
-            setShowCommentSidebar(true);
+
+            setComments(
+                loadedComments
+            );
+
+
+            setNewComment("");
+
+
+            setShowCommentSidebar(
+                true
+            );
 
         } catch (error) {
 
@@ -312,21 +486,276 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                 error
             );
 
-            showError(
-                error instanceof Error
-                    ? error.message
-                    : "Kommentare konnten nicht geladen werden!"
-            );
+
+            if (error instanceof Error) {
+
+                showError(error.message);
+
+            } else {
+
+                showError(
+                    "Kommentare konnten nicht geladen werden!"
+                );
+            }
         }
     }
-    function handleCloseCommentSidebar() {
-        setShowCommentSidebar(false);
-        setSelectedChapter(null);
-        setComments([]);
+
+
+    async function handleAddFeedback() {
+
+        // Nur Professoren dürfen
+        // einen Kommentar hinzufügen
+        if (!isProfessor) {
+            return;
+        }
+
+
+        if (!selectedChapter) {
+            return;
+        }
+
+
+        if (
+            newComment.trim() === ""
+        ) {
+            return;
+        }
+
+
+        try {
+
+            const feedback =
+                await addFeedbackEntry(
+                    selectedChapter.id,
+                    newComment
+                );
+
+
+            const date =
+                new Date(
+                    feedback.createdAt
+                );
+
+
+            const formattedDate =
+                date.toLocaleDateString(
+                    "de-DE"
+                )
+                +
+                " "
+                +
+                date.toLocaleTimeString(
+                    "de-DE",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+
+
+            const newUiComment:
+                UIComment = {
+
+                content:
+                    feedback.content,
+
+                createdAt:
+                    formattedDate,
+
+                supervisorName:
+                    "Betreuer"
+            };
+
+
+            const updatedComments = [
+                ...comments,
+                newUiComment
+            ];
+
+
+            setComments(
+                updatedComments
+            );
+
+
+            setNewComment("");
+
+        } catch (error) {
+
+            console.error(
+                "Kommentar konnte nicht gespeichert werden:",
+                error
+            );
+
+
+            if (error instanceof Error) {
+
+                showError(error.message);
+
+            } else {
+
+                showError(
+                    "Kommentar konnte nicht gespeichert werden!"
+                );
+            }
+        }
     }
 
+
+    function closeComments() {
+
+        setShowCommentSidebar(
+            false
+        );
+
+        setSelectedChapter(
+            null
+        );
+
+        setComments([]);
+
+        setNewComment("");
+    }
+
+
+    function showComments() {
+
+        if (
+            comments.length === 0
+        ) {
+
+            return (
+
+                <p className="opacity-60 mb-4">
+
+                    Noch keine Kommentare vorhanden.
+
+                </p>
+            );
+        }
+
+
+        return comments.map(
+            (comment, index) => (
+
+                <CommentItem
+
+                    key={index}
+
+                    content={
+                        comment.content
+                    }
+
+                    createdAt={
+                        comment.createdAt
+                    }
+
+                    supervisorName={
+                        comment.supervisorName
+                    }
+
+                />
+
+            )
+        );
+    }
+
+
+    function showCommentInput() {
+
+        if (!isProfessor) {
+            return null;
+        }
+
+
+        return (
+
+            <div
+                className="
+                    mt-4
+                    pt-4
+                    border-t
+                    border-gray-200
+                "
+            >
+
+                <h4
+                    className="
+                        font-semibold
+                        mb-2
+                    "
+                >
+                    Kommentar hinzufügen
+                </h4>
+
+
+                <textarea
+
+                    value={
+                        newComment
+                    }
+
+                    onChange={(event) => {
+
+                        setNewComment(
+                            event.target.value
+                        );
+
+                    }}
+
+                    placeholder="Kommentar schreiben..."
+
+                    rows={4}
+
+                    className="
+                        w-full
+                        border
+                        border-gray-300
+                        rounded-(--border-radius)
+                        p-3
+                        resize-none
+                    "
+
+                />
+
+
+                <button
+
+                    type="button"
+
+                    onClick={
+                        handleAddFeedback
+                    }
+
+                    className="
+                        mt-3
+                        px-4
+                        py-2
+                        bg-night-blue
+                        text-(--white)
+                        rounded-(--border-radius)
+                    "
+                >
+
+                    Kommentar speichern
+
+                </button>
+
+            </div>
+        );
+    }
+
+
     return (
-       <div className="flex flex-row items-start">
+
+        <div
+            className="
+                flex
+                flex-row
+                items-start
+            "
+        >
+
             <div
                 className="
                     outline-page
@@ -356,17 +785,32 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                             h-10
                             rounded-(--border-radius)
                         "
-                        onClick={() =>
+
+                        onClick={() => {
+
                             setAddChapterContext({
                                 mode: "root"
-                            })
-                        }
+                            });
+
+                        }}
                     >
+
                         <Plus/>
+
                     </button>
+
                 </div>
+
+
                 <OutlineComponent
-                    chapters={chapters}
+
+                    chapters={
+                        chapters
+                    }
+
+                    isProfessor={
+                        isProfessor
+                    }
 
                     onEditChapter={
                         setEditChapter
@@ -380,29 +824,38 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                         handleCommentClick
                     }
 
-                    onAddChild={(chapter) =>
+                    onAddChild={(chapter) => {
+
                         setAddChapterContext({
                             mode: "child",
-                            chapter
-                        })
-                    }
+                            chapter: chapter
+                        });
 
-                    onAddBefore={(chapter) =>
+                    }}
+
+                    onAddBefore={(chapter) => {
+
                         setAddChapterContext({
                             mode: "before",
-                            chapter
-                        })
-                    }
+                            chapter: chapter
+                        });
 
-                    onAddAfter={(chapter) =>
+                    }}
+
+                    onAddAfter={(chapter) => {
+
                         setAddChapterContext({
                             mode: "after",
-                            chapter
-                        })
-                    }
+                            chapter: chapter
+                        });
+
+                    }}
+
                 />
 
+
                 {addChapterContext && (
+
                     <AddChapterModal
 
                         mode={
@@ -412,44 +865,61 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                         referenceChapter={
                             addChapterContext.chapter
                         }
-                        onCancel={() =>
-                            setAddChapterContext(null)
-                        }
+
+                        onCancel={() => {
+
+                            setAddChapterContext(
+                                null
+                            );
+
+                        }}
 
                         onSubmit={
                             handleAddChapter
                         }
 
                     />
+
                 )}
 
+
                 {editChapter && (
+
                     <EditChapterModal
 
                         chapter={
                             editChapter
                         }
 
-                        onCancel={() =>
-                            setEditChapter(null)
-                        }
+                        onCancel={() => {
+
+                            setEditChapter(
+                                null
+                            );
+
+                        }}
 
                         onSubmit={
                             handleUpdateChapter
                         }
 
-                        onDelete={() =>
+                        onDelete={() => {
+
                             handleDeleteChapter(
                                 editChapter
-                            )
-                        }
+                            );
+
+                        }}
 
                     />
+
                 )}
 
             </div>
 
+
             {showCommentSidebar && (
+
                 <div
                     className="
                         relative
@@ -473,8 +943,10 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                             pl-(--spacing-large)
                             pr-(--spacing-large)
                             pt-(--spacing-medium)
+                            pb-(--spacing-medium)
                         "
                     >
+
                         <div
                             className="
                                 flex
@@ -482,17 +954,23 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                                 mb-(--spacing-small)
                             "
                         >
+
                             <button
+
                                 className="
                                     rounded-full
                                     p-2
                                 "
+
                                 onClick={
-                                    handleCloseCommentSidebar
+                                    closeComments
                                 }
                             >
+
                                 <PanelRightClose/>
+
                             </button>
+
                         </div>
 
 
@@ -505,66 +983,30 @@ function OutlinePage({thesisId}: OutlinePageProps) {
                                     mb-4
                                 "
                             >
-                                {selectedChapter.title}
+
+                                {
+                                    selectedChapter.title
+                                }
+
                             </h3>
 
                         )}
 
 
-                        {comments.length === 0 ? (
+                        {showComments()}
 
-                            <p className="opacity-60">
-                                Noch keine Kommentare vorhanden.
-                            </p>
 
-                        ) : (
-
-                            comments.map(
-                                (comment, index) => (
-
-                                    <CommentItem
-
-                                        key={index}
-
-                                        content={
-                                            comment.content
-                                        }
-
-                                        createdAt={
-                                            comment.createdAt
-                                        }
-
-                                        supervisorName={
-                                            comment.supervisorName
-                                        }
-
-                                    />
-
-                                )
-                           )
-                        )}
+                        {showCommentInput()}
 
                     </div>
 
-                    <div
-                        className="
-                            pointer-events-none
-                            absolute
-                            bottom-0
-                            left-0
-                            right-0
-                            h-8
-                            rounded-b-(--border-radius)
-                            bg-linear-to-t
-                            from-(--white)/70
-                            to-transparent
-                        "
-                    />
-
                 </div>
+
             )}
 
         </div>
     );
 }
+
+
 export default OutlinePage;

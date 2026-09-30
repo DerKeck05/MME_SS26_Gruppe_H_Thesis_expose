@@ -1,171 +1,332 @@
 import {useEffect, useState} from "react";
+
 import OutlineItem from "./outline-item.tsx";
+
 import {
     type Chapter,
     getChapterNumbers,
     isChapterVisible
 } from "../../utils/outline-utils.ts";
 
+
 export interface UIChapter {
+
     id: number;
+
     title: string;
+
     number: string;
+
     level: number;
+
     isParent: boolean;
-    hasComment: boolean;
 }
+
 
 interface OutlineComponentProps {
+
     chapters: Chapter[];
 
-    onEditChapter: (chapter: Chapter) => void;
-    onDeleteChapter: (chapter: Chapter) => void;
-    onCommentClick: (chapter: Chapter) => void;
+    isProfessor: boolean;
 
-    onAddChild: (chapter: Chapter) => void;
-    onAddBefore: (chapter: Chapter) => void;
-    onAddAfter: (chapter: Chapter) => void;
+    onEditChapter:
+        (chapter: Chapter) => void;
+
+    onDeleteChapter:
+        (chapter: Chapter) => void;
+
+    onCommentClick:
+        (chapter: Chapter) => void;
+
+    onAddChild:
+        (chapter: Chapter) => void;
+
+    onAddBefore:
+        (chapter: Chapter) => void;
+
+    onAddAfter:
+        (chapter: Chapter) => void;
 }
 
+
 function OutlineComponent({
-                              chapters,
-                              onEditChapter,
-                              onDeleteChapter,
-                              onCommentClick,
-                              onAddChild,
-                              onAddBefore,
-                              onAddAfter
-                          }: OutlineComponentProps) {
+    chapters,
+    isProfessor,
+    onEditChapter,
+    onDeleteChapter,
+    onCommentClick,
+    onAddChild,
+    onAddBefore,
+    onAddAfter
+}: OutlineComponentProps) {
 
-    const [expandedChapters, setExpandedChapters] = useState<Set<number>>(
-        new Set()
-    );
 
-    const [openMenuId, setOpenMenuId] = useState<number | null>(null);
+    const [expandedChapters, setExpandedChapters] =
+        useState<Set<number>>(
+            new Set()
+        );
+
+
+    const [openMenuId, setOpenMenuId] =
+        useState<number | null>(
+            null
+        );
+
 
     useEffect(() => {
-        const parentChapterIds = chapters
-            .filter(chapter =>
-                chapters.some(
-                    child => child.parentId === chapter.id
-                )
-            )
-            .map(chapter => chapter.id);
 
-        setExpandedChapters(new Set(parentChapterIds));
+        const parentChapterIds: number[] = [];
+
+
+        for (const chapter of chapters) {
+
+            const children =
+                chapters.filter(
+                    child =>
+                        child.parentId === chapter.id
+                );
+
+
+            if (children.length > 0) {
+
+                parentChapterIds.push(
+                    chapter.id
+                );
+            }
+        }
+
+
+        setExpandedChapters(
+            new Set(parentChapterIds)
+        );
+
     }, [chapters]);
 
-    function toggleChapter(chapterId: number) {
-        setExpandedChapters(current => {
-            const next = new Set(current);
 
-            if (next.has(chapterId)) {
-                next.delete(chapterId);
-            } else {
-                next.add(chapterId);
-            }
+    function toggleChapter(
+        chapterId: number
+    ) {
 
-            return next;
-        });
+        const newExpanded =
+            new Set(expandedChapters);
+
+
+        if (newExpanded.has(chapterId)) {
+
+            newExpanded.delete(chapterId);
+
+        } else {
+
+            newExpanded.add(chapterId);
+        }
+
+
+        setExpandedChapters(
+            newExpanded
+        );
     }
 
-    const uiChapters: UIChapter[] = [...chapters]
-        .sort((a, b) => {
-            return getChapterNumbers(a, chapters).localeCompare(
-                getChapterNumbers(b, chapters),
-                undefined,
-                {numeric: true}
-            );
-        })
-        .map(chapter => {
-            const number = getChapterNumbers(
+
+    const uiChapters: UIChapter[] = [];
+
+
+    const sortedChapters =
+        [...chapters].sort(
+            (a, b) => {
+
+                const numberA =
+                    getChapterNumbers(
+                        a,
+                        chapters
+                    );
+
+
+                const numberB =
+                    getChapterNumbers(
+                        b,
+                        chapters
+                    );
+
+
+                return numberA.localeCompare(
+                    numberB,
+                    undefined,
+                    {
+                        numeric: true
+                    }
+                );
+            }
+        );
+
+
+    for (const chapter of sortedChapters) {
+
+        const number =
+            getChapterNumbers(
                 chapter,
                 chapters
             );
 
-            return {
-                id: chapter.id,
-                title: chapter.title,
-                number,
-                level: number.split(".").length - 1,
-                isParent: chapters.some(
-                    child => child.parentId === chapter.id
-                ),
-                hasComment: true,
-            };
-        });
+
+        let isParent = false;
+
+
+        for (const otherChapter of chapters) {
+
+            if (
+                otherChapter.parentId ===
+                chapter.id
+            ) {
+
+                isParent = true;
+            }
+        }
+
+
+        const uiChapter: UIChapter = {
+
+            id: chapter.id,
+
+            title: chapter.title,
+
+            number: number,
+
+            level:
+                number.split(".").length - 1,
+
+            isParent: isParent
+        };
+
+
+        uiChapters.push(uiChapter);
+    }
+
 
     return (
+
         <div className="outline-component flex flex-col gap-2 mt-(--spacing-small)">
+
             {uiChapters.map(chapter => {
-                const originalChapter = chapters.find(
-                    item => item.id === chapter.id
-                );
+
+                const originalChapter =
+                    chapters.find(
+                        item =>
+                            item.id === chapter.id
+                    );
+
 
                 if (!originalChapter) {
+
                     return null;
                 }
 
-                if (!isChapterVisible(
-                    originalChapter,
-                    chapters,
-                    expandedChapters
-                )) {
+
+                const visible =
+                    isChapterVisible(
+                        originalChapter,
+                        chapters,
+                        expandedChapters
+                    );
+
+
+                if (!visible) {
+
                     return null;
                 }
+
 
                 return (
+
                     <OutlineItem
                         key={chapter.id}
-                        chapter={chapter}
-                        isExpanded={expandedChapters.has(chapter.id)}
 
-                        isMenuOpen={openMenuId === chapter.id}
+                        chapter={chapter}
+
+                        isProfessor={
+                            isProfessor
+                        }
+
+                        isExpanded={
+                            expandedChapters.has(
+                                chapter.id
+                            )
+                        }
+
+                        isMenuOpen={
+                            openMenuId ===
+                            chapter.id
+                        }
 
                         onMenuToggle={() => {
-                            setOpenMenuId(current =>
-                                current === chapter.id
-                                    ? null
-                                    : chapter.id
-                            );
+
+                            if (
+                                openMenuId ===
+                                chapter.id
+                            ) {
+
+                                setOpenMenuId(null);
+
+                            } else {
+
+                                setOpenMenuId(
+                                    chapter.id
+                                );
+                            }
                         }}
 
-                        onMenuClose={() => {
-                            setOpenMenuId(null);
-                        }}
+                        onMenuClose={() =>
+                            setOpenMenuId(null)
+                        }
 
                         onToggle={() =>
-                            toggleChapter(chapter.id)
+                            toggleChapter(
+                                chapter.id
+                            )
                         }
 
                         onEdit={() =>
-                            onEditChapter(originalChapter)
+                            onEditChapter(
+                                originalChapter
+                            )
                         }
 
                         onDelete={() =>
-                            onDeleteChapter(originalChapter)
+                            onDeleteChapter(
+                                originalChapter
+                            )
                         }
 
                         onCommentClick={() =>
-                            onCommentClick(originalChapter)
+                            onCommentClick(
+                                originalChapter
+                            )
                         }
 
                         onAddChild={() =>
-                            onAddChild(originalChapter)
+                            onAddChild(
+                                originalChapter
+                            )
                         }
 
                         onAddBefore={() =>
-                            onAddBefore(originalChapter)
+                            onAddBefore(
+                                originalChapter
+                            )
                         }
 
                         onAddAfter={() =>
-                            onAddAfter(originalChapter)
+                            onAddAfter(
+                                originalChapter
+                            )
                         }
                     />
+
                 );
             })}
+
         </div>
     );
 }
+
 
 export default OutlineComponent;
