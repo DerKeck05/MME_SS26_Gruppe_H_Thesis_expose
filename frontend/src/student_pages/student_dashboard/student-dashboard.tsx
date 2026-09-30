@@ -1,11 +1,5 @@
-import CalendarPreview from "./cards/calendar-preview.tsx";
-import TimeCard from "./cards/time-card.tsx";
-import {useEffect, useState} from "react";
-import type {CalendarEvent} from "../calendar_pages/calendar-component.tsx";
 import {useStudent} from "../route_handling/student-provider.tsx";
-import {type CalendarEntry, getCalendarEntries} from "../../apis/calendar-api.ts";
-import UpNextCard, {type UpNextEvents} from "./cards/up-next-card.tsx";
-import {useError} from "../../globals/error-provider.tsx";
+import ThesisDashboard from "../../shared_pages/thesis-dashboard.tsx";
 
 // Dashboard Homepage with Widgets that show different information
 function StudentDashboard() {
@@ -89,13 +83,10 @@ function StudentDashboard() {
 
     // Arranges the 3 Widgets [ CalendarPreview, UpNextCard, TimeCard ]
     return (
-        <div className="dashboard-content">
-            <CalendarPreview events={events}/>
-            <div className={"card-row flex flex-row justify-evenly gap-(--spacing-large) mt-(--spacing-large) min-h-[30vh]"}>
-                <UpNextCard upNextEvents={upNextEvents}/>
-                <TimeCard/>
-            </div>
-        </div>
+        <ThesisDashboard
+            thesisId={thesisId}
+            deadline={deadline}
+        />
     );
 }
 

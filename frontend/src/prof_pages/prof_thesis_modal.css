@@ -1,0 +1,403 @@
+/* Hintergrund hinter dem Modal */
+
+.thesis-modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0, 0, 0, 0.68);
+
+    backdrop-filter:
+        blur(6px);
+
+    -webkit-backdrop-filter:
+        blur(6px);
+
+    z-index: 1000;
+}
+
+
+/* Modal */
+
+.thesis-modal-glass {
+    position: relative;
+
+    width: 520px;
+
+    max-width:
+        calc(100vw - 40px);
+
+    padding: 30px;
+
+    box-sizing: border-box;
+
+    background:
+        rgba(20, 28, 42, 0.90);
+
+    border:
+        1px solid
+        var(--glass-border);
+
+    border-radius:
+        var(--border-radius-large);
+
+    backdrop-filter:
+        blur(22px);
+
+    -webkit-backdrop-filter:
+        blur(22px);
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.45);
+
+    color:
+        var(--text-primary);
+}
+
+
+/* Schließen */
+
+.thesis-modal-close {
+    position: absolute;
+
+    top: 20px;
+    right: 20px;
+
+    width: 40px;
+    height: 40px;
+
+    padding: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+        1px solid
+        var(--glass-border);
+
+    border-radius: 50%;
+
+    background:
+        var(--glass-background);
+
+    color:
+        var(--text-primary);
+
+    font-size: 24px;
+
+    cursor: pointer;
+}
+
+
+.thesis-modal-close:hover {
+    background:
+        var(--glass-background-hover);
+}
+
+
+/* Header */
+
+.thesis-modal-header {
+    padding-right: 45px;
+
+    margin-bottom: 24px;
+}
+
+
+.thesis-modal-label {
+    color:
+        rgba(120, 165, 255, 0.9);
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+.thesis-modal-header h2 {
+    margin:
+        6px
+        0;
+
+    color:
+        var(--text-primary);
+
+    font-size: 28px;
+}
+
+
+.thesis-modal-header p {
+    margin: 0;
+
+    color:
+        var(--text-secondary);
+
+    line-height: 1.5;
+}
+
+
+/* Student */
+
+.thesis-student-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 14px;
+
+    margin-bottom: 22px;
+
+    border:
+        1px solid
+        var(--glass-border);
+
+    border-radius:
+        var(--border-radius-medium);
+
+    background:
+        rgba(255, 255, 255, 0.06);
+}
+
+
+.thesis-student-avatar {
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 50%;
+
+    background:
+        rgba(70, 115, 210, 0.40);
+
+    color:
+        var(--text-primary);
+
+    font-size: 19px;
+
+    font-weight: 700;
+}
+
+
+.thesis-student-info span {
+    display: block;
+
+    margin-bottom: 2px;
+
+    color:
+        var(--text-secondary);
+
+    font-size: 13px;
+}
+
+
+.thesis-student-info strong {
+    color:
+        var(--text-primary);
+}
+
+
+/* Formular */
+
+.thesis-modal-field {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-bottom: 18px;
+}
+
+
+.thesis-modal-field label {
+    color:
+        var(--text-secondary);
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+.thesis-modal-field input {
+    width: 100%;
+
+    min-height: 46px;
+
+    padding:
+        10px
+        13px;
+
+    box-sizing: border-box;
+
+    border:
+        1px solid
+        var(--glass-border);
+
+    border-radius:
+        var(--border-radius-small);
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    color:
+        var(--text-primary);
+
+    font-family: inherit;
+
+    font-size: 16px;
+
+    outline: none;
+
+    color-scheme: dark;
+}
+
+
+.thesis-modal-field input:focus {
+    border-color:
+        rgba(100, 150, 255, 0.7);
+
+    background:
+        rgba(255, 255, 255, 0.12);
+}
+
+
+.thesis-modal-field input::placeholder {
+    color:
+        rgba(255, 255, 255, 0.45);
+}
+
+
+/* Datumsfelder nebeneinander */
+
+.thesis-date-row {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap: 14px;
+}
+
+
+/* Buttons */
+
+.thesis-modal-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    margin-top: 12px;
+}
+
+
+.thesis-modal-actions button {
+    min-height: 44px;
+
+    padding:
+        10px
+        17px;
+
+    border-radius:
+        var(--border-radius-small);
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.thesis-cancel-button {
+    border:
+        1px solid
+        var(--glass-border);
+
+    background:
+        var(--glass-background);
+
+    color:
+        var(--text-secondary);
+}
+
+
+.thesis-cancel-button:hover {
+    background:
+        var(--glass-background-hover);
+
+    color:
+        var(--text-primary);
+}
+
+
+.thesis-create-button {
+    border:
+        1px solid
+        rgba(100, 150, 255, 0.35);
+
+    background:
+        rgba(70, 115, 210, 0.35);
+
+    color:
+        var(--text-primary);
+}
+
+
+.thesis-create-button:hover {
+    background:
+        rgba(70, 115, 210, 0.55);
+}
+
+
+@media (max-width: 600px) {
+
+    .thesis-modal-glass {
+        width: 100%;
+
+        padding: 22px;
+    }
+
+
+    .thesis-date-row {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .thesis-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+
+    .thesis-modal-actions button {
+        width: 100%;
+    }
+}

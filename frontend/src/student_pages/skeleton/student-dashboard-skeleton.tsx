@@ -1,9 +1,10 @@
 import "../student-dashboard-stylesheet.css";
 import "../../app_theme/modal-stylesheet.css";
 import Sidebar from "./sidebar.tsx";
-import "lucide-react";
-import { Outlet, useLocation } from "react-router-dom";
-
+import {
+    Outlet,
+    useLocation
+} from "react-router-dom";
 
 
 function StudentDashboardSkeleton() {
@@ -11,34 +12,66 @@ function StudentDashboardSkeleton() {
 
     let pageTitle = "Student Dashboard";
 
-    if(location.pathname === "/") {
+
+    if (
+        location.pathname === "/student" ||
+        location.pathname === "/student/homepage"
+    ) {
         pageTitle = "Student Dashboard";
-    } else if (location.pathname === "/student/calendar") {
+    }
+
+
+    if (
+        location.pathname === "/student/calendar"
+    ) {
         pageTitle = "Kalender";
-    } else if (location.pathname === "/student/outline") {
-        pageTitle = "Gliederung"
+    }
+
+
+    if (
+        location.pathname === "/student/outline"
+    ) {
+        pageTitle = "Gliederung";
+    }
+
+
+    if (
+        location.pathname === "/student/faq"
+    ) {
+        pageTitle = "FAQ";
     }
 
     return (
         <div className="student-dashboard">
 
-            <header className="app-bar" id={"student-dashboard-header"}>
-                <div className={"logo"}></div>
-                <h1>{pageTitle}</h1>
-                <div className={"profile-button"}>
+            <header className="app-bar glass-panel">
+
+                <div className="logo">
+                </div>
+
+
+                <h1>
+                    {pageTitle}
+                </h1>
+
+
+                <div className="profile-button">
                 </div>
             </header>
 
             <div className="student-dashboard-body">
                 <Sidebar/>
 
-                <main>
-                    <Outlet />
+
+                <main className="student-main-content">
+
+                    <Outlet/>
+
                 </main>
             </div>
 
         </div>
     );
-}
+} 
 
 export default StudentDashboardSkeleton;

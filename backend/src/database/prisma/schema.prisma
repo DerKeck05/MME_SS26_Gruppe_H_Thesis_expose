@@ -28,7 +28,7 @@ model Supervisor {
   students Student[]
   theses   Thesis[]
   courses  Course[]
-  faq      Faq?
+  faq      Faq[]
 }
 
 model Student {
@@ -119,11 +119,12 @@ model FeedbackEntry {
 
 model Faq {
   id        Int      @id @default(autoincrement())
-  content   String
+  question  String
+  answer    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  supervisorId Int        @unique
+  supervisorId Int
   supervisor   Supervisor @relation(fields: [supervisorId], references: [id])
 }
 

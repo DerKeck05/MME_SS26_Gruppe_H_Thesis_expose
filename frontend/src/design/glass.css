@@ -1,0 +1,26 @@
+.glass-panel {
+    background: var(--glass-background);
+
+    border: 1px solid var(--glass-border);
+
+    border-radius: var(--border-radius-large);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow: var(--glass-shadow);
+}
+
+
+.glass-card {
+    background: var(--glass-background);
+
+    border: 1px solid var(--glass-border);
+
+    border-radius: var(--border-radius-medium);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    box-shadow: var(--glass-shadow);
+}

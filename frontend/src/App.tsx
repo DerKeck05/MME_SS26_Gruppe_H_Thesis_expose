@@ -1,4 +1,4 @@
-import {Routes, Route} from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 
 import OutlinePage from "./student_pages/outline_pages/outline-page.tsx";
 import StudentDashboard from "./student_pages/student_dashboard/student-dashboard.tsx";
@@ -12,10 +12,89 @@ import RegisterProfessorPage from "./login/register_prof.tsx";
 
 import StudentProvider from "./student_pages/route_handling/student-provider.tsx";
 import StudentLayout from "./student_pages/route_handling/student-layout.tsx";
+import { useStudent } from "./student_pages/route_handling/student-provider.tsx";
 
 import ProfStartpage from "./prof_pages/prof_starpage.tsx";
+import ProfCalendarPage from "./prof_pages/prof-calender-page.tsx";
 import ProfDashboardSkeleton from "./prof_pages/prof_dashboard_skeleton.tsx";
 import ThesisDetail from "./prof_pages/thesis_detail.tsx";
+
+import FaqPage from "./shared_pages/faq-page.tsx";
+
+
+function ProfessorFaqPage() {
+    const storedSupervisorId =
+        localStorage.getItem("supervisorId");
+
+    const supervisorId =
+        storedSupervisorId
+            ? Number(storedSupervisorId)
+            : null;
+
+    return (
+        <FaqPage
+            isProfessor={true}
+            supervisorId={supervisorId}
+        />
+    );
+}
+
+
+function StudentFaqPage() {
+    const { supervisorId } = useStudent();
+
+    return (
+        <FaqPage
+            isProfessor={false}
+            supervisorId={supervisorId}
+        />
+    );
+}
+
+function StudentOutlinePage() {
+
+    const {thesisId} = useStudent();
+
+    return (
+        <OutlinePage
+            thesisId={thesisId}
+            isProfessor={false}
+        />
+    );
+}
+
+function ProfessorOutlinePage() {
+
+    const {id} = useParams();
+
+    let thesisId: number | null = null;
+
+    if (id) {
+        thesisId = Number(id);
+    }
+
+    return (
+        <OutlinePage
+            thesisId={thesisId}
+            isProfessor={true}
+        />
+    );
+}
+
+
+function StudentCalendarPage() {
+    const {
+        thesisId,
+        deadline
+    } = useStudent();
+
+    return (
+        <CalendarPage
+            thesisId={thesisId}
+            deadline={deadline}
+        />
+    );
+}
 
 
 function App() {
@@ -25,75 +104,98 @@ function App() {
             {/* Login */}
             <Route
                 path="/"
-                element={<LoginPage/>}
+                element={<LoginPage />}
             />
 
 
             {/* Registrierung */}
             <Route
                 path="/register"
-                element={<RegisterPage/>}
+                element={<RegisterPage />}
             />
 
             <Route
                 path="/register/student"
-                element={<RegisterStudentPage/>}
+                element={<RegisterStudentPage />}
             />
 
             <Route
                 path="/register/professor"
-                element={<RegisterProfessorPage/>}
+                element={<RegisterProfessorPage />}
             />
 
 
-            {/* Professor Bereich */}
+            {/* Professor Übersicht */}
             <Route
                 path="/professor"
-                element={<ProfStartpage/>}
+                element={<ProfStartpage />}
             />
 
+
+            {/* Professor Thesis Bereich */}
             <Route
                 path="/professor/thesis/:id"
-                element={<ProfDashboardSkeleton/>}
+                element={<ProfDashboardSkeleton />}
             >
                 <Route
                     index
-                    element={<ThesisDetail/>}
+                    element={<ThesisDetail />}
                 />
+                <Route
+                    path="outline"
+                    element={<ProfessorOutlinePage />}
+                />
+                <Route
+                    path="calendar"
+                    element={<ProfCalendarPage />}
+                />
+
+                <Route
+                    path="faq"
+                    element={<ProfessorFaqPage />}
+                />
+
             </Route>
 
 
             {/* Student Bereich */}
             <Route
                 path="/student"
-                element={<StudentProvider/>}
-                errorElement={<ErrorPage/>}
+                element={<StudentProvider />}
+                errorElement={<ErrorPage />}
             >
-                <Route element={<StudentLayout/>}>
+
+                <Route
+                    element={<StudentLayout />}
+                >
 
                     <Route
                         index
-                        element={<StudentDashboard/>}
+                        element={<StudentDashboard />}
                     />
 
                     <Route
                         path="homepage"
-                        element={<StudentDashboard/>}
+                        element={<StudentDashboard />}
                     />
 
                     <Route
                         path="outline"
-                        element={<OutlinePage/>}
+                        element={<StudentOutlinePage />}
                     />
 
                     <Route
                         path="calendar"
-                        element={<CalendarPage/>}
+                        element={<StudentCalendarPage />}
+                    />
+                    <Route
+                        path="faq"
+                        element={<StudentFaqPage />}
                     />
 
                     <Route
                         path="*"
-                        element={<ErrorPage/>}
+                        element={<ErrorPage />}
                     />
 
                 </Route>

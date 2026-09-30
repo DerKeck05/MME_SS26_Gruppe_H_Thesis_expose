@@ -1,821 +1,223 @@
 .prof-page {
-    width: 100%;
     min-height: 100vh;
 
-    background: #000;
+    padding: 45px;
 
-    padding: 50px;
     box-sizing: border-box;
 
-    color: white;
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            rgba(45, 85, 150, 0.20),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 90% 100%,
+            rgba(20, 110, 110, 0.12),
+            transparent 35%
+        ),
+        var(--background-dark);
+
+    color: var(--text-primary);
 }
 
 
-/* =========================
-   DASHBOARD
-   ========================= */
+/* Dashboard Container */
 
 .prof-table-glass {
     width: 100%;
     max-width: 1200px;
 
     margin: 0 auto;
-    padding: 30px;
+
+    padding: 28px;
+
+    box-sizing: border-box;
 
     background:
-        rgba(255, 255, 255, 0.10);
-
-    backdrop-filter:
-        blur(20px);
-
-    -webkit-backdrop-filter:
-        blur(20px);
+        var(--glass-background);
 
     border:
         1px solid
-        rgba(255, 255, 255, 0.22);
+        var(--glass-border);
 
     border-radius:
-        28px;
+        var(--border-radius-large);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
 
     box-shadow:
-        0 8px 32px
-        rgba(0, 0, 0, 0.45),
-
-        inset 0 1px 0
-        rgba(255, 255, 255, 0.20);
+        var(--glass-shadow);
 }
 
 
 .prof-table-glass h1 {
-    margin-top: 0;
-
-    margin-bottom:
+    margin:
+        0
+        0
         30px;
 
-    color: white;
+    color:
+        var(--text-primary);
 
-    font-size:
-        32px;
+    font-size: 34px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
 }
 
+
+/* Tabelle */
 
 .prof-student-table {
     width: 100%;
 
-    border-collapse:
-        separate;
+    border-collapse: separate;
 
     border-spacing:
-        0 10px;
+        0
+        12px;
+
+    color:
+        var(--text-primary);
 }
 
 
 .prof-student-table th {
     padding:
-        12px 16px;
+        0
+        16px
+        8px;
 
-    text-align:
-        left;
+    text-align: left;
 
     color:
-        rgba(255, 255, 255, 0.65);
+        var(--text-secondary);
 
-    font-size:
-        14px;
+    font-size: 14px;
 
-    font-weight:
-        500;
+    font-weight: 600;
+}
+
+
+.prof-student-table tbody tr {
+    background:
+        rgba(255, 255, 255, 0.07);
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
+
+
+.prof-student-table tbody tr:hover {
+    background:
+        var(--glass-background-hover);
 }
 
 
 .prof-student-table td {
     padding:
+        18px
         16px;
 
-    background:
-        rgba(255, 255, 255, 0.08);
-
     color:
-        white;
+        var(--text-primary);
+
+    font-size: 15px;
 }
 
 
 .prof-student-table td:first-child {
     border-radius:
-        14px 0 0 14px;
+        var(--border-radius-medium)
+        0
+        0
+        var(--border-radius-medium);
 }
 
 
 .prof-student-table td:last-child {
     border-radius:
-        0 14px 14px 0;
+        0
+        var(--border-radius-medium)
+        var(--border-radius-medium)
+        0;
 }
 
 
-.prof-student-table tbody tr {
-    transition:
-        0.2s;
-}
-
-
-.prof-student-table tbody tr:hover td {
-    background:
-        rgba(255, 255, 255, 0.14);
-}
-
+/* Thesis Button */
 
 .prof-student-table button {
     padding:
-        10px 16px;
-
-    border-radius:
-        10px;
+        10px
+        15px;
 
     border:
         1px solid
-        rgba(255, 255, 255, 0.30);
+        var(--glass-border);
+
+    border-radius:
+        var(--border-radius-small);
 
     background:
-        rgba(255, 255, 255, 0.15);
+        rgba(255, 255, 255, 0.09);
 
     color:
-        white;
+        var(--text-primary);
 
-    font-size:
-        14px;
+    font-family: inherit;
 
-    font-weight:
-        500;
+    font-weight: 600;
 
-    cursor:
-        pointer;
+    cursor: pointer;
 
     transition:
-        0.2s;
+        background 0.2s,
+        transform 0.2s,
+        border 0.2s;
 }
 
 
 .prof-student-table button:hover {
     background:
-        rgba(255, 255, 255, 0.25);
+        rgba(70, 115, 210, 0.30);
 
-    transform:
-        translateY(-2px);
-}
-
-
-
-/* =========================
-   THESIS MODAL OVERLAY
-   ========================= */
-
-.thesis-modal-overlay {
-    position:
-        fixed;
-
-    inset:
-        0;
-
-    z-index:
-        1000;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    padding:
-        30px;
-
-    box-sizing:
-        border-box;
-
-    background:
-        rgba(0, 0, 0, 0.58);
-
-    backdrop-filter:
-        blur(10px);
-
-    -webkit-backdrop-filter:
-        blur(10px);
-
-    animation:
-        thesisOverlayIn
-        0.2s ease;
-}
-
-
-
-/* =========================
-   THESIS LIQUID GLASS
-   ========================= */
-
-.thesis-modal-glass {
-    position:
-        relative;
-
-    width:
-        100%;
-
-    max-width:
-        620px;
-
-    padding:
-        36px;
-
-    box-sizing:
-        border-box;
-
-    border-radius:
-        30px;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.28);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.19),
-            rgba(255, 255, 255, 0.08)
-        );
-
-    backdrop-filter:
-        blur(35px)
-        saturate(150%);
-
-    -webkit-backdrop-filter:
-        blur(35px)
-        saturate(150%);
-
-    box-shadow:
-        0 30px 80px
-        rgba(0, 0, 0, 0.55),
-
-        inset 0 1px 0
-        rgba(255, 255, 255, 0.35),
-
-        inset 0 -1px 0
-        rgba(255, 255, 255, 0.08);
-
-    animation:
-        thesisModalIn
-        0.28s
-        cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        );
-}
-
-
-
-/* =========================
-   HEADER
-   ========================= */
-
-.thesis-modal-header {
-    margin-bottom:
-        25px;
-}
-
-
-.thesis-modal-label {
-    display:
-        inline-block;
-
-    margin-bottom:
-        8px;
-
-    color:
-        rgba(255, 255, 255, 0.60);
-
-    font-size:
-        13px;
-
-    font-weight:
-        600;
-
-    letter-spacing:
-        1px;
-
-    text-transform:
-        uppercase;
-}
-
-
-.thesis-modal-header h2 {
-    margin:
-        0 0 8px 0;
-
-    color:
-        white;
-
-    font-size:
-        30px;
-
-    font-weight:
-        650;
-}
-
-
-.thesis-modal-header p {
-    margin:
-        0;
-
-    color:
-        rgba(255, 255, 255, 0.65);
-
-    font-size:
-        15px;
-}
-
-
-
-/* =========================
-   CLOSE BUTTON
-   ========================= */
-
-.thesis-modal-close {
-    position:
-        absolute;
-
-    top:
-        22px;
-
-    right:
-        22px;
-
-    width:
-        38px;
-
-    height:
-        38px;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.18);
-
-    border-radius:
-        50%;
-
-    background:
-        rgba(255, 255, 255, 0.10);
-
-    color:
-        white;
-
-    font-size:
-        24px;
-
-    line-height:
-        1;
-
-    cursor:
-        pointer;
-
-    transition:
-        0.2s;
-}
-
-
-.thesis-modal-close:hover {
-    background:
-        rgba(255, 255, 255, 0.20);
-
-    transform:
-        scale(1.06);
-}
-
-
-
-/* =========================
-   STUDENT INFO
-   ========================= */
-
-.thesis-student-info {
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    gap:
-        14px;
-
-    margin-bottom:
-        26px;
-
-    padding:
-        14px;
-
-    border-radius:
-        18px;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.13);
-
-    background:
-        rgba(255, 255, 255, 0.07);
-}
-
-
-.thesis-student-avatar {
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    width:
-        46px;
-
-    height:
-        46px;
-
-    flex-shrink:
-        0;
-
-    border-radius:
-        14px;
-
-    background:
-        rgba(255, 255, 255, 0.17);
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.24);
-
-    color:
-        white;
-
-    font-size:
-        20px;
-
-    font-weight:
-        600;
-}
-
-
-.thesis-student-info div:last-child {
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    gap:
-        2px;
-}
-
-
-.thesis-student-info span {
-    color:
-        rgba(255, 255, 255, 0.55);
-
-    font-size:
-        12px;
-}
-
-
-.thesis-student-info strong {
-    color:
-        white;
-
-    font-size:
-        16px;
-
-    font-weight:
-        600;
-}
-
-
-
-/* =========================
-   INPUTS
-   ========================= */
-
-.thesis-modal-field {
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    gap:
-        8px;
-
-    width:
-        100%;
-}
-
-
-.thesis-modal-field label {
-    color:
-        rgba(255, 255, 255, 0.82);
-
-    font-size:
-        14px;
-
-    font-weight:
-        500;
-}
-
-
-.thesis-modal-field input {
-    width:
-        100%;
-
-    height:
-        54px;
-
-    padding:
-        0 16px;
-
-    box-sizing:
-        border-box;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.22);
-
-    border-radius:
-        15px;
-
-    outline:
-        none;
-
-    background:
-        rgba(255, 255, 255, 0.12);
-
-    color:
-        white;
-
-    font-family:
-        inherit;
-
-    font-size:
-        15px;
-
-    backdrop-filter:
-        blur(12px);
-
-    -webkit-backdrop-filter:
-        blur(12px);
-
-    transition:
-        0.2s;
-}
-
-
-.thesis-modal-field input::placeholder {
-    color:
-        rgba(255, 255, 255, 0.42);
-}
-
-
-.thesis-modal-field input:hover {
-    background:
-        rgba(255, 255, 255, 0.16);
-}
-
-
-.thesis-modal-field input:focus {
     border-color:
-        rgba(255, 255, 255, 0.55);
-
-    background:
-        rgba(255, 255, 255, 0.17);
-
-    box-shadow:
-        0 0 0 4px
-        rgba(255, 255, 255, 0.06);
-}
-
-
-
-/* =========================
-   DATE ROW
-   ========================= */
-
-.thesis-date-row {
-    display:
-        grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:
-        16px;
-
-    margin-top:
-        18px;
-}
-
-
-.thesis-modal-field input[type="date"] {
-    color-scheme:
-        dark;
-}
-
-
-
-/* =========================
-   BUTTONS
-   ========================= */
-
-.thesis-modal-actions {
-    display:
-        flex;
-
-    justify-content:
-        flex-end;
-
-    gap:
-        12px;
-
-    margin-top:
-        30px;
-}
-
-
-.thesis-modal-actions button {
-    min-height:
-        48px;
-
-    padding:
-        0 20px;
-
-    border-radius:
-        14px;
-
-    font-family:
-        inherit;
-
-    font-size:
-        14px;
-
-    font-weight:
-        600;
-
-    cursor:
-        pointer;
-
-    transition:
-        0.2s;
-}
-
-
-.thesis-cancel-button {
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.18);
-
-    background:
-        rgba(255, 255, 255, 0.08);
-
-    color:
-        rgba(255, 255, 255, 0.78);
-}
-
-
-.thesis-cancel-button:hover {
-    background:
-        rgba(255, 255, 255, 0.14);
-}
-
-
-.thesis-create-button {
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.40);
-
-    background:
-        rgba(255, 255, 255, 0.90);
-
-    color:
-        #111;
-
-    box-shadow:
-        0 8px 24px
-        rgba(0, 0, 0, 0.18);
-}
-
-
-.thesis-create-button:hover {
-    background:
-        white;
+        rgba(100, 150, 255, 0.35);
 
     transform:
-        translateY(-2px);
-
-    box-shadow:
-        0 12px 30px
-        rgba(0, 0, 0, 0.28);
+        translateY(-1px);
 }
 
 
+/* Kleine Bildschirme */
 
-/* =========================
-   ANIMATIONEN
-   ========================= */
-
-@keyframes thesisOverlayIn {
-
-    from {
-        opacity:
-            0;
-    }
-
-    to {
-        opacity:
-            1;
-    }
-}
-
-
-@keyframes thesisModalIn {
-
-    from {
-        opacity:
-            0;
-
-        transform:
-            translateY(25px)
-            scale(0.96);
-    }
-
-    to {
-        opacity:
-            1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
-}
-
-
-
-/* =========================
-   MOBILE
-   ========================= */
-
-@media (
-    max-width: 700px
-) {
+@media (max-width: 800px) {
 
     .prof-page {
-        padding:
-            20px;
+        padding: 20px;
     }
 
 
-    .thesis-modal-overlay {
-        padding:
-            18px;
+    .prof-table-glass {
+        padding: 20px;
+
+        overflow-x: auto;
     }
 
 
-    .thesis-modal-glass {
-        padding:
-            28px 22px;
-
-        border-radius:
-            24px;
+    .prof-table-glass h1 {
+        font-size: 28px;
     }
 
 
-    .thesis-modal-header h2 {
-        font-size:
-            25px;
-    }
-
-
-    .thesis-date-row {
-        grid-template-columns:
-            1fr;
-    }
-
-
-    .thesis-modal-actions {
-        flex-direction:
-            column-reverse;
-    }
-
-
-    .thesis-modal-actions button {
-        width:
-            100%;
+    .prof-student-table {
+        min-width: 650px;
     }
 }

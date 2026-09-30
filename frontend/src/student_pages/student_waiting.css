@@ -6,57 +6,97 @@
     justify-content: center;
     align-items: center;
 
-    background: #000;
+    padding: 30px;
 
-    padding: 20px;
     box-sizing: border-box;
+
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            rgba(45, 85, 150, 0.20),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 90% 100%,
+            rgba(20, 110, 110, 0.12),
+            transparent 35%
+        ),
+        var(--background-dark);
 }
 
+
+/* Hauptkarte */
 
 .student-waiting-glass {
     width: 520px;
     max-width: 100%;
 
-    padding: 40px;
+    padding: 38px;
 
     display: flex;
     flex-direction: column;
+
     gap: 18px;
 
-    background: rgba(255, 255, 255, 0.10);
+    box-sizing: border-box;
 
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background:
+        var(--glass-background);
 
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 28px;
+    border:
+        1px solid
+        var(--glass-border);
+
+    border-radius:
+        var(--border-radius-large);
+
+    backdrop-filter:
+        blur(20px);
+
+    -webkit-backdrop-filter:
+        blur(20px);
 
     box-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.45),
-        inset 0 1px 0 rgba(255, 255, 255, 0.20);
+        var(--glass-shadow);
 
     text-align: center;
+
+    color:
+        var(--text-primary);
 }
 
+
+/* Überschrift */
 
 .student-waiting-glass h1 {
     margin: 0;
 
-    color: white;
+    color:
+        var(--text-primary);
 
-    font-size: 34px;
+    font-size: 32px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
 }
 
+
+/* Beschreibung */
 
 .student-waiting-glass p {
     margin: 0;
 
-    color: rgba(255, 255, 255, 0.85);
+    color:
+        var(--text-secondary);
 
-    font-size: 17px;
-    line-height: 1.5;
+    font-size: 16px;
+
+    line-height: 1.55;
 }
 
+
+/* Benutzerinformationen */
 
 .student-waiting-info {
     width: 100%;
@@ -66,25 +106,36 @@
     display: flex;
     flex-direction: column;
 
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 18px;
-
     overflow: hidden;
+
+    border:
+        1px solid
+        var(--glass-border);
+
+    border-radius:
+        var(--border-radius-medium);
+
+    background:
+        rgba(255, 255, 255, 0.04);
 }
 
 
 .student-waiting-info-row {
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
 
     gap: 20px;
 
-    padding: 14px 18px;
+    padding:
+        15px
+        18px;
 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-
-    color: white;
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, 0.08);
 }
 
 
@@ -94,60 +145,93 @@
 
 
 .student-waiting-info-row span {
-    color: rgba(255, 255, 255, 0.60);
+    color:
+        var(--text-secondary);
+
+    font-size: 14px;
 }
 
 
 .student-waiting-info-row strong {
+    color:
+        var(--text-primary);
+
     text-align: right;
 
-    font-weight: 500;
-
-    color: white;
+    font-weight: 600;
 }
 
+
+/* Bearbeiten Button */
 
 .student-waiting-edit-button {
     margin-top: 6px;
 
-    padding: 12px 22px;
+    min-height: 46px;
 
-    border: 1px solid rgba(255, 255, 255, 0.30);
-    border-radius: 14px;
+    padding:
+        10px
+        20px;
 
-    background: rgba(255, 255, 255, 0.12);
+    border:
+        1px solid
+        rgba(100, 150, 255, 0.25);
 
-    color: white;
+    border-radius:
+        var(--border-radius-medium);
+
+    background:
+        rgba(70, 115, 210, 0.20);
+
+    color:
+        var(--text-primary);
+
+    font-family: inherit;
 
     font-size: 15px;
-    font-weight: 500;
+
+    font-weight: 600;
 
     cursor: pointer;
 
     transition:
-        background 0.2s ease,
-        transform 0.2s ease;
+        background 0.2s,
+        transform 0.2s,
+        border 0.2s;
 }
 
 
 .student-waiting-edit-button:hover {
-    background: rgba(255, 255, 255, 0.20);
+    background:
+        rgba(70, 115, 210, 0.35);
 
-    transform: translateY(-1px);
+    border-color:
+        rgba(100, 150, 255, 0.40);
+
+    transform:
+        translateY(-1px);
 }
 
 
 .student-waiting-edit-button:active {
-    transform: translateY(0);
+    transform:
+        translateY(0);
 }
 
 
+/* Kleine Bildschirme */
+
 @media (max-width: 600px) {
 
-    .student-waiting-glass {
-        padding: 28px 22px;
+    .student-waiting-page {
+        padding: 18px;
+    }
 
-        border-radius: 22px;
+
+    .student-waiting-glass {
+        padding:
+            28px
+            22px;
     }
 
 
@@ -168,5 +252,4 @@
     .student-waiting-info-row strong {
         text-align: center;
     }
-
 }

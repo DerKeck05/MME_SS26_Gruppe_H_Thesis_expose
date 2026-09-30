@@ -2,8 +2,8 @@ import CalendarComponent, {
     type CalendarEvent
 } from "./calendar-component";
 import "../calendar_pages/calendar-stylesheet.css";
-import {Plus} from "lucide-react";
-import {useEffect, useState} from "react";
+import { Plus } from "lucide-react";
+import { useEffect, useState } from "react";
 import AddEntryModal from "../modals/calendar-modals/add-entry-modal.tsx";
 import EntryDetailModal from "../modals/calendar-modals/entry-detail-modal.tsx";
 import EditEntryModal from "../modals/calendar-modals/edit-entry-modal.tsx";
@@ -14,9 +14,9 @@ import {
     getCalendarEntries,
     updateCalendarEntry
 } from "../../apis/calendar-api.ts";
-import {useStudent} from "../route_handling/student-provider.tsx";
+
 import Loading from "../../globals/loading.tsx";
-import {useError} from "../../globals/error-provider.tsx";
+import { useError } from "../../globals/error-provider.tsx";
 
 // function that calculates the days remaining until the deadline
 export function calcLeftDays(deadline: CalendarEvent): string {
@@ -31,8 +31,14 @@ export function calcLeftDays(deadline: CalendarEvent): string {
 // constant for maximum title length
 export const MAX_ENTRY_TITLE_LENGTH = 50;
 
-function CalendarPage() {
-    const {thesisId, deadline} = useStudent();
+type CalendarPageProps = {
+    thesisId: number | null;
+    deadline: CalendarEvent | null;
+};
+function CalendarPage({
+    thesisId,
+    deadline
+}: CalendarPageProps) {
 
     // Lists for loading the Entries and for the calendar Events for the Calendar
     const [entries, setEntries] = useState<CalendarEntry[]>([]);
@@ -52,7 +58,7 @@ function CalendarPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [daysLeft, setDaysLeft] = useState<string>("--");
 
-    const {showError} = useError();
+    const { showError } = useError();
 
     // loads data on initialization
     async function loadEvents() {
@@ -99,7 +105,7 @@ function CalendarPage() {
 
     useEffect(() => {
         void loadEvents();
-    }, [thesisId]);
+    }, [thesisId, deadline]);
 
     // CRUD -----------------------------------------------------------
 
@@ -216,18 +222,19 @@ function CalendarPage() {
 
     // Loading Page on initialization
     if (isLoading) {
-        return (<Loading/>);
+        return (<Loading />);
     }
 
     return (
         <div className="calendar-page-main">
             {/* UI-Widget with remaining days */}
-            <div
-                className="flex flex-col justify-center items-center gap-4 bg-(--tertiary) text-(--secondary) p-2 rounded-(--border-radius) mb-(--spacing-medium)">
-                <p className={" text-2xl"}>
-                    Tage bis zur Abgabe:
+            <div className="calendar-deadline glass-card">
+
+                <p>
+                    Tage bis zur Abgabe
                 </p>
-                <h3 className={" font-semibold text-4xl"}>
+
+                <h3>
                     {daysLeft} Tage
                 </h3>
             </div>
@@ -247,11 +254,14 @@ function CalendarPage() {
             {/* Add button for new Entry */}
             <div className="calendar-add-buttons">
                 <button
-                    className={"squared-button"}
+                    className="calendar-add-button"
                     onClick={() => setShowAddModal(true)}
                     title="Neues Ereignis erstellen"
                 >
-                    <Plus size={30} strokeWidth={2.5}/>
+                    <Plus
+                        size={26}
+                        strokeWidth={2.3}
+                    />
                 </button>
             </div>
 

@@ -1,43 +1,202 @@
+.calendar-page-main {
+    padding: 20px;
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+}
+
+
+/* DAYS LEFT */
+
+.calendar-deadline {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+
+    text-align: center;
+}
+
+
+.calendar-deadline p {
+    margin: 0;
+
+    color:
+        var(--text-secondary);
+
+    font-size: 18px;
+
+    font-weight: 500;
+}
+
+
+.calendar-deadline h3 {
+    margin: 0;
+
+    color:
+        var(--text-primary);
+
+    font-size: 42px;
+
+    font-weight: 700;
+}
+
+
+/* CALENDAR */
 
 .calendar-div {
     height: 600px;
-    background-color: var(--white);
-    padding: var(--spacing-small);
-    border-radius: var(--border-radius);
+
+    padding: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.96);
+
+    border-radius:
+        var(--border-radius-large);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.15);
+
+    box-shadow:
+        0 10px 30px
+        rgba(0, 0, 0, 0.25);
+
+    overflow: hidden;
+
+    color: #0b1730;
 }
 
-.calendar-page-main {
-    padding: var(--spacing-large);
-}
+
+/* PLUS BUTTON */
 
 .calendar-add-buttons {
     display: flex;
-    width: 100%;
-    margin: var(--spacing-medium);
+
     justify-content: flex-start;
-    flex-direction: row;
 
+    margin-top: 18px;
 }
 
-.calendar-add-buttons > button {
-    width: 160px;
-    height: 40px;
-    border-radius: var(--border-radius);
+
+.calendar-add-button {
+    width: 138px;
+
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+        1px solid
+        var(--glass-border);
+
+    border-radius:
+        var(--border-radius-medium);
+
+    background:
+        var(--glass-background);
+
+    color:
+        var(--text-primary);
+
+    backdrop-filter:
+        blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
+
+    box-shadow:
+        var(--glass-shadow);
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
 }
 
-.calendar-deadline {
-    background-color: var(--tertiary);
-    padding: var(--spacing-small);
-    border-radius: var(--border-radius);
-    margin-bottom: var(--spacing-small);
-    color: var(--secondary);
+
+.calendar-add-button:hover {
+    background:
+        var(--glass-background-hover);
+
+    transform:
+        translateY(-2px);
 }
 
-.calendar-deadline h3 {
-    font-size: xx-large;
+
+/* REACT BIG CALENDAR */
+
+.calendar-div .rbc-calendar {
+    color: #0b1730;
 }
 
-.calendar-deadline p {
-    font-weight: 500;
-    font-size: larger;
+
+.calendar-div .rbc-toolbar {
+    color: #0b1730;
+}
+
+
+.calendar-div .rbc-toolbar-label {
+    color: #0b1730;
+
+    font-weight: 700;
+}
+
+
+.calendar-div .rbc-header {
+    color: #0b1730;
+
+    font-weight: 600;
+}
+
+
+.calendar-div .rbc-date-cell {
+    color: #24324a;
+}
+
+
+.calendar-div .rbc-off-range {
+    color: #9ca3af;
+}
+
+
+.calendar-div .rbc-off-range-bg {
+    background:
+        #eceef1;
+}
+
+
+.calendar-div .rbc-today {
+    background:
+        rgba(215, 230, 65, 0.65);
+}
+
+
+.calendar-div .rbc-month-view,
+.calendar-div .rbc-time-view {
+    border-color:
+        #d7dbe2;
+}
+
+
+.calendar-div .rbc-day-bg,
+.calendar-div .rbc-header {
+    border-color:
+        #d7dbe2;
 }
