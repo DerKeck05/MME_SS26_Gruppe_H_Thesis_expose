@@ -14,6 +14,7 @@ import StudentProvider from "./student_pages/route_handling/student-provider.tsx
 import StudentLayout from "./student_pages/route_handling/student-layout.tsx";
 
 import ProfStartpage from "./prof_pages/prof_starpage.tsx";
+import ProfCalendarPage from "./prof_pages/prof-calender-page.tsx";
 import ProfDashboardSkeleton from "./prof_pages/prof_dashboard_skeleton.tsx";
 import ThesisDetail from "./prof_pages/thesis_detail.tsx";
 import FaqPage from "./shared_pages/faq-page.tsx";
@@ -118,6 +119,10 @@ function App() {
                 <Route
                     path="faq"
                     element={<ProfessorFaqPage />}
+                />
+                <Route
+                    path="calendar"
+                    element={<ProfCalendarPage />}
                 />
             </Route>
 
