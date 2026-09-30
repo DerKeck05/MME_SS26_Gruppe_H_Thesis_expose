@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {PanelRightClose, Plus} from "lucide-react";
+import {FileText, PanelRightClose, Plus} from "lucide-react";
 
 import OutlineComponent from "./outline-component.tsx";
 import AddChapterModal from "../modals/outline-modals/add-chapter-modal.tsx";
@@ -12,7 +12,7 @@ import type {
 
 import {
     addChapter,
-    deleteChapter,
+    deleteChapter, exportPdf,
     getChapters,
     updateChapter
 } from "../../apis/chapter-api.ts";
@@ -276,6 +276,14 @@ function OutlinePage() {
         }
     }
 
+    async function handleExportPdf() {
+        try {
+            await exportPdf(thesisId);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <div className="flex flex-row items-start">
             <div
@@ -306,6 +314,13 @@ function OutlinePage() {
                         }
                     >
                         <Plus/>
+                    </button>
+
+                    <button
+                        className={"squared-button w-20 h-10 rounded-(--border-radius)"}
+                        onClick={handleExportPdf}
+                    >
+                        <FileText/>
                     </button>
                 </div>
                 <OutlineComponent
