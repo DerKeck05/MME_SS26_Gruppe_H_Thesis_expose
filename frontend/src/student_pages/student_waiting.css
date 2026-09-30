@@ -1,14 +1,31 @@
+/*
+The page fills the complete browser height
+and centers the waiting card.
+The radial gradients create
+a subtle background effect
+on top of the dark application background.
+*/
 .student-waiting-page {
-    width: 100%;
-    min-height: 100vh;
+    width:
+        100%;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    min-height:
+        100vh;
 
-    padding: 30px;
+    display:
+        flex;
 
-    box-sizing: border-box;
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    padding:
+        30px;
+
+    box-sizing:
+        border-box;
 
     background:
         radial-gradient(
@@ -25,20 +42,35 @@
 }
 
 
-/* Hauptkarte */
-
+/*
+This card contains:
+the waiting message
+the student information
+the edit button
+The shared glass variables
+are used for the application design.
+*/
 .student-waiting-glass {
-    width: 520px;
-    max-width: 100%;
+    width:
+        520px;
 
-    padding: 38px;
+    max-width:
+        100%;
 
-    display: flex;
-    flex-direction: column;
+    padding:
+        38px;
 
-    gap: 18px;
+    display:
+        flex;
 
-    box-sizing: border-box;
+    flex-direction:
+        column;
+
+    gap:
+        18px;
+
+    box-sizing:
+        border-box;
 
     background:
         var(--glass-background);
@@ -59,54 +91,80 @@
     box-shadow:
         var(--glass-shadow);
 
-    text-align: center;
+    text-align:
+        center;
 
     color:
         var(--text-primary);
 }
 
 
-/* Überschrift */
-
+/*
+Used for both:
+the waiting message
+the student loading error
+*/
 .student-waiting-glass h1 {
-    margin: 0;
+    margin:
+        0;
 
     color:
         var(--text-primary);
 
-    font-size: 32px;
+    font-size:
+        32px;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
-    letter-spacing: -0.5px;
+    letter-spacing:
+        -0.5px;
 }
 
 
-/* Beschreibung */
-
+/*
+The paragraphs explain
+why the student dashboard
+is not available yet.
+*/
 .student-waiting-glass p {
-    margin: 0;
+    margin:
+        0;
 
     color:
         var(--text-secondary);
 
-    font-size: 16px;
+    font-size:
+        16px;
 
-    line-height: 1.55;
+    line-height:
+        1.55;
 }
 
 
-/* Benutzerinformationen */
-
+/*
+Contains the current:
+name
+email
+course
+The rows are grouped
+inside one bordered container.
+*/
 .student-waiting-info {
-    width: 100%;
+    width:
+        100%;
 
-    margin-top: 10px;
+    margin-top:
+        10px;
 
-    display: flex;
-    flex-direction: column;
+    display:
+        flex;
 
-    overflow: hidden;
+    flex-direction:
+        column;
+
+    overflow:
+        hidden;
 
     border:
         1px solid
@@ -120,18 +178,27 @@
 }
 
 
+/*
+The field name is shown
+on the left.
+The stored value is shown
+on the right.
+*/
 .student-waiting-info-row {
-    display: flex;
+    display:
+        flex;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    align-items: center;
+    align-items:
+        center;
 
-    gap: 20px;
+    gap:
+        20px;
 
     padding:
-        15px
-        18px;
+        15px 18px;
 
     border-bottom:
         1px solid
@@ -139,39 +206,59 @@
 }
 
 
+/*
+The last row does not need
+a separator underneath it.
+*/
 .student-waiting-info-row:last-child {
-    border-bottom: none;
+    border-bottom:
+        none;
 }
 
 
+/*
+INFORMATION LABEL
+*/
 .student-waiting-info-row span {
     color:
         var(--text-secondary);
 
-    font-size: 14px;
+    font-size:
+        14px;
 }
 
 
+/*
+INFORMATION VALUE
+Displays the actual student data.
+*/
 .student-waiting-info-row strong {
     color:
         var(--text-primary);
 
-    text-align: right;
+    text-align:
+        right;
 
-    font-weight: 600;
+    font-weight:
+        600;
 }
 
 
-/* Bearbeiten Button */
-
+/*
+DATEN BEARBEITEN BUTTON
+Opens the student edit modal.
+The button uses a subtle blue
+glass-style background.
+*/
 .student-waiting-edit-button {
-    margin-top: 6px;
+    margin-top:
+        6px;
 
-    min-height: 46px;
+    min-height:
+        46px;
 
     padding:
-        10px
-        20px;
+        10px 20px;
 
     border:
         1px solid
@@ -186,13 +273,17 @@
     color:
         var(--text-primary);
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-size: 15px;
+    font-size:
+        15px;
 
-    font-weight: 600;
+    font-weight:
+        600;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
     transition:
         background 0.2s,
@@ -201,6 +292,11 @@
 }
 
 
+/*
+The edit button becomes brighter
+and moves slightly upwards
+when hovered.
+*/
 .student-waiting-edit-button:hover {
     background:
         rgba(70, 115, 210, 0.35);
@@ -213,43 +309,59 @@
 }
 
 
+/*
+When clicked,
+the button returns
+to its normal position.
+*/
 .student-waiting-edit-button:active {
     transform:
         translateY(0);
 }
 
 
-/* Kleine Bildschirme */
-
+/*
+RESPONSIVE DESIGN
+On smaller screens:
+the outer padding becomes smaller
+the card gets less padding
+the heading becomes smaller
+student information is stacked vertically
+*/
 @media (max-width: 600px) {
 
     .student-waiting-page {
-        padding: 18px;
+        padding:
+            18px;
     }
 
 
     .student-waiting-glass {
         padding:
-            28px
-            22px;
+            28px 22px;
     }
 
 
     .student-waiting-glass h1 {
-        font-size: 27px;
+        font-size:
+            27px;
     }
 
 
     .student-waiting-info-row {
-        flex-direction: column;
+        flex-direction:
+            column;
 
-        gap: 5px;
+        gap:
+            5px;
 
-        text-align: center;
+        text-align:
+            center;
     }
 
 
     .student-waiting-info-row strong {
-        text-align: center;
+        text-align:
+            center;
     }
 }

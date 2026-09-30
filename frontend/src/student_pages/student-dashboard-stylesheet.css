@@ -1,12 +1,26 @@
+/*
+The dashboard fills at least
+the complete browser height.
+It contains the app bar,
+sidebar and current student page.
+The radial gradients create
+the dark background design.
+*/
 .student-dashboard {
-    display: flex;
-    flex-direction: column;
+    display:
+        flex;
 
-    min-height: 100vh;
+    flex-direction:
+        column;
 
-    padding: 20px;
+    min-height:
+        100vh;
 
-    gap: 20px;
+    padding:
+        20px;
+
+    gap:
+        20px;
 
     background:
         radial-gradient(
@@ -21,27 +35,34 @@
         ),
         var(--background-dark);
 
-    color: var(--text-primary);
+    color:
+        var(--text-primary);
 }
 
 
-/* HEADER */
-
+/*
+The header uses three columns:
+logo on the left
+age title in the center
+profile element on the right
+*/
 .app-bar {
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
         1fr
         auto
         1fr;
 
-    align-items: center;
+    align-items:
+        center;
 
-    min-height: 86px;
+    min-height:
+        86px;
 
     padding:
-        15px
-        25px;
+        15px 25px;
 
     background:
         var(--glass-background);
@@ -64,23 +85,44 @@
 }
 
 
+/*
+The title of the currently
+opened student page
+is displayed in the center.
+*/
 .app-bar h1 {
-    margin: 0;
+    margin:
+        0;
 
     color:
         var(--text-primary);
 
-    font-size: 36px;
+    font-size:
+        36px;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
-    text-align: center;
+    text-align:
+        center;
 }
 
 
+/*
+This class may no longer be used.
+The current dashboard skeleton
+creates the Clevermate logo
+using utility classes instead.
+Only remove this block
+after checking the project
+for remaining usages.
+*/
 .logo {
-    width: 65px;
-    height: 36px;
+    width:
+        65px;
+
+    height:
+        36px;
 
     border-radius:
         var(--border-radius-small);
@@ -88,17 +130,30 @@
     background:
         rgba(85, 190, 115, 0.75);
 
-    justify-self: start;
+    justify-self:
+        start;
 }
 
 
+/*
+The empty profile element
+is still visible because
+CSS gives it a size and background.
+It is positioned on the right side
+of the app bar.
+*/
 .profile-button {
-    width: 44px;
-    height: 44px;
+    width:
+        44px;
 
-    padding: 0;
+    height:
+        44px;
 
-    border-radius: 50%;
+    padding:
+        0;
+
+    border-radius:
+        50%;
 
     background:
         rgba(48, 95, 175, 0.85);
@@ -107,46 +162,71 @@
         1px solid
         var(--glass-border);
 
-    justify-self: end;
+    justify-self:
+        end;
 }
 
 
-/* BODY */
-
+/*
+The sidebar and main content
+are displayed next to each other.
+*/
 .student-dashboard-body {
-    display: flex;
+    display:
+        flex;
 
-    flex: 1;
+    flex:
+        1;
 
-    gap: 20px;
+    gap:
+        20px;
 
-    min-height: 0;
+    min-height:
+        0;
 }
 
 
+/*
+The currently selected page
+uses the remaining available width.
+min-wdth prevents flex content
+from overflowing unnecessarily.
+*/
 .student-dashboard-body main {
-    flex: 1;
+    flex:
+        1;
 
-    min-width: 0;
+    min-width:
+        0;
 }
 
 
-/* SIDEBAR */
-
+/*
+The sidebar contains
+the navigation links
+for the student dashboard.
+*/
 .sidebar {
-    width: 230px;
+    width:
+        230px;
 
-    flex-shrink: 0;
+    flex-shrink:
+        0;
 
-    display: flex;
+    display:
+        flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
-    align-items: stretch;
+    align-items:
+        stretch;
 
-    gap: 8px;
+    gap:
+        8px;
 
-    padding: 18px;
+    padding:
+        18px;
 
     background:
         var(--glass-background);
@@ -169,10 +249,13 @@
 }
 
 
+/*
+Basic appearance
+for all student navigation links.
+*/
 .sidebar-link {
     padding:
-        12px
-        14px;
+        12px 14px;
 
     border-radius:
         var(--border-radius-small);
@@ -180,11 +263,14 @@
     color:
         var(--text-secondary);
 
-    text-decoration: none;
+    text-decoration:
+        none;
 
-    font-size: 18px;
+    font-size:
+        18px;
 
-    font-weight: 600;
+    font-weight:
+        600;
 
     transition:
         background 0.2s,
@@ -192,6 +278,10 @@
 }
 
 
+/*
+The link becomes brighter
+when the mouse is over it.
+*/
 .sidebar-link:hover {
     background:
         var(--glass-background-hover);
@@ -201,6 +291,10 @@
 }
 
 
+/*
+The currently opened page
+receives this additional class.
+*/
 .sidebar-link-active {
     background:
         rgba(70, 120, 220, 0.24);
@@ -210,30 +304,49 @@
 }
 
 
-/* DASHBOARD */
-
+/*
+The shared thesis dashboard
+uses the complete available width.
+*/
 .dashboard-content {
-    width: 100%;
+    width:
+        100%;
 }
 
 
+/*
+The Up Next card
+and Time card
+are displayed next to each other.
+*/
 .dashboard-card-row {
-    display: flex;
+    display:
+        flex;
 
-    gap: 20px;
+    gap:
+        20px;
 
-    margin-top: 20px;
+    margin-top:
+        20px;
 
-    min-height: 270px;
+    min-height:
+        270px;
 }
 
 
-/* CALENDAR PREVIEW */
-
+/*
+Displays the calendar
+inside a glass-style card.
+The pointer indicates
+that the calendar preview
+can be interacted with.
+*/
 .calendar-preview {
-    height: 450px;
+    height:
+        450px;
 
-    padding: 18px;
+    padding:
+        18px;
 
     background:
         var(--glass-background);
@@ -254,27 +367,37 @@
     box-shadow:
         var(--glass-shadow);
 
-    cursor: pointer;
+    cursor:
+        pointer;
 }
 
 
+/*
+CALENDAR TITLE
+*/
 .calendar-header {
     margin:
-        0
-        0
-        15px;
+        0 0 15px;
 
     color:
         var(--text-primary);
 
-    font-size: 24px;
+    font-size:
+        24px;
 
-    font-weight: 600;
+    font-weight:
+        600;
 }
 
 
+/*
+The actual calendar uses
+a bright background
+so its content stays readable.
+*/
 .mini-calendar {
-    overflow: hidden;
+    overflow:
+        hidden;
 
     border-radius:
         var(--border-radius-medium);
@@ -287,23 +410,34 @@
 }
 
 
-/* UP NEXT */
-
+/*
+The card receives more space
+than the Time card.
+*/
 .up-next-card {
-    flex: 2;
+    flex:
+        2;
 
-    padding: 22px;
+    padding:
+        22px;
 }
 
 
+/*
+UP NEXT HEADER
+*/
 .up-next-header {
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    margin-bottom: 18px;
+    margin-bottom:
+        18px;
 
     color:
         var(--text-primary);
@@ -311,34 +445,49 @@
 
 
 .up-next-header h2 {
-    margin: 0;
+    margin:
+        0;
 
     color:
         var(--text-primary);
 
-    font-size: 23px;
+    font-size:
+        23px;
 }
 
 
+/*
+Upcoming events are displayed
+below each other.
+*/
 .up-next-list {
-    display: flex;
+    display:
+        flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
-    gap: 12px;
+    gap:
+        12px;
 }
 
 
+/*
+One row represents
+one upcoming calendar event.
+*/
 .up-next-event {
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    gap: 13px;
+    gap:
+        13px;
 
     padding:
-        11px
-        14px;
+        11px 14px;
 
     background:
         rgba(255, 255, 255, 0.06);
@@ -352,132 +501,201 @@
 }
 
 
+/*
+EVENT ACCENT
+The small blue line
+visually marks an event.
+*/
 .up-next-accent {
-    width: 4px;
-    height: 42px;
+    width:
+        4px;
 
-    flex-shrink: 0;
+    height:
+        42px;
 
-    border-radius: 10px;
+    flex-shrink:
+        0;
+
+    border-radius:
+        10px;
 
     background:
         rgba(90, 145, 255, 0.8);
 }
 
 
+/*
+EVENT TITLE
+*/
 .up-next-event-title {
     color:
         var(--text-primary);
 
-    font-weight: 600;
+    font-weight:
+        600;
 }
 
 
+/*
+EVENT DATE
+*/
 .up-next-event-date {
-    margin-top: 3px;
+    margin-top:
+        3px;
 
     color:
         var(--text-secondary);
 
-    font-size: 14px;
+    font-size:
+        14px;
 }
 
 
+/*
+NO UPCOMING EVENTS
+Used when the Up Next card
+contains no future events.
+*/
 .up-next-empty {
     color:
         var(--text-secondary);
 }
 
 
-/* DAYS LEFT */
-
+/*
+TIME CARD
+Shows how much time
+is left until the thesis deadline.
+*/
 .time-card {
-    flex: 1;
+    flex:
+        1;
 
-    min-width: 230px;
+    min-width:
+        230px;
 
-    padding: 22px;
+    padding:
+        22px;
 
-    display: flex;
+    display:
+        flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 }
 
 
+/*
+TIME CARD TITLE
+*/
 .time-card-title {
-    width: 100%;
+    width:
+        100%;
 
     color:
         var(--text-secondary);
 
-    font-size: 20px;
+    font-size:
+        20px;
 }
 
 
+/*
+NUMBER OF DAYS
+The number is displayed
+large in the center
+of the Time card.
+*/
 .time-card-number {
-    margin-top: auto;
+    margin-top:
+        auto;
 
     color:
         var(--text-primary);
 
-    font-size: 72px;
+    font-size:
+        72px;
 
-    line-height: 1;
+    line-height:
+        1;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
-    text-align: center;
+    text-align:
+        center;
 }
 
 
+/*
+TIME CARD DESCRIPTION
+For xample:
+"Tage verbleibend".
+*/
 .time-card-text {
     margin:
-        10px
-        0
-        auto;
+        10px 0 auto;
 
     color:
         var(--text-secondary);
 
-    font-size: 23px;
+    font-size:
+        23px;
 
-    font-weight: 500;
+    font-weight:
+        500;
 }
 
 
-/* RESPONSIVE */
-
+/*
+RESPONSIVE DESIGN
+On smaller screens:
+dashboard padding becomes smaller
+sidebar moves above the content
+sidebar links are displayed horizontally
+dashboard cards are stacked vertically
+header title becomes smaller
+*/
 @media (max-width: 900px) {
 
     .student-dashboard {
-        padding: 12px;
+        padding:
+            12px;
     }
 
 
     .student-dashboard-body {
-        flex-direction: column;
+        flex-direction:
+            column;
     }
 
 
     .sidebar {
-        width: auto;
+        width:
+            auto;
 
-        flex-direction: row;
+        flex-direction:
+            row;
 
-        flex-wrap: wrap;
+        flex-wrap:
+            wrap;
     }
 
 
     .dashboard-card-row {
-        flex-direction: column;
+        flex-direction:
+            column;
     }
 
 
     .app-bar h1 {
-        font-size: 27px;
+        font-size:
+            27px;
     }
 }

@@ -4,81 +4,172 @@ import { login } from "../apis/auth-api.ts";
 import "./design_css/login.css";
 
 function LoginPage() {
-    const navigate = useNavigate();
 
-    /* speichert welche Rolle gerade ausgewählt ist */
-    const [role, setRole] = useState("student");
-
-    /* speichert die eingegebene Email */
-    const [email, setEmail] = useState("");
-
-    /* speichert das eingegebene Passwort */
-    const [password, setPassword] = useState("");
-
-    /* speichert eine mögliche Fehlermeldung */
-    const [errorMessage, setErrorMessage] = useState("");
+    /*
+    useNavigate is used to change
+    to another page after the login.
+    */
+    const navigate =
+        useNavigate();
 
 
+    /*
+    The role can only be
+    "student" or "professor".
+    The default role is student.
+    */
+    const [role, setRole] =
+        useState<"student" | "professor">(
+            "student"
+        );
+
+
+    /*
+    Stores the email
+    entered by the user.
+    */
+    const [email, setEmail] =
+        useState("");
+
+
+    /*
+    Stores the password
+    entered by the user.
+    */
+    const [password, setPassword] =
+        useState("");
+
+
+    /*
+    Stores an error message
+    that can be shown below the login.
+    */
+    const [errorMessage, setErrorMessage] =
+        useState("");
+
+
+    /*
+    This function is called
+    when the user clicks the login button.
+    First the input fields are checked.
+    After that the login data
+    is sent to the backend.
+    */
     async function loginFunction() {
 
-        /* Prüfung ob Email oder Passwort leer ist */
-        if (email === "" || password === "") {
-            setErrorMessage("Bitte E-Mail und Passwort eingeben");
+        /*
+        Both email and password are required.
+        If one field is empty,
+        the login is stopped.
+        */
+        if (
+            email == "" ||
+            password == ""
+        ) {
+
+            setErrorMessage(
+                "Bitte E-Mail und Passwort eingeben"
+            );
+
             return;
         }
 
 
         try {
 
-            const data = await login(
-                email,
-                password,
-                role as "student" | "professor"
-            );
+            /*
+            Send email, password and role
+            to the login API.
+            Because role already has the correct type,
+            no additional type conversion is needed.
+            */
+            const data =
+                await login(
+                    email,
+                    password,
+                    role
+                );
 
-            console.log("Login erfolgreich");
-            console.log(data);
 
+            /*
+            After a successful student login,
+            the student ID is stored
+            in the local storage
+            The user is then sent
+            to the student area.
+            */
+            if (role == "student") {
 
-            if (role === "student") {
-                localStorage.setItem("studentId", String(data.user.id));
-                console.log("USER ID:", String(data.user.id));
-                navigate("/student");
+                localStorage.setItem(
+                    "studentId",
+                    String(data.user.id)
+                );
+
+                navigate(
+                    "/student"
+                );
             }
 
 
-            if (role === "professor") {
+            /*
+            The professor ID is also stored
+            in the local storage.
+            The user is then sent
+            to the professor area.
+            */
+            if (role == "professor") {
+
                 localStorage.setItem(
                     "supervisorId",
                     String(data.user.id)
                 );
 
-                console.log(
-                    "PROFESSOR ID:",
-                    String(data.user.id)
+                navigate(
+                    "/professor"
                 );
-
-                navigate("/professor");
             }
 
 
         } catch (error) {
 
+            /*
+            If the API returned a normal Error,
+            its message is shown.
+            Otherwise a general login
+            error message is used.
+            */
             if (error instanceof Error) {
-                setErrorMessage(error.message);
+
+                setErrorMessage(
+                    error.message
+                );
+
             } else {
-                setErrorMessage("Login fehlgeschlagen");
+
+                setErrorMessage(
+                    "Login fehlgeschlagen"
+                );
             }
         }
     }
 
 
-    /* CSS-Klasse für den aktiven Rollen-Button */
+    /*
+    The selected role gets
+    the CSS class "active-role".
+    This visually shows the user
+    which role is currently selected.
+    */
     const studentButtonClass =
-        role === "student" ? "active-role" : "";
+        role == "student"
+            ? "active-role"
+            : "";
+
 
     const professorButtonClass =
-        role === "professor" ? "active-role" : "";
+        role == "professor"
+            ? "active-role"
+            : "";
 
 
     return (
@@ -86,10 +177,10 @@ function LoginPage() {
 
             <div className="login-glass">
 
-                <h1>Clevermate</h1>
+                <h1>
+                    Clevermate
+                </h1>
 
-
-                {/* Rollen-Auswahl */}
                 <div className="role-buttons">
 
                     <button
@@ -108,48 +199,55 @@ function LoginPage() {
                     </button>
 
                 </div>
-
-
-                {/* E-Mail */}
-                <label>E-Mail:</label>
+                <label>
+                    E-Mail:
+                </label>
 
                 <input
                     type="email"
                     placeholder="Ihre E-Mail"
                     value={email}
-                    onChange={(event) => setEmail(event.target.value)}
+                    onChange={(event) =>
+                        setEmail(
+                            event.target.value
+                        )
+                    }
                 />
 
-
-                {/* Passwort */}
-                <label>Passwort:</label>
+                <label>
+                    Passwort:
+                </label>
 
                 <input
                     type="password"
                     placeholder="Passwort eingeben"
                     value={password}
-                    onChange={(event) => setPassword(event.target.value)}
+                    onChange={(event) =>
+                        setPassword(
+                            event.target.value
+                        )
+                    }
                 />
-
-
-                {/* Login */}
-                <button onClick={loginFunction}>
+                <button
+                    onClick={loginFunction}
+                >
                     Login
                 </button>
 
-
-                {/* Registrierung */}
-                <button onClick={() => navigate("/register")}>
+                <button
+                    onClick={() =>
+                        navigate("/register")
+                    }
+                >
                     Registrieren
                 </button>
 
             </div>
 
-
-            {/* Fehlermeldung */}
-            {errorMessage !== "" && (
+            {errorMessage != "" && (
                 <div className="error-box">
-                    {errorMessage}
+                 {errorMessage}
+
                 </div>
             )}
 

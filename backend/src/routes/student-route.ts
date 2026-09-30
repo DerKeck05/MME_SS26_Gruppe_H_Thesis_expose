@@ -1,116 +1,146 @@
-import express from "express";
+import { Router } from "express";
 
 import {
-    getStudentById,
-    getStudentsBySupervisorId,
-    updateStudent
-} from "../database/repos/student-repo.js";
+    createFeedbackEntry,
+    getFeedbackEntriesByChapterId
+} from "../database/repos/feedback-entry-repo.js";
+const router = Router();
 
-const router = express.Router();
+// HTTP status codes used in this route.
+const BAD_REQUEST = 400;
+const CREATED = 201;
+/*
+This route loads all feedback entries
+that belong to one specific chapter.
+The chapterId is part of the URL.
+*/
+router.get(
+    "/chapter/:chapterId",
+    async (req, res) => {
+
+        /*
+        URL parameters are strings.
+        Number converts the chapterId
+        into a number so it can be used
+        for the database query.
+        */
+        const chapterId =
+            Number(req.params.chapterId);
 
 
-/* Studenten eines Professors laden */
-router.get("/supervisor/:id", async (req, res) => {
-    try {
-        const supervisorId = Number(req.params.id);
+        /*
+        If the chapterId cannot be converted
+        into a valid number, the request is stopped.
+        */
+        if (Number.isNaN(chapterId)) {
 
-        if (isNaN(supervisorId)) {
-            return res.status(400).json({
-                message: "Ungültige Professor-ID"
+            return res.status(BAD_REQUEST).json({
+                error:
+                    "Invalid chapter ID"
             });
         }
 
-        const students =
-            await getStudentsBySupervisorId(supervisorId);
 
-        return res.status(200).json(students);
+        /*
+        Load all feedback entries
+        that belong to the selected chapter.
+        */
+        const feedbackEntries =
+            await getFeedbackEntriesByChapterId(
+                chapterId
+            );
 
-    } catch (error) {
-        console.error(
-            "Studenten konnten nicht geladen werden:",
-            error
+
+        /*
+        Return the feedback entries
+        to the frontend.
+        */
+        return res.json(
+            feedbackEntries
         );
-
-        return res.status(500).json({
-            message: "Studenten konnten nicht geladen werden"
-        });
     }
-});
+);
 
 
-/* Student anhand der ID laden */
-router.get("/:studentId", async (req, res) => {
-    try {
-        const studentId = Number(req.params.studentId);
+/*
+This route creates a new feedback entry
+for one specific chapter.
+The chapterId comes from the URL.
+The content of the feedback
+is sent inside the request body.
+*/
+router.post(
+    "/chapter/:chapterId",
+    async (req, res) => {
 
-        if (isNaN(studentId)) {
-            return res.status(400).json({
-                message: "Ungültige Student-ID"
+        const chapterId =
+            Number(req.params.chapterId);
+
+
+        /*
+        Get the feedback content
+        from the request body.
+        */
+        const {
+            content
+        } = req.body;
+
+
+        /*
+        Check if the chapterId
+        is a valid number.
+        */
+        if (Number.isNaN(chapterId)) {
+
+            return res.status(BAD_REQUEST).json({
+                error:
+                    "Invalid chapter ID"
             });
         }
 
-        const student = await getStudentById(studentId);
 
-        if (!student) {
-            return res.status(404).json({
-                message: "Student nicht gefunden"
-            });
-        }
-
-        return res.status(200).json(student);
-
-    } catch (error) {
-        console.error(
-            "Fehler beim Laden des Studenten:",
-            error
-        );
-
-        return res.status(500).json({
-            message: "Student konnte nicht geladen werden"
-        });
-    }
-});
-
-
-/* Student bearbeiten */
-router.put("/:studentId", async (req, res) => {
-    try {
-        const studentId = Number(req.params.studentId);
-        const {name, email, course} = req.body;
-
-        if (isNaN(studentId)) {
-            return res.status(400).json({
-                message: "Ungültige Studenten-ID"
-            });
-        }
-
+        /*
+        The feedback content has to be a string
+        and it must not be empty.
+        trim removes spaces at the beginning
+        and end of the text.
+        This also prevents feedback
+        that only contains spaces.
+        */
         if (
-            typeof name !== "string" ||
-            typeof email !== "string" ||
-            typeof course !== "string"
+            typeof content !== "string" ||
+            content.trim() == ""
         ) {
-            return res.status(400).json({
-                message: "Name, E-Mail und Kurs sind erforderlich"
+
+            return res.status(BAD_REQUEST).json({
+                error:
+                    "Feedback content is required"
             });
         }
 
-        const student = await updateStudent(
-            studentId,
-            name.trim(),
-            email.trim(),
-            course.trim()
+
+        /*
+        Create the feedback entry
+        and connect it to the selected chapter.
+        trim is used again so unnecessary spaces
+        are not saved in the database.
+        */
+        const feedback =
+            await createFeedbackEntry(
+                chapterId,
+                content.trim()
+            );
+
+
+        /*
+        201 means that a new resource
+        was successfully created.
+        */
+        return res.status(CREATED).json(
+            feedback
         );
-
-        return res.json(student);
-
-    } catch (error) {
-        console.error(error);
-
-        return res.status(500).json({
-            message: "Student konnte nicht aktualisiert werden"
-        });
     }
-});
+);
 
 
 export default router;

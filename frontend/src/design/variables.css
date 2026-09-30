@@ -1,19 +1,80 @@
+/*
+All shared colors, glass styles
+and border radii are stored here.
+This makes it easier to keep
+te complete application visually consistent.
+If a value is changed here,
+all components using this variable
+will automatically use the new value.
+*/
 :root {
-    --background-dark: #0a0f18;
-    --background-dark-secondary: #111827;
 
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.72);
+    /*
+    These colors are used
+    for the dark application background.
+    */
+    --background-dark:
+        #0a0f18;
 
-    --glass-background: rgba(255, 255, 255, 0.08);
-    --glass-background-hover: rgba(255, 255, 255, 0.14);
+    --background-dark-secondary:
+        #111827;
 
-    --glass-border: rgba(255, 255, 255, 0.13);
 
+    /*
+    Primary text is used
+    for important and normal text.
+    Secondary text is slightly transparent
+    and is used for less important information.
+    */
+    --text-primary:
+        #ffffff;
+
+    --text-secondary:
+        rgba(255, 255, 255, 0.72);
+
+
+    /*
+    These transparent colors are used
+    for the glass effect.
+    The hover version is slightly brighter
+    so the user can see
+    when an element is hovered.
+    */
+    --glass-background:
+        rgba(255, 255, 255, 0.08);
+
+    --glass-background-hover:
+        rgba(255, 255, 255, 0.14);
+
+
+    /*
+    A transparent white border
+    separates glass elements
+    from the background.
+    */
+    --glass-border:
+        rgba(255, 255, 255, 0.13);
+
+
+    /*
+    This shadow gives glass cards
+    and panels more depth.
+    */
     --glass-shadow:
         0 10px 35px rgba(0, 0, 0, 0.28);
 
-    --border-radius-small: 12px;
-    --border-radius-medium: 18px;
-    --border-radius-large: 24px;
+
+    /*
+    Different sizes are used
+    depending on the size
+    of the UI element.
+    */
+    --border-radius-small:
+        12px;
+
+    --border-radius-medium:
+        18px;
+
+    --border-radius-large:
+        24px;
 }

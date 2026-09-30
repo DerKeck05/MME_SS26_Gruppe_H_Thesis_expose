@@ -1,86 +1,197 @@
-import {useEffect, useState} from "react";
-import {FileText, PanelRightClose, Plus} from "lucide-react";
-
+import { useEffect, useState} from "react";
+import { FileText, PanelRightClose,Plus} from "lucide-react";
 import OutlineComponent from "./outline-component.tsx";
 import AddChapterModal from "../modals/outline-modals/add-chapter-modal.tsx";
 import EditChapterModal from "../modals/outline-modals/edit-chapter-modal.tsx";
-
-import type {
-    Chapter,
-    ChapterInsertMode
-} from "../../utils/outline-utils.ts";
-
-import {
-    addChapter,
-    deleteChapter,
-    exportPdf,
-    getChapters,
-    updateChapter
-} from "../../apis/chapter-api.ts";
-
-import {
-    addFeedbackEntry,
-    getFeedbackEntries
-} from "../../apis/feedback-api.ts";
-
-import CommentItem, {
-    type UIComment
-} from "./comments/comment-item.tsx";
-
+import type { Chapter, ChapterInsertMode} from "../../utils/outline-utils.ts";
+import { addChapter, deleteChapter, exportPdf, getChapters, updateChapter} from "../../apis/chapter-api.ts";
+import {addFeedbackEntry, getFeedbackEntries} from "../../apis/feedback-api.ts";
+import CommentItem, {type UIComment} from "./comments/comment-item.tsx";
 import {useError} from "../../globals/error-provider.tsx";
 
-// Constant for the max input of character into the title input field
-export const MAX_CHAPTER_TITLE_LENGTH = 60;
 
+/*
+Defines the maximum number
+of characters allowed
+for a chapter title.
+The value is exported because
+the chapter modals can also use it.
+*/
+export const MAX_CHAPTER_TITLE_LENGTH =
+    60;
+
+
+/*
+Students can manage chapters.
+Professors can read the outline
+and add feedback comments.
+*/
 type OutlinePageProps = {
     thesisId: number | null;
     isProfessor: boolean;
 };
 
-// Main Page of the Outline feature which loads, handles and passes all the data of the feature
+
+/*
+The backend returns the creation date
+as a string.
+This function converts it
+into a German date and time
+for the user interface.
+*/
+function formatCommentDate(
+    dateString: string
+) {
+
+    const date =
+        new Date(
+            dateString
+        );
+
+
+    return (
+        date.toLocaleDateString(
+            "de-DE"
+        )
+        +
+        " "
+        +
+        date.toLocaleTimeString(
+            "de-DE",
+            {
+                hour:
+                    "2-digit",
+
+                minute:
+                    "2-digit"
+            }
+        )
+    );
+}
+
+
+/*
+This is the main page
+of the outline feature.
+It loads the chapters,
+handles chapter changes
+and manages the comment sidebar.
+*/
 function OutlinePage({
     thesisId,
     isProfessor
 }: OutlinePageProps) {
 
-      // List of the chapters and a variable for the chapter that is currently edited
-    const [chapters, setChapters] =
-        useState<Chapter[]>([]);
-    const [editChapter, setEditChapter] =
-        useState<Chapter | null>(null);
+    /*
+    Stores all chapters
+    of the current thesis.
+    */
+    const [
+        chapters,
+        setChapters
+    ] = useState<Chapter[]>([]);
 
 
-    const [addChapterContext, setAddChapterContext] =
-        useState<{
-            mode: ChapterInsertMode;
-            chapter?: Chapter;
-        } | null>(null);
-
-        // bool to show the comment section
-    const [showCommentSidebar, setShowCommentSidebar] =
-        useState(false);
-
-    const [selectedChapter, setSelectedChapter] =
-        useState<Chapter | null>(null);
-
-    const [comments, setComments] =
-        useState<UIComment[]>([]);
-
-    const [newComment, setNewComment] =
-        useState("");
-
-    const {showError} = useError();
+    /*
+    Stores the chapter
+    that is currently edited.
+    null means that
+    the edit modal is closed.
+    */
+    const [
+        editChapter,
+        setEditChapter
+    ] = useState<Chapter | null>(null);
 
 
-    // loads the chapters on initialization
+    /*
+    Stores where a new chapter
+    should be inserted.
+    chapter is optional because
+    a new root chapter does not need
+    a reference chapter.
+    */
+    const [
+        addChapterContext,
+        setAddChapterContext
+    ] = useState<{
+        mode: ChapterInsertMode;
+        chapter?: Chapter;
+    } | null>(null);
+
+
+    /*
+    Stores if the comment sidebar
+    is currently visible.
+    */
+    const [
+        showCommentSidebar,
+        setShowCommentSidebar
+    ] = useState(false);
+
+
+    /*
+    Stores the chapter
+    whose comments are currently shown.
+    */
+    const [
+        selectedChapter,
+        setSelectedChapter
+    ] = useState<Chapter | null>(null);
+
+
+    /*
+    Stores the comments
+    of the selected chapter.
+    */
+    const [
+        comments,
+        setComments
+    ] = useState<UIComment[]>([]);
+
+
+    /*
+    Stores the text
+    entered by the professor.
+    */
+    const [
+        newComment,
+        setNewComment
+    ] = useState("");
+
+
+    /*
+    showError displays errors
+    using the global error provider.
+    */
+    const {
+        showError
+    } = useError();
+
+
+    /*
+    Whenever the thesis ID changes,
+    all chapters of the thesis
+    are loaded again.
+    */
     useEffect(() => {
 
         async function loadChapters() {
 
-            if (thesisId === null) {
+            /*
+            Without a thesis ID
+            there are no chapters to load.
+            */
+            if (
+                thesisId == null
+            ) {
+
+                setChapters(
+                    []
+                );
+
                 return;
             }
-
             try {
 
                 const loadedChapters =
@@ -99,7 +210,10 @@ function OutlinePage({
                     error
                 );
 
-                if (error instanceof Error) {
+
+                if (
+                    error instanceof Error
+                ) {
 
                     showError(
                         error.message
@@ -114,22 +228,33 @@ function OutlinePage({
             }
         }
 
-        void loadChapters();
 
-        // function always reloads if thesisId is changed
-    }, [thesisId]);
+        loadChapters();
 
-    // CRUD METHODS ----------------------------------------------------
+    }, [
+        thesisId
+    ]);
 
+
+    /*
+    The function returns true
+    if the chapter was created successfully.
+    */
     async function handleAddChapter(
         title: string
     ): Promise<boolean> {
-        // checks if variables has data
-        if (!addChapterContext) {
+
+        if (
+            addChapterContext == null
+        ) {
+
             return false;
         }
 
-        if (thesisId === null) {
+
+        if (
+            thesisId == null
+        ) {
 
             showError(
                 "Keine Thesis zugeordnet."
@@ -138,59 +263,99 @@ function OutlinePage({
             return false;
         }
 
-        let parentId: number | null = null;
-        let position = 0;
+
+        /*
+        They are changed depending
+        on the selected insert mode.
+        */
+        let parentId: number | null =
+            null;
+
+        let position =
+            0;
+
 
         const referenceChapter =
             addChapterContext.chapter;
 
 
-
-          // Adds a new root chapter without parent
+        /*
+        A root chapter has no parent.
+        The new chapter is added
+        after all existing root chapters.
+        */
         if (
-            addChapterContext.mode === "root"
+            addChapterContext.mode == "root"
         ) {
 
-            const rootChapters =
-                chapters.filter(
-                    chapter =>
-                        chapter.parentId === null
-                );
+            let rootChapterCount =
+                0;
 
 
-            parentId = null;
+            for (const chapter of chapters) {
+
+                if (
+                    chapter.parentId == null
+                ) {
+
+                    rootChapterCount++;
+                }
+            }
+
+
+            parentId =
+                null;
 
             position =
-                rootChapters.length;
+                rootChapterCount;
         }
 
 
-        // Adds new child-chapter, adds the chapter into the database and takes the clicked reference Chapter
-        // as Parent
+        /*
+        The selected reference chapter
+        becomes the parent.
+        The new chapter is added
+        after its existing children.
+        */
         if (
-            referenceChapter &&
-            addChapterContext.mode === "child"
+            referenceChapter != null &&
+            addChapterContext.mode == "child"
         ) {
 
-            const children =
-                chapters.filter(
-                    chapter =>
-                        chapter.parentId ===
-                        referenceChapter.id
-                );
+            let childCount =
+                0;
+
+
+            for (const chapter of chapters) {
+
+                if (
+                    chapter.parentId ==
+                    referenceChapter.id
+                ) {
+
+                    childCount++;
+                }
+            }
+
 
             parentId =
                 referenceChapter.id;
 
             position =
-                children.length;
+                childCount;
         }
 
 
-        // Just takes the position data from the clicked reference chapter as the own position data
+        /*
+        The new chapter gets
+        the same parent and position
+        as the reference chapter.
+        The backend handles
+        the required position changes.
+        */
         if (
-            referenceChapter &&
-            addChapterContext.mode === "before"
+            referenceChapter != null &&
+            addChapterContext.mode == "before"
         ) {
 
             parentId =
@@ -201,10 +366,15 @@ function OutlinePage({
         }
 
 
-        // takes the parentId from the reference chapter but takes the position after it
+        /*
+        The new chapter gets
+        the same parent.
+        Its position is directly
+        after the reference chapter.
+        */
         if (
-            referenceChapter &&
-            addChapterContext.mode === "after"
+            referenceChapter != null &&
+            addChapterContext.mode == "after"
         ) {
 
             parentId =
@@ -216,17 +386,31 @@ function OutlinePage({
 
 
         try {
-            // adds the chapter with the stored information into the database
+
+            /*
+            Create the chapter
+            in the database.
+            */
             await addChapter(
                 thesisId,
                 {
-                    title: title,
-                    parentId: parentId,
-                    position: position
+                    title:
+                        title,
+
+                    parentId:
+                        parentId,
+
+                    position:
+                        position
                 }
             );
 
-            // chapters will be freshly loaded and newly set so UI is up to date
+
+            /*
+            Reload all chapters
+            so the UI uses
+            the newest database state.
+            */
             const updatedChapters =
                 await getChapters(
                     thesisId
@@ -250,7 +434,10 @@ function OutlinePage({
                 error
             );
 
-            if (error instanceof Error) {
+
+            if (
+                error instanceof Error
+            ) {
 
                 showError(
                     error.message
@@ -268,11 +455,18 @@ function OutlinePage({
     }
 
 
+    /*
+    Updates the title
+    of the currently selected chapter.
+    */
     async function handleUpdateChapter(
         title: string
     ) {
 
-        if (!editChapter) {
+        if (
+            editChapter == null
+        ) {
+
             return;
         }
 
@@ -282,16 +476,25 @@ function OutlinePage({
                 await updateChapter(
                     editChapter.id,
                     {
-                        title: title
+                        title:
+                            title
                     }
                 );
 
-            const updatedChapters: Chapter[] = [];
+            /*
+            Create a new chapter list.
+            The changed chapter is replaced
+            with the updated response.
+            All other chapters stay unchanged.
+            */
+            const updatedChapters: Chapter[] =
+                [];
+
 
             for (const chapter of chapters) {
 
                 if (
-                    chapter.id ===
+                    chapter.id ==
                     updatedChapter.id
                 ) {
 
@@ -322,7 +525,10 @@ function OutlinePage({
                 error
             );
 
-            if (error instanceof Error) {
+
+            if (
+                error instanceof Error
+            ) {
 
                 showError(
                     error.message
@@ -338,6 +544,12 @@ function OutlinePage({
     }
 
 
+    /*
+    Deletes the chapter
+    from the database.
+    Afterwards all chapters
+    are loaded again.
+    */
     async function handleDeleteChapter(
         chapter: Chapter
     ) {
@@ -348,40 +560,58 @@ function OutlinePage({
                 chapter.id
             );
 
-            const updatedChapters =
-                chapters.filter(
-                    currentChapter =>
-                        currentChapter.id !==
-                        chapter.id
-                );
 
-            setChapters(
-                updatedChapters
-            );
+            /*
+            Reload the outline
+            after deletion.
+        This also makes sure
+            that deleted child chapters
+            no longer remain in the UI.
+            */
+            if (
+                thesisId != null
+            ) {
+
+                const updatedChapters =
+                    await getChapters(
+                        thesisId
+                    );
+
+
+                setChapters(
+                    updatedChapters
+                );
+            }
+
 
             setEditChapter(
                 null
             );
 
-            if (selectedChapter) {
 
-                if (
-                    selectedChapter.id ===
-                    chapter.id
-                ) {
+            /*
+            If the deleted chapter
+            is currently shown
+            in the comment sidebar,
+            the sidebar is closed.
+            */
+            if (
+                selectedChapter != null &&
+                selectedChapter.id ==
+                chapter.id
+            ) {
 
-                    setSelectedChapter(
-                        null
-                    );
+                setSelectedChapter(
+                    null
+                );
 
-                    setComments(
-                        []
-                    );
+                setComments(
+                    []
+                );
 
-                    setShowCommentSidebar(
-                        false
-                    );
-                }
+                setShowCommentSidebar(
+                    false
+                );
             }
 
         } catch (error) {
@@ -391,7 +621,10 @@ function OutlinePage({
                 error
             );
 
-            if (error instanceof Error) {
+
+            if (
+                error instanceof Error
+            ) {
 
                 showError(
                     error.message
@@ -407,9 +640,16 @@ function OutlinePage({
     }
 
 
+    /*
+    Exports the complete outline
+    of the current thesis as a PDF.
+    */
     async function handleExportPdf() {
 
-        if (thesisId === null) {
+        if (
+            thesisId == null
+        ) {
+
             return;
         }
 
@@ -422,12 +662,35 @@ function OutlinePage({
         } catch (error) {
 
             console.error(
+               "PDF konnte nicht exportiert werden:",
                 error
             );
+
+
+            if (
+                error instanceof Error
+            ) {
+
+                showError(
+                    error.message
+                );
+
+            } else {
+
+                showError(
+                    "PDF konnte nicht exportiert werden!"
+                );
+            }
         }
     }
 
 
+    /*
+    Loads all feedback entries
+    belonging to the clicked chapter.
+    Students and professors
+    can both read comments.
+    */
     async function handleCommentClick(
         chapter: Chapter
     ) {
@@ -439,55 +702,39 @@ function OutlinePage({
                     chapter.id
                 );
 
-            const loadedComments:
-                UIComment[] = [];
 
-            for (
-                const feedback
-                of feedbackEntries
-            ) {
+            const loadedComments: UIComment[] =
+                [];
 
-                const date =
-                    new Date(
-                        feedback.createdAt
-                    );
 
-                const formattedDate =
-                    date.toLocaleDateString(
-                        "de-DE"
-                    )
-                    +
-                    " "
-                    +
-                    date.toLocaleTimeString(
-                        "de-DE",
-                        {
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        }
-                    );
+            for (const feedback of feedbackEntries) {
 
                 loadedComments.push({
-
                     content:
                         feedback.content,
 
                     createdAt:
-                        formattedDate,
+                        formatCommentDate(
+                            feedback.createdAt
+                        ),
 
+                    /*
+                    The current backend response
+                    does not contain a professor name.
+                    Therefore the general label
+                    "Betreuer" is shown.
+                    */
                     supervisorName:
                         "Betreuer"
-
                 });
             }
-
             setSelectedChapter(
                 chapter
             );
 
             setComments(
                 loadedComments
-            );
+          );
 
             setNewComment(
                 ""
@@ -504,7 +751,10 @@ function OutlinePage({
                 error
             );
 
-            if (error instanceof Error) {
+
+            if (
+                error instanceof Error
+            ) {
 
                 showError(
                     error.message
@@ -520,18 +770,31 @@ function OutlinePage({
     }
 
 
+    /*
+    Only professors are allowed
+    to create feedback comments.
+    Comments can be created and read,
+    but are not edited or deleted.
+    */
     async function handleAddFeedback() {
 
-        if (!isProfessor) {
+        if (
+            isProfessor == false
+        ) {
+
             return;
         }
 
-        if (!selectedChapter) {
+
+        if (
+            selectedChapter == null
+        ) {
+
             return;
         }
 
         if (
-            newComment.trim() === ""
+            newComment.trim() == ""
         ) {
             return;
         }
@@ -541,47 +804,31 @@ function OutlinePage({
             const feedback =
                 await addFeedbackEntry(
                     selectedChapter.id,
-                    newComment
+                    newComment.trim()
                 );
 
-            const date =
-                new Date(
-                    feedback.createdAt
-                );
 
-            const formattedDate =
-                date.toLocaleDateString(
-                    "de-DE"
-                )
-                +
-                " "
-                +
-                date.toLocaleTimeString(
-                    "de-DE",
-                    {
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    }
-                );
-
-            const newUiComment:
-                UIComment = {
-
+            const newUiComment: UIComment = {
                 content:
                     feedback.content,
 
                 createdAt:
-                    formattedDate,
+                    formatCommentDate(
+                        feedback.createdAt
+                    ),
 
                 supervisorName:
                     "Betreuer"
-
             };
 
-            const updatedComments = [
-                ...comments,
+            const updatedComments =
+                [...comments];
+
+
+            updatedComments.push(
                 newUiComment
-            ];
+            );
+
 
             setComments(
                 updatedComments
@@ -598,7 +845,10 @@ function OutlinePage({
                 error
             );
 
-            if (error instanceof Error) {
+
+            if (
+                error instanceof Error
+            ) {
 
                 showError(
                     error.message
@@ -614,6 +864,11 @@ function OutlinePage({
     }
 
 
+    /*
+    Closes the sidebar
+    and removes all selected
+    comment information.
+    */
     function closeComments() {
 
         setShowCommentSidebar(
@@ -634,10 +889,13 @@ function OutlinePage({
     }
 
 
+    /*
+    Shows either an empty message ,all loaded comments
+    */
     function showComments() {
 
         if (
-            comments.length === 0
+            comments.length == 0
         ) {
 
             return (
@@ -651,31 +909,38 @@ function OutlinePage({
             (comment, index) => (
 
                 <CommentItem
-                    key={index}
-
+                    key={
+                        index
+                    }
                     content={
                         comment.content
                     }
-
                     createdAt={
                         comment.createdAt
                     }
-
                     supervisorName={
                         comment.supervisorName
                     }
                 />
-
             )
         );
     }
 
 
+    /*
+    Students can only read comments.
+    Therefore the input field
+    is only shown to professors.
+    */
     function showCommentInput() {
 
-        if (!isProfessor) {
+        if (
+            isProfessor == false
+        ) {
+
             return null;
         }
+
 
         return (
 
@@ -702,7 +967,6 @@ function OutlinePage({
                     value={
                         newComment
                     }
-
                     onChange={(event) => {
 
                         setNewComment(
@@ -710,11 +974,8 @@ function OutlinePage({
                         );
 
                     }}
-
                     placeholder="Kommentar schreiben..."
-
                     rows={4}
-
                     className="
                         w-full
                         border
@@ -729,11 +990,9 @@ function OutlinePage({
 
                 <button
                     type="button"
-
                     onClick={
                         handleAddFeedback
                     }
-
                     className="
                         mt-3
                         px-4
@@ -761,6 +1020,11 @@ function OutlinePage({
             "
         >
 
+            {/*
+            Contains the chapter tree,
+            chapter controls
+            and PDF export.
+            */}
             <div
                 className="
                     outline-page
@@ -775,6 +1039,8 @@ function OutlinePage({
                 "
             >
 
+                {/* OUTLINE HEADER */}
+
                 <div
                     className="
                         outline-page-header
@@ -783,32 +1049,40 @@ function OutlinePage({
                     "
                 >
 
-                    {!isProfessor && (
+                    {/*
+                    Students can create chapters.
+                    Professors only review
+                    the existing outline.
+                    */}
+                    {
+                        isProfessor == false && (
 
-                        <button
-                            className="
-                                squared-button
-                                w-20
-                                h-10
-                                rounded-(--border-radius)
-                            "
+                            <button
+                                className="
+                                    squared-button
+                                    w-20
+                                    h-10
+                                    rounded-(--border-radius)
+                                "
+                                onClick={() => {
 
-                            onClick={() => {
+                                    setAddChapterContext({
+                                        mode:
+                                            "root"
+                                    });
 
-                                setAddChapterContext({
-                                    mode: "root"
-                                });
-
-                            }}
-                        >
-
-                            <Plus/>
-
-                        </button>
-
-                    )}
+                                }}
+                            >
+                                <Plus />
+                            </button>
+                        )
+                    }
 
 
+                    {/*
+                    PDF export is available
+                    for the current outline.
+                    */}
                     <button
                         className="
                             squared-button
@@ -816,209 +1090,226 @@ function OutlinePage({
                             h-10
                             rounded-(--border-radius)
                         "
-
                         onClick={
                             handleExportPdf
                         }
                     >
-
-                        <FileText/>
-
+                        <FileText />
                     </button>
 
                 </div>
 
 
+                {/*
+                OUTLINE COMPONENT
+                Displays all chapters
+                and sends user actions
+                back to this page.
+                */}
                 <OutlineComponent
                     chapters={
                         chapters
                     }
-
                     isProfessor={
                         isProfessor
                     }
-
                     onEditChapter={
                         setEditChapter
                     }
-
                     onDeleteChapter={
                         handleDeleteChapter
                     }
-
                     onCommentClick={
                         handleCommentClick
                     }
-
                     onAddChild={(chapter) => {
 
                         setAddChapterContext({
-                            mode: "child",
-                            chapter: chapter
+                            mode:
+                                "child",
+
+                            chapter:
+                                chapter
                         });
 
                     }}
-
                     onAddBefore={(chapter) => {
 
                         setAddChapterContext({
-                            mode: "before",
-                            chapter: chapter
+                            mode:
+                                "before",
+
+                            chapter:
+                                chapter
                         });
 
                     }}
-
                     onAddAfter={(chapter) => {
 
                         setAddChapterContext({
-                            mode: "after",
-                            chapter: chapter
+                            mode:
+                                "after",
+
+                            chapter:
+                                chapter
                         });
 
                     }}
                 />
 
 
-                {addChapterContext && (
+                {/* KAPITEL HINZUFÜGEN MODAL */}
 
-                    <AddChapterModal
-                        mode={
-                            addChapterContext.mode
-                        }
+                {
+                    addChapterContext != null && (
 
-                        referenceChapter={
-                            addChapterContext.chapter
-                        }
+                        <AddChapterModal
+                            mode={
+                                addChapterContext.mode
+                            }
+                            referenceChapter={
+                                addChapterContext.chapter
+                            }
+                            onCancel={() => {
 
-                        onCancel={() => {
+                                setAddChapterContext(
+                                    null
+                                );
 
-                            setAddChapterContext(
-                                null
-                            );
-
-                        }}
-
-                        onSubmit={
-                            handleAddChapter
-                        }
-                    />
-
-                )}
+                            }}
+                            onSubmit={
+                                handleAddChapter
+                            }
+                        />
+                    )
+                }
 
 
-                {editChapter && (
+                {/* KAPITEL BEARBEITEN MODAL */}
 
-                    <EditChapterModal
-                        chapter={
-                            editChapter
-                        }
+                {
+                    editChapter != null && (
 
-                        onCancel={() => {
-
-                            setEditChapter(
-                                null
-                            );
-
-                        }}
-
-                        onSubmit={
-                            handleUpdateChapter
-                        }
-
-                        onDelete={() => {
-
-                            handleDeleteChapter(
+                        <EditChapterModal
+                            chapter={
                                 editChapter
-                            );
+                            }
+                            onCancel={() => {
 
-                        }}
-                    />
+                                setEditChapter(
+                                    null
+                                );
 
-                )}
+                            }}
+                            onSubmit={
+                                handleUpdateChapter
+                            }
+                            onDelete={() => {
+
+                                handleDeleteChapter(
+                                    editChapter
+                                );
+
+                            }}
+                        />
+                    )
+                }
 
             </div>
 
-            {/* Shows the Comment section of a chapter */}
-            {showCommentSidebar && (
 
-                <div
-                    className="
-                        relative
-                        flex
-                        flex-1/3
-                        h-[88vh]
-                        mr-(--spacing-medium)
-                        mt-(--spacing-medium)
-                        mb-(--spacing-medium)
-                    "
-                >
+            {/*
+            The sidebar is shown
+            after a chapter comment button
+            was clicked.
+            */}
+            {
+                showCommentSidebar == true && (
 
                     <div
                         className="
+                            relative
                             flex
-                            w-full
-                            overflow-y-auto
-                            bg-(--white)
-                            rounded-(--border-radius)
-                            flex-col
-                            pl-(--spacing-large)
-                            pr-(--spacing-large)
-                            pt-(--spacing-medium)
-                            pb-(--spacing-medium)
+                            flex-1/3
+                            h-[88vh]
+                            mr-(--spacing-medium)
+                            mt-(--spacing-medium)
+                            mb-(--spacing-medium)
                         "
                     >
-                        {/* Header with close Sidebar button */}
+
                         <div
                             className="
                                 flex
-                                justify-end
-                                mb-(--spacing-small)
+                                w-full
+                                overflow-y-auto
+                                bg-(--white)
+                                rounded-(--border-radius)
+                                flex-col
+                                pl-(--spacing-large)
+                                pr-(--spacing-large)
+                                pt-(--spacing-medium)
+                                pb-(--spacing-medium)
                             "
                         >
 
-                            <button
-                                className="
-                                    rounded-full
-                                    p-2
-                                "
+                            {/* SIDEBAR SCHLIESSEN */}
 
-                                onClick={
-                                    closeComments
-                                }
+                            <div
+                                className="
+                                    flex
+                                    justify-end
+                                    mb-(--spacing-small)
+                                "
                             >
 
-                                <PanelRightClose/>
+                                <button
+                                    type="button"
+                                    className="
+                                        rounded-full
+                                        p-2
+                                    "
+                                    onClick={
+                                        closeComments
+                                    }
+                                >
+                                    <PanelRightClose />
+                                </button>
 
-                            </button>
+                            </div>
+
+
+                            {/* AUSGEWÄHLTES KAPITEL */}
+
+                            {
+                                selectedChapter != null && (
+
+                                    <h3
+                                        className="
+                                            font-semibold
+                                            text-xl
+                                            mb-4
+                                        "
+                                    >
+                                        {selectedChapter.title}
+                                    </h3>
+                                )
+                            }
+
+
+                            {/* VORHANDENE KOMMENTARE */}
+
+                            {showComments()}
+            
+                            {/* PROFESSOR KOMMENTAR EINGABE */}
+
+                            {showCommentInput()}
 
                         </div>
 
-
-                        {selectedChapter && (
-
-                            <h3
-                                className="
-                                    font-semibold
-                                    text-xl
-                                    mb-4
-                                "
-                            >
-                                {selectedChapter.title}
-                            </h3>
-
-                        )}
-
-
-                        {showComments()}
-
-
-                        {showCommentInput()}
-
                     </div>
-
-                </div>
-
-            )}
+                )
+            }
 
         </div>
     );
