@@ -1,68 +1,129 @@
+/*
+The FAQ page uses the complete
+available width.
+The minimum height prevents
+the page from becoming too small
+when only a few FAQ entries exist.
+*/
 .faq-page {
-    width: 100%;
-    min-height: 70vh;
+    width:
+        100%;
 
-    padding: 30px;
+    min-height:
+        70vh;
 
-    color: var(--text-primary);
+    padding:
+        30px;
+
+    color:
+        var(--text-primary);
 }
 
 
+/*
+FAQ HEADER
+The title is displayed on the left
+and the add button on the right.
+*/
 .faq-header {
-    display: flex;
+    display:
+        flex;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    align-items: center;
+    align-items:
+        center;
 
-    gap: 20px;
+    gap:
+        20px;
 
-    margin-bottom: 25px;
+    margin-bottom:
+        25px;
 }
 
 
+/*
+FAQ ÜBERSCHRIFT
+*/
 .faq-header h1 {
-    margin: 0;
+    margin:
+        0;
 
-    font-size: 32px;
+    font-size:
+        32px;
 
-    color: var(--text-primary);
+    color:
+        var(--text-primary);
 }
 
 
+/*
+FAQ BESCHREIBUNG
+The smaller text below
+the main title.
+*/
 .faq-header p {
-    margin-top: 6px;
+    margin-top:
+        6px;
 
-    margin-bottom: 0;
+    margin-bottom:
+        0;
 
-    color: var(--text-secondary);
+    color:
+        var(--text-secondary);
 }
 
 
+/*
+PROFESSOR TOOLBAR
+Contains the edit
+and delete buttons.
+*/
 .faq-toolbar {
-    display: flex;
+    display:
+        flex;
 
-    gap: 10px;
+    gap:
+        10px;
 
-    margin-bottom: 20px;
+    margin-bottom:
+        20px;
 }
 
 
+/*
+FAQ LISTE
+All FAQ entries
+are displayed below each other.
+*/
 .faq-list {
-    display: flex;
+    display:
+        flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
-    gap: 15px;
+    gap:
+        15px;
 }
 
 
+/*
+FAQ EINTRAG
+One FAQ entry contains
+the optional selection checkbox
+and the FAQ content.
+*/
 .faq-item {
-    display: flex;
+    display:
+        flex;
 
-    gap: 15px;
+    gap:
+        15px;
 
-    padding: 20px;
+    padding:
+        20px;
 
     transition:
         background 0.2s,
@@ -70,6 +131,11 @@
 }
 
 
+/*
+The FAQ card becomes brighter
+and moves slightly upwards
+when the mouse is over it.
+*/
 .faq-item:hover {
     background:
         var(--glass-background-hover);
@@ -79,58 +145,100 @@
 }
 
 
+/*
+FAQ AUSWAHL
+Used for the professor checkbox
+next to every FAQ entry.
+*/
 .faq-selection {
-    display: flex;
+    display:
+        flex;
 
-    align-items: flex-start;
+    align-items:
+        flex-start;
 
-    padding-top: 5px;
+    padding-top:
+        5px;
 }
 
 
+/*
+CHECKBOX
+*/
 .faq-selection input {
-    width: 18px;
+    width:
+        18px;
 
-    height: 18px;
+    height:
+        18px;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 }
 
 
+/*
+FAQ INHALT
+The content uses
+the remaining available space.
+*/
 .faq-content {
-    flex: 1;
+    flex:
+        1;
 }
 
 
+/*
+FAQ FRAGE
+*/
 .faq-content h2 {
-    margin-top: 0;
+    margin-top:
+        0;
 
-    margin-bottom: 10px;
+    margin-bottom:
+        10px;
 
-    font-size: 20px;
+    font-size:
+        20px;
 
-    color: var(--text-primary);
+    color:
+        var(--text-primary);
 }
+
 
 
 .faq-content p {
-    margin: 0;
+    margin:
+        0;
 
-    line-height: 1.6;
+    line-height:
+        1.6;
 
-    color: var(--text-secondary);
+    color:
+        var(--text-secondary);
 }
 
 
+/*
+This message is shown
+if no FAQ entries exist.
+*/
 .faq-empty {
-    padding: 30px;
+    padding:
+        30px;
 
-    text-align: center;
+    text-align:
+        center;
 
-    color: var(--text-secondary);
+    color:
+        var(--text-secondary);
 }
 
 
+/*
+This is the basic style
+used by the FAQ buttons.
+*/
 .faq-button {
     padding:
         10px 16px;
@@ -148,11 +256,13 @@
     color:
         var(--text-primary);
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
     transition:
         background 0.2s;
 }
+
 
 
 .faq-button:hover {
@@ -161,6 +271,10 @@
 }
 
 
+/*
+Used for important actions
+like adding or saving an FAQ.
+*/
 .faq-button-primary {
     background:
         rgba(59, 130, 246, 0.35);
@@ -173,6 +287,11 @@
 }
 
 
+/*
+The delete button uses
+a red background to show
+that the action removes data.
+*/
 .faq-button-delete {
     background:
         rgba(180, 40, 40, 0.25);
@@ -185,63 +304,106 @@
 }
 
 
+/*
+The background covers
+te complete browser window.
+Flexbox centers the modal
+in the middle of the screen.
+*/
 .faq-modal-background {
-    position: fixed;
+    position:
+        fixed;
 
-    top: 0;
-    left: 0;
+    top:
+        0;
 
-    width: 100%;
-    height: 100%;
+    left:
+        0;
 
-    display: flex;
+    width:
+        100%;
 
-    justify-content: center;
-    align-items: center;
+    height:
+        100%;
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
 
     background:
         rgba(0, 0, 0, 0.65);
 
-    z-index: 1000;
+    /*
+    Keeps the modal above
+    the normal page content.
+    */
+    z-index:
+        1000;
 }
 
 
+/*
+FAQ MODAL
+The modal normally has a width
+of 500px but becomes smaller
+on narrow screens.
+*/
 .faq-modal {
-    width: 500px;
+    width:
+        500px;
 
     max-width:
         calc(100% - 40px);
 
-    padding: 30px;
+    padding:
+        30px;
 }
 
 
 .faq-modal h2 {
-    margin-top: 0;
+    margin-top:
+        0;
 
-    margin-bottom: 20px;
+    margin-bottom:
+        20px;
 }
 
 
 .faq-modal label {
-    display: block;
+    display:
+        block;
 
-    margin-top: 15px;
+    margin-top:
+        15px;
 
-    margin-bottom: 7px;
+    margin-bottom:
+        7px;
 
     color:
         var(--text-secondary);
 }
 
 
+/*
+The question uses an input.
+The answer uses a textarea.
+Both use the same basic design.
+*/
 .faq-modal input,
 .faq-modal textarea {
-    width: 100%;
+    width:
+        100%;
 
-    box-sizing: border-box;
+    box-sizing:
+        border-box;
 
-    padding: 12px;
+    padding:
+        12px;
 
     border:
         1px solid
@@ -256,10 +418,15 @@
     color:
         var(--text-primary);
 
-    outline: none;
+    outline:
+        none;
 }
 
 
+/*
+Focused fields get
+a brighter border.
+*/
 .faq-modal input:focus,
 .faq-modal textarea:focus {
     border-color:
@@ -267,17 +434,31 @@
 }
 
 
+/*
+The answer field can only
+be resized vertically.
+*/
 .faq-modal textarea {
-    resize: vertical;
+    resize:
+        vertical;
 }
 
 
+/*
+The buttons are displayed
+on the right side
+with some space between them.
+*/
 .faq-modal-buttons {
-    display: flex;
+    display:
+        flex;
 
-    justify-content: flex-end;
+    justify-content:
+        flex-end;
 
-    gap: 10px;
+    gap:
+        10px;
 
-    margin-top: 25px;
+    margin-top:
+        25px;
 }

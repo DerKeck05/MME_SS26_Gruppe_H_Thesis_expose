@@ -5,9 +5,31 @@ import {
 
 import "../student-dashboard-stylesheet.css";
 
-// Builds the Sidebar of the Dashboard with Links to the different pages with some styling
+
+/*
+The sidebar contains links
+to the different student pages.
+The currently opened page
+gets an additional CSS class
+so it can be highlighted.
+*/
 function Sidebar() {
-    const location = useLocation();
+
+    /*
+    useLocation gives access
+    to the current browser path.
+    */
+    const location =
+        useLocation();
+
+
+    /*
+    This function checks
+    if the given path is currently open.
+    The active page receives
+    the additional class
+    "sidebar-link-active".
+    */
     function getLinkClass(
         path: string
     ) {
@@ -16,15 +38,26 @@ function Sidebar() {
             location.pathname === path
         ) {
 
-            return "sidebar-link sidebar-link-active";
+            return (
+                "sidebar-link sidebar-link-active"
+            );
         }
 
 
-        return "sidebar-link";
+        return (
+            "sidebar-link"
+        );
     }
     return (
 
+        /*
+        glass-panel adds
+        the shared glass design.
+        */
         <aside className="sidebar glass-panel">
+
+
+            {/* HOMEPAGE */}
 
             <Link
                 to="/student/homepage"
@@ -37,6 +70,9 @@ function Sidebar() {
                 Homepage
             </Link>
 
+
+            {/* KAPITEL */}
+
             <Link
                 to="/student/outline"
                 className={
@@ -48,6 +84,9 @@ function Sidebar() {
                 Kapitel
             </Link>
 
+
+            {/* KALENDER */}
+
             <Link
                 to="/student/calendar"
                 className={
@@ -58,6 +97,10 @@ function Sidebar() {
             >
                 Kalender
             </Link>
+
+
+            {/* FAQ */}
+
             <Link
                 to="/student/faq"
                 className={
@@ -68,8 +111,7 @@ function Sidebar() {
             >
                 FAQ
             </Link>
-        </aside>
+    </aside>
     );
 }
-
 export default Sidebar;

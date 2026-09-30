@@ -1,9 +1,20 @@
+/*
+The complete professor start page
+fills at least the complete browser height.
+Two radial gradients create
+the colored background effects.
+The normal dark application background
+is used below the gradients.
+*/
 .prof-page {
-    min-height: 100vh;
+    min-height:
+        100vh;
 
-    padding: 45px;
+    padding:
+        45px;
 
-    box-sizing: border-box;
+    box-sizing:
+        border-box;
 
     background:
         radial-gradient(
@@ -18,21 +29,37 @@
         ),
         var(--background-dark);
 
-    color: var(--text-primary);
+    color:
+        var(--text-primary);
 }
 
 
-/* Dashboard Container */
-
+/*
+This container holds
+the professor dashboard table.
+The transparent background,
+blur and border create
+the glass effect.
+*/
 .prof-table-glass {
-    width: 100%;
-    max-width: 1200px;
+    width:
+        100%;
 
-    margin: 0 auto;
+    max-width:
+        1200px;
 
-    padding: 28px;
+    /*
+    Auto margin centers
+    the container horizontally.
+    */
+    margin:
+        0 auto;
 
-    box-sizing: border-box;
+    padding:
+        28px;
+
+    box-sizing:
+        border-box;
 
     background:
         var(--glass-background);
@@ -47,6 +74,10 @@
     backdrop-filter:
         blur(18px);
 
+    /*
+    Safari needs this version
+    of backdrop-filter.
+    */
     -webkit-backdrop-filter:
         blur(18px);
 
@@ -64,21 +95,37 @@
     color:
         var(--text-primary);
 
-    font-size: 34px;
+    font-size:
+        34px;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
-    letter-spacing: -0.5px;
+    /*
+    Moves the letters
+    slightly closer together.
+    */
+    letter-spacing:
+        -0.5px;
 }
 
 
-/* Tabelle */
-
+/*
+The table uses separate borders
+so there can be space
+between the individual rows.
+*/
 .prof-student-table {
-    width: 100%;
+    width:
+        100%;
 
-    border-collapse: separate;
+    border-collapse:
+        separate;
 
+    /*
+    No horizontal space,
+    12px vertical space between rows.
+    */
     border-spacing:
         0
         12px;
@@ -94,27 +141,41 @@
         16px
         8px;
 
-    text-align: left;
+    text-align:
+        left;
 
     color:
         var(--text-secondary);
 
-    font-size: 14px;
+    font-size:
+        14px;
 
-    font-weight: 600;
+    font-weight:
+        600;
 }
 
 
+/*
+Every student row gets
+a slightly transparent background.
+*/
 .prof-student-table tbody tr {
     background:
         rgba(255, 255, 255, 0.07);
 
+    /*
+    Makes the hover background
+    change smoothly.
+    */
     transition:
-        background 0.2s,
-        transform 0.2s;
+        background 0.2s;
 }
 
 
+/*
+The row becomes slightly brighter
+when the mouse is over it.
+*/
 .prof-student-table tbody tr:hover {
     background:
         var(--glass-background-hover);
@@ -129,10 +190,15 @@
     color:
         var(--text-primary);
 
-    font-size: 15px;
+    font-size:
+        15px;
 }
 
 
+/*
+The first cell creates
+the rounded left side of the row.
+*/
 .prof-student-table td:first-child {
     border-radius:
         var(--border-radius-medium)
@@ -142,6 +208,10 @@
 }
 
 
+/*
+The last cell creates
+the rounded right side of the row.
+*/
 .prof-student-table td:last-child {
     border-radius:
         0
@@ -151,8 +221,11 @@
 }
 
 
-/* Thesis Button */
-
+/*
+The button is used either
+to open an existing thesis
+or to assign a new thesis.
+*/
 .prof-student-table button {
     padding:
         10px
@@ -171,11 +244,14 @@
     color:
         var(--text-primary);
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-weight: 600;
+    font-weight:
+        600;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
     transition:
         background 0.2s,
@@ -184,6 +260,11 @@
 }
 
 
+/*
+The thesis button becomes brighter
+and moves slightly upwards
+when the mouse is over it.
+*/
 .prof-student-table button:hover {
     background:
         rgba(70, 115, 210, 0.30);
@@ -196,28 +277,37 @@
 }
 
 
-/* Kleine Bildschirme */
-
+/*
+On smaller screens
+the page uses less padding.
+The table keeps a minimum width
+and can be scrolled horizontally.
+*/
 @media (max-width: 800px) {
 
     .prof-page {
-        padding: 20px;
+        padding:
+            20px;
     }
 
 
     .prof-table-glass {
-        padding: 20px;
+        padding:
+            20px;
 
-        overflow-x: auto;
+        overflow-x:
+            auto;
     }
 
 
     .prof-table-glass h1 {
-        font-size: 28px;
+        font-size:
+            28px;
     }
 
 
     .prof-student-table {
-        min-width: 650px;
+        min-width:
+            650px;
     }
 }

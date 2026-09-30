@@ -1,205 +1,386 @@
+/*
+The backdrop covers the complete screen
+while the student edit modal is open.
+Flexbox centers the modal
+in the middle of the browser window.
+*/
 .student-edit-backdrop {
-    position: fixed;
-    inset: 0;
+    position:
+        fixed;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    inset:
+        0;
 
-    padding: 20px;
+    display:
+        flex;
 
-    background: rgba(0, 0, 0, 0.45);
+    justify-content:
+        center;
 
-    z-index: 1000;
+    align-items:
+        center;
+
+    padding:
+        20px;
+
+    background:
+        rgba(0, 0, 0, 0.45);
+
+    z-index:
+        1000;
 }
 
 
+/*
+This container holds
+the student edit form.
+The transparent background
+and backdrop-filter create
+the glass effect.
+*/
 .student-edit-glass {
-    width: 440px;
-    max-width: 100%;
+    width:
+        440px;
 
-    padding: 32px;
+    max-width:
+        100%;
 
-    background: rgba(255, 255, 255, 0.12);
+    padding:
+        32px;
 
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
+    background:
+        rgba(255, 255, 255, 0.12);
 
-    border: 1px solid rgba(255, 255, 255, 0.28);
-    border-radius: 26px;
+    backdrop-filter:
+        blur(22px);
+
+    -webkit-backdrop-filter:
+        blur(22px);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.28);
+
+    border-radius:
+        26px;
 
     box-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.45),
-        inset 0 1px 0 rgba(255, 255, 255, 0.20);
+        0 8px 32px
+        rgba(0, 0, 0, 0.45),
 
-    box-sizing: border-box;
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.20);
+
+    box-sizing:
+        border-box;
 }
 
 
+/*
+The title is shown on the left
+and the close button on the right.
+*/
 .student-edit-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display:
+        flex;
 
-    margin-bottom: 24px;
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    margin-bottom:
+        24px;
 }
 
 
+/*
+MODAL TITLE
+*/
 .student-edit-header h2 {
-    margin: 0;
+    margin:
+        0;
 
-    color: white;
+    color:
+        white;
 
-    font-size: 28px;
-    font-weight: 600;
+    font-size:
+        28px;
+
+    font-weight:
+        600;
 }
 
 
+/*
+The button is displayed
+as a small circle
+inside the modal header.
+*/
 .student-edit-close {
-    width: 38px;
-    height: 38px;
+    width:
+        38px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height:
+        38px;
 
-    padding: 0;
+    display:
+        flex;
 
-    border: 1px solid rgba(255, 255, 255, 0.28);
-    border-radius: 50%;
+    justify-content:
+        center;
 
-    background: rgba(255, 255, 255, 0.12);
+    align-items:
+        center;
 
-    color: white;
+    padding:
+        0;
 
-    cursor: pointer;
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.28);
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(255, 255, 255, 0.12);
+
+    color:
+        white;
+
+    cursor:
+        pointer;
 }
 
 
+/*
+The close button becomes
+slightly brighter on hover.
+*/
 .student-edit-close:hover {
-    background: rgba(255, 255, 255, 0.22);
+    background:
+        rgba(255, 255, 255, 0.22);
 }
 
 
+/*
+The form fields are displayed
+below each other.
+*/
 .student-edit-form {
-    display: flex;
-    flex-direction: column;
+    display:
+        flex;
 
-    gap: 10px;
+    flex-direction:
+        column;
+
+    gap:
+        10px;
 }
 
 
+/*
+FORM LABELS
+*/
 .student-edit-form label {
-    margin-top: 6px;
+    margin-top:
+        6px;
 
-    color: white;
+    color:
+        white;
 
-    font-size: 16px;
-    font-weight: 500;
+    font-size:
+        16px;
 
-    text-align: left;
+    font-weight:
+        500;
+
+    text-align:
+        left;
 }
 
 
+/*
+The input fields use
+a bright background
+so the entered text stays readable.
+*/
 .student-edit-form input {
-    width: 100%;
-    min-height: 48px;
+    width:
+        100%;
 
-    padding: 10px 14px;
+    min-height:
+        48px;
 
-    background: rgba(255, 255, 255, 0.88);
+    padding:
+        10px 14px;
 
-    border: 1px solid rgba(255, 255, 255, 0.65);
-    border-radius: 12px;
+    background:
+        rgba(255, 255, 255, 0.88);
 
-    box-sizing: border-box;
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.65);
 
-    color: #111;
+    border-radius:
+        12px;
 
-    font-family: inherit;
-    font-size: 16px;
+    box-sizing:
+        border-box;
 
-    outline: none;
+    color:
+        #111;
+
+    font-family:
+        inherit;
+
+    font-size:
+        16px;
+
+    outline:
+        none;
 }
 
 
+/*
+Focused inputs become
+completely white.
+*/
 .student-edit-form input:focus {
-    background: white;
+    background:
+        white;
 
-    border-color: white;
+    border-color:
+        white;
 }
 
 
+/*
+Cancel and save buttons
+are displayed next to each other.
+*/
 .student-edit-actions {
-    display: flex;
+    display:
+        flex;
 
-    gap: 12px;
+    gap:
+        12px;
 
-    margin-top: 18px;
+    margin-top:
+        18px;
 }
 
 
+/*
+Both action buttons
+use the same amount of space.
+*/
 .student-edit-actions button {
-    flex: 1;
+    flex:
+        1;
 
-    min-height: 46px;
+    min-height:
+        46px;
 
-    border-radius: 12px;
+    border-radius:
+        12px;
 
-    font-family: inherit;
-    font-size: 15px;
-    font-weight: 600;
+    font-family:
+        inherit;
 
-    cursor: pointer;
+    font-size:
+        15px;
+
+    font-weight:
+        600;
+
+    cursor:
+        pointer;
 }
 
 
 .student-edit-cancel {
-    background: rgba(255, 255, 255, 0.16);
+    background:
+        rgba(255, 255, 255, 0.16);
 
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.35);
 
-    color: white;
+    color:
+        white;
 }
 
 
 .student-edit-cancel:hover {
-    background: rgba(255, 255, 255, 0.24);
+    background:
+        rgba(255, 255, 255, 0.24);
 }
 
 
+/*
+The save button uses
+a brighter background
+than the cancel button.
+*/
 .student-edit-save {
-    background: rgba(255, 255, 255, 0.9);
+    background:
+        rgba(255, 255, 255, 0.9);
 
-    border: 1px solid white;
+    border:
+        1px solid
+        white;
 
-    color: #111;
+    color:
+        #111;
 }
 
 
+/*
+The save button becomes fully white
+when it is active and hovered.
+*/
 .student-edit-save:hover:not(:disabled) {
-    background: white;
+    background:
+        white;
 }
 
 
+/*
+A disabled button becomes
+less visible and cannot be clicked.
+*/
 .student-edit-save:disabled {
-    opacity: 0.45;
+    opacity:
+        0.45;
 
-    cursor: not-allowed;
+    cursor:
+        not-allowed;
 }
 
 
+/*
+On smaller screens
+the modal gets slightly less padding.
+
+The action buttons are displayed
+below each other.
+*/
 @media (max-width: 550px) {
 
     .student-edit-glass {
-        padding: 25px;
+        padding:
+            25px;
 
-        border-radius: 22px;
+        border-radius:
+            22px;
     }
 
 
     .student-edit-actions {
-        flex-direction: column;
+        flex-direction:
+            column;
     }
-
 }

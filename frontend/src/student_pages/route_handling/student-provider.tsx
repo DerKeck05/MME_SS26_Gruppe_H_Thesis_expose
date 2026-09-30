@@ -1,12 +1,17 @@
-import {createContext, useContext, useEffect, useState} from "react";
-import {getStudent} from "../../apis/student-api.ts";
+import {createContext,useContext,useEffect,useState} from "react";
 import {Outlet} from "react-router-dom";
+import {getStudent} from "../../apis/student-api.ts";
 import type {CalendarEvent} from "../calendar_pages/calendar-component.tsx";
 import {getThesisDeadline} from "../../utils/thesis-utils.ts";
 import Loading from "../../globals/loading.tsx";
 import {useError} from "../../globals/error-provider.tsx";
 
-// Every Data the Provider can provide
+
+/*
+This type describes all information
+that the StudentProvider makes available
+to the student pages.
+*/
 type StudentContextType = {
     studentId: number | null;
     thesisId: number | null;
@@ -15,88 +20,320 @@ type StudentContextType = {
     deadline: CalendarEvent | null;
 };
 
-const StudentContext = createContext<StudentContextType | null>(null);
 
+/*
+At the beginning there is no context value.
+The value is provided later
+by StudentProvider.
+*/
+const StudentContext =
+    createContext<StudentContextType | null>(
+        null
+    );
+
+
+/*
+The provider loads the information
+of the currently logged in student.
+The loaded data can then be used
+by all student pages below this provider.
+*/
 function StudentProvider() {
-    // Variables for the data
-    const [thesisId, setThesisId] = useState<number | null>(null);
-    const [studentId, setStudentId] = useState<number | null>(null);
-    const [supervisorId, setSupervisorId] = useState<number | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [deadline, setDeadline] = useState<CalendarEvent | null>(null);
 
-    // Error from Error Provider for UI error display
-    const {showError} = useError();
+    /*
+    These states store:
+    - student ID
+    - thesis ID
+    - professor ID
+    - thesis deadline
+    */
+    const [
+        studentId,
+        setStudentId
+    ] = useState<number | null>(null);
 
-    // loads different data at the first opening of the Student Dashboard
+    const [
+        thesisId,
+        setThesisId
+    ] = useState<number | null>(null);
+
+    const [
+        supervisorId,
+        setSupervisorId
+    ] = useState<number | null>(null);
+
+    const [
+        deadline,
+        setDeadline
+    ] = useState<CalendarEvent | null>(null);
+
+
+    /*
+
+    The loading screen is shown
+    while the student information
+    is loaded from the backend.
+    */
+    const [
+        isLoading,
+        setIsLoading
+    ] = useState(true);
+
+
+    /*
+    showError displays errors
+    using the global error provider.
+    */
+    const {
+        showError
+    } = useError();
+
+
+    /*
+    This effect runs
+    when the provider is opened.
+    First the student ID
+    is read from localStorage.
+    After that the student,
+    thesis and deadline information
+    are loaded.
+    */
     useEffect(() => {
+
         async function loadStudent() {
+
             try {
-                // gets Student ID from local browser storage from the login
-                const storedStudiId = localStorage.getItem("studentId");
 
-                if (!storedStudiId) return;
+                /*
+                The student ID was stored
+                in localStorage during login.
+                */
+                const storedStudentId =
+                    localStorage.getItem(
+                        "studentId"
+                    );
 
-                // gets the different IDs from backend and stores them
-                const id = Number(storedStudiId);
-                const student = await getStudent(id);
-                const thesisId = student.thesis?.id ?? null;
-                const supervId = student.supervisorId ?? null;
 
-                // also loads deadline
-                const dl = thesisId
-                    ? await getThesisDeadline(thesisId)
-                    : null;
+                /*
+                Without a student ID
+                no student can be loaded.
+                */
+                if (
+                    storedStudentId == null
+                ) {
 
-                // stores all the info into the variables
-                setStudentId(student.id);
-                setThesisId(thesisId);
-                setSupervisorId(supervId);
-                setDeadline(dl);
+                    return;
+                }
 
-                console.log(student);
-            } catch (e) {
-                console.error("Student konnte nicht geladen werden.", e);
 
-                showError(e instanceof Error
-                    ? e.message
-                    : "Student konnte nicht geladen werden!");
+                /*
+                localStorage always returns strings.
+                Therefore the ID
+                has to be converted into a number.
+                */
+                const id =
+                    Number(
+                        storedStudentId
+                    );
+
+
+                if (
+                    Number.isNaN(id)
+                ) {
+
+                    throw new Error(
+                        "Ungültige Student-ID."
+                    );
+                }
+
+
+                /*
+                Load the complete student information
+                from the backend.
+                */
+                const student =
+                    await getStudent(
+                        id
+                    );
+
+
+                /*
+                A student can have
+                no thesis yet.
+                In this case the thesis ID
+                stays null.
+                */
+                const loadedThesisId =
+                    student.thesis != null
+                        ? student.thesis.id
+                        : null;
+
+
+                /*
+                The professor ID can also
+                theoretically be null.
+                */
+                const loadedSupervisorId =
+                    student.supervisorId != null
+                        ? student.supervisorId
+                        : null;
+
+
+                /*
+                The deadline can only be loaded
+                if the student already has a thesis.
+                */
+                let loadedDeadline:
+                    CalendarEvent | null =
+                    null;
+
+
+                if (
+                    loadedThesisId != null
+                ) {
+
+                    loadedDeadline =
+                        await getThesisDeadline(
+                            loadedThesisId
+                        );
+                }
+
+
+                /*
+                The loaded information
+                is stored in the provider states.
+                */
+                setStudentId(
+                    student.id
+                );
+
+                setThesisId(
+                    loadedThesisId
+                );
+
+                setSupervisorId(
+                    loadedSupervisorId
+                );
+
+                setDeadline(
+                    loadedDeadline
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Student konnte nicht geladen werden:",
+                    error
+                );
+
+
+                if (
+                    error instanceof Error
+                ) {
+
+                    showError(
+                        error.message
+                    );
+
+                } else {
+
+                    showError(
+                        "Student konnte nicht geladen werden!"
+                    );
+                }
+
+
             } finally {
-                // if All data is loaded correctly, the loading screen will disappear
-                setIsLoading(false);
+
+                /*
+                Loading is finished
+                whether the request
+                was successful or not.
+                */
+                setIsLoading(
+                    false
+                );
             }
         }
 
-        void loadStudent();
-    }, []);
 
-    // Displays Loading Screen as long data is loading or passes the Data down
-    if (isLoading) {
-        return <Loading/>
+        loadStudent();
+
+    }, [
+        showError
+    ]);
+
+
+    /*
+    The student pages are only rendered
+    after all required student information
+    has been loaded.
+    */
+    if (
+        isLoading
+    ) {
+
+        return (
+            <Loading />
+        );
     }
 
+
+    /*
+    All student pages below the provider
+    can access these values
+    using useStudent().
+    */
     return (
+
         <StudentContext.Provider
             value={{
-                studentId,
-                thesisId,
-                supervisorId,
-                isLoading,
-                deadline,
+                studentId:
+                    studentId,
+
+                thesisId:
+                    thesisId,
+
+                supervisorId:
+                    supervisorId,
+
+                isLoading:
+                    isLoading,
+
+                deadline:
+                    deadline
             }}
         >
-            <Outlet/>
+
+            <Outlet />
+
         </StudentContext.Provider>
     );
 }
 
+
 export default StudentProvider;
 
-// function to let other classes use the context of this class to use its variables
-export function useStudent() {
-    const context = useContext(StudentContext);
 
-    if (!context) {
+/*
+This helper function gives other components
+easy access to the StudentContext.
+If it is used outside StudentProvider,
+an error is thrown.
+*/
+export function useStudent() {
+
+    const context =
+        useContext(
+            StudentContext
+        );
+
+
+    if (
+        context == null
+    ) {
+
         throw new Error(
             "useStudent muss innerhalb des StudentProviders verwendet werden"
         );

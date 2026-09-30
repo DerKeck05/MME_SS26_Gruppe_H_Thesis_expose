@@ -1,83 +1,234 @@
 import {useEffect, useState} from "react";
-import {getStudent, updateStudent as updateStudentAPI} from "../../apis/student-api.ts";
+import {getStudent,updateStudent as updateStudentAPI} from "../../apis/student-api.ts";
 import Loading from "../../globals/loading.tsx";
 import EditStudentModal from "../modals/student-modals/edit-student-modal.tsx";
 import {useError} from "../../globals/error-provider.tsx";
 import "../student_waiting.css";
 
+/*
+This type contains the student information
+that is needed on the waiting page
+nd inside the edit modal.
+The type is exported because
+EditStudentModal also uses it.
+*/
 export interface UIStudent {
     name: string;
     email: string;
     course: string;
 }
 
-function StudentLandingPage({studentId}: { studentId: number }) {
-    const [student, setStudent] = useState<UIStudent | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [showEditModal, setShowEditModal] = useState(false);
 
-    const {showError} = useError();
+/*
+The page needs the ID
+of the currently logged in student.
+*/
+type StudentLandingPageProps = {
+    studentId: number;
+};
 
+
+function StudentLandingPage({
+    studentId
+}: StudentLandingPageProps) {
+
+    /*
+    Stores the student information
+    loaded from the backend.
+    null means that no student
+    has been loaded yet.
+    */
+    const [
+        student,
+        setStudent
+    ] = useState<UIStudent | null>(null);
+
+
+    /*
+    While the student data is loading,
+    the Loading component is shown.
+    */
+    const [
+        isLoading,
+        setIsLoading
+    ] = useState(true);
+
+
+    /*
+    Stores if the modal
+    for editing student data
+    is currently open.
+    */
+    const [
+        showEditModal,
+        setShowEditModal
+    ] = useState(false);
+
+
+    /*
+    showError displays errors
+    using the global error provider.
+    */
+    const {
+        showError
+    } = useError();
+
+
+    /*
+    Whenever the student ID changes,
+    the current student information
+    is loaded from the backend.
+    */
     useEffect(() => {
+
         async function loadStudent() {
+
             try {
 
-                const studentData = await getStudent(studentId);
+                const studentData =
+                    await getStudent(
+                        studentId
+                    );
 
-                if (!studentData) {
+
+                /*
+                If no student was returned,
+                there is nothing to display.
+                */
+                if (
+                    studentData == null
+                ) {
+
                     return;
                 }
 
+
+                /*
+                Only the information
+                needed by this page
+                is stored in the UI state.
+                */
                 setStudent({
-                    name: studentData.name,
-                    email: studentData.email,
-                    course: studentData.course
+                    name:
+                        studentData.name,
+
+                    email:
+                        studentData.email,
+
+                    course:
+                        studentData.course
                 });
 
-                setShowEditModal(false);
+
+                /*
+                Close the edit modal
+                if a different student
+                was loaded.
+                */
+                setShowEditModal(
+                    false
+                );
+
 
             } catch (error) {
 
                 console.error(
-                    "Student konnte nicht geladen werden",
+                    "Student konnte nicht geladen werden:",
                     error
                 );
 
-                if (error instanceof Error) {
-                    showError(error.message);
+
+                if (
+                    error instanceof Error
+                ) {
+
+                    showError(
+                        error.message
+                    );
+
                 } else {
-                    showError("Student konnte nicht geladen werden!");
+
+                    showError(
+                        "Student konnte nicht geladen werden!"
+                    );
                 }
 
+
             } finally {
-                setIsLoading(false);
+
+                /*
+                Loading is finished
+                whether the request
+                was successful or not.
+                */
+                setIsLoading(
+                    false
+                );
             }
         }
 
-        void loadStudent();
-    }, [studentId]);
+
+        loadStudent();
+
+    }, [
+        studentId
+    ]);
 
 
-    async function handleUpdateStudent(data: UIStudent) {
+    /*
+    Receives the edited information
+    from EditStudentModal
+    and sends it to the backend.
+    All fields are always sent,
+    including values that were not changed.
+    */
+    async function handleUpdateStudent(
+        data: UIStudent
+    ) {
+
         try {
-            const updatedStudent = await updateStudentAPI({
-                id: studentId,
-                name: data.name,
-                email: data.email,
-                course: data.course
-            });
 
+            const updatedStudent =
+                await updateStudentAPI({
+                    id:
+                        studentId,
+
+                    name:
+                        data.name,
+
+                    email:
+                        data.email,
+
+                    course:
+                        data.course
+                });
+
+
+            /*
+            Replace the local student information
+            with the updated data
+            returned by the backend.
+            */
             setStudent({
-                name: updatedStudent.name,
-                email: updatedStudent.email,
-                course: updatedStudent.course
-            });
-            setShowEditModal(false);
+                name:
+                    updatedStudent.name,
 
-            console.log(
-                "Student geupdated:",
-                updatedStudent
+                email:
+                    updatedStudent.email,
+
+                course:
+                    updatedStudent.course
+            });
+
+
+            /*
+            Close the modal
+            after the update was successful.
+            */
+            setShowEditModal(
+                false
             );
+
 
         } catch (error) {
 
@@ -86,17 +237,47 @@ function StudentLandingPage({studentId}: { studentId: number }) {
                 error
             );
 
-            if (error instanceof Error) {
-                showError(error.message);
+
+            if (
+                error instanceof Error
+            ) {
+
+                showError(
+                    error.message
+                );
+
             } else {
-                showError("Student konnte nicht aktualisiert werden!");
+
+                showError(
+                    "Student konnte nicht aktualisiert werden!"
+                );
             }
         }
     }
-    if (isLoading) {
-        return <Loading/>;
+
+
+    /*
+    The normal page is not shown
+    before the student request is finished.
+    */
+    if (
+        isLoading
+    ) {
+
+        return (
+            <Loading />
+        );
     }
-    if (!student) {
+
+
+    /*
+    This message is shown
+    if no student data could be loaded.
+    */
+    if (
+        student == null
+    ) {
+
         return (
             <main className="student-waiting-page">
 
@@ -113,6 +294,11 @@ function StudentLandingPage({studentId}: { studentId: number }) {
     }
 
     return (
+        /*
+        This page is shown
+        while the professor has not created
+        a thesis for the student yet.
+        */
         <main className="student-waiting-page">
 
             <div className="student-waiting-glass">
@@ -133,6 +319,10 @@ function StudentLandingPage({studentId}: { studentId: number }) {
                 </p>
 
 
+                {/*
+                Shows the current information
+                stored for the student.
+                */}
                 <div className="student-waiting-info">
 
                     <div className="student-waiting-info-row">
@@ -176,10 +366,16 @@ function StudentLandingPage({studentId}: { studentId: number }) {
                 </div>
 
 
+                {/* DATEN BEARBEITEN */}
+
                 <button
                     className="student-waiting-edit-button"
                     onClick={() => {
-                        setShowEditModal(true);
+
+                        setShowEditModal(
+                            true
+                        );
+
                     }}
                 >
                     Daten bearbeiten
@@ -187,20 +383,31 @@ function StudentLandingPage({studentId}: { studentId: number }) {
 
             </div>
 
-            {showEditModal && (
 
-                <EditStudentModal
+            {/*
+            The modal is only rendered
+            while showEditModal is true.
+            */}
+            {
+                showEditModal == true && (
 
-                    onCancel={() => {
-                        setShowEditModal(false);
-                    }}
+                    <EditStudentModal
+                        onCancel={() => {
 
-                    onSubmit={handleUpdateStudent}
+                            setShowEditModal(
+                                false
+                            );
 
-                    student={student}
-                />
-
-            )}
+                        }}
+                        onSubmit={
+                            handleUpdateStudent
+                        }
+                        student={
+                            student
+                        }
+                    />
+                )
+            }
 
         </main>
     );

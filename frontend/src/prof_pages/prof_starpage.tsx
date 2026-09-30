@@ -1,82 +1,180 @@
-import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {
+    useEffect,
+    useState
+} from "react";
+
+import {
+    useNavigate
+} from "react-router-dom";
+
 import "./prof_startpage.css";
 import "./prof_thesis_modal.css";
 
 
+const API_URL =
+    import.meta.env.VITE_API_URL;
+
+
+/*
+This type contains the student information
+that is needed on the professor start page.
+A student can already have a thesis
+or can have no thesis yet.
+*/
 type Student = {
     id: number;
     name: string;
     email: string;
     course: string;
-    supervisorId: number | null;
+
     thesis: {
         id: number;
         title: string;
-        startDate: string;
-        endDate: string;
     } | null;
 };
 
 
 function ProfStartpage() {
 
-    const navigate = useNavigate();
+    /*
+    useNavigate is used
+    to open the thesis page
+    of a student.
+    */
+    const navigate =
+        useNavigate();
 
-    const [showThesisModal, setShowThesisModal] =
-        useState(false);
 
-    const [students, setStudents] =
-        useState<Student[]>([]);
+    /*
+    Stores if the modal
+    for creating a thesis is open.
+    */
+    const [
+        showThesisModal,
+        setShowThesisModal
+    ] = useState(false);
 
-    const [selectedStudent, setSelectedStudent] =
-        useState<Student | null>(null);
 
-    const [thesisTitle, setThesisTitle] =
-        useState("");
+    /*
+    Stores all students
+    assigned to the logged in professor.
+    */
+    const [
+        students,
+        setStudents
+    ] = useState<Student[]>([]);
 
-    const [deadline, setDeadline] =
-        useState("");
 
-    const [startDate, setStartDate] =
-        useState("");
+    /*
+    Stores the student
+    for whom a new thesis should be created.
+    */
+    const [
+        selectedStudent,
+        setSelectedStudent
+    ] = useState<Student | null>(null);
 
+
+    /*
+    These states store the information
+    entered in the thesis modal.
+    */
+    const [
+        thesisTitle,
+        setThesisTitle
+    ] = useState("");
+
+    const [
+        deadline,
+        setDeadline
+    ] = useState("");
+
+    const [
+        startDate,
+        setStartDate
+    ] = useState("");
+
+
+    /*
+    The ID was stored in localStorage
+    after the professor logged in.
+    */
     const supervisorId =
-        localStorage.getItem("supervisorId");
+        localStorage.getItem(
+            "supervisorId"
+        );
 
 
-    function loadStudents() {
+    /*
+    Loads all students
+    assigned to the logged in professor.
+    */
+    async function loadStudents() {
 
         const currentSupervisorId =
-            localStorage.getItem("supervisorId");
+            localStorage.getItem(
+                "supervisorId"
+            );
 
 
-        if (currentSupervisorId == null) {
+        /*
+        Without a professor ID
+        no students can be loaded.
+        */
+        if (
+            currentSupervisorId == null
+        ) {
+
             return;
         }
 
 
-        fetch(
-            "http://localhost:3000/api/students/supervisor/" +
-            currentSupervisorId
-        )
-            .then(
-                (response) => response.json()
-            )
-            .then(
-                (data) => {
+        try {
 
-                    console.log(
-                        "Geladene Studenten:",
-                        data
-                    );
+            const response =
+                await fetch(
+                    `${API_URL}/api/students/supervisor/${currentSupervisorId}`
+                );
 
-                    setStudents(data);
-                }
+
+            if (
+                response.ok == false
+            ) {
+
+                throw new Error(
+                    "Studenten konnten nicht geladen werden"
+                );
+            }
+
+
+            const data: Student[] =
+                await response.json();
+
+
+            setStudents(
+                data
             );
+
+
+        } catch (error) {
+
+            /*
+            Loading errors are written
+            to the developer console.
+            The page itself can still remain open.
+            */
+            console.error(
+                "Fehler beim Laden der Studenten:",
+                error
+            );
+        }
     }
 
 
+    /*
+    This effect runs once
+    when the page is opened.
+    */
     useEffect(() => {
 
         loadStudents();
@@ -84,6 +182,11 @@ function ProfStartpage() {
     }, []);
 
 
+    /*
+    Stores the selected student
+    and clears old form values
+    before opening the modal.
+    */
     function assignThesis(
         student: Student
     ) {
@@ -104,6 +207,10 @@ function ProfStartpage() {
     }
 
 
+    /*
+    Closes the modal
+    and removes all old values.
+    */
     function closeThesisModal() {
 
         setShowThesisModal(
@@ -122,6 +229,13 @@ function ProfStartpage() {
     }
 
 
+    /*
+    If the student already has a thesis,
+    the thesis title is shown as a button.
+    Clicking it opens the thesis page.
+    If the student has no thesis yet,
+    a button for creating one is shown.
+    */
     function thesisButton(
         student: Student
     ) {
@@ -130,17 +244,26 @@ function ProfStartpage() {
             student.thesis != null
         ) {
 
+            /*
+            Store the thesis locally
+            so TypeScript knows that it exists.
+            */
+            const thesis =
+                student.thesis;
+
+
             return (
 
                 <button
+                    type="button"
                     onClick={() =>
                         navigate(
                             "/professor/thesis/" +
-                            student.thesis!.id
+                            thesis.id
                         )
                     }
                 >
-                    {student.thesis.title}
+                    {thesis.title}
                 </button>
             );
         }
@@ -149,6 +272,7 @@ function ProfStartpage() {
         return (
 
             <button
+                type="button"
                 onClick={() =>
                     assignThesis(
                         student
@@ -161,6 +285,12 @@ function ProfStartpage() {
     }
 
 
+    /*
+    Creates a new thesis
+    for the selected student.
+    Student, professor, title
+    and both dates are required.
+    */
     async function createThesis() {
 
         if (
@@ -195,53 +325,86 @@ function ProfStartpage() {
             );
 
 
-        const response =
-            await fetch(
-                "http://localhost:3000/api/thesis",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify({
-
-                            studentId:
-                                selectedStudent.id,
-
-                            supervisorId:
-                                supervisorIdNumber,
-
-                            title:
-                                thesisTitle,
-
-                            startDate:
-                                startDate,
-
-                            deadline:
-                                deadline
-                        })
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        console.log(data);
-
-
+        /*
+        Make sure that the professor ID
+        is a valid number.
+        */
         if (
-            response.ok
+            Number.isNaN(
+                supervisorIdNumber
+            )
         ) {
 
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/thesis`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                studentId:
+                                    selectedStudent.id,
+
+                                supervisorId:
+                                    supervisorIdNumber,
+
+                                title:
+                                    thesisTitle,
+
+                                startDate:
+                                    startDate,
+
+                                deadline:
+                                    deadline
+                            })
+                    }
+                );
+
+
+            if (
+                response.ok == false
+            ) {
+
+                throw new Error(
+                    "Thesis konnte nicht erstellt werden"
+                );
+            }
+
+
+            /*
+            Close the modal after
+            successful creation.
+            */
             closeThesisModal();
 
-            loadStudents();
+
+            /*
+            Reload the students
+            so the newly created thesis
+            is immediately displayed.
+            */
+            await loadStudents();
+
+
+        } catch (error) {
+
+            console.error(
+                "Fehler beim Erstellen der Thesis:",
+                error
+            );
         }
     }
 
@@ -251,6 +414,12 @@ function ProfStartpage() {
         <main className="prof-page">
 
 
+            {/*
+            THESIS MODAL
+            The modal is only shown
+            if it was opened
+            and a student was selected.
+            */}
             {
                 showThesisModal == true &&
                 selectedStudent != null && (
@@ -262,6 +431,11 @@ function ProfStartpage() {
                         }
                     >
 
+                        {/*
+                        stopPropagation prevents
+                        a click inside the modal
+                        from closing it.
+                        */}
                         <div
                             className="thesis-modal-glass"
                             onClick={
@@ -271,15 +445,16 @@ function ProfStartpage() {
                         >
 
 
+
                             <button
+                                type="button"
                                 className="thesis-modal-close"
                                 onClick={
                                     closeThesisModal
                                 }
                             >
-                                ×
+                                schließen 
                             </button>
-
 
                             <div
                                 className="thesis-modal-header"
@@ -303,7 +478,6 @@ function ProfStartpage() {
                                 </p>
 
                             </div>
-
 
                             <div
                                 className="thesis-student-info"
@@ -336,6 +510,7 @@ function ProfStartpage() {
                             </div>
 
 
+
                             <div
                                 className="thesis-modal-field"
                             >
@@ -343,7 +518,6 @@ function ProfStartpage() {
                                 <label>
                                     Thema
                                 </label>
-
 
                                 <input
                                     type="text"
@@ -360,8 +534,6 @@ function ProfStartpage() {
                                 />
 
                             </div>
-
-
                             <div
                                 className="thesis-date-row"
                             >
@@ -373,7 +545,6 @@ function ProfStartpage() {
                                     <label>
                                         Startdatum
                                     </label>
-
 
                                     <input
                                         type="date"
@@ -399,7 +570,6 @@ function ProfStartpage() {
                                         Abgabedatum
                                     </label>
 
-
                                     <input
                                         type="date"
                                         value={
@@ -423,6 +593,7 @@ function ProfStartpage() {
                             >
 
                                 <button
+                                    type="button"
                                     className="thesis-cancel-button"
                                     onClick={
                                         closeThesisModal
@@ -433,6 +604,7 @@ function ProfStartpage() {
 
 
                                 <button
+                                    type="button"
                                     className="thesis-create-button"
                                     onClick={
                                         createThesis
@@ -450,6 +622,11 @@ function ProfStartpage() {
             }
 
 
+            {/*
+            STUDENTEN ABELLE
+            Shows every student
+            assigned to the professor.
+            */}
             <div
                 className="prof-table-glass"
             >

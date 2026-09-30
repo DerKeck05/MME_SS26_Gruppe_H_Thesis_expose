@@ -1,0 +1,368 @@
+/*
+The authentication page fills
+the complete browser window.
+A background image is used
+and the login container is centered
+with Flexbox.
+*/
+.auth-page {
+    width: 100%;
+    min-height: 100vh;
+
+    background-image:
+        url("/login-background.png");
+
+    /*
+    cover makes sure that the image
+    fills the complete background.
+    */
+    background-size:
+        cover;
+
+    /*
+    Keeps the image centered
+    if parts of it have to be cut off.
+    */
+    background-position:
+        center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*
+This container holds the login
+or registration form.
+Flexbox with column direction places
+all elements below each other.
+The transparent background together
+with backdrop-filter creates
+the glass effect.
+*/
+.login-glass {
+    width: 380px;
+
+    padding: 40px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    /*
+    Transparent white background.
+    The last value 0.20 means
+    20 percent opacity.
+    */
+    background:
+        rgba(255, 255, 255, 0.20);
+
+    /*
+    Blurs the background
+    behind the glass container.
+    */
+    backdrop-filter:
+        blur(18px);
+
+    /*
+    Safari needs this version
+    of backdrop-filter.
+    */
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.45);
+
+    border-radius:
+        28px;
+
+    /*
+    The first shadow is outside the container.
+    The inset shadow is inside the container
+    and creates a brighter glass edge.
+    */
+    box-shadow:
+        0 8px 32px
+        rgba(0, 0, 0, 0.18),
+
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.35);
+}
+
+
+/*
+LOGIN TITLE
+*/
+.login-glass h1 {
+    margin:
+        0 0 19px 0;
+
+    text-align:
+        center;
+
+    color:
+        rgb(3, 3, 3);
+
+    /*
+    Adds some depth
+    to the headline.
+    */
+    text-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.25);
+}
+
+
+/*
+INPUT LABELS
+*/
+.login-glass label {
+    text-align:
+        left;
+
+    color:
+        rgb(0, 0, 0);
+
+    font-weight:
+        500;
+}
+
+
+/*
+Used for values like
+email and password.
+*/
+.login-glass input {
+    padding:
+        13px 15px;
+
+    border-radius:
+        var(--border-radius-small);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.45);
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    color:
+        #222;
+
+    font-size:
+        16px;
+}
+
+
+/*
+When the user clicks into an input,
+the field becomes slightly brighter.
+*/
+.login-glass input:focus {
+    background:
+        rgba(255, 255, 255, 0.9);
+
+    border-color:
+        white;
+}
+
+
+/*
+All buttons inside the glass container
+use the same basic style.
+*/
+.login-glass button {
+    padding:
+        12px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.35);
+
+    border-radius:
+        var(--border-radius-small);
+
+    background:
+        rgba(255, 255, 255, 0.28);
+
+    color:
+        rgb(0, 0, 0);
+
+    font-size:
+        16px;
+
+    font-weight:
+        600;
+
+    cursor:
+        pointer;
+
+    backdrop-filter:
+        blur(10px);
+
+    /*
+    Makes style changes
+    like hover effects smoother.
+    */
+    transition:
+        0.2s;
+}
+
+
+/*
+Student and professor buttons
+are displayed next to each other.
+*/
+.role-buttons {
+    display:
+        flex;
+
+    gap:
+        10px;
+}
+
+
+/*
+Both role buttons use
+the same amount of space.
+*/
+.role-buttons button {
+    flex:
+        1;
+}
+
+
+/*
+The selected role gets a different
+background, border and position.
+This makes it easier to see
+which role is currently selected.
+*/
+.role-buttons .active-role {
+    background:
+        rgba(89, 214, 5, 0.20);
+
+    color:
+        #020202;
+
+    border:
+        1px solid
+        rgba(0, 0, 0, 0.95);
+
+    box-shadow:
+        0 4px 16px
+        rgba(0, 0, 0, 0.15),
+
+        inset 0 1px 0
+        rgba(8, 8, 8, 0.8);
+
+    /*
+    Moves the selected button
+    slightly upwards.
+    */
+    transform:
+        translateY(-3px);
+}
+
+
+/*
+The error box is fixed
+to the bottom right corner.
+A high z-index keeps it
+above the other page elements.
+*/
+.error-box {
+    position:
+        fixed;
+
+    right:
+        30px;
+
+    bottom:
+        30px;
+
+    background:
+        red;
+
+    color:
+        white;
+
+    padding:
+        20px 30px;
+
+    border-radius:
+        var(--border-radius-small);
+
+    font-weight:
+        bold;
+
+    z-index:
+        9999;
+}
+
+
+/*
+NORMAL TEXT INSIDE THE LOGIN CONTAINER
+*/
+.login-glass p {
+    color:
+        black;
+
+    font-size:
+        16px;
+
+    text-align:
+        center;
+}
+
+
+/*
+Used as the main title
+on the registration page.
+*/
+.register-title {
+    font-size:
+        34px;
+
+    line-height:
+        1.2;
+
+    text-align:
+        center;
+
+    margin:
+        0 0 18px 0;
+
+    color:
+        black;
+
+    font-weight:
+        600;
+}
+
+
+/*
+The font size is slightly smaller
+because the professor title
+contains more text.
+*/
+.professor-title {
+    font-size:
+        26px;
+
+    line-height:
+        1.15;
+
+    text-align:
+        center;
+
+    margin:
+        0 0 18px 0;
+
+    color:
+        black;
+}

@@ -1,102 +1,314 @@
+/*
+The professor dashboard fills
+at least the complete browser height.
+Several gradients create
+the dark blue background.
+*/
 .professor-dashboard {
-    min-height: 100vh;
+    min-height:
+        100vh;
+
     background:
-        radial-gradient(circle at top left, rgba(50, 70, 110, 0.35), transparent 30%),
-        radial-gradient(circle at top right, rgba(20, 120, 180, 0.25), transparent 25%),
-        linear-gradient(180deg, #0f1724 0%, #111827 45%, #0b1220 100%);
-    color: white;
+        radial-gradient(
+            circle at top left,
+            rgba(50, 70, 110, 0.35),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at top right,
+            rgba(20, 120, 180, 0.25),
+            transparent 25%
+        ),
+
+        linear-gradient(
+            180deg,
+            #0f1724 0%,
+            #111827 45%,
+            #0b1220 100%
+        );
+
+    color:
+        white;
 }
 
+
+/*
+The header contains:
+- the back button
+- the page title
+- the student name
+- the profile element
+The glass effect is created
+with a transparent background
+and backdrop-filter.
+*/
 .professor-dashboard .student-dashboard-header {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 110px;
-    margin: 20px;
-    padding: 20px 30px;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    position:
+        relative;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        110px;
+
+    margin:
+        20px;
+
+    padding:
+        20px 30px;
+
+    border-radius:
+        24px;
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.12);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        0 8px 30px
+        rgba(0, 0, 0, 0.25);
 }
 
+
+/*
+The button is positioned
+o the left side of the header.
+translateY centers it vertically.
+*/
 .prof-back-button {
-    position: absolute;
-    left: 24px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.12);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 14px;
-    padding: 10px 18px;
-    font-size: 16px;
-    cursor: pointer;
-    backdrop-filter: blur(10px);
+    position:
+        absolute;
+
+    left:
+        24px;
+
+    top:
+        50%;
+
+    transform:
+        translateY(-50%);
+
+    background:
+        rgba(255, 255, 255, 0.12);
+
+    color:
+        white;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.15);
+
+    border-radius:
+        14px;
+
+    padding:
+        10px 18px;
+
+    font-size:
+        16px;
+
+    cursor:
+        pointer;
+
+    backdrop-filter:
+        blur(10px);
 }
 
+
+/*
+The back button becomes
+slightly brighter on hover.
+*/
 .prof-back-button:hover {
-    background: rgba(255, 255, 255, 0.18);
+    background:
+        rgba(255, 255, 255, 0.18);
 }
 
+
+/*
+The thesis title and student name
+are centered inside the header.
+*/
 .dashboard-title-block {
-    text-align: center;
+    text-align:
+        center;
 }
+
 
 .dashboard-title-block h1 {
-    margin: 0;
-    font-size: 40px;
-    font-weight: 700;
-    color: white;
+    margin:
+        0;
+
+    font-size:
+        40px;
+
+    font-weight:
+        700;
+
+    color:
+        white;
 }
 
+
+/*
+The student name is shown
+below the thesis title.
+*/
 .dashboard-subtitle {
-    margin-top: 8px;
-    margin-bottom: 0;
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.8);
+    margin-top:
+        8px;
+
+    margin-bottom:
+        0;
+
+    font-size:
+        18px;
+
+    color:
+        rgba(255, 255, 255, 0.8);
 }
 
+
+/*
+This creates the blue circle
+on the right side of the header.
+
+The element is currently empty
+but is still visible because
+it has its own background and size.
+*/
 .professor-dashboard .profile-button {
-    position: absolute;
-    right: 24px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: rgba(59, 130, 246, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    position:
+        absolute;
+
+    right:
+        24px;
+
+    top:
+        50%;
+
+    transform:
+        translateY(-50%);
+
+    width:
+        46px;
+
+    height:
+        46px;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(59, 130, 246, 0.85);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.2);
 }
 
+
+/*
+The sidebar and the main content
+are displayed next to each other.
+*/
 .professor-dashboard .student-dashboard-body {
-    display: flex;
-    gap: 20px;
-    padding: 0 20px 20px 20px;
+    display:
+        flex;
+
+    gap:
+        20px;
+
+    padding:
+        0 20px 20px 20px;
 }
 
+
+/*
+These selectors give the sidebar
+the same glass style
+as the other dashboard elements.
+
+Different selectors are included
+because the sidebar can use
+one of these element types or classes.
+*/
 .professor-dashboard .student-dashboard-body aside,
 .professor-dashboard .student-dashboard-body nav,
 .professor-dashboard .student-dashboard-body .sidebar {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 24px;
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.12);
+
+    border-radius:
+        24px;
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        0 8px 30px
+        rgba(0, 0, 0, 0.2);
 }
 
+
+/*
+The main area uses
+the remaining available space.
+
+Outlet displays the selected
+professor page inside this container.
+*/
 .professor-main-content {
-    flex: 1;
-    min-height: 80vh;
-    padding: 24px;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    flex:
+        1;
+
+    min-height:
+        80vh;
+
+    padding:
+        24px;
+
+    border-radius:
+        24px;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.1);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        0 8px 30px
+        rgba(0, 0, 0, 0.2);
 }

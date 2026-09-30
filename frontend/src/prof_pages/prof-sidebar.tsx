@@ -1,11 +1,65 @@
-import {Link, useParams} from "react-router-dom";
+import {
+    Link,
+    useParams
+} from "react-router-dom";
 
 import "../student_pages/student-dashboard-stylesheet.css";
 
 function ProfSidebar() {
-    const {id} = useParams();
+
+    /*
+    The thesis ID is needed
+    to create the links
+    for the professor sidebar.
+    */
+    const { id } =
+        useParams();
+
+
+    /*
+    If no thesis ID exists,
+    the sidebar cannot create
+    valid thesis links.
+    */
+    if (
+        id == null
+    ) {
+
+        return null;
+    }
+
+
+    /*
+    Every sidebar link uses
+    the same design.
+    The class string is stored once
+    so it does not have to be repeated
+    for every link.
+    */
+    const linkClass =
+        `
+        flex
+        w-full
+        m-0
+        items-center
+        rounded-(--border-radius)
+        py-(--spacing-small)
+        text-left
+        text-[22px]
+        font-semibold
+        text-(--night-blue)
+        hover:bg-(--night-blue)
+        hover:text-(--white)
+        pl-2
+        `;
+
 
     return (
+
+        /*
+        The sidebar contains links
+        to the different thesis pages.
+        */
         <aside
             className="
                 flex
@@ -23,85 +77,44 @@ function ProfSidebar() {
             "
         >
             <Link
-                to={`/professor/thesis/${id}`}
-                className="
-                    flex
-                    w-full
-                    m-0
-                    items-center
-                    rounded-(--border-radius)
-                    py-(--spacing-small)
-                    text-left
-                    text-[22px]
-                    font-semibold
-                    text-(--night-blue)
-                    hover:bg-(--night-blue)
-                    hover:text-(--white)
-                    pl-2
-                "
+                to={
+                    `/professor/thesis/${id}`
+                }
+                className={
+                    linkClass
+                }
             >
                 Homepage
             </Link>
 
             <Link
-                to={`/professor/thesis/${id}/outline`}
-                className="
-                    flex
-                    w-full
-                    m-0
-                    items-center
-                    rounded-(--border-radius)
-                    py-(--spacing-small)
-                    text-left
-                    text-[22px]
-                    font-semibold
-                    text-(--night-blue)
-                    hover:bg-(--night-blue)
-                    hover:text-(--white)
-                    pl-2
-                "
+                to={
+                    `/professor/thesis/${id}/outline`
+                }
+                className={
+                    linkClass
+                }
             >
                 Kapitel
             </Link>
 
             <Link
-                to={`/professor/thesis/${id}/calendar`}
-                className="
-                    flex
-                    w-full
-                    m-0
-                    items-center
-                    rounded-(--border-radius)
-                    py-(--spacing-small)
-                    text-left
-                    text-[22px]
-                    font-semibold
-                    text-(--night-blue)
-                    hover:bg-(--night-blue)
-                    hover:text-(--white)
-                    pl-2
-                "
+                to={
+                    `/professor/thesis/${id}/calendar`
+                }
+                className={
+                    linkClass
+                }
             >
                 Kalender
             </Link>
-
             <Link
-                to={`/professor/thesis/${id}/faq`}
-                className="
-                    flex
-                    w-full
-                    m-0
-                    items-center
-                    rounded-(--border-radius)
-                    py-(--spacing-small)
-                    text-left
-                    text-[22px]
-                    font-semibold
-                    text-(--night-blue)
-                    hover:bg-(--night-blue)
-                    hover:text-(--white)
-                    pl-2
-                "
+                to={
+                    `/professor/thesis/${id}/faq`
+                }
+                className={
+                    linkClass
+                }
             >
                 FAQ
             </Link>
