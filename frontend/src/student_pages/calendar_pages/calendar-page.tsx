@@ -95,7 +95,7 @@ function CalendarPage({
 
     useEffect(() => {
         void loadEvents();
-    }, [thesisId,deadline]);
+    }, [thesisId, deadline]);
 
     async function handleAddEntry(entry: {
         title: string;
@@ -209,16 +209,16 @@ function CalendarPage({
     return (
         <div className="calendar-page-main">
 
-            <div
-                className="flex flex-col justify-center items-center gap-4 bg-(--tertiary) text-(--secondary) p-2 rounded-(--border-radius) mb-(--spacing-medium)">
-                <p className={" text-2xl"}>
-                    Tage bis zur Abgabe:
+            <div className="calendar-deadline glass-card">
+
+                <p>
+                    Tage bis zur Abgabe
                 </p>
-                <h3 className={" font-semibold text-4xl"}>
+
+                <h3>
                     {daysLeft} Tage
                 </h3>
             </div>
-
             <CalendarComponent
                 events={events}
                 selectedEvent={selectedEvent}
@@ -232,11 +232,14 @@ function CalendarPage({
 
             <div className="calendar-add-buttons">
                 <button
-                    className={"squared-button"}
+                    className="calendar-add-button"
                     onClick={() => setShowAddModal(true)}
                     title="Neues Ereignis erstellen"
                 >
-                    <Plus size={30} strokeWidth={2.5} />
+                    <Plus
+                        size={26}
+                        strokeWidth={2.3}
+                    />
                 </button>
             </div>
 
