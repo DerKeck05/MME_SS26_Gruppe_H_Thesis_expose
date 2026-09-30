@@ -1,21 +1,58 @@
 import "../student_pages/student-dashboard-stylesheet.css";
 import "../app_theme/modal-stylesheet.css";
 import ProfSidebar from "./prof-sidebar.tsx";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+
+import {useEffect, useState} from "react";
+import {
+    Outlet,
+    useNavigate,
+    useParams
+} from "react-router-dom";
+
+type ThesisInfo = {
+    studentName: string;
+    thesisTitle: string;
+};
 
 function ProfDashboardSkeleton() {
-    const location = useLocation();
     const navigate = useNavigate();
+    const {id} = useParams();
 
-    let pageTitle = "Professor Dashboard";
+    const [thesisInfo, setThesisInfo] =
+        useState<ThesisInfo | null>(null);
 
-    if (location.pathname === "/professor") {
-        pageTitle = "Professor Dashboard";
-    }
+    useEffect(() => {
+        async function loadThesisInfo() {
+            const supervisorId =
+                localStorage.getItem("supervisorId");
 
-    if (location.pathname.includes("/thesis/")) {
-        pageTitle = "Thesis Details";
-    }
+            if (!supervisorId || !id) {
+                return;
+            }
+
+            const response = await fetch(
+                `http://localhost:3000/api/students/supervisor/${supervisorId}`
+            );
+
+            const students = await response.json();
+
+            const student = students.find(
+                (student: any) =>
+                    student.thesis?.id === Number(id)
+            );
+
+            if (!student || !student.thesis) {
+                return;
+            }
+
+            setThesisInfo({
+                studentName: student.name,
+                thesisTitle: student.thesis.title
+            });
+        }
+
+        void loadThesisInfo();
+    }, [id]);
 
     return (
         <div className="student-dashboard">
@@ -24,15 +61,28 @@ function ProfDashboardSkeleton() {
                 <div className="logo"></div>
                 <button
                     onClick={() => navigate("/professor")}
-                    className="rounded-(--border-radius) 
-                    px-4
-                    py-2
-                    font-semibold
-                    text-(--night-blue)"
+                    className="
+                        rounded-(--border-radius)
+                        px-4
+                        py-2
+                        font-semibold
+                        text-(--night-blue)
+                    "
                 >
-                    Zurück
+                     Zurück
                 </button>
-                <h1>{pageTitle}</h1>
+
+                <div>
+                    <h1>
+                        {thesisInfo?.thesisTitle ?? "Thesis Details"}
+                    </h1>
+
+                    {thesisInfo && (
+                        <p>
+                            {thesisInfo.studentName}
+                        </p>
+                    )}
+                </div>
 
                 <div className="profile-button"></div>
             </header>
@@ -43,7 +93,7 @@ function ProfDashboardSkeleton() {
                 <main>
                     <Outlet />
                 </main>
-            </div>
+        </div>
 
         </div>
     );

@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "../student-dashboard-stylesheet.css";
 
@@ -81,6 +81,25 @@ function Sidebar() {
                 "
             >
                 Kalender
+            </Link>
+            <Link
+                to="/student/faq"
+                className="
+                   flex
+                   w-full
+                   m-0
+                   items-center
+                   rounded-(--border-radius)
+                   py-(--spacing-small)
+                   text-left
+                   text-[22px]
+                   font-semibold
+                   text-(--night-blue)
+                   hover:bg-(--night-blue)
+                   hover:text-(--white)
+                   pl-2 "
+            >
+                FAQ
             </Link>
         </aside>
     );

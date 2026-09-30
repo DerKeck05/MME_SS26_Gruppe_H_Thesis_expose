@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 
 import OutlinePage from "./student_pages/outline_pages/outline-page.tsx";
 import StudentDashboard from "./student_pages/student_dashboard/student-dashboard.tsx";
@@ -12,21 +12,24 @@ import RegisterProfessorPage from "./login/register_prof.tsx";
 
 import StudentProvider from "./student_pages/route_handling/student-provider.tsx";
 import StudentLayout from "./student_pages/route_handling/student-layout.tsx";
+import { useStudent } from "./student_pages/route_handling/student-provider.tsx";
 
 import ProfStartpage from "./prof_pages/prof_starpage.tsx";
 import ProfCalendarPage from "./prof_pages/prof-calender-page.tsx";
 import ProfDashboardSkeleton from "./prof_pages/prof_dashboard_skeleton.tsx";
 import ThesisDetail from "./prof_pages/thesis_detail.tsx";
+
 import FaqPage from "./shared_pages/faq-page.tsx";
-import { useStudent } from "./student_pages/route_handling/student-provider.tsx";
-import { useParams } from "react-router-dom";
+
 
 function ProfessorFaqPage() {
-    const storedSupervisorId = localStorage.getItem("supervisorId");
+    const storedSupervisorId =
+        localStorage.getItem("supervisorId");
 
-    const supervisorId = storedSupervisorId
-        ? Number(storedSupervisorId)
-        : null;
+    const supervisorId =
+        storedSupervisorId
+            ? Number(storedSupervisorId)
+            : null;
 
     return (
         <FaqPage
@@ -35,6 +38,7 @@ function ProfessorFaqPage() {
         />
     );
 }
+
 
 function StudentFaqPage() {
     const { supervisorId } = useStudent();
@@ -46,26 +50,40 @@ function StudentFaqPage() {
         />
     );
 }
+
+
 function StudentOutlinePage() {
     const { thesisId } = useStudent();
 
     return (
-        <OutlinePage thesisId={thesisId} />
+        <OutlinePage
+            thesisId={thesisId}
+        />
     );
 }
+
+
 function ProfessorOutlinePage() {
     const { id } = useParams();
 
-    const thesisId = id
-        ? Number(id)
-        : null;
+    const thesisId =
+        id
+            ? Number(id)
+            : null;
 
     return (
-        <OutlinePage thesisId={thesisId} />
+        <OutlinePage
+            thesisId={thesisId}
+        />
     );
 }
+
+
 function StudentCalendarPage() {
-    const { thesisId, deadline } = useStudent();
+    const {
+        thesisId,
+        deadline
+    } = useStudent();
 
     return (
         <CalendarPage
@@ -103,7 +121,15 @@ function App() {
                 element={<RegisterProfessorPage />}
             />
 
-            {/* Professor Bereich */}
+
+            {/* Professor Übersicht */}
+            <Route
+                path="/professor"
+                element={<ProfStartpage />}
+            />
+
+
+            {/* Professor Thesis Bereich */}
             <Route
                 path="/professor/thesis/:id"
                 element={<ProfDashboardSkeleton />}
@@ -117,13 +143,15 @@ function App() {
                     element={<ProfessorOutlinePage />}
                 />
                 <Route
-                    path="faq"
-                    element={<ProfessorFaqPage />}
-                />
-                <Route
                     path="calendar"
                     element={<ProfCalendarPage />}
                 />
+
+                <Route
+                    path="faq"
+                    element={<ProfessorFaqPage />}
+                />
+
             </Route>
 
 
@@ -133,7 +161,10 @@ function App() {
                 element={<StudentProvider />}
                 errorElement={<ErrorPage />}
             >
-                <Route element={<StudentLayout />}>
+
+                <Route
+                    element={<StudentLayout />}
+                >
 
                     <Route
                         index
@@ -167,7 +198,7 @@ function App() {
                 </Route>
             </Route>
 
-        </Routes >
+        </Routes>
     );
 }
 
