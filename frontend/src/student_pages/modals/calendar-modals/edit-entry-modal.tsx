@@ -19,6 +19,7 @@ interface EditEntryModalProps {
     }) => Promise<void>;
 }
 
+// Almost the same as Add Entry Modal but for updating the Entry
 function EditEntryModal({
                             onCancel,
                             onSubmit,
@@ -59,6 +60,7 @@ function EditEntryModal({
                 new Date(endDate) > new Date(startDate)
         );
 
+    // loads initial Data into the field if the mode was changed
     function handleAllDayChange(enabled: boolean) {
         setAllDay(enabled);
 
@@ -87,6 +89,7 @@ function EditEntryModal({
         }
     }
 
+    // Basically works the same as in add entry
     async function submitEdit() {
         if (!isFormValid) {
             return;

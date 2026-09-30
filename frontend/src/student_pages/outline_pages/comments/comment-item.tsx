@@ -4,6 +4,7 @@ export interface UIComment {
     supervisorName: string;
 }
 
+// UI function for Displaying the comments with a good styling
 function CommentItem(comment: UIComment) {
     return (
         <div className={"mb-(--spacing-medium) "}>

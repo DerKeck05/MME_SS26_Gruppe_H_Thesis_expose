@@ -48,7 +48,7 @@ interface OutlineComponentProps {
         (chapter: Chapter) => void;
 }
 
-
+// Outline container that holds and displays the outline items
 function OutlineComponent({
     chapters,
     isProfessor,
@@ -60,19 +60,19 @@ function OutlineComponent({
     onAddAfter
 }: OutlineComponentProps) {
 
-
+    // Stores the IDs of chapters whose children are currently expanded
     const [expandedChapters, setExpandedChapters] =
         useState<Set<number>>(
             new Set()
         );
 
-
+    // Stores the ID of the chapter whose action menu is currently open
     const [openMenuId, setOpenMenuId] =
         useState<number | null>(
             null
         );
 
-
+    // Expands all chapters that have children when the chapter list changes
     useEffect(() => {
 
         const parentChapterIds: number[] = [];
@@ -126,7 +126,8 @@ function OutlineComponent({
         );
     }
 
-
+    // Converts the backend chapter data into the format needed by the UI
+    // and sorts the chapters according to their hierarchical chapter number
     const uiChapters: UIChapter[] = [];
 
 
@@ -208,18 +209,18 @@ function OutlineComponent({
 
             {uiChapters.map(chapter => {
 
-                const originalChapter =
-                    chapters.find(
-                        item =>
-                            item.id === chapter.id
-                    );
+                // Finds the original chapter data for the current UI chapter
+                const originalChapter = chapters.find(
+                    item => item.id === chapter.id
+                );
 
-
+                // Skips the chapter if the original data cannot be found
                 if (!originalChapter) {
 
                     return null;
                 }
 
+                // Skips chapters whose parent chapter is currently collapsed
 
                 const visible =
                     isChapterVisible(
@@ -233,8 +234,8 @@ function OutlineComponent({
 
                     return null;
                 }
-
-
+        
+                // Displays the chapter with all required actions and callbacks
                 return (
 
                     <OutlineItem

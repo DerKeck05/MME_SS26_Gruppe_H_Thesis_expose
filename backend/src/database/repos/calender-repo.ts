@@ -1,5 +1,10 @@
 import {prisma} from "../lib/prisma.js";
 
+//
+// Basic CRUD Database Queries for Calendar
+// always just returns the result of a Prisma Query which is doing a postgres SQL query inside
+//
+
 export async function createCalendarEntry(
     title: string,
     startDate: Date,

@@ -12,9 +12,11 @@ type ErrorProviderProps = {
     children: ReactNode;
 };
 
+// Provides the Popup of the Error Message as soon as an Error gets thrown in a frontend function
 export function ErrorProvider({children}: ErrorProviderProps) {
     const [error, setError] = useState<string | null>(null);
 
+    // if that function is called, the Error Message is shown for 5000 milliseconds
     function showError(message: string) {
         setError(message);
 
@@ -27,6 +29,7 @@ export function ErrorProvider({children}: ErrorProviderProps) {
         setError(null);
     }
 
+    {/* As soon as error Variable has received an error message the Modal is shown */}
     return (
         <ErrorContext.Provider value={{showError, clearError}}>
             {children}
@@ -41,6 +44,7 @@ export function ErrorProvider({children}: ErrorProviderProps) {
     );
 }
 
+// Method to use the error provider everywhere
 export function useError() {
     const context = useContext(ErrorContext);
 

@@ -19,6 +19,7 @@ function TimeCard({
             ? calcLeftDays(deadline)
             : "--";
 
+    // And displays the days on the widget
     return (
 
         <div className="time-card glass-card">

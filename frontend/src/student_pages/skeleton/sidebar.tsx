@@ -5,6 +5,7 @@ import {
 
 import "../student-dashboard-stylesheet.css";
 
+// Builds the Sidebar of the Dashboard with Links to the different pages with some styling
 function Sidebar() {
     const location = useLocation();
     function getLinkClass(

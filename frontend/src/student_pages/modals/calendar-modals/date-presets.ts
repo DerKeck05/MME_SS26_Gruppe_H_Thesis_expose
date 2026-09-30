@@ -1,5 +1,9 @@
 import dayjs from "dayjs";
 
+//
+// Presets for the Datepicker for certain times and days
+//
+
 export const dateTimePresets = [
     {
         value: dayjs()

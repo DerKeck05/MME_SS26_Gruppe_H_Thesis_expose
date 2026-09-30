@@ -25,6 +25,7 @@ interface CalendarComponentProps {
     onSelectSlot: () => void;
 }
 
+// Handles everything related to React-Big-Calendar (here now only called calendar)
 function CalendarComponent({
                                events,
                                selectedEvent,
@@ -33,6 +34,7 @@ function CalendarComponent({
                                onSelectEvent,
                                onSelectSlot,
                            }: CalendarComponentProps) {
+    // for handling which view is currently shown of the calendar [month, week, day, agenda]
     const [view, setView] = useState<View>("month");
 
     return (
@@ -51,6 +53,8 @@ function CalendarComponent({
                     onNavigate={onNavigate}
                     onSelectEvent={onSelectEvent}
                     onSelectSlot={onSelectSlot}
+
+                    // for Styling the different Event Types
                     eventPropGetter={(event) => {
                         if (event.type === "deadline") {
                             return {

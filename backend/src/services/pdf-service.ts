@@ -10,6 +10,7 @@ type PdfChapter = {
     position: number;
 };
 
+// puts all chapter in correct order and maps them to PDFChapter
 function buildChapterList(chapters: {
     id: number;
     title: string;
@@ -18,17 +19,22 @@ function buildChapterList(chapters: {
 }[]): PdfChapter[] {
     const result: PdfChapter[] = [];
 
-    function visit(
+    // iterates recursive through the chapters and sorts them
+    function traverseChapters(
         parentId: number | null,
         prefix: number[]
     ) {
+        // sorts the chapters in position for every sibling
         const children = chapters
             .filter(chapter => chapter.parentId === parentId)
             .sort((a, b) => a.position - b.position);
 
+        // Processes the siblings in the correct order
         children.forEach((chapter, index) => {
+            // builds the chapter number
             const numberParts = [...prefix, index + 1];
 
+            // adds the chapter to the List as a PDFChapter
             result.push({
                 title: chapter.title,
                 number: numberParts.join("."),
@@ -37,19 +43,23 @@ function buildChapterList(chapters: {
                 position: chapter.position
             });
 
-            visit(chapter.id, numberParts);
+            traverseChapters(chapter.id, numberParts);
         });
     }
 
-    visit(null, []);
+    traverseChapters(null, []);
 
+    // Returns the list of PDFChapters with correct chapter number information
     return result;
 }
 
+// creates the pdf itself with pdfkit
 export async function createOutlinePdf(thesisId: number) {
+    // loads the PDFChapters
     const chapters = await chapterService.getChaptersByThesisId(thesisId);
     const pdfChapters = buildChapterList(chapters);
 
+    // loads the thesis as well with additional information for the Header
     const thesis = await getThesisForPDF(thesisId);
 
     if(thesis === null) throw new Error("Konnte die Thesis nicht laden");
@@ -66,6 +76,7 @@ export async function createOutlinePdf(thesisId: number) {
 
     doc.moveDown();
 
+    // builds the PDF Header
     doc
         .font("Helvetica")
         .fontSize(14)
@@ -82,6 +93,9 @@ export async function createOutlinePdf(thesisId: number) {
 
     doc.moveDown();
 
+    // ----
+
+    // Body with Headline
     doc
         .font("Helvetica-Bold")
         .fontSize(18)
@@ -89,6 +103,7 @@ export async function createOutlinePdf(thesisId: number) {
 
     doc.moveDown();
 
+    // iterates through chapters and writes them under each other with different font sizes and weights indents
     for (const chapter of pdfChapters) {
         doc
             .font(chapter.level === 0 ? "Helvetica-Bold" : "Helvetica")

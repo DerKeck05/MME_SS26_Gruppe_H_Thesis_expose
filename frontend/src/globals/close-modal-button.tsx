@@ -1,6 +1,7 @@
 import {X} from "lucide-react";
 import "../app_theme/modal-stylesheet.css";
 
+// standard styling for the close button of Modals
 function CloseModalButton({onClick}: {onClick: () => void}) {
     return (
         <button

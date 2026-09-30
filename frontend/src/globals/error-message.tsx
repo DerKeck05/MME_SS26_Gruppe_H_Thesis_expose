@@ -5,6 +5,7 @@ type ErrorMessageProps = {
     onClose: () => void;
 };
 
+// UI Error Notice Styling for the global UI Error handling
 function ErrorMessage({message, onClose}: ErrorMessageProps) {
     return (
         <div
@@ -27,6 +28,7 @@ function ErrorMessage({message, onClose}: ErrorMessageProps) {
                 shadow-[0_8px_24px_rgba(0,0,0,0.15)]
             "
         >
+
             <div
                 className="
                     flex
@@ -36,6 +38,7 @@ function ErrorMessage({message, onClose}: ErrorMessageProps) {
                     py-3.5
                 "
             >
+                {/* Shows error message */}
                 <p
                     className="
                         m-0
@@ -52,6 +55,7 @@ function ErrorMessage({message, onClose}: ErrorMessageProps) {
                     {message}
                 </p>
 
+                {/* Button to close the notice */}
                 <button
                     className="
                         flex
@@ -83,6 +87,7 @@ function ErrorMessage({message, onClose}: ErrorMessageProps) {
                 </button>
             </div>
 
+            {/* Shows a little timer bar that shows how long the message is up */}
             <div
                 className="
                     h-0.75

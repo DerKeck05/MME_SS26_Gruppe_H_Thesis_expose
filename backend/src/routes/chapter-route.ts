@@ -6,6 +6,13 @@ import {
 } from "../utils/chapter-schema.js";
 import {createOutlinePdf} from "../services/pdf-service.js";
 
+//
+// Router for passing the Chapter data from the database to the frontend
+// They always receive a route call, checks the id of the route if there's one in their if it's a correct one,
+// than proceed to load the data from the database with the Repo Method and return them as JSON
+// Some of them also have to map some Data into new Datatypes
+//
+
 const router = Router();
 
 router.get("/thesis/:thesisId", async (req, res) => {
@@ -124,6 +131,7 @@ router.get("/thesis/:thesisId/pdf", async (req, res) => {
 
     const pdf = await createOutlinePdf(thesisId);
 
+    // additional modifications to the pdf that is necessary
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
         "Content-Disposition",

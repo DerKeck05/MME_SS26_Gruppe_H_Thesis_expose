@@ -36,7 +36,7 @@ interface OutlineItemProps {
     onAddAfter: () => void;
 }
 
-
+// Single Chapter Item for UI
 function OutlineItem({
     chapter,
     isProfessor,
@@ -68,12 +68,12 @@ function OutlineItem({
                 rounded-(--border-radius)
                 select-none
             "
-
+            // Indent depening on level of chapter
             style={{
                 marginLeft: `${chapter.level * 32}px`
             }}
         >
-
+            {/* Displays the Number and title of the chapter */}
             <p className="font-semibold text-xl">
                 {chapter.number}
             </p>
@@ -83,10 +83,20 @@ function OutlineItem({
                 {chapter.title}
             </p>
 
-
+            {/* Different Buttons for Comments, Shrink Children feature and chapter menu */}
             <div className="flex items-center justify-end gap-2">
+                {/* Only gets shown if the chapter has a comment */}
+                {chapter.hasComment && (
+                    <button
+                        type="button"
+                        className="flex h-8 w-8 items-center justify-center rounded-full"
+                        onClick={onCommentClick}
+                    >
+                        <MessageSquareText/>
+                    </button>
+                )}
 
-
+                {/* Only gets shown if the chapter has children */}
                 {chapter.isParent && (
 
                     <button
@@ -114,7 +124,9 @@ function OutlineItem({
 
                 )}
 
-
+                {/* Opens up menu to insert new chapters, open the edit modal or delete the item;
+                    Opening and closing is controlled in parent functions so only one modal at a time can be shown
+                 */}
                 <div className="relative">
 
                     <button
@@ -140,6 +152,63 @@ function OutlineItem({
 
                     </button>
 
+                    {isMenuOpen && (<>
+                        <div
+                            className="fixed inset-0 z-40"
+                            onClick={onMenuClose}
+                        />
+
+                        {/* Actual Modal that gets shown with the different Options */}
+                        <div
+                            className="
+                                absolute
+                                right-0
+                                top-full
+                                z-50
+                                mt-2
+                                min-w-52
+                                rounded-(--border-radius)
+                                bg-(--white)
+                                text-(--dark-blue)
+                                shadow-lg
+                                overflow-hidden
+                            "
+                            onClick={(event) =>
+                                event.stopPropagation()
+                            }
+                        >
+                            <button
+                                type="button"
+                                className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                onClick={() => {
+                                    onMenuClose();
+                                    onAddChild();
+                                }}
+                            >
+                                Unterkapitel hinzufügen
+                            </button>
+
+                            <button
+                                type="button"
+                                className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                onClick={() => {
+                                    onMenuClose();
+                                    onAddBefore();
+                                }}
+                            >
+                                Kapitel davor einfügen
+                            </button>
+
+                            <button
+                                type="button"
+                                className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                onClick={() => {
+                                    onMenuClose();
+                                    onAddAfter();
+                                }}
+                            >
+                                Kapitel danach einfügen
+                            </button>
 
                     {isMenuOpen && (
 

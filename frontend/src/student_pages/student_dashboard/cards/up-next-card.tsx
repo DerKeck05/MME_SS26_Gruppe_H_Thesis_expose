@@ -2,6 +2,7 @@ import {Calendar}
     from "lucide-react";
 
 
+// interfaces for passing the correct data
 interface UpNextProps {
     upNextEvents: UpNextEvents[];
 }
@@ -26,6 +27,7 @@ function UpNextCard({
                     Als Nächstes
                 </h2>
 
+                {/* Calendar Icon from Lucide Icons */}
                 <Calendar
                     size={24}
                     strokeWidth={2}

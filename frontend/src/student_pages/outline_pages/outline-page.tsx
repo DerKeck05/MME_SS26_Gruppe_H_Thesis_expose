@@ -29,26 +29,26 @@ import CommentItem, {
 
 import {useError} from "../../globals/error-provider.tsx";
 
-
+// Constant for the max input of character into the title input field
 export const MAX_CHAPTER_TITLE_LENGTH = 60;
-
 
 type OutlinePageProps = {
     thesisId: number | null;
     isProfessor: boolean;
 };
 
-
+// Main Page of the Outline feature which loads, handles and passes all the data of the feature
 function OutlinePage({
     thesisId,
     isProfessor
 }: OutlinePageProps) {
 
+      // List of the chapters and a variable for the chapter that is currently edited
     const [chapters, setChapters] =
         useState<Chapter[]>([]);
-
     const [editChapter, setEditChapter] =
         useState<Chapter | null>(null);
+
 
     const [addChapterContext, setAddChapterContext] =
         useState<{
@@ -56,6 +56,7 @@ function OutlinePage({
             chapter?: Chapter;
         } | null>(null);
 
+        // bool to show the comment section
     const [showCommentSidebar, setShowCommentSidebar] =
         useState(false);
 
@@ -71,6 +72,7 @@ function OutlinePage({
     const {showError} = useError();
 
 
+    // loads the chapters on initialization
     useEffect(() => {
 
         async function loadChapters() {
@@ -112,15 +114,17 @@ function OutlinePage({
             }
         }
 
-        loadChapters();
+        void loadChapters();
 
+        // function always reloads if thesisId is changed
     }, [thesisId]);
 
+    // CRUD METHODS ----------------------------------------------------
 
     async function handleAddChapter(
         title: string
     ): Promise<boolean> {
-
+        // checks if variables has data
         if (!addChapterContext) {
             return false;
         }
@@ -141,6 +145,8 @@ function OutlinePage({
             addChapterContext.chapter;
 
 
+
+          // Adds a new root chapter without parent
         if (
             addChapterContext.mode === "root"
         ) {
@@ -151,6 +157,7 @@ function OutlinePage({
                         chapter.parentId === null
                 );
 
+
             parentId = null;
 
             position =
@@ -158,6 +165,8 @@ function OutlinePage({
         }
 
 
+        // Adds new child-chapter, adds the chapter into the database and takes the clicked reference Chapter
+        // as Parent
         if (
             referenceChapter &&
             addChapterContext.mode === "child"
@@ -178,6 +187,7 @@ function OutlinePage({
         }
 
 
+        // Just takes the position data from the clicked reference chapter as the own position data
         if (
             referenceChapter &&
             addChapterContext.mode === "before"
@@ -191,6 +201,7 @@ function OutlinePage({
         }
 
 
+        // takes the parentId from the reference chapter but takes the position after it
         if (
             referenceChapter &&
             addChapterContext.mode === "after"
@@ -205,7 +216,7 @@ function OutlinePage({
 
 
         try {
-
+            // adds the chapter with the stored information into the database
             await addChapter(
                 thesisId,
                 {
@@ -215,6 +226,7 @@ function OutlinePage({
                 }
             );
 
+            // chapters will be freshly loaded and newly set so UI is up to date
             const updatedChapters =
                 await getChapters(
                     thesisId
@@ -223,6 +235,7 @@ function OutlinePage({
             setChapters(
                 updatedChapters
             );
+
 
             setAddChapterContext(
                 null
@@ -926,7 +939,7 @@ function OutlinePage({
 
             </div>
 
-
+            {/* Shows the Comment section of a chapter */}
             {showCommentSidebar && (
 
                 <div
@@ -955,7 +968,7 @@ function OutlinePage({
                             pb-(--spacing-medium)
                         "
                     >
-
+                        {/* Header with close Sidebar button */}
                         <div
                             className="
                                 flex

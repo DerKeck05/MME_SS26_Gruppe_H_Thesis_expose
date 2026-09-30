@@ -9,6 +9,7 @@ interface EntryDetailModalProps {
     entry: CalendarEntry;
 }
 
+// Modal that shows the information of the Entry and holds an Edit & Delete Button
 function EntryDetailModal({
                               onClose,
                               onEdit,
@@ -16,6 +17,7 @@ function EntryDetailModal({
                               entry
                           }: EntryDetailModalProps) {
 
+    // formats the Date String in different ways, depending on the mode of the Entry
     function formatDate(
         startDate: string,
         endDate: string
@@ -73,6 +75,7 @@ function EntryDetailModal({
                 className="modal"
                 onClick={(event) => event.stopPropagation()}
             >
+                {/* Header with close button, title and edit button that opens edit modal */}
                 <div className="modal-header">
 
                     <CloseModalButton onClick={onClose}/>
@@ -92,6 +95,7 @@ function EntryDetailModal({
 
                 </div>
 
+                {/* Body with Formatted Date and description if the entry has one */}
                 <div className="modal-body" id="detail-modal">
 
                     <div className="date-cells">
@@ -115,6 +119,7 @@ function EntryDetailModal({
 
                 <div className="spacer"/>
 
+                {/* Delete Button */}
                 <button
                     className="squared-button modal-submit-button"
                     id="entry-delete-button"
