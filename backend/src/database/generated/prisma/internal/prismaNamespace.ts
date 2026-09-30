@@ -1292,7 +1292,8 @@ export type FeedbackEntryScalarFieldEnum = (typeof FeedbackEntryScalarFieldEnum)
 
 export const FaqScalarFieldEnum = {
   id: 'id',
-  content: 'content',
+  question: 'question',
+  answer: 'answer',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   supervisorId: 'supervisorId'

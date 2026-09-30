@@ -1,21 +1,45 @@
-import {useStudent} from "../../route_handling/student-provider.tsx";
-import {calcLeftDays} from "../../calendar_pages/calendar-page.tsx";
+import type {CalendarEvent}
+    from "../../calendar_pages/calendar-component.tsx";
 
-// UI Widget to show the Days Left until the Thesis Deadline
-function TimeCard() {
-    // gets deadline from provider
-    const {deadline} = useStudent();
+import {calcLeftDays}
+    from "../../calendar_pages/calendar-page.tsx";
 
-    // Calculates how many days are left
-    const daysLeft = deadline
-        ? calcLeftDays(deadline)
-        : "--";
+
+type TimeCardProps = {
+    deadline: CalendarEvent | null;
+};
+
+
+function TimeCard({
+    deadline
+}: TimeCardProps) {
+
+    const daysLeft =
+        deadline
+            ? calcLeftDays(deadline)
+            : "--";
 
     // And displays the days on the widget
     return (
-        <div className="card" id="time-card">
-            <h3 className="card-header">Days left</h3>
-            <p className="card-content">{daysLeft} Tage</p>
+
+        <div className="time-card glass-card">
+
+            <p className="time-card-title">
+                Days left
+            </p>
+
+
+            <div className="time-card-number">
+
+                {daysLeft}
+
+            </div>
+
+
+            <p className="time-card-text">
+                Tage
+            </p>
+
         </div>
     );
 }

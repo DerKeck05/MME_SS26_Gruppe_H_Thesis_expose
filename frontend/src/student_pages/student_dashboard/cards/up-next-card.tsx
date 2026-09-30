@@ -1,4 +1,6 @@
-import {Calendar} from "lucide-react";
+import {Calendar}
+    from "lucide-react";
+
 
 // interfaces for passing the correct data
 interface UpNextProps {
@@ -10,46 +12,81 @@ export interface UpNextEvents {
     date: string;
 }
 
-function UpNextCard({upNextEvents}: UpNextProps) {
+
+function UpNextCard({
+    upNextEvents
+}: UpNextProps) {
+
     return (
-        <div
-            className="flex flex-2 flex-col bg-(--white) border-2 border-(--night-blue) h-auto text-(--night-blue) p-4 rounded-(--border-radius)"
-        >
-            {/* Header */}
-            <div className="flex items-center justify-between mb-2">
-                <h2 className="text-2xl font-semibold">
+
+        <div className="up-next-card glass-card">
+
+            <div className="up-next-header">
+
+                <h2>
                     Als Nächstes
                 </h2>
 
                 {/* Calendar Icon from Lucide Icons */}
                 <Calendar
-                    size={26}
+                    size={24}
                     strokeWidth={2}
                 />
             </div>
 
-            {/* Events */}
-            <div className="flex flex-col gap-4">
-                {upNextEvents.map((event) => (
-                    <div
-                        key={`${event.title}-${event.date}`}
-                        className="flex items-center gap-3 border-2 border-(--night-blue) p-1 rounded-(--border-radius)"
-                    >
-                        {/* kleiner Balken am linken rand */}
-                        <div className="w-1 h-12 rounded-full bg-(--night-blue) shrink-0 ml-2 mt-1 mb-1"/>
 
-                        {/* Daten Inhalt */}
-                        <div className="flex flex-col gap-1">
-                            <p className="font-semibold text-base">
-                                {event.title}
-                            </p>
+            <div className="up-next-list">
 
-                            <p className="text-sm font-medium opacity-80">
-                                {event.date}
-                            </p>
+                {upNextEvents.length === 0 && (
+
+                    <p className="up-next-empty">
+
+                        Keine kommenden Termine.
+
+                    </p>
+
+                )}
+
+
+                {upNextEvents.map(
+                    (event) => (
+
+                        <div
+                            key={
+                                event.title
+                                +
+                                event.date
+                            }
+
+                            className="up-next-event"
+                        >
+
+                            <div className="up-next-accent">
+                            </div>
+
+
+                            <div>
+
+                                <p className="up-next-event-title">
+
+                                    {event.title}
+
+                                </p>
+
+
+                                <p className="up-next-event-date">
+
+                                    {event.date}
+
+                                </p>
+
+                            </div>
+
                         </div>
-                    </div>
-                ))}
+
+                    )
+                )}
+
             </div>
         </div>
     );

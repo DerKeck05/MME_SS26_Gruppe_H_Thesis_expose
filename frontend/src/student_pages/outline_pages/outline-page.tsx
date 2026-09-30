@@ -12,114 +12,105 @@ import type {
 
 import {
     addChapter,
-    deleteChapter, exportPdf,
+    deleteChapter,
+    exportPdf,
     getChapters,
     updateChapter
 } from "../../apis/chapter-api.ts";
 
-import {useStudent} from "../route_handling/student-provider.tsx";
+import {
+    addFeedbackEntry,
+    getFeedbackEntries
+} from "../../apis/feedback-api.ts";
+
 import CommentItem, {
     type UIComment
 } from "./comments/comment-item.tsx";
+
 import {useError} from "../../globals/error-provider.tsx";
 
 // Constant for the max input of character into the title input field
 export const MAX_CHAPTER_TITLE_LENGTH = 60;
 
+type OutlinePageProps = {
+    thesisId: number | null;
+    isProfessor: boolean;
+};
+
 // Main Page of the Outline feature which loads, handles and passes all the data of the feature
-function OutlinePage() {
-    // List of the chapters and a variable for the chapter that is currently edited
-    const [chapters, setChapters] = useState<Chapter[]>([]);
-    const [editChapter, setEditChapter] = useState<Chapter | null>(null);
+function OutlinePage({
+    thesisId,
+    isProfessor
+}: OutlinePageProps) {
 
-    const [addChapterContext, setAddChapterContext] = useState<{
-        mode: ChapterInsertMode;
-        chapter?: Chapter;
-    } | null>(null);
+      // List of the chapters and a variable for the chapter that is currently edited
+    const [chapters, setChapters] =
+        useState<Chapter[]>([]);
+    const [editChapter, setEditChapter] =
+        useState<Chapter | null>(null);
 
-    // bool to show the comment section
-    const [showCommentSidebar, setShowCommentSidebar] = useState(false);
 
-    const {thesisId} = useStudent();
+    const [addChapterContext, setAddChapterContext] =
+        useState<{
+            mode: ChapterInsertMode;
+            chapter?: Chapter;
+        } | null>(null);
+
+        // bool to show the comment section
+    const [showCommentSidebar, setShowCommentSidebar] =
+        useState(false);
+
+    const [selectedChapter, setSelectedChapter] =
+        useState<Chapter | null>(null);
+
+    const [comments, setComments] =
+        useState<UIComment[]>([]);
+
+    const [newComment, setNewComment] =
+        useState("");
+
     const {showError} = useError();
 
-    function loadDummyComments(): UIComment[] {
-        return [
-            {
-                content:
-                    "Die Definition an dieser Stelle passt gut. Vielleicht noch eine Quelle ergänzen, die den Begriff wissenschaftlich einordnet.",
-                createdAt:
-                    new Date("2026-09-24T10:34:00").toLocaleDateString(
-                        "de-DE"
-                    ) +
-                    " " +
-                    new Date("2026-09-24T10:34:00").toLocaleTimeString(
-                        "de-DE",
-                        {
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        }
-                    ),
-                supervisorName: "Prof. Mueller"
-            },
-            {
-                content:
-                    "Der Abschnitt ist grundsätzlich verständlich, allerdings fehlt mir noch etwas die Verbindung zum vorherigen Kapitel. Es wäre hilfreich, kurz zu erklären, warum dieser Aspekt für eure weitere Untersuchung relevant ist.",
-                createdAt:
-                    new Date("2026-09-25T15:47:00").toLocaleDateString(
-                        "de-DE"
-                    ) +
-                    " " +
-                    new Date("2026-09-25T15:47:00").toLocaleTimeString(
-                        "de-DE",
-                        {
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        }
-                    ),
-                supervisorName: "Prof. Mueller"
-            },
-            {
-                content:
-                    "Inhaltlich ist das Kapitel schon sehr ausführlich und deckt die wichtigsten Punkte ab. Ich würde allerdings empfehlen, die einzelnen Argumente noch etwas stärker miteinander zu verknüpfen. Momentan wirken einige Absätze eher wie voneinander unabhängige Informationen. Besonders bei der Überleitung zum nächsten Abschnitt könnte eine kurze Zusammenfassung helfen, damit der rote Faden für den Leser deutlicher wird. Außerdem würde ich an dieser Stelle noch prüfen, ob alle verwendeten Quellen aktuell genug sind und ob sich eventuell noch eine zusätzliche wissenschaftliche Quelle zur Untermauerung der zentralen Aussage finden lässt.",
-                createdAt:
-                    new Date("2026-09-26T09:18:00").toLocaleDateString(
-                        "de-DE"
-                    ) +
-                    " " +
-                    new Date("2026-09-26T09:18:00").toLocaleTimeString(
-                        "de-DE",
-                        {
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        }
-                    ),
-                supervisorName: "Prof. Mueller"
-            }
-        ];
-    }
 
     // loads the chapters on initialization
     useEffect(() => {
+
         async function loadChapters() {
+
             if (thesisId === null) {
                 return;
             }
 
             try {
-                // loads chapter and puts them into the variable
-                const loadedChapters = await getChapters(thesisId);
 
-                setChapters(loadedChapters);
+                const loadedChapters =
+                    await getChapters(
+                        thesisId
+                    );
+
+                setChapters(
+                    loadedChapters
+                );
+
             } catch (error) {
+
                 console.error(
                     "Kapitel konnten nicht geladen werden:",
                     error
                 );
 
-                showError(error instanceof Error
-                    ? error.message
-                    : "Kapitel konnten nicht geladen werden!")
+                if (error instanceof Error) {
+
+                    showError(
+                        error.message
+                    );
+
+                } else {
+
+                    showError(
+                        "Kapitel konnten nicht geladen werden!"
+                    );
+                }
             }
         }
 
@@ -139,24 +130,38 @@ function OutlinePage() {
         }
 
         if (thesisId === null) {
-            showError("Keine Thesis zugeordnet.");
+
+            showError(
+                "Keine Thesis zugeordnet."
+            );
+
             return false;
         }
 
         let parentId: number | null = null;
         let position = 0;
 
-        const referenceChapter = addChapterContext.chapter;
+        const referenceChapter =
+            addChapterContext.chapter;
 
 
-        // Adds a new root chapter without parent
-        if (addChapterContext.mode === "root") {
-            const rootChapters = chapters.filter(
-                chapter => chapter.parentId === null
-            );
+
+          // Adds a new root chapter without parent
+        if (
+            addChapterContext.mode === "root"
+        ) {
+
+            const rootChapters =
+                chapters.filter(
+                    chapter =>
+                        chapter.parentId === null
+                );
+
 
             parentId = null;
-            position = rootChapters.length;
+
+            position =
+                rootChapters.length;
         }
 
 
@@ -166,13 +171,19 @@ function OutlinePage() {
             referenceChapter &&
             addChapterContext.mode === "child"
         ) {
-            const children = chapters.filter(
-                chapter =>
-                    chapter.parentId === referenceChapter.id
-            );
 
-            parentId = referenceChapter.id;
-            position = children.length;
+            const children =
+                chapters.filter(
+                    chapter =>
+                        chapter.parentId ===
+                        referenceChapter.id
+                );
+
+            parentId =
+                referenceChapter.id;
+
+            position =
+                children.length;
         }
 
 
@@ -181,8 +192,12 @@ function OutlinePage() {
             referenceChapter &&
             addChapterContext.mode === "before"
         ) {
-            parentId = referenceChapter.parentId;
-            position = referenceChapter.position;
+
+            parentId =
+                referenceChapter.parentId;
+
+            position =
+                referenceChapter.position;
         }
 
 
@@ -191,123 +206,562 @@ function OutlinePage() {
             referenceChapter &&
             addChapterContext.mode === "after"
         ) {
-            parentId = referenceChapter.parentId;
-            position = referenceChapter.position + 1;
+
+            parentId =
+                referenceChapter.parentId;
+
+            position =
+                referenceChapter.position + 1;
         }
 
 
         try {
             // adds the chapter with the stored information into the database
-            await addChapter(thesisId, {
-                title,
-                parentId,
-                position
-            });
+            await addChapter(
+                thesisId,
+                {
+                    title: title,
+                    parentId: parentId,
+                    position: position
+                }
+            );
 
             // chapters will be freshly loaded and newly set so UI is up to date
-            const updatedChapters = await getChapters(thesisId);
+            const updatedChapters =
+                await getChapters(
+                    thesisId
+                );
 
-            setChapters(updatedChapters);
-            setAddChapterContext(null);
+            setChapters(
+                updatedChapters
+            );
+
+
+            setAddChapterContext(
+                null
+            );
 
             return true;
+
         } catch (error) {
+
             console.error(
                 "Kapitel konnte nicht erstellt werden:",
                 error
             );
 
-            showError(error instanceof Error
-                ? error.message
-                : "Kapitel konnte nicht erstellt werden!");
+            if (error instanceof Error) {
+
+                showError(
+                    error.message
+                );
+
+            } else {
+
+                showError(
+                    "Kapitel konnte nicht erstellt werden!"
+                );
+            }
 
             return false;
         }
     }
 
-    async function handleUpdateChapter(title: string) {
-        // checks if there's actually a picked chapter to edit
+
+    async function handleUpdateChapter(
+        title: string
+    ) {
+
         if (!editChapter) {
             return;
         }
 
         try {
-            // updates the database with the new title
-            const updatedChapter = await updateChapter(
-                editChapter.id,
-                {
-                    title: title
+
+            const updatedChapter =
+                await updateChapter(
+                    editChapter.id,
+                    {
+                        title: title
+                    }
+                );
+
+            const updatedChapters: Chapter[] = [];
+
+            for (const chapter of chapters) {
+
+                if (
+                    chapter.id ===
+                    updatedChapter.id
+                ) {
+
+                    updatedChapters.push(
+                        updatedChapter
+                    );
+
+                } else {
+
+                    updatedChapters.push(
+                        chapter
+                    );
                 }
+            }
+
+            setChapters(
+                updatedChapters
             );
 
-            // updates the UI list
-            setChapters(current =>
-                current.map(chapter =>
-                    chapter.id === updatedChapter.id
-                        ? updatedChapter
-                        : chapter
-                )
+            setEditChapter(
+                null
             );
 
-            setEditChapter(null);
         } catch (error) {
+
             console.error(
                 "Kapitel konnte nicht aktualisiert werden:",
                 error
             );
 
-            showError(error instanceof Error
-                ? error.message
-                : "Kapitel konnte nicht aktualisiert werden!");
+            if (error instanceof Error) {
+
+                showError(
+                    error.message
+                );
+
+            } else {
+
+                showError(
+                    "Kapitel konnte nicht aktualisiert werden!"
+                );
+            }
         }
     }
 
-    async function handleDeleteChapter(chapter: Chapter) {
+
+    async function handleDeleteChapter(
+        chapter: Chapter
+    ) {
+
         try {
-            // deletes chapter from database
-            await deleteChapter(chapter.id);
 
-            // updates the List for the UI
-            setChapters(current =>
-                current.filter(
+            await deleteChapter(
+                chapter.id
+            );
+
+            const updatedChapters =
+                chapters.filter(
                     currentChapter =>
-                        currentChapter.id !== chapter.id
-                )
+                        currentChapter.id !==
+                        chapter.id
+                );
+
+            setChapters(
+                updatedChapters
             );
 
-            // if the chapter still exists, its gonna be picked for the Edit Modal again
-            setEditChapter(current =>
-                current?.id === chapter.id
-                    ? null
-                    : current
+            setEditChapter(
+                null
             );
+
+            if (selectedChapter) {
+
+                if (
+                    selectedChapter.id ===
+                    chapter.id
+                ) {
+
+                    setSelectedChapter(
+                        null
+                    );
+
+                    setComments(
+                        []
+                    );
+
+                    setShowCommentSidebar(
+                        false
+                    );
+                }
+            }
+
         } catch (error) {
+
             console.error(
                 "Kapitel konnte nicht gelöscht werden:",
                 error
             );
 
-            showError(error instanceof Error
-                ? error.message
-                : "Kapitel konnte nicht gelöscht werden!");
+            if (error instanceof Error) {
+
+                showError(
+                    error.message
+                );
+
+            } else {
+
+                showError(
+                    "Kapitel konnte nicht gelöscht werden!"
+                );
+            }
         }
     }
 
-    // exports the PDF with Error handling
+
     async function handleExportPdf() {
-        try {
-            await exportPdf(thesisId);
-        } catch (error) {
-            console.error(error);
 
-            showError(error instanceof Error
-                ? error.message
-                : "PDF konnte nicht geladen werden!");
+        if (thesisId === null) {
+            return;
+        }
+
+        try {
+
+            await exportPdf(
+                thesisId
+            );
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
         }
     }
+
+
+    async function handleCommentClick(
+        chapter: Chapter
+    ) {
+
+        try {
+
+            const feedbackEntries =
+                await getFeedbackEntries(
+                    chapter.id
+                );
+
+            const loadedComments:
+                UIComment[] = [];
+
+            for (
+                const feedback
+                of feedbackEntries
+            ) {
+
+                const date =
+                    new Date(
+                        feedback.createdAt
+                    );
+
+                const formattedDate =
+                    date.toLocaleDateString(
+                        "de-DE"
+                    )
+                    +
+                    " "
+                    +
+                    date.toLocaleTimeString(
+                        "de-DE",
+                        {
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        }
+                    );
+
+                loadedComments.push({
+
+                    content:
+                        feedback.content,
+
+                    createdAt:
+                        formattedDate,
+
+                    supervisorName:
+                        "Betreuer"
+
+                });
+            }
+
+            setSelectedChapter(
+                chapter
+            );
+
+            setComments(
+                loadedComments
+            );
+
+            setNewComment(
+                ""
+            );
+
+            setShowCommentSidebar(
+                true
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Kommentare konnten nicht geladen werden:",
+                error
+            );
+
+            if (error instanceof Error) {
+
+                showError(
+                    error.message
+                );
+
+            } else {
+
+                showError(
+                    "Kommentare konnten nicht geladen werden!"
+                );
+            }
+        }
+    }
+
+
+    async function handleAddFeedback() {
+
+        if (!isProfessor) {
+            return;
+        }
+
+        if (!selectedChapter) {
+            return;
+        }
+
+        if (
+            newComment.trim() === ""
+        ) {
+            return;
+        }
+
+        try {
+
+            const feedback =
+                await addFeedbackEntry(
+                    selectedChapter.id,
+                    newComment
+                );
+
+            const date =
+                new Date(
+                    feedback.createdAt
+                );
+
+            const formattedDate =
+                date.toLocaleDateString(
+                    "de-DE"
+                )
+                +
+                " "
+                +
+                date.toLocaleTimeString(
+                    "de-DE",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+
+            const newUiComment:
+                UIComment = {
+
+                content:
+                    feedback.content,
+
+                createdAt:
+                    formattedDate,
+
+                supervisorName:
+                    "Betreuer"
+
+            };
+
+            const updatedComments = [
+                ...comments,
+                newUiComment
+            ];
+
+            setComments(
+                updatedComments
+            );
+
+            setNewComment(
+                ""
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Kommentar konnte nicht gespeichert werden:",
+                error
+            );
+
+            if (error instanceof Error) {
+
+                showError(
+                    error.message
+                );
+
+            } else {
+
+                showError(
+                    "Kommentar konnte nicht gespeichert werden!"
+                );
+            }
+        }
+    }
+
+
+    function closeComments() {
+
+        setShowCommentSidebar(
+            false
+        );
+
+        setSelectedChapter(
+            null
+        );
+
+        setComments(
+            []
+        );
+
+        setNewComment(
+            ""
+        );
+    }
+
+
+    function showComments() {
+
+        if (
+            comments.length === 0
+        ) {
+
+            return (
+                <p className="opacity-60 mb-4">
+                    Noch keine Kommentare vorhanden.
+                </p>
+            );
+        }
+
+        return comments.map(
+            (comment, index) => (
+
+                <CommentItem
+                    key={index}
+
+                    content={
+                        comment.content
+                    }
+
+                    createdAt={
+                        comment.createdAt
+                    }
+
+                    supervisorName={
+                        comment.supervisorName
+                    }
+                />
+
+            )
+        );
+    }
+
+
+    function showCommentInput() {
+
+        if (!isProfessor) {
+            return null;
+        }
+
+        return (
+
+            <div
+                className="
+                    mt-4
+                    pt-4
+                    border-t
+                    border-gray-200
+                "
+            >
+
+                <h4
+                    className="
+                        font-semibold
+                        mb-2
+                    "
+                >
+                    Kommentar hinzufügen
+                </h4>
+
+
+                <textarea
+                    value={
+                        newComment
+                    }
+
+                    onChange={(event) => {
+
+                        setNewComment(
+                            event.target.value
+                        );
+
+                    }}
+
+                    placeholder="Kommentar schreiben..."
+
+                    rows={4}
+
+                    className="
+                        w-full
+                        border
+                        border-gray-300
+                        rounded-(--border-radius)
+                        p-3
+                        resize-none
+                        text-black
+                        placeholder:text-gray-500
+                    "
+                />
+
+
+                <button
+                    type="button"
+
+                    onClick={
+                        handleAddFeedback
+                    }
+
+                    className="
+                        mt-3
+                        px-4
+                        py-2
+                        bg-night-blue
+                        text-(--white)
+                        rounded-(--border-radius)
+                    "
+                >
+                    Kommentar speichern
+                </button>
+
+            </div>
+        );
+    }
+
 
     return (
-        <div className="flex flex-row items-start">
+
+        <div
+            className="
+                flex
+                flex-row
+                items-start
+            "
+        >
+
             <div
                 className="
                     outline-page
@@ -321,9 +775,41 @@ function OutlinePage() {
                     p-(--spacing-medium)
                 "
             >
-                {/* Header with the two buttons for adding a new chapter and exporting the outline */}
-                <div className="outline-page-header flex justify-end gap-2">
-                    {/* Add new Chapter Button */}
+
+                <div
+                    className="
+                        outline-page-header
+                        flex
+                        justify-end
+                    "
+                >
+
+                    {!isProfessor && (
+
+                        <button
+                            className="
+                                squared-button
+                                w-20
+                                h-10
+                                rounded-(--border-radius)
+                            "
+
+                            onClick={() => {
+
+                                setAddChapterContext({
+                                    mode: "root"
+                                });
+
+                            }}
+                        >
+
+                            <Plus/>
+
+                        </button>
+
+                    )}
+
+
                     <button
                         className="
                             squared-button
@@ -331,88 +817,131 @@ function OutlinePage() {
                             h-10
                             rounded-(--border-radius)
                         "
-                        onClick={() =>
-                            setAddChapterContext({
-                                mode: "root"
-                            })
+
+                        onClick={
+                            handleExportPdf
                         }
                     >
-                        <Plus/>
+
+                        <FileText/>
+
                     </button>
 
-                    {/* Export PDF Button */}
-                    <button
-                        className={"squared-button w-20 h-10 rounded-(--border-radius)"}
-                        onClick={handleExportPdf}
-                    >
-                        <FileText/>
-                    </button>
                 </div>
 
-                {/* Actual Outline with the correct display that gets all the data passed down  */}
+
                 <OutlineComponent
-                    chapters={chapters}
-
-                    onEditChapter={setEditChapter}
-
-                    onDeleteChapter={handleDeleteChapter}
-
-                    onCommentClick={() =>
-                        setShowCommentSidebar(
-                            current => !current
-                        )
+                    chapters={
+                        chapters
                     }
 
-                    onAddChild={(chapter) =>
+                    isProfessor={
+                        isProfessor
+                    }
+
+                    onEditChapter={
+                        setEditChapter
+                    }
+
+                    onDeleteChapter={
+                        handleDeleteChapter
+                    }
+
+                    onCommentClick={
+                        handleCommentClick
+                    }
+
+                    onAddChild={(chapter) => {
+
                         setAddChapterContext({
                             mode: "child",
-                            chapter
-                        })
-                    }
+                            chapter: chapter
+                        });
 
-                    onAddBefore={(chapter) =>
+                    }}
+
+                    onAddBefore={(chapter) => {
+
                         setAddChapterContext({
                             mode: "before",
-                            chapter
-                        })
-                    }
+                            chapter: chapter
+                        });
 
-                    onAddAfter={(chapter) =>
+                    }}
+
+                    onAddAfter={(chapter) => {
+
                         setAddChapterContext({
                             mode: "after",
-                            chapter
-                        })
-                    }
+                            chapter: chapter
+                        });
+
+                    }}
                 />
 
+
                 {addChapterContext && (
+
                     <AddChapterModal
-                        mode={addChapterContext.mode}
+                        mode={
+                            addChapterContext.mode
+                        }
+
                         referenceChapter={
                             addChapterContext.chapter
                         }
-                        onCancel={() =>
-                            setAddChapterContext(null)
+
+                        onCancel={() => {
+
+                            setAddChapterContext(
+                                null
+                            );
+
+                        }}
+
+                        onSubmit={
+                            handleAddChapter
                         }
-                        onSubmit={handleAddChapter}
                     />
+
                 )}
 
+
                 {editChapter && (
+
                     <EditChapterModal
-                        chapter={editChapter}
-                        onCancel={() =>
-                            setEditChapter(null)
+                        chapter={
+                            editChapter
                         }
-                        onSubmit={handleUpdateChapter}
-                        onDelete={() => handleDeleteChapter(editChapter)}
+
+                        onCancel={() => {
+
+                            setEditChapter(
+                                null
+                            );
+
+                        }}
+
+                        onSubmit={
+                            handleUpdateChapter
+                        }
+
+                        onDelete={() => {
+
+                            handleDeleteChapter(
+                                editChapter
+                            );
+
+                        }}
                     />
+
                 )}
 
             </div>
 
             {/* Shows the Comment section of a chapter */}
             {showCommentSidebar && (
+
                 <div
                     className="
                         relative
@@ -436,6 +965,7 @@ function OutlinePage() {
                             pl-(--spacing-large)
                             pr-(--spacing-large)
                             pt-(--spacing-medium)
+                            pb-(--spacing-medium)
                         "
                     >
                         {/* Header with close Sidebar button */}
@@ -446,53 +976,54 @@ function OutlinePage() {
                                 mb-(--spacing-small)
                             "
                         >
+
                             <button
-                                className="rounded-full p-2"
-                                onClick={() =>
-                                    setShowCommentSidebar(false)
+                                className="
+                                    rounded-full
+                                    p-2
+                                "
+
+                                onClick={
+                                    closeComments
                                 }
                             >
+
                                 <PanelRightClose/>
+
                             </button>
+
                         </div>
 
-                        {/* Displays the Comments into single Comment Item in a list */}
-                        {loadDummyComments().map(
-                            (comment, index) => (
-                                <CommentItem
-                                    key={index}
-                                    content={comment.content}
-                                    createdAt={comment.createdAt}
-                                    supervisorName={
-                                        comment.supervisorName
-                                    }
-                                />
-                            )
+
+                        {selectedChapter && (
+
+                            <h3
+                                className="
+                                    font-semibold
+                                    text-xl
+                                    mb-4
+                                "
+                            >
+                                {selectedChapter.title}
+                            </h3>
+
                         )}
+
+
+                        {showComments()}
+
+
+                        {showCommentInput()}
 
                     </div>
 
-                    {/* Scroll end with transparent transition */}
-                    <div
-                        className="
-                            pointer-events-none
-                            absolute
-                            bottom-0
-                            left-0
-                            right-0
-                            h-8
-                            rounded-b-(--border-radius)
-                            bg-linear-to-t
-                            from-(--white)/70
-                            to-transparent
-                        "
-                    />
-
                 </div>
+
             )}
 
         </div>
     );
 }
+
 
 export default OutlinePage;
