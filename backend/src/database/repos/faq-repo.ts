@@ -1,9 +1,14 @@
-import {prisma} from "../lib/prisma.js";
+import { prisma } from "../lib/prisma.js";
 
-export async function createFaq(content: string, supervisorId: number) {
+export async function createFaq(
+    question: string,
+    answer: string,
+    supervisorId: number
+) {
     return prisma.faq.create({
         data: {
-            content,
+            question,
+            answer,
             supervisorId
         }
     });
@@ -21,15 +26,32 @@ export async function getFaqsBySupervisorId(supervisorId: number) {
     });
 }
 
-export async function updateFaq(faqId: number, content?: string) {
-    const data: {content?: string} = {};
+export async function updateFaq(
+    faqId: number,
+    question?: string,
+    answer?: string
+) {
+    const data: {
+        question?: string;
+        answer?: string;
+    } = {};
 
-    if (content != undefined) {
-        data.content = content;
+    if (question !== undefined) {
+        data.question = question;
+    }
+
+    if (answer !== undefined) {
+        data.answer = answer;
     }
 
     return prisma.faq.update({
         where: { id: faqId },
         data
+    });
+}
+
+export async function deleteFaq( faqId: number){
+    return prisma.faq.delete({
+        where: { id: faqId}
     });
 }

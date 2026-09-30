@@ -1,22 +1,28 @@
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 
-import ThesisDashboard from "../shared_pages/thesis-dashboard.tsx";
+import CalendarPage
+    from "../student_pages/calendar_pages/calendar-page.tsx";
+
 import type {CalendarEvent}
     from "../student_pages/calendar_pages/calendar-component.tsx";
-import {getThesisDeadline} from "../utils/thesis-utils.ts";
 
-function ThesisDetail() {
+import {getThesisDeadline}
+    from "../utils/thesis-utils.ts";
+
+function ProfCalendarPage() {
     const {id} = useParams();
+
+    const thesisId = id
+        ? Number(id)
+        : null;
 
     const [deadline, setDeadline] =
         useState<CalendarEvent | null>(null);
 
-    const thesisId = id ? Number(id) : null;
-
     useEffect(() => {
         async function loadDeadline() {
-            if (thesisId == null) {
+            if (thesisId === null) {
                 return;
             }
 
@@ -30,11 +36,11 @@ function ThesisDetail() {
     }, [thesisId]);
 
     return (
-        <ThesisDashboard
+        <CalendarPage
             thesisId={thesisId}
             deadline={deadline}
         />
     );
 }
 
-export default ThesisDetail;
+export default ProfCalendarPage;
