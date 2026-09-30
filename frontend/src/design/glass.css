@@ -1,26 +1,71 @@
+/*
+This class creates the glass effect
+for larger UI areas.
+It uses:
+- a transparent background
+- a light border
+- rounded corners
+- background blur
+- a shadow
+The values come from the shared
+design variables.
+*/
 .glass-panel {
-    background: var(--glass-background);
 
-    border: 1px solid var(--glass-border);
+    background:
+        var(--glass-background);
 
-    border-radius: var(--border-radius-large);
+    border:
+        1px solid
+        var(--glass-border);
 
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    border-radius:
+        var(--border-radius-large);
 
-    box-shadow: var(--glass-shadow);
+    /*
+    Blurs the content behind the element
+    and creates the glass effect.
+    */
+    backdrop-filter:
+        blur(18px);
+
+    /*
+    Safari needs this version
+    of the backdrop filter.
+    */
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        var(--glass-shadow);
 }
 
 
+/*
+This class creates the same glass style
+for smaller cards.
+The main difference to glass-panel is
+the smaller border radius
+and slightly weaker blur.
+*/
 .glass-card {
-    background: var(--glass-background);
 
-    border: 1px solid var(--glass-border);
+    background:
+        var(--glass-background);
 
-    border-radius: var(--border-radius-medium);
+    border:
+        1px solid
+        var(--glass-border);
 
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    border-radius:
+        var(--border-radius-medium);
 
-    box-shadow: var(--glass-shadow);
+    backdrop-filter:
+        blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
+
+    box-shadow:
+        var(--glass-shadow);
 }
