@@ -1,8 +1,10 @@
-import {useStudent} from "../../route_handling/student-provider.tsx";
+import type {CalendarEvent} from "../../calendar_pages/calendar-component.tsx";
 import {calcLeftDays} from "../../calendar_pages/calendar-page.tsx";
 
-function TimeCard() {
-    const {deadline} = useStudent();
+type TimeCardProps = {
+    deadline: CalendarEvent | null;
+};
+function TimeCard({deadline}: TimeCardProps) {
 
     const daysLeft = deadline
         ? calcLeftDays(deadline)
