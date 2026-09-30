@@ -2,8 +2,8 @@ import CalendarComponent, {
     type CalendarEvent
 } from "./calendar-component";
 import "../calendar_pages/calendar-stylesheet.css";
-import {Plus} from "lucide-react";
-import {useEffect, useState} from "react";
+import { Plus } from "lucide-react";
+import { useEffect, useState } from "react";
 import AddEntryModal from "../modals/calendar-modals/add-entry-modal.tsx";
 import EntryDetailModal from "../modals/calendar-modals/entry-detail-modal.tsx";
 import EditEntryModal from "../modals/calendar-modals/edit-entry-modal.tsx";
@@ -14,9 +14,9 @@ import {
     getCalendarEntries,
     updateCalendarEntry
 } from "../../apis/calendar-api.ts";
-import {useStudent} from "../route_handling/student-provider.tsx";
+
 import Loading from "../../globals/loading.tsx";
-import {useError} from "../../globals/error-provider.tsx";
+import { useError } from "../../globals/error-provider.tsx";
 
 export function calcLeftDays(deadline: CalendarEvent): string {
     const deadlineDate = deadline.end.getTime();
@@ -29,8 +29,14 @@ export function calcLeftDays(deadline: CalendarEvent): string {
 
 export const MAX_ENTRY_TITLE_LENGTH = 50;
 
-function CalendarPage() {
-    const {thesisId, deadline} = useStudent();
+type CalendarPageProps = {
+    thesisId: number | null;
+    deadline: CalendarEvent | null;
+};
+function CalendarPage({
+    thesisId,
+    deadline
+}: CalendarPageProps) {
 
     const [entries, setEntries] = useState<CalendarEntry[]>([]);
     const [events, setEvents] = useState<CalendarEvent[]>([]);
@@ -46,7 +52,7 @@ function CalendarPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [daysLeft, setDaysLeft] = useState<string>("--");
 
-    const {showError} = useError();
+    const { showError } = useError();
 
     async function loadEvents() {
         if (thesisId === null) {
@@ -89,7 +95,7 @@ function CalendarPage() {
 
     useEffect(() => {
         void loadEvents();
-    }, [thesisId]);
+    }, [thesisId,deadline]);
 
     async function handleAddEntry(entry: {
         title: string;
@@ -197,7 +203,7 @@ function CalendarPage() {
     }
 
     if (isLoading) {
-        return (<Loading/>);
+        return (<Loading />);
     }
 
     return (
@@ -230,7 +236,7 @@ function CalendarPage() {
                     onClick={() => setShowAddModal(true)}
                     title="Neues Ereignis erstellen"
                 >
-                    <Plus size={30} strokeWidth={2.5}/>
+                    <Plus size={30} strokeWidth={2.5} />
                 </button>
             </div>
 

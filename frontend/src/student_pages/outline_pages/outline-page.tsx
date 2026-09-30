@@ -17,7 +17,7 @@ import {
     updateChapter
 } from "../../apis/chapter-api.ts";
 
-import {useStudent} from "../route_handling/student-provider.tsx";
+
 import CommentItem, {
     type UIComment
 } from "./comments/comment-item.tsx";
@@ -26,8 +26,10 @@ import {useError} from "../../globals/error-provider.tsx";
 
 export const MAX_CHAPTER_TITLE_LENGTH = 60;
 
-
-function OutlinePage() {
+type OutlinePageProps = {
+    thesisId: number | null;
+};
+function OutlinePage({thesisId}: OutlinePageProps) {
     const [chapters, setChapters] = useState<Chapter[]>([]);
     const [editChapter, setEditChapter] = useState<Chapter | null>(null);
 
@@ -37,8 +39,6 @@ function OutlinePage() {
     } | null>(null);
 
     const [showCommentSidebar, setShowCommentSidebar] = useState(false);
-
-    const {thesisId} = useStudent();
     const {showError} = useError();
 
     function loadDummyComments(): UIComment[] {

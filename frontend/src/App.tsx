@@ -18,7 +18,7 @@ import ProfDashboardSkeleton from "./prof_pages/prof_dashboard_skeleton.tsx";
 import ThesisDetail from "./prof_pages/thesis_detail.tsx";
 import FaqPage from "./shared_pages/faq-page.tsx";
 import { useStudent } from "./student_pages/route_handling/student-provider.tsx";
-
+import { useParams } from "react-router-dom";
 
 function ProfessorFaqPage() {
     const storedSupervisorId = localStorage.getItem("supervisorId");
@@ -45,6 +45,35 @@ function StudentFaqPage() {
         />
     );
 }
+function StudentOutlinePage() {
+    const { thesisId } = useStudent();
+
+    return (
+        <OutlinePage thesisId={thesisId} />
+    );
+}
+function ProfessorOutlinePage() {
+    const { id } = useParams();
+
+    const thesisId = id
+        ? Number(id)
+        : null;
+
+    return (
+        <OutlinePage thesisId={thesisId} />
+    );
+}
+function StudentCalendarPage() {
+    const { thesisId, deadline } = useStudent();
+
+    return (
+        <CalendarPage
+            thesisId={thesisId}
+            deadline={deadline}
+        />
+    );
+}
+
 
 function App() {
     return (
@@ -75,17 +104,16 @@ function App() {
 
             {/* Professor Bereich */}
             <Route
-                path="/professor"
-                element={<ProfStartpage />}
-            />
-
-            <Route
                 path="/professor/thesis/:id"
                 element={<ProfDashboardSkeleton />}
             >
                 <Route
                     index
                     element={<ThesisDetail />}
+                />
+                <Route
+                    path="outline"
+                    element={<ProfessorOutlinePage />}
                 />
                 <Route
                     path="faq"
@@ -114,12 +142,12 @@ function App() {
 
                     <Route
                         path="outline"
-                        element={<OutlinePage />}
+                        element={<StudentOutlinePage />}
                     />
 
                     <Route
                         path="calendar"
-                        element={<CalendarPage />}
+                        element={<StudentCalendarPage />}
                     />
                     <Route
                         path="faq"
@@ -134,7 +162,7 @@ function App() {
                 </Route>
             </Route>
 
-        </Routes>
+        </Routes >
     );
 }
 
