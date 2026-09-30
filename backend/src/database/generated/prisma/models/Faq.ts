@@ -38,7 +38,8 @@ export type FaqSumAggregateOutputType = {
 
 export type FaqMinAggregateOutputType = {
   id: number | null
-  content: string | null
+  question: string | null
+  answer: string | null
   createdAt: Date | null
   updatedAt: Date | null
   supervisorId: number | null
@@ -46,7 +47,8 @@ export type FaqMinAggregateOutputType = {
 
 export type FaqMaxAggregateOutputType = {
   id: number | null
-  content: string | null
+  question: string | null
+  answer: string | null
   createdAt: Date | null
   updatedAt: Date | null
   supervisorId: number | null
@@ -54,7 +56,8 @@ export type FaqMaxAggregateOutputType = {
 
 export type FaqCountAggregateOutputType = {
   id: number
-  content: number
+  question: number
+  answer: number
   createdAt: number
   updatedAt: number
   supervisorId: number
@@ -74,7 +77,8 @@ export type FaqSumAggregateInputType = {
 
 export type FaqMinAggregateInputType = {
   id?: true
-  content?: true
+  question?: true
+  answer?: true
   createdAt?: true
   updatedAt?: true
   supervisorId?: true
@@ -82,7 +86,8 @@ export type FaqMinAggregateInputType = {
 
 export type FaqMaxAggregateInputType = {
   id?: true
-  content?: true
+  question?: true
+  answer?: true
   createdAt?: true
   updatedAt?: true
   supervisorId?: true
@@ -90,7 +95,8 @@ export type FaqMaxAggregateInputType = {
 
 export type FaqCountAggregateInputType = {
   id?: true
-  content?: true
+  question?: true
+  answer?: true
   createdAt?: true
   updatedAt?: true
   supervisorId?: true
@@ -185,7 +191,8 @@ export type FaqGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
 
 export type FaqGroupByOutputType = {
   id: number
-  content: string
+  question: string
+  answer: string
   createdAt: Date
   updatedAt: Date
   supervisorId: number
@@ -216,7 +223,8 @@ export type FaqWhereInput = {
   OR?: Prisma.FaqWhereInput[]
   NOT?: Prisma.FaqWhereInput | Prisma.FaqWhereInput[]
   id?: Prisma.IntFilter<"Faq"> | number
-  content?: Prisma.StringFilter<"Faq"> | string
+  question?: Prisma.StringFilter<"Faq"> | string
+  answer?: Prisma.StringFilter<"Faq"> | string
   createdAt?: Prisma.DateTimeFilter<"Faq"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Faq"> | Date | string
   supervisorId?: Prisma.IntFilter<"Faq"> | number
@@ -225,7 +233,8 @@ export type FaqWhereInput = {
 
 export type FaqOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  content?: Prisma.SortOrder
+  question?: Prisma.SortOrder
+  answer?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
@@ -234,19 +243,21 @@ export type FaqOrderByWithRelationInput = {
 
 export type FaqWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  supervisorId?: number
   AND?: Prisma.FaqWhereInput | Prisma.FaqWhereInput[]
   OR?: Prisma.FaqWhereInput[]
   NOT?: Prisma.FaqWhereInput | Prisma.FaqWhereInput[]
-  content?: Prisma.StringFilter<"Faq"> | string
+  question?: Prisma.StringFilter<"Faq"> | string
+  answer?: Prisma.StringFilter<"Faq"> | string
   createdAt?: Prisma.DateTimeFilter<"Faq"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Faq"> | Date | string
+  supervisorId?: Prisma.IntFilter<"Faq"> | number
   supervisor?: Prisma.XOR<Prisma.SupervisorScalarRelationFilter, Prisma.SupervisorWhereInput>
-}, "id" | "supervisorId">
+}, "id">
 
 export type FaqOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  content?: Prisma.SortOrder
+  question?: Prisma.SortOrder
+  answer?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
@@ -262,14 +273,16 @@ export type FaqScalarWhereWithAggregatesInput = {
   OR?: Prisma.FaqScalarWhereWithAggregatesInput[]
   NOT?: Prisma.FaqScalarWhereWithAggregatesInput | Prisma.FaqScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Faq"> | number
-  content?: Prisma.StringWithAggregatesFilter<"Faq"> | string
+  question?: Prisma.StringWithAggregatesFilter<"Faq"> | string
+  answer?: Prisma.StringWithAggregatesFilter<"Faq"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Faq"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Faq"> | Date | string
   supervisorId?: Prisma.IntWithAggregatesFilter<"Faq"> | number
 }
 
 export type FaqCreateInput = {
-  content: string
+  question: string
+  answer: string
   createdAt?: Date | string
   updatedAt?: Date | string
   supervisor: Prisma.SupervisorCreateNestedOneWithoutFaqInput
@@ -277,14 +290,16 @@ export type FaqCreateInput = {
 
 export type FaqUncheckedCreateInput = {
   id?: number
-  content: string
+  question: string
+  answer: string
   createdAt?: Date | string
   updatedAt?: Date | string
   supervisorId: number
 }
 
 export type FaqUpdateInput = {
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  question?: Prisma.StringFieldUpdateOperationsInput | string
+  answer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supervisor?: Prisma.SupervisorUpdateOneRequiredWithoutFaqNestedInput
@@ -292,7 +307,8 @@ export type FaqUpdateInput = {
 
 export type FaqUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  question?: Prisma.StringFieldUpdateOperationsInput | string
+  answer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supervisorId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -300,34 +316,43 @@ export type FaqUncheckedUpdateInput = {
 
 export type FaqCreateManyInput = {
   id?: number
-  content: string
+  question: string
+  answer: string
   createdAt?: Date | string
   updatedAt?: Date | string
   supervisorId: number
 }
 
 export type FaqUpdateManyMutationInput = {
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  question?: Prisma.StringFieldUpdateOperationsInput | string
+  answer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type FaqUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  question?: Prisma.StringFieldUpdateOperationsInput | string
+  answer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supervisorId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
-export type FaqNullableScalarRelationFilter = {
-  is?: Prisma.FaqWhereInput | null
-  isNot?: Prisma.FaqWhereInput | null
+export type FaqListRelationFilter = {
+  every?: Prisma.FaqWhereInput
+  some?: Prisma.FaqWhereInput
+  none?: Prisma.FaqWhereInput
+}
+
+export type FaqOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type FaqCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  content?: Prisma.SortOrder
+  question?: Prisma.SortOrder
+  answer?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
@@ -340,7 +365,8 @@ export type FaqAvgOrderByAggregateInput = {
 
 export type FaqMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  content?: Prisma.SortOrder
+  question?: Prisma.SortOrder
+  answer?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
@@ -348,7 +374,8 @@ export type FaqMaxOrderByAggregateInput = {
 
 export type FaqMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  content?: Prisma.SortOrder
+  question?: Prisma.SortOrder
+  answer?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   supervisorId?: Prisma.SortOrder
@@ -359,47 +386,59 @@ export type FaqSumOrderByAggregateInput = {
   supervisorId?: Prisma.SortOrder
 }
 
-export type FaqCreateNestedOneWithoutSupervisorInput = {
-  create?: Prisma.XOR<Prisma.FaqCreateWithoutSupervisorInput, Prisma.FaqUncheckedCreateWithoutSupervisorInput>
-  connectOrCreate?: Prisma.FaqCreateOrConnectWithoutSupervisorInput
-  connect?: Prisma.FaqWhereUniqueInput
+export type FaqCreateNestedManyWithoutSupervisorInput = {
+  create?: Prisma.XOR<Prisma.FaqCreateWithoutSupervisorInput, Prisma.FaqUncheckedCreateWithoutSupervisorInput> | Prisma.FaqCreateWithoutSupervisorInput[] | Prisma.FaqUncheckedCreateWithoutSupervisorInput[]
+  connectOrCreate?: Prisma.FaqCreateOrConnectWithoutSupervisorInput | Prisma.FaqCreateOrConnectWithoutSupervisorInput[]
+  createMany?: Prisma.FaqCreateManySupervisorInputEnvelope
+  connect?: Prisma.FaqWhereUniqueInput | Prisma.FaqWhereUniqueInput[]
 }
 
-export type FaqUncheckedCreateNestedOneWithoutSupervisorInput = {
-  create?: Prisma.XOR<Prisma.FaqCreateWithoutSupervisorInput, Prisma.FaqUncheckedCreateWithoutSupervisorInput>
-  connectOrCreate?: Prisma.FaqCreateOrConnectWithoutSupervisorInput
-  connect?: Prisma.FaqWhereUniqueInput
+export type FaqUncheckedCreateNestedManyWithoutSupervisorInput = {
+  create?: Prisma.XOR<Prisma.FaqCreateWithoutSupervisorInput, Prisma.FaqUncheckedCreateWithoutSupervisorInput> | Prisma.FaqCreateWithoutSupervisorInput[] | Prisma.FaqUncheckedCreateWithoutSupervisorInput[]
+  connectOrCreate?: Prisma.FaqCreateOrConnectWithoutSupervisorInput | Prisma.FaqCreateOrConnectWithoutSupervisorInput[]
+  createMany?: Prisma.FaqCreateManySupervisorInputEnvelope
+  connect?: Prisma.FaqWhereUniqueInput | Prisma.FaqWhereUniqueInput[]
 }
 
-export type FaqUpdateOneWithoutSupervisorNestedInput = {
-  create?: Prisma.XOR<Prisma.FaqCreateWithoutSupervisorInput, Prisma.FaqUncheckedCreateWithoutSupervisorInput>
-  connectOrCreate?: Prisma.FaqCreateOrConnectWithoutSupervisorInput
-  upsert?: Prisma.FaqUpsertWithoutSupervisorInput
-  disconnect?: Prisma.FaqWhereInput | boolean
-  delete?: Prisma.FaqWhereInput | boolean
-  connect?: Prisma.FaqWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.FaqUpdateToOneWithWhereWithoutSupervisorInput, Prisma.FaqUpdateWithoutSupervisorInput>, Prisma.FaqUncheckedUpdateWithoutSupervisorInput>
+export type FaqUpdateManyWithoutSupervisorNestedInput = {
+  create?: Prisma.XOR<Prisma.FaqCreateWithoutSupervisorInput, Prisma.FaqUncheckedCreateWithoutSupervisorInput> | Prisma.FaqCreateWithoutSupervisorInput[] | Prisma.FaqUncheckedCreateWithoutSupervisorInput[]
+  connectOrCreate?: Prisma.FaqCreateOrConnectWithoutSupervisorInput | Prisma.FaqCreateOrConnectWithoutSupervisorInput[]
+  upsert?: Prisma.FaqUpsertWithWhereUniqueWithoutSupervisorInput | Prisma.FaqUpsertWithWhereUniqueWithoutSupervisorInput[]
+  createMany?: Prisma.FaqCreateManySupervisorInputEnvelope
+  set?: Prisma.FaqWhereUniqueInput | Prisma.FaqWhereUniqueInput[]
+  disconnect?: Prisma.FaqWhereUniqueInput | Prisma.FaqWhereUniqueInput[]
+  delete?: Prisma.FaqWhereUniqueInput | Prisma.FaqWhereUniqueInput[]
+  connect?: Prisma.FaqWhereUniqueInput | Prisma.FaqWhereUniqueInput[]
+  update?: Prisma.FaqUpdateWithWhereUniqueWithoutSupervisorInput | Prisma.FaqUpdateWithWhereUniqueWithoutSupervisorInput[]
+  updateMany?: Prisma.FaqUpdateManyWithWhereWithoutSupervisorInput | Prisma.FaqUpdateManyWithWhereWithoutSupervisorInput[]
+  deleteMany?: Prisma.FaqScalarWhereInput | Prisma.FaqScalarWhereInput[]
 }
 
-export type FaqUncheckedUpdateOneWithoutSupervisorNestedInput = {
-  create?: Prisma.XOR<Prisma.FaqCreateWithoutSupervisorInput, Prisma.FaqUncheckedCreateWithoutSupervisorInput>
-  connectOrCreate?: Prisma.FaqCreateOrConnectWithoutSupervisorInput
-  upsert?: Prisma.FaqUpsertWithoutSupervisorInput
-  disconnect?: Prisma.FaqWhereInput | boolean
-  delete?: Prisma.FaqWhereInput | boolean
-  connect?: Prisma.FaqWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.FaqUpdateToOneWithWhereWithoutSupervisorInput, Prisma.FaqUpdateWithoutSupervisorInput>, Prisma.FaqUncheckedUpdateWithoutSupervisorInput>
+export type FaqUncheckedUpdateManyWithoutSupervisorNestedInput = {
+  create?: Prisma.XOR<Prisma.FaqCreateWithoutSupervisorInput, Prisma.FaqUncheckedCreateWithoutSupervisorInput> | Prisma.FaqCreateWithoutSupervisorInput[] | Prisma.FaqUncheckedCreateWithoutSupervisorInput[]
+  connectOrCreate?: Prisma.FaqCreateOrConnectWithoutSupervisorInput | Prisma.FaqCreateOrConnectWithoutSupervisorInput[]
+  upsert?: Prisma.FaqUpsertWithWhereUniqueWithoutSupervisorInput | Prisma.FaqUpsertWithWhereUniqueWithoutSupervisorInput[]
+  createMany?: Prisma.FaqCreateManySupervisorInputEnvelope
+  set?: Prisma.FaqWhereUniqueInput | Prisma.FaqWhereUniqueInput[]
+  disconnect?: Prisma.FaqWhereUniqueInput | Prisma.FaqWhereUniqueInput[]
+  delete?: Prisma.FaqWhereUniqueInput | Prisma.FaqWhereUniqueInput[]
+  connect?: Prisma.FaqWhereUniqueInput | Prisma.FaqWhereUniqueInput[]
+  update?: Prisma.FaqUpdateWithWhereUniqueWithoutSupervisorInput | Prisma.FaqUpdateWithWhereUniqueWithoutSupervisorInput[]
+  updateMany?: Prisma.FaqUpdateManyWithWhereWithoutSupervisorInput | Prisma.FaqUpdateManyWithWhereWithoutSupervisorInput[]
+  deleteMany?: Prisma.FaqScalarWhereInput | Prisma.FaqScalarWhereInput[]
 }
 
 export type FaqCreateWithoutSupervisorInput = {
-  content: string
+  question: string
+  answer: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type FaqUncheckedCreateWithoutSupervisorInput = {
   id?: number
-  content: string
+  question: string
+  answer: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -409,26 +448,66 @@ export type FaqCreateOrConnectWithoutSupervisorInput = {
   create: Prisma.XOR<Prisma.FaqCreateWithoutSupervisorInput, Prisma.FaqUncheckedCreateWithoutSupervisorInput>
 }
 
-export type FaqUpsertWithoutSupervisorInput = {
-  update: Prisma.XOR<Prisma.FaqUpdateWithoutSupervisorInput, Prisma.FaqUncheckedUpdateWithoutSupervisorInput>
-  create: Prisma.XOR<Prisma.FaqCreateWithoutSupervisorInput, Prisma.FaqUncheckedCreateWithoutSupervisorInput>
-  where?: Prisma.FaqWhereInput
+export type FaqCreateManySupervisorInputEnvelope = {
+  data: Prisma.FaqCreateManySupervisorInput | Prisma.FaqCreateManySupervisorInput[]
+  skipDuplicates?: boolean
 }
 
-export type FaqUpdateToOneWithWhereWithoutSupervisorInput = {
-  where?: Prisma.FaqWhereInput
+export type FaqUpsertWithWhereUniqueWithoutSupervisorInput = {
+  where: Prisma.FaqWhereUniqueInput
+  update: Prisma.XOR<Prisma.FaqUpdateWithoutSupervisorInput, Prisma.FaqUncheckedUpdateWithoutSupervisorInput>
+  create: Prisma.XOR<Prisma.FaqCreateWithoutSupervisorInput, Prisma.FaqUncheckedCreateWithoutSupervisorInput>
+}
+
+export type FaqUpdateWithWhereUniqueWithoutSupervisorInput = {
+  where: Prisma.FaqWhereUniqueInput
   data: Prisma.XOR<Prisma.FaqUpdateWithoutSupervisorInput, Prisma.FaqUncheckedUpdateWithoutSupervisorInput>
 }
 
+export type FaqUpdateManyWithWhereWithoutSupervisorInput = {
+  where: Prisma.FaqScalarWhereInput
+  data: Prisma.XOR<Prisma.FaqUpdateManyMutationInput, Prisma.FaqUncheckedUpdateManyWithoutSupervisorInput>
+}
+
+export type FaqScalarWhereInput = {
+  AND?: Prisma.FaqScalarWhereInput | Prisma.FaqScalarWhereInput[]
+  OR?: Prisma.FaqScalarWhereInput[]
+  NOT?: Prisma.FaqScalarWhereInput | Prisma.FaqScalarWhereInput[]
+  id?: Prisma.IntFilter<"Faq"> | number
+  question?: Prisma.StringFilter<"Faq"> | string
+  answer?: Prisma.StringFilter<"Faq"> | string
+  createdAt?: Prisma.DateTimeFilter<"Faq"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Faq"> | Date | string
+  supervisorId?: Prisma.IntFilter<"Faq"> | number
+}
+
+export type FaqCreateManySupervisorInput = {
+  id?: number
+  question: string
+  answer: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
 export type FaqUpdateWithoutSupervisorInput = {
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  question?: Prisma.StringFieldUpdateOperationsInput | string
+  answer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type FaqUncheckedUpdateWithoutSupervisorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  question?: Prisma.StringFieldUpdateOperationsInput | string
+  answer?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type FaqUncheckedUpdateManyWithoutSupervisorInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  question?: Prisma.StringFieldUpdateOperationsInput | string
+  answer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -437,7 +516,8 @@ export type FaqUncheckedUpdateWithoutSupervisorInput = {
 
 export type FaqSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  content?: boolean
+  question?: boolean
+  answer?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   supervisorId?: boolean
@@ -446,7 +526,8 @@ export type FaqSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
 
 export type FaqSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  content?: boolean
+  question?: boolean
+  answer?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   supervisorId?: boolean
@@ -455,7 +536,8 @@ export type FaqSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
 
 export type FaqSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  content?: boolean
+  question?: boolean
+  answer?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   supervisorId?: boolean
@@ -464,13 +546,14 @@ export type FaqSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
 
 export type FaqSelectScalar = {
   id?: boolean
-  content?: boolean
+  question?: boolean
+  answer?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   supervisorId?: boolean
 }
 
-export type FaqOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "content" | "createdAt" | "updatedAt" | "supervisorId", ExtArgs["result"]["faq"]>
+export type FaqOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "question" | "answer" | "createdAt" | "updatedAt" | "supervisorId", ExtArgs["result"]["faq"]>
 export type FaqInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   supervisor?: boolean | Prisma.SupervisorDefaultArgs<ExtArgs>
 }
@@ -488,7 +571,8 @@ export type $FaqPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    content: string
+    question: string
+    answer: string
     createdAt: Date
     updatedAt: Date
     supervisorId: number
@@ -917,7 +1001,8 @@ export interface Prisma__FaqClient<T, Null = never, ExtArgs extends runtime.Type
  */
 export interface FaqFieldRefs {
   readonly id: Prisma.FieldRef<"Faq", 'Int'>
-  readonly content: Prisma.FieldRef<"Faq", 'String'>
+  readonly question: Prisma.FieldRef<"Faq", 'String'>
+  readonly answer: Prisma.FieldRef<"Faq", 'String'>
   readonly createdAt: Prisma.FieldRef<"Faq", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Faq", 'DateTime'>
   readonly supervisorId: Prisma.FieldRef<"Faq", 'Int'>
