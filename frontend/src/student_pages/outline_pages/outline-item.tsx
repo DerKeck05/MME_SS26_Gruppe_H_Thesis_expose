@@ -5,7 +5,7 @@ import {
     MoreVertical
 } from "lucide-react";
 
-import type {UIChapter} from "./outline-component.tsx";
+import type { UIChapter } from "./outline-component.tsx";
 
 
 interface OutlineItemProps {
@@ -40,20 +40,20 @@ interface OutlineItemProps {
 
 // Single Chapter Item for UI
 function OutlineItem({
-                         chapter,
-                         isProfessor,
-                         isExpanded,
-                         isMenuOpen,
-                         onToggle,
-                         onCommentClick,
-                         onEdit,
-                         onDelete,
-                         onMenuToggle,
-                         onMenuClose,
-                         onAddChild,
-                         onAddBefore,
-                         onAddAfter
-                     }: OutlineItemProps) {
+    chapter,
+    isProfessor,
+    isExpanded,
+    isMenuOpen,
+    onToggle,
+    onCommentClick,
+    onEdit,
+    onDelete,
+    onMenuToggle,
+    onMenuClose,
+    onAddChild,
+    onAddBefore,
+    onAddAfter
+}: OutlineItemProps) {
 
     return (
 
@@ -91,26 +91,13 @@ function OutlineItem({
             <div className="flex items-center justify-end gap-2">
 
                 {/* Only gets shown if the chapter has a comment */}
-                {chapter.hasComment && (
-
-                    <button
-                        type="button"
-                        className="
-                            flex
-                            h-8
-                            w-8
-                            items-center
-                            justify-center
-                            rounded-full
-                        "
-                        onClick={onCommentClick}
-                    >
-
-                        <MessageSquareText/>
-
-                    </button>
-
-                )}
+                <button
+                    type="button"
+                    className="flex h-8 w-8 items-center justify-center rounded-full"
+                    onClick={onCommentClick}
+                >
+                    <MessageSquareText />
+                </button>
 
 
                 {/* Only gets shown if the chapter has children */}
@@ -130,11 +117,11 @@ function OutlineItem({
                     >
 
                         {isExpanded && (
-                            <ChevronUp/>
+                            <ChevronUp />
                         )}
 
                         {!isExpanded && (
-                            <ChevronDown/>
+                            <ChevronDown />
                         )}
 
                     </button>
@@ -164,7 +151,7 @@ function OutlineItem({
                         }}
                     >
 
-                        <MoreVertical/>
+                        <MoreVertical />
 
                     </button>
 
@@ -309,7 +296,7 @@ function OutlineItem({
                                         </button>
 
 
-                                        <div className="h-px bg-gray-200"/>
+                                        <div className="h-px bg-gray-200" />
 
 
                                         <button
@@ -358,7 +345,7 @@ function OutlineItem({
                                         </button>
 
 
-                                        <div className="h-px bg-gray-200"/>
+                                        <div className="h-px bg-gray-200" />
 
 
                                         <button
